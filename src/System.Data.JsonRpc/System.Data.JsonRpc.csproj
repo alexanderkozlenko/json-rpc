@@ -1,20 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <Version>1.14.1</Version>
-    <Description><![CDATA[Provides support for serializing and deserializing JSON-RPC 2.0 messages]]></Description>
-    <Authors><![CDATA[Alexander Kozlenko]]></Authors>
-    <Copyright><![CDATA[© Alexander Kozlenko. All rights reserved.]]></Copyright>
-    <PackageTags><![CDATA[json-rpc json rpc]]></PackageTags>
-    <PackageProjectUrl>https://github.com/alexanderkozlenko/json-rpc</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.github.com/alexanderkozlenko/json-rpc/master/LICENSE</PackageLicenseUrl>
-  </PropertyGroup>
+  <Import Project="$(SolutionDirectory)\$(MSBuildProjectName).Package.props" />
   <PropertyGroup>
     <TargetFrameworks>netstandard1.1;netstandard2.0</TargetFrameworks>
-    <OutputPath>$(RepositoryPath)\bin\bin\$(AssemblyName)\$(Configuration)\</OutputPath>
-    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)..\Open.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(SolutionDirectory)\Open.snk</AssemblyOriginatorKeyFile>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DebugType>none</DebugType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
@@ -22,4 +14,5 @@
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.Buffers" Version="4.5.0" />
   </ItemGroup>
+  <Import Project="$(SolutionDirectory)\$(MSBuildProjectName).Package.targets" />
 </Project>

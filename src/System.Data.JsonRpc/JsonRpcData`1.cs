@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿// © Alexander Kozlenko. Licensed under the MIT License.
+
+using System.Collections.Generic;
 
 namespace System.Data.JsonRpc
 {
@@ -10,7 +12,7 @@ namespace System.Data.JsonRpc
         private readonly JsonRpcItem<T> _item;
         private readonly IReadOnlyList<JsonRpcItem<T>> _items;
 
-        internal JsonRpcData(in JsonRpcItem<T> item)
+        internal JsonRpcData(JsonRpcItem<T> item)
         {
             _item = item;
         }
@@ -23,13 +25,13 @@ namespace System.Data.JsonRpc
         /// <summary>Gets a value indicating whether the data is a batch.</summary>
         public bool IsBatch
         {
-            get => Items != null;
+            get => _items != null;
         }
 
         /// <summary>Gets an item for non-batch data.</summary>
-        public ref readonly JsonRpcItem<T> Item
+        public JsonRpcItem<T> Item
         {
-            get => ref _item;
+            get => _item;
         }
 
         /// <summary>Gets a collection of items for batch data.</summary>

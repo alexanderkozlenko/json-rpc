@@ -1,4 +1,6 @@
-﻿namespace System.Data.JsonRpc
+﻿// © Alexander Kozlenko. Licensed under the MIT License.
+
+namespace System.Data.JsonRpc
 {
     /// <summary>Represents errors that occur during RPC message processing.</summary>
     public sealed class JsonRpcException : Exception

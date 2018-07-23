@@ -1,0 +1,36 @@
+﻿<!-- © Alexander Kozlenko. Licensed under the MIT License. -->
+<Project>
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <SourcesDirectory>$(MSBuildThisFileDirectory)src</SourcesDirectory>
+  </PropertyGroup>
+  <ItemGroup>
+    <SolutionReference Include="$(SourcesDirectory)\**\*.sln" />
+    <ProjectReference Include="$(SourcesDirectory)\**\*.csproj" />
+  </ItemGroup>
+  <Target Name="Clean">
+    <MSBuild Projects="@(SolutionReference)"
+             Targets="Clean"
+             Properties="Configuration=$(Configuration)" />
+  </Target>
+  <Target Name="Restore">
+    <MSBuild Projects="@(SolutionReference)"
+             Targets="Restore"
+             Properties="Configuration=$(Configuration)" />
+  </Target>
+  <Target Name="Build">
+    <MSBuild Projects="@(SolutionReference)"
+             Targets="Build"
+             Properties="Configuration=$(Configuration)" />
+  </Target>
+  <Target Name="VSTest">
+    <MSBuild Projects="@(ProjectReference)"
+             Targets="Test"
+             Properties="Configuration=$(Configuration)" />
+  </Target>
+  <Target Name="Pack">
+    <MSBuild Projects="@(ProjectReference)"
+             Targets="Pack"
+             Properties="Configuration=$(Configuration)" />
+  </Target>
+</Project>

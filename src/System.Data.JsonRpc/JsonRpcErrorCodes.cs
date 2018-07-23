@@ -1,4 +1,6 @@
-﻿namespace System.Data.JsonRpc
+﻿// © Alexander Kozlenko. Licensed under the MIT License.
+
+namespace System.Data.JsonRpc
 {
     /// <summary>Defines standard RPC error codes and error codes ranges.</summary>
     public static class JsonRpcErrorCodes

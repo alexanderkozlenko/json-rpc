@@ -1,4 +1,6 @@
-﻿using System.Data.JsonRpc.Resources;
+﻿// © Alexander Kozlenko. Licensed under the MIT License.
+
+using System.Data.JsonRpc.Resources;
 using System.Globalization;
 
 namespace System.Data.JsonRpc
@@ -39,8 +41,14 @@ namespace System.Data.JsonRpc
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcId" /> structure.</summary>
         /// <param name="value">The identifier value.</param>
+        /// <exception cref="ArgumentException"><paramref name="value" /> is <see cref="double.NaN" />, or <see cref="double.NegativeInfinity" />, or <see cref="double.PositiveInfinity" />.</exception>
         public JsonRpcId(double value)
         {
+            if (double.IsNaN(value) || double.IsInfinity(value))
+            {
+                throw new ArgumentException(Strings.GetString("id.invalid_float"), nameof(value));
+            }
+
             _type = JsonRpcIdType.Float;
             _valueString = default;
             _valueInteger = default;
@@ -74,22 +82,21 @@ namespace System.Data.JsonRpc
             {
                 case JsonRpcIdType.String:
                     {
-                        result = string.CompareOrdinal(_valueString, other._valueString);
+                        return string.CompareOrdinal(_valueString, other._valueString);
                     }
-                    break;
                 case JsonRpcIdType.Integer:
                     {
-                        result = _valueInteger.CompareTo(other._valueInteger);
+                        return _valueInteger.CompareTo(other._valueInteger);
                     }
-                    break;
                 case JsonRpcIdType.Float:
                     {
-                        result = _valueFloat.CompareTo(other._valueFloat);
+                        return _valueFloat.CompareTo(other._valueFloat);
                     }
-                    break;
+                default:
+                    {
+                        return 0;
+                    }
             }
-
-            return result;
         }
 
         /// <summary>Indicates whether the current <see cref="JsonRpcId" /> is equal to another <see cref="JsonRpcId" />.</summary>
@@ -98,23 +105,28 @@ namespace System.Data.JsonRpc
         [CLSCompliant(false)]
         public bool Equals(in JsonRpcId other)
         {
-            switch (other._type)
+            if (_type != other._type)
+            {
+                return false;
+            }
+
+            switch (_type)
             {
                 case JsonRpcIdType.String:
                     {
-                        return (_type == JsonRpcIdType.String) && _valueString.Equals(other._valueString);
+                        return string.Equals(_valueString, other._valueString);
                     }
                 case JsonRpcIdType.Integer:
                     {
-                        return (_type == JsonRpcIdType.Integer) && _valueInteger.Equals(other._valueInteger);
+                        return _valueInteger.Equals(other._valueInteger);
                     }
                 case JsonRpcIdType.Float:
                     {
-                        return (_type == JsonRpcIdType.Float) && _valueFloat.Equals(other._valueFloat);
+                        return _valueFloat.Equals(other._valueFloat);
                     }
                 default:
                     {
-                        return (_type == JsonRpcIdType.None);
+                        return true;
                     }
             }
         }
@@ -132,7 +144,7 @@ namespace System.Data.JsonRpc
                     }
                 case string other:
                     {
-                        return (_type == JsonRpcIdType.String) && _valueString.Equals(other);
+                        return (_type == JsonRpcIdType.String) && string.Equals(_valueString, other);
                     }
                 case long other:
                     {
@@ -202,8 +214,6 @@ namespace System.Data.JsonRpc
                     }
                 case JsonRpcIdType.Float:
                     {
-                        // Writes at least 1 precision digit out of 16 possible
-
                         return _valueFloat.ToString("0.0###############", CultureInfo.InvariantCulture);
                     }
                 default:

@@ -1,10 +1,10 @@
-﻿using System.Data.JsonRpc.Resources;
-using System.Diagnostics;
+﻿// © Alexander Kozlenko. Licensed under the MIT License.
+
+using System.Data.JsonRpc.Resources;
 
 namespace System.Data.JsonRpc
 {
     /// <summary>Represents RPC error information.</summary>
-    [DebuggerDisplay("Code = {Code}, Message = {Message}")]
     public sealed class JsonRpcError
     {
         private readonly long _code;

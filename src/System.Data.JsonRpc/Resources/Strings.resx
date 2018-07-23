@@ -129,9 +129,6 @@
   <data name="core.deserialize.json_issue" xml:space="preserve">
     <value>An error occurred during deserialization from JSON</value>
   </data>
-  <data name="core.deserialize.message.id.large_number" xml:space="preserve">
-    <value>The value of the number identifier is too large</value>
-  </data>
   <data name="core.deserialize.request.id.invalid_property" xml:space="preserve">
     <value>The request has the invalid identifier property</value>
   </data>
@@ -161,9 +158,6 @@
   </data>
   <data name="core.deserialize.response.error.code.invalid_range" xml:space="preserve">
     <value>The response error code is invalid</value>
-  </data>
-  <data name="core.deserialize.response.error.code.large_number" xml:space="preserve">
-    <value>The value of the error code is too large</value>
   </data>
   <data name="core.deserialize.response.error.invalid_type" xml:space="preserve">
     <value>The response has the error property with invalid type</value>
@@ -195,13 +189,10 @@
   <data name="id.invalid_cast" xml:space="preserve">
     <value>Unable to cast object of type {0} to type {1}</value>
   </data>
-  <data name="request.contract.params.invalid_count" xml:space="preserve">
-    <value>The contract parameters count equals zero</value>
+  <data name="id.invalid_float" xml:space="preserve">
+    <value>The specified floating-point value is invalid</value>
   </data>
-  <data name="request.params.invalid_count" xml:space="preserve">
-    <value>The parameters count equals zero</value>
-  </data>
-  <data name="response.empty_id" xml:space="preserve">
-    <value>The specified identifier has empty value</value>
+  <data name="response.undefined_id" xml:space="preserve">
+    <value>The specified identifier has undefined value</value>
   </data>
 </root>

@@ -1,48 +1,49 @@
 ﻿using System.Collections.Generic;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace System.Data.JsonRpc.Tests
+namespace System.Data.JsonRpc.UnitTests
 {
+    [TestClass]
     public sealed class JsonRpcRequestContractTests
     {
-        [Fact]
+        [TestMethod]
         public void ParametersTypeIsByPositionWhenIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 new JsonRpcRequestContract(default(IReadOnlyList<Type>)));
         }
 
-        [Fact]
+        [TestMethod]
         public void ParametersTypeIsByNameWhenIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 new JsonRpcRequestContract(default(IReadOnlyDictionary<string, Type>)));
         }
 
-        [Fact]
+        [TestMethod]
         public void ParametersTypeIsNone()
         {
             var contract = new JsonRpcRequestContract();
 
-            Assert.Equal(JsonRpcParametersType.None, contract.ParametersType);
+            Assert.AreEqual(JsonRpcParametersType.None, contract.ParametersType);
         }
 
-        [Fact]
+        [TestMethod]
         public void ParametersTypeIsByPosition()
         {
             var parameters = new[] { typeof(long) };
             var contract = new JsonRpcRequestContract(parameters);
 
-            Assert.Equal(JsonRpcParametersType.ByPosition, contract.ParametersType);
+            Assert.AreEqual(JsonRpcParametersType.ByPosition, contract.ParametersType);
         }
 
-        [Fact]
+        [TestMethod]
         public void ParametersTypeIsByName()
         {
             var parameters = new Dictionary<string, Type> { ["p"] = typeof(long) };
             var contract = new JsonRpcRequestContract(parameters);
 
-            Assert.Equal(JsonRpcParametersType.ByName, contract.ParametersType);
+            Assert.AreEqual(JsonRpcParametersType.ByName, contract.ParametersType);
         }
     }
 }

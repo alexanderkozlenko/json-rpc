@@ -1,4 +1,6 @@
-﻿using System.Buffers;
+﻿// © Alexander Kozlenko. Licensed under the MIT License.
+
+using System.Buffers;
 using Newtonsoft.Json;
 
 namespace System.Data.JsonRpc

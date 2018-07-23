@@ -1,4 +1,6 @@
-﻿namespace System.Data.JsonRpc
+﻿// © Alexander Kozlenko. Licensed under the MIT License.
+
+namespace System.Data.JsonRpc
 {
     /// <summary>Represents JSON-RPC protocol compatibility level.</summary>
     public enum JsonRpcCompatibilityLevel

@@ -1,4 +1,6 @@
-﻿namespace System.Data.JsonRpc
+﻿// © Alexander Kozlenko. Licensed under the MIT License.
+
+namespace System.Data.JsonRpc
 {
     /// <summary>Represents an RPC message.</summary>
     public abstract class JsonRpcMessage

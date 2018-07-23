@@ -1,115 +1,124 @@
 ﻿using System.Collections.Generic;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace System.Data.JsonRpc.Tests
+namespace System.Data.JsonRpc.UnitTests
 {
+    [TestClass]
     public sealed class JsonRpcRequestTests
     {
-        [Fact]
+        [TestMethod]
         public void IsNotificationIsTrueWhenIdIsNone()
         {
             var message = new JsonRpcRequest("m");
 
-            Assert.Equal(default, message.Id);
-            Assert.True(message.IsNotification);
+            Assert.AreEqual(default, message.Id);
+            Assert.IsTrue(message.IsNotification);
         }
 
-        [Fact]
+        [TestMethod]
         public void IsNotificationIsFalseWhenIdIsNumber()
         {
             var message = new JsonRpcRequest("m", 1L);
 
-            Assert.Equal(1L, message.Id);
-            Assert.False(message.IsNotification);
+            Assert.AreEqual(1L, message.Id);
+            Assert.IsFalse(message.IsNotification);
         }
 
-        [Fact]
+        [TestMethod]
         public void IsNotificationIsFalseWhenIdIsString()
         {
             var message = new JsonRpcRequest("m", "1");
 
-            Assert.Equal("1", message.Id);
-            Assert.False(message.IsNotification);
+            Assert.AreEqual("1", message.Id);
+            Assert.IsFalse(message.IsNotification);
         }
 
-        [Fact]
+        [TestMethod]
         public void ParametersTypeIsNoneWhenIdIsNone()
         {
             var message = new JsonRpcRequest("m");
 
-            Assert.Equal(JsonRpcParametersType.None, message.ParametersType);
+            Assert.AreEqual(JsonRpcParametersType.None, message.ParametersType);
         }
 
-        [Fact]
+        [TestMethod]
         public void ParametersTypeIsByPositionWhenIdIsNone()
         {
             var parameters = new object[] { 1L };
             var message = new JsonRpcRequest("m", parameters);
 
-            Assert.Equal(JsonRpcParametersType.ByPosition, message.ParametersType);
+            Assert.AreEqual(JsonRpcParametersType.ByPosition, message.ParametersType);
         }
 
-        [Fact]
+        [TestMethod]
         public void ParametersTypeIsByNameWhenIdIsNone()
         {
             var parameters = new Dictionary<string, object> { ["p"] = 1L };
             var message = new JsonRpcRequest("m", parameters);
 
-            Assert.Equal(JsonRpcParametersType.ByName, message.ParametersType);
+            Assert.AreEqual(JsonRpcParametersType.ByName, message.ParametersType);
         }
 
-        [Fact]
+        [TestMethod]
         public void IsSystemIsFalse()
         {
             var message = new JsonRpcRequest("m");
 
-            Assert.False(message.IsSystem);
+            Assert.IsFalse(message.IsSystem);
         }
 
-        [Fact]
+        [TestMethod]
         public void IsSystemIsTrue()
         {
             var message = new JsonRpcRequest("rpc.m");
 
-            Assert.True(message.IsSystem);
+            Assert.IsTrue(message.IsSystem);
         }
 
-        [Fact]
+        [TestMethod]
         public void MethodIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 new JsonRpcRequest((string)null));
         }
 
-        [Fact]
+        [TestMethod]
         public void MethodIsEmptyString()
         {
             var message = new JsonRpcRequest("");
 
-            Assert.Equal("", message.Method);
+            Assert.AreEqual("", message.Method);
         }
 
-        [Fact]
+        [TestMethod]
         public void IsSystemMethodWhenMethodIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 JsonRpcRequest.IsSystemMethod((string)null));
         }
 
-        [Fact]
+        [TestMethod]
         public void IsSystemMethodIsFalse()
         {
             var result = JsonRpcRequest.IsSystemMethod("m");
 
-            Assert.False(result);
+            Assert.IsFalse(result);
         }
 
-        [Fact]
-        public void IsSystemMethodIsTrue()
+        [TestMethod]
+        public void IsSystemMethodIsTrueWithLowerCase()
         {
             var result = JsonRpcRequest.IsSystemMethod("rpc.m");
 
-            Assert.True(result);
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void IsSystemMethodIsTrueWithUpperCase()
+        {
+            var result = JsonRpcRequest.IsSystemMethod("RPC.M");
+
+            Assert.IsTrue(result);
         }
     }
 }

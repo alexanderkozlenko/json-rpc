@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿// © Alexander Kozlenko. Licensed under the MIT License.
+
+using System.Collections.Generic;
 using System.Data.JsonRpc.Resources;
 using System.Globalization;
 using System.IO;
@@ -6,25 +8,18 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace System.Data.JsonRpc
 {
     /// <summary>Serializes and deserializes JSON-RPC messages into and from the JSON format.</summary>
     public sealed partial class JsonRpcSerializer : IDisposable
     {
-        // The minimum length of JSON string with a JSON-RPC 2.0 message is about 32 bytes, this is used during deserialization
-        // to get the more proper initial buffer size.
-
         private const int _minimumMessageSize = 32;
-
-        // The stream reading and writing buffer size is the same as in the BCL.
-
         private const int _streamBufferSize = 1024;
 
         private static readonly Encoding _streamEncoding = new UTF8Encoding(false);
+        private static readonly IArrayPool<char> _jsonBufferPool = new JsonBufferPool();
 
-        private readonly IArrayPool<char> _jsonBufferPool = new JsonBufferPool();
         private readonly IDictionary<string, JsonRpcRequestContract> _requestContracts;
         private readonly IDictionary<string, JsonRpcResponseContract> _responseContracts;
         private readonly IDictionary<JsonRpcId, string> _staticResponseBindings;
@@ -65,22 +60,19 @@ namespace System.Data.JsonRpc
 
             using (var stringReader = new StringReader(json))
             {
-                var requestDataToken = default(JToken);
-
                 try
                 {
                     using (var jsonReader = new JsonTextReader(stringReader))
                     {
                         jsonReader.ArrayPool = _jsonBufferPool;
-                        requestDataToken = JToken.ReadFrom(jsonReader);
+
+                        return DeserializeRequestData(jsonReader);
                     }
                 }
                 catch (JsonException e)
                 {
                     throw new JsonRpcException(JsonRpcErrorCodes.InvalidJson, Strings.GetString("core.deserialize.json_issue"), default, e);
                 }
-
-                return ConvertJsonTokenToRequestData(requestDataToken);
             }
         }
 
@@ -98,22 +90,19 @@ namespace System.Data.JsonRpc
 
             using (var streamReader = new StreamReader(stream, _streamEncoding, false, _streamBufferSize, true))
             {
-                var requestDataToken = default(JToken);
-
                 try
                 {
                     using (var jsonReader = new JsonTextReader(streamReader))
                     {
                         jsonReader.ArrayPool = _jsonBufferPool;
-                        requestDataToken = JToken.ReadFrom(jsonReader);
+
+                        return DeserializeRequestData(jsonReader);
                     }
                 }
                 catch (JsonException e)
                 {
                     throw new JsonRpcException(JsonRpcErrorCodes.InvalidJson, Strings.GetString("core.deserialize.json_issue"), default, e);
                 }
-
-                return ConvertJsonTokenToRequestData(requestDataToken);
             }
         }
 
@@ -124,7 +113,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonRpcException">An error occurred during request(s) deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public async Task<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(Stream stream, CancellationToken cancellationToken = default)
+        public Task<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(Stream stream, CancellationToken cancellationToken = default)
         {
             if (stream == null)
             {
@@ -133,22 +122,19 @@ namespace System.Data.JsonRpc
 
             using (var streamReader = new StreamReader(stream, _streamEncoding, false, _streamBufferSize, true))
             {
-                var requestDataToken = default(JToken);
-
                 try
                 {
                     using (var jsonReader = new JsonTextReader(streamReader))
                     {
                         jsonReader.ArrayPool = _jsonBufferPool;
-                        requestDataToken = await JToken.ReadFromAsync(jsonReader, cancellationToken).ConfigureAwait(false);
+
+                        return Task.FromResult(DeserializeRequestData(jsonReader, cancellationToken));
                     }
                 }
                 catch (JsonException e)
                 {
                     throw new JsonRpcException(JsonRpcErrorCodes.InvalidJson, Strings.GetString("core.deserialize.json_issue"), default, e);
                 }
-
-                return ConvertJsonTokenToRequestData(requestDataToken);
             }
         }
 
@@ -166,22 +152,19 @@ namespace System.Data.JsonRpc
 
             using (var stringReader = new StringReader(json))
             {
-                var responseDataToken = default(JToken);
-
                 try
                 {
                     using (var jsonReader = new JsonTextReader(stringReader))
                     {
                         jsonReader.ArrayPool = _jsonBufferPool;
-                        responseDataToken = JToken.ReadFrom(jsonReader);
+
+                        return DeserializeResponseData(jsonReader);
                     }
                 }
                 catch (JsonException e)
                 {
                     throw new JsonRpcException(JsonRpcErrorCodes.InvalidJson, Strings.GetString("core.deserialize.json_issue"), default, e);
                 }
-
-                return ConvertJsonTokenToResponseData(responseDataToken);
             }
         }
 
@@ -199,22 +182,19 @@ namespace System.Data.JsonRpc
 
             using (var streamReader = new StreamReader(stream, _streamEncoding, false, _streamBufferSize, true))
             {
-                var responseDataToken = default(JToken);
-
                 try
                 {
                     using (var jsonReader = new JsonTextReader(streamReader))
                     {
                         jsonReader.ArrayPool = _jsonBufferPool;
-                        responseDataToken = JToken.ReadFrom(jsonReader);
+
+                        return DeserializeResponseData(jsonReader);
                     }
                 }
                 catch (JsonException e)
                 {
                     throw new JsonRpcException(JsonRpcErrorCodes.InvalidJson, Strings.GetString("core.deserialize.json_issue"), default, e);
                 }
-
-                return ConvertJsonTokenToResponseData(responseDataToken);
             }
         }
 
@@ -225,7 +205,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonRpcException">An error occurred during response(s) deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public async Task<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(Stream stream, CancellationToken cancellationToken = default)
+        public Task<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(Stream stream, CancellationToken cancellationToken = default)
         {
             if (stream == null)
             {
@@ -234,22 +214,19 @@ namespace System.Data.JsonRpc
 
             using (var streamReader = new StreamReader(stream, _streamEncoding, false, _streamBufferSize, true))
             {
-                var responseDataToken = default(JToken);
-
                 try
                 {
                     using (var jsonReader = new JsonTextReader(streamReader))
                     {
                         jsonReader.ArrayPool = _jsonBufferPool;
-                        responseDataToken = await JToken.ReadFromAsync(jsonReader, cancellationToken).ConfigureAwait(false);
+
+                        return Task.FromResult(DeserializeResponseData(jsonReader, cancellationToken));
                     }
                 }
                 catch (JsonException e)
                 {
                     throw new JsonRpcException(JsonRpcErrorCodes.InvalidJson, Strings.GetString("core.deserialize.json_issue"), default, e);
                 }
-
-                return ConvertJsonTokenToResponseData(responseDataToken);
             }
         }
 
@@ -267,14 +244,14 @@ namespace System.Data.JsonRpc
 
             using (var stringWriter = new StringWriter(new StringBuilder(_minimumMessageSize), CultureInfo.InvariantCulture))
             {
-                var requestToken = ConvertRequestToJsonToken(request);
-
                 try
                 {
                     using (var jsonWriter = new JsonTextWriter(stringWriter))
                     {
+                        jsonWriter.AutoCompleteOnClose = false;
                         jsonWriter.ArrayPool = _jsonBufferPool;
-                        requestToken.WriteTo(jsonWriter);
+
+                        SerializeRequest(jsonWriter, request);
                     }
                 }
                 catch (JsonException e)
@@ -304,14 +281,14 @@ namespace System.Data.JsonRpc
 
             using (var streamWriter = new StreamWriter(stream, _streamEncoding, _streamBufferSize, true))
             {
-                var requestToken = ConvertRequestToJsonToken(request);
-
                 try
                 {
                     using (var jsonWriter = new JsonTextWriter(streamWriter))
                     {
+                        jsonWriter.AutoCompleteOnClose = false;
                         jsonWriter.ArrayPool = _jsonBufferPool;
-                        requestToken.WriteTo(jsonWriter);
+
+                        SerializeRequest(jsonWriter, request);
                     }
                 }
                 catch (JsonException e)
@@ -340,17 +317,18 @@ namespace System.Data.JsonRpc
                 throw new ArgumentNullException(nameof(stream));
             }
 
+            cancellationToken.ThrowIfCancellationRequested();
+
             using (var streamWriter = new StreamWriter(stream, _streamEncoding, _streamBufferSize, true))
             {
-                var requestToken = ConvertRequestToJsonToken(request);
-
                 try
                 {
                     using (var jsonWriter = new JsonTextWriter(streamWriter))
                     {
+                        jsonWriter.AutoCompleteOnClose = false;
                         jsonWriter.ArrayPool = _jsonBufferPool;
 
-                        return requestToken.WriteToAsync(jsonWriter, cancellationToken);
+                        SerializeRequest(jsonWriter, request);
                     }
                 }
                 catch (JsonException e)
@@ -358,6 +336,8 @@ namespace System.Data.JsonRpc
                     throw new JsonRpcException(JsonRpcErrorCodes.InvalidOperation, Strings.GetString("core.serialize.json_issue"), request.Id, e);
                 }
             }
+
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>Serializes the specified collection of requests to a JSON string.</summary>
@@ -374,14 +354,14 @@ namespace System.Data.JsonRpc
 
             using (var stringWriter = new StringWriter(new StringBuilder(_minimumMessageSize * requests.Count), CultureInfo.InvariantCulture))
             {
-                var requestArrayToken = ConvertRequestsToJsonToken(requests);
-
                 try
                 {
                     using (var jsonWriter = new JsonTextWriter(stringWriter))
                     {
+                        jsonWriter.AutoCompleteOnClose = false;
                         jsonWriter.ArrayPool = _jsonBufferPool;
-                        requestArrayToken.WriteTo(jsonWriter);
+
+                        SerializeRequests(jsonWriter, requests);
                     }
                 }
                 catch (JsonException e)
@@ -411,14 +391,14 @@ namespace System.Data.JsonRpc
 
             using (var streamWriter = new StreamWriter(stream, _streamEncoding, _streamBufferSize, true))
             {
-                var requestArrayToken = ConvertRequestsToJsonToken(requests);
-
                 try
                 {
                     using (var jsonWriter = new JsonTextWriter(streamWriter))
                     {
+                        jsonWriter.AutoCompleteOnClose = false;
                         jsonWriter.ArrayPool = _jsonBufferPool;
-                        requestArrayToken.WriteTo(jsonWriter);
+
+                        SerializeRequests(jsonWriter, requests);
                     }
                 }
                 catch (JsonException e)
@@ -447,17 +427,18 @@ namespace System.Data.JsonRpc
                 throw new ArgumentNullException(nameof(stream));
             }
 
+            cancellationToken.ThrowIfCancellationRequested();
+
             using (var streamWriter = new StreamWriter(stream, _streamEncoding, _streamBufferSize, true))
             {
-                var requestArrayToken = ConvertRequestsToJsonToken(requests);
-
                 try
                 {
                     using (var jsonWriter = new JsonTextWriter(streamWriter))
                     {
+                        jsonWriter.AutoCompleteOnClose = false;
                         jsonWriter.ArrayPool = _jsonBufferPool;
 
-                        return requestArrayToken.WriteToAsync(jsonWriter, cancellationToken);
+                        SerializeRequests(jsonWriter, requests, cancellationToken);
                     }
                 }
                 catch (JsonException e)
@@ -465,6 +446,8 @@ namespace System.Data.JsonRpc
                     throw new JsonRpcException(JsonRpcErrorCodes.InvalidOperation, Strings.GetString("core.serialize.json_issue"), default, e);
                 }
             }
+
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>Serializes the specified response to a JSON string.</summary>
@@ -481,14 +464,14 @@ namespace System.Data.JsonRpc
 
             using (var stringWriter = new StringWriter(new StringBuilder(_minimumMessageSize), CultureInfo.InvariantCulture))
             {
-                var responseToken = ConvertResponseToJsonToken(response);
-
                 try
                 {
                     using (var jsonWriter = new JsonTextWriter(stringWriter))
                     {
+                        jsonWriter.AutoCompleteOnClose = false;
                         jsonWriter.ArrayPool = _jsonBufferPool;
-                        responseToken.WriteTo(jsonWriter);
+
+                        SerializeResponse(jsonWriter, response);
                     }
                 }
                 catch (JsonException e)
@@ -518,14 +501,14 @@ namespace System.Data.JsonRpc
 
             using (var streamWriter = new StreamWriter(stream, _streamEncoding, _streamBufferSize, true))
             {
-                var responseToken = ConvertResponseToJsonToken(response);
-
                 try
                 {
                     using (var jsonWriter = new JsonTextWriter(streamWriter))
                     {
+                        jsonWriter.AutoCompleteOnClose = false;
                         jsonWriter.ArrayPool = _jsonBufferPool;
-                        responseToken.WriteTo(jsonWriter);
+
+                        SerializeResponse(jsonWriter, response);
                     }
                 }
                 catch (JsonException e)
@@ -554,17 +537,18 @@ namespace System.Data.JsonRpc
                 throw new ArgumentNullException(nameof(stream));
             }
 
+            cancellationToken.ThrowIfCancellationRequested();
+
             using (var streamWriter = new StreamWriter(stream, _streamEncoding, _streamBufferSize, true))
             {
-                var responseToken = ConvertResponseToJsonToken(response);
-
                 try
                 {
                     using (var jsonWriter = new JsonTextWriter(streamWriter))
                     {
+                        jsonWriter.AutoCompleteOnClose = false;
                         jsonWriter.ArrayPool = _jsonBufferPool;
 
-                        return responseToken.WriteToAsync(jsonWriter, cancellationToken);
+                        SerializeResponse(jsonWriter, response);
                     }
                 }
                 catch (JsonException e)
@@ -572,6 +556,8 @@ namespace System.Data.JsonRpc
                     throw new JsonRpcException(JsonRpcErrorCodes.InvalidOperation, Strings.GetString("core.serialize.json_issue"), response.Id, e);
                 }
             }
+
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>Serializes the specified collection of responses to a JSON string.</summary>
@@ -588,14 +574,14 @@ namespace System.Data.JsonRpc
 
             using (var stringWriter = new StringWriter(new StringBuilder(_minimumMessageSize * responses.Count), CultureInfo.InvariantCulture))
             {
-                var responseArrayToken = ConvertResponsesToJsonToken(responses);
-
                 try
                 {
                     using (var jsonWriter = new JsonTextWriter(stringWriter))
                     {
+                        jsonWriter.AutoCompleteOnClose = false;
                         jsonWriter.ArrayPool = _jsonBufferPool;
-                        responseArrayToken.WriteTo(jsonWriter);
+
+                        SerializeResponses(jsonWriter, responses);
                     }
                 }
                 catch (JsonException e)
@@ -625,14 +611,14 @@ namespace System.Data.JsonRpc
 
             using (var streamWriter = new StreamWriter(stream, _streamEncoding, _streamBufferSize, true))
             {
-                var responseArrayToken = ConvertResponsesToJsonToken(responses);
-
                 try
                 {
                     using (var jsonWriter = new JsonTextWriter(streamWriter))
                     {
+                        jsonWriter.AutoCompleteOnClose = false;
                         jsonWriter.ArrayPool = _jsonBufferPool;
-                        responseArrayToken.WriteTo(jsonWriter);
+
+                        SerializeResponses(jsonWriter, responses);
                     }
                 }
                 catch (JsonException e)
@@ -661,17 +647,18 @@ namespace System.Data.JsonRpc
                 throw new ArgumentNullException(nameof(stream));
             }
 
+            cancellationToken.ThrowIfCancellationRequested();
+
             using (var streamWriter = new StreamWriter(stream, _streamEncoding, _streamBufferSize, true))
             {
-                var responseArrayToken = ConvertResponsesToJsonToken(responses);
-
                 try
                 {
                     using (var jsonWriter = new JsonTextWriter(streamWriter))
                     {
+                        jsonWriter.AutoCompleteOnClose = false;
                         jsonWriter.ArrayPool = _jsonBufferPool;
 
-                        return responseArrayToken.WriteToAsync(jsonWriter, cancellationToken);
+                        SerializeResponses(jsonWriter, responses, cancellationToken);
                     }
                 }
                 catch (JsonException e)
@@ -679,6 +666,8 @@ namespace System.Data.JsonRpc
                     throw new JsonRpcException(JsonRpcErrorCodes.InvalidOperation, Strings.GetString("core.serialize.json_issue"), default, e);
                 }
             }
+
+            return Task.FromResult<object>(null);
         }
 
         private JsonRpcResponseContract GetResponseContract(in JsonRpcId identifier)

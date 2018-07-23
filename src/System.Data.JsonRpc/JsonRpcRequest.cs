@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿// © Alexander Kozlenko. Licensed under the MIT License.
+
+using System.Collections.Generic;
 
 namespace System.Data.JsonRpc
 {
     /// <summary>Represents an RPC request message.</summary>
-    [DebuggerDisplay("Method = {Method}, Id = {Id}")]
     public sealed class JsonRpcRequest : JsonRpcMessage
     {
         private readonly string _method;
@@ -90,9 +90,12 @@ namespace System.Data.JsonRpc
                 throw new ArgumentNullException(nameof(method));
             }
 
-            // Case is not defined explicitly by the specification, and thus is ignored in comparison
-
-            return method.StartsWith("RPC.", StringComparison.OrdinalIgnoreCase);
+            return
+                ((method.Length >= 4)) &&
+                ((method[0] == 'r') || (method[0] == 'R')) &&
+                ((method[1] == 'p') || (method[1] == 'P')) &&
+                ((method[2] == 'c') || (method[2] == 'C')) &&
+                ((method[3] == '.'));
         }
 
         /// <summary>Gets a string containing the name of the method to be invoked.</summary>

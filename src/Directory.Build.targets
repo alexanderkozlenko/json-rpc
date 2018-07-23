@@ -1,0 +1,7 @@
+﻿<!-- © Alexander Kozlenko. Licensed under the MIT License. -->
+<Project>
+  <Target Name="Test">
+    <CallTarget Targets="VSTest"
+                Condition="'$(IsTestable)' == 'true'" />
+  </Target>
+</Project>

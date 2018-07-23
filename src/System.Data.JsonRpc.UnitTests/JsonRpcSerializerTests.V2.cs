@@ -1,13 +1,13 @@
-﻿using System.Data.JsonRpc.Tests.Resources;
-using Xunit;
+﻿using System.Data.JsonRpc.UnitTests.Resources;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace System.Data.JsonRpc.Tests
+namespace System.Data.JsonRpc.UnitTests
 {
     public partial class JsonRpcSerializerTests
     {
         // 2.0 Core tests
 
-        [Fact]
+        [TestMethod]
         public void V2CoreDeserializeRequestDataWhenParametersHasInvalidType()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_params_type_invalid.json");
@@ -17,18 +17,18 @@ namespace System.Data.JsonRpc.Tests
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
-            Assert.False(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
             var jsonRpcItem = jsonRpcData.Item;
 
-            Assert.False(jsonRpcItem.IsValid);
+            Assert.IsFalse(jsonRpcItem.IsValid);
 
             var jsonRpcException = jsonRpcItem.Exception;
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreDeserializeResponseDataWhenErrorTypeIsInvalid()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_error_type_invalid.json");
@@ -39,18 +39,18 @@ namespace System.Data.JsonRpc.Tests
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.False(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
             var jsonRpcItem = jsonRpcData.Item;
 
-            Assert.False(jsonRpcItem.IsValid);
+            Assert.IsFalse(jsonRpcItem.IsValid);
 
             var jsonRpcException = jsonRpcItem.Exception;
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreDeserializeResponseDataWhenErrorCodeIsReserved()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_error_code_reserved.json");
@@ -61,18 +61,18 @@ namespace System.Data.JsonRpc.Tests
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.False(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
             var jsonRpcItem = jsonRpcData.Item;
 
-            Assert.False(jsonRpcItem.IsValid);
+            Assert.IsFalse(jsonRpcItem.IsValid);
 
             var jsonRpcException = jsonRpcItem.Exception;
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreDeserializeResponseDataWhenErrorMessageIsNull()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_error_message_null.json");
@@ -83,18 +83,18 @@ namespace System.Data.JsonRpc.Tests
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.False(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
             var jsonRpcItem = jsonRpcData.Item;
 
-            Assert.False(jsonRpcItem.IsValid);
+            Assert.IsFalse(jsonRpcItem.IsValid);
 
             var jsonRpcException = jsonRpcItem.Exception;
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreDeserializeResponseDataWhenHasDataIsFalse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_error_has_data_false.json");
@@ -105,23 +105,23 @@ namespace System.Data.JsonRpc.Tests
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.False(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
             var jsonRpcItem = jsonRpcData.Item;
 
-            Assert.True(jsonRpcItem.IsValid);
+            Assert.IsTrue(jsonRpcItem.IsValid);
 
             var jsonRpcMessage = jsonRpcItem.Message;
 
-            Assert.False(jsonRpcMessage.Success);
+            Assert.IsFalse(jsonRpcMessage.Success);
 
             var jsonRpcError = jsonRpcMessage.Error;
 
-            Assert.False(jsonRpcError.HasData);
-            Assert.Null(jsonRpcError.Data);
+            Assert.IsFalse(jsonRpcError.HasData);
+           Assert.IsNull(jsonRpcError.Data);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreSerializeResponseDataWhenHasDataIsFalse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_error_has_data_false.json");
@@ -133,7 +133,7 @@ namespace System.Data.JsonRpc.Tests
             CompareJsonStrings(jsonSample, jsonResult);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreDeserializeResponseDataWhenHasDataIsTrue()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_error_has_data_true.json");
@@ -144,23 +144,23 @@ namespace System.Data.JsonRpc.Tests
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.False(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
             var jsonRpcItem = jsonRpcData.Item;
 
-            Assert.True(jsonRpcItem.IsValid);
+            Assert.IsTrue(jsonRpcItem.IsValid);
 
             var jsonRpcMessage = jsonRpcItem.Message;
 
-            Assert.False(jsonRpcMessage.Success);
+            Assert.IsFalse(jsonRpcMessage.Success);
 
             var jsonRpcError = jsonRpcMessage.Error;
 
-            Assert.True(jsonRpcError.HasData);
-            Assert.Equal(0L, jsonRpcError.Data);
+            Assert.IsTrue(jsonRpcError.HasData);
+            Assert.AreEqual(0L, jsonRpcError.Data);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreSerializeResponseDataWhenHasDataIsTrue()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_error_has_data_true.json");
@@ -172,7 +172,7 @@ namespace System.Data.JsonRpc.Tests
             CompareJsonStrings(jsonSample, jsonResult);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreDeserializeResponseDataWhenHasDataIsTrueAnsIsNull()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_error_has_data_true_null.json");
@@ -183,23 +183,23 @@ namespace System.Data.JsonRpc.Tests
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.False(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
             var jsonRpcItem = jsonRpcData.Item;
 
-            Assert.True(jsonRpcItem.IsValid);
+            Assert.IsTrue(jsonRpcItem.IsValid);
 
             var jsonRpcMessage = jsonRpcItem.Message;
 
-            Assert.False(jsonRpcMessage.Success);
+            Assert.IsFalse(jsonRpcMessage.Success);
 
             var jsonRpcError = jsonRpcMessage.Error;
 
-            Assert.True(jsonRpcError.HasData);
-            Assert.Null(jsonRpcError.Data);
+            Assert.IsTrue(jsonRpcError.HasData);
+           Assert.IsNull(jsonRpcError.Data);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreSerializeResponseDataWhenHasDataIsTrueAnsIsNull()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_error_has_data_true_null.json");
@@ -211,7 +211,7 @@ namespace System.Data.JsonRpc.Tests
             CompareJsonStrings(jsonSample, jsonResult);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreDeserializeRequestDataWhenIdTypeIsInvalid()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_id_type_invalid_req.json");
@@ -221,18 +221,18 @@ namespace System.Data.JsonRpc.Tests
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
-            Assert.False(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
             var jsonRpcItem = jsonRpcData.Item;
 
-            Assert.False(jsonRpcItem.IsValid);
+            Assert.IsFalse(jsonRpcItem.IsValid);
 
             var jsonRpcException = jsonRpcItem.Exception;
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreDeserializeResponseDataWhenIdTypeIsInvalid()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_id_type_invalid_res.json");
@@ -243,18 +243,18 @@ namespace System.Data.JsonRpc.Tests
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.False(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
             var jsonRpcItem = jsonRpcData.Item;
 
-            Assert.False(jsonRpcItem.IsValid);
+            Assert.IsFalse(jsonRpcItem.IsValid);
 
             var jsonRpcException = jsonRpcItem.Exception;
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreSerializeRequestWhenIdIsFloat()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_id_float_req.json");
@@ -265,7 +265,7 @@ namespace System.Data.JsonRpc.Tests
             CompareJsonStrings(jsonSample, jsonResult);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreDeserializeRequestDataWhenIdIsFloat()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_id_float_req.json");
@@ -275,20 +275,20 @@ namespace System.Data.JsonRpc.Tests
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
-            Assert.False(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
             var jsonRpcItem = jsonRpcData.Item;
 
-            Assert.True(jsonRpcItem.IsValid);
+            Assert.IsTrue(jsonRpcItem.IsValid);
 
             var jsonRpcMessage = jsonRpcItem.Message;
             var jsonRpcId = jsonRpcMessage.Id;
 
-            Assert.Equal(JsonRpcIdType.Float, jsonRpcId.Type);
-            Assert.Equal(1D, (double)jsonRpcId);
+            Assert.AreEqual(JsonRpcIdType.Float, jsonRpcId.Type);
+            Assert.AreEqual(1D, (double)jsonRpcId);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreSerializeResponseWhenIdIsFloat()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_id_float_res.json");
@@ -299,7 +299,7 @@ namespace System.Data.JsonRpc.Tests
             CompareJsonStrings(jsonSample, jsonResult);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreDeserializeResponseDataWhenIdIsFloat()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_id_float_res.json");
@@ -310,20 +310,20 @@ namespace System.Data.JsonRpc.Tests
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.False(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
             var jsonRpcItem = jsonRpcData.Item;
 
-            Assert.True(jsonRpcItem.IsValid);
+            Assert.IsTrue(jsonRpcItem.IsValid);
 
             var jsonRpcMessage = jsonRpcItem.Message;
             var jsonRpcId = jsonRpcMessage.Id;
 
-            Assert.Equal(JsonRpcIdType.Float, jsonRpcId.Type);
-            Assert.Equal(1D, (double)jsonRpcId);
+            Assert.AreEqual(JsonRpcIdType.Float, jsonRpcId.Type);
+            Assert.AreEqual(1D, (double)jsonRpcId);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreDeserializeResponseWhenStructureIsInvalidAndSuccessIsFalse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_struct_invalid_success_false.json");
@@ -334,18 +334,18 @@ namespace System.Data.JsonRpc.Tests
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.False(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
             var jsonRpcItem = jsonRpcData.Item;
 
-            Assert.False(jsonRpcItem.IsValid);
+            Assert.IsFalse(jsonRpcItem.IsValid);
 
             var jsonRpcException = jsonRpcItem.Exception;
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
         }
 
-        [Fact]
+        [TestMethod]
         public void V2CoreDeserializeResponseWhenStructureIsInvalidAndSuccessIsTrue()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_struct_invalid_success_true.json");
@@ -356,15 +356,15 @@ namespace System.Data.JsonRpc.Tests
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.False(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
             var jsonRpcItem = jsonRpcData.Item;
 
-            Assert.False(jsonRpcItem.IsValid);
+            Assert.IsFalse(jsonRpcItem.IsValid);
 
             var jsonRpcException = jsonRpcItem.Exception;
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace System.Data.JsonRpc
+﻿// © Alexander Kozlenko. Licensed under the MIT License.
+
+namespace System.Data.JsonRpc
 {
     /// <summary>Specifies a type contract for response deserialization.</summary>
     public sealed class JsonRpcResponseContract

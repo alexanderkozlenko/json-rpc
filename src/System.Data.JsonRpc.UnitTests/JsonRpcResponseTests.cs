@@ -1,75 +1,76 @@
-﻿using Xunit;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace System.Data.JsonRpc.Tests
+namespace System.Data.JsonRpc.UnitTests
 {
+    [TestClass]
     public sealed class JsonRpcResponseTests
     {
-        [Fact]
+        [TestMethod]
         public void SuccessIsFalse()
         {
             var message = new JsonRpcResponse(new JsonRpcError(2L, "m"), 1L);
 
-            Assert.False(message.Success);
-            Assert.NotNull(message.Error);
-            Assert.Null(message.Result);
+            Assert.IsFalse(message.Success);
+            Assert.IsNotNull(message.Error);
+            Assert.IsNull(message.Result);
         }
 
-        [Fact]
+        [TestMethod]
         public void SuccessIsTrueWhenResultIsNumber()
         {
             var message = new JsonRpcResponse(0L, 1L);
 
-            Assert.True(message.Success);
-            Assert.Null(message.Error);
+            Assert.IsTrue(message.Success);
+            Assert.IsNull(message.Error);
         }
 
-        [Fact]
+        [TestMethod]
         public void SuccessIsTrueWhenResultIsString()
         {
             var message = new JsonRpcResponse("0", 1L);
 
-            Assert.True(message.Success);
-            Assert.Null(message.Error);
+            Assert.IsTrue(message.Success);
+            Assert.IsNull(message.Error);
         }
 
-        [Fact]
+        [TestMethod]
         public void SuccessIsTrueWhenResultIsBoolean()
         {
             var message = new JsonRpcResponse(true, 1L);
 
-            Assert.True(message.Success);
-            Assert.Null(message.Error);
+            Assert.IsTrue(message.Success);
+            Assert.IsNull(message.Error);
         }
 
-        [Fact]
+        [TestMethod]
         public void SuccessIsTrueWhenResultIsObject()
         {
             var message = new JsonRpcResponse(new object(), 1L);
 
-            Assert.True(message.Success);
-            Assert.Null(message.Error);
+            Assert.IsTrue(message.Success);
+            Assert.IsNull(message.Error);
         }
 
-        [Fact]
+        [TestMethod]
         public void SuccessIsTrueWhenResultIsNull()
         {
             var message = new JsonRpcResponse(default(object), 1L);
 
-            Assert.True(message.Success);
-            Assert.Null(message.Error);
+            Assert.IsTrue(message.Success);
+            Assert.IsNull(message.Error);
         }
 
-        [Fact]
+        [TestMethod]
         public void SuccessIsTrueWhenIdIsNone()
         {
-            Assert.Throws<ArgumentException>(() =>
+            Assert.ThrowsException<ArgumentException>(() =>
                 new JsonRpcResponse(1L, default(JsonRpcId)));
         }
 
-        [Fact]
+        [TestMethod]
         public void SuccessIsFalseWhenErrorIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 new JsonRpcResponse(default(JsonRpcError)));
         }
     }

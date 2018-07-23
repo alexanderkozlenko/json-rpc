@@ -1,0 +1,16 @@
+﻿<!-- © Alexander Kozlenko. Licensed under the MIT License. -->
+<Project>
+  <PropertyGroup>
+    <RepositoryDirectory>$([MSBuild]::NormalizeDirectory($(MSBuildThisFileDirectory)..))</RepositoryDirectory>
+    <SolutionDirectory>$(MSBuildThisFileDirectory)</SolutionDirectory>
+    <BaseIntermediateOutputPath>$(RepositoryDirectory)\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(RepositoryDirectory)\bin\$(MSBuildProjectName)</BaseOutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestable>false</IsTestable>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+</Project>

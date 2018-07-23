@@ -1,85 +1,74 @@
-﻿using System.Data.JsonRpc.Tests.Resources;
+﻿using System.Data.JsonRpc.UnitTests.Resources;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Xunit;
-using Xunit.Abstractions;
 
-namespace System.Data.JsonRpc.Tests
+namespace System.Data.JsonRpc.UnitTests
 {
+    [TestClass]
     public sealed partial class JsonRpcSerializerTests
     {
-        private readonly ITestOutputHelper _output;
-
-        public JsonRpcSerializerTests(ITestOutputHelper output)
+        [Conditional("DEBUG")]
+        private static void TraceJsonToken(JToken token)
         {
-            _output = output;
+            Trace.WriteLine(token.ToString(Formatting.Indented));
         }
 
-        private void CompareJsonStrings(string expected, string actual)
+        private static void CompareJsonStrings(string expected, string actual)
         {
             var expectedToken = JToken.Parse(expected);
             var actualToken = JToken.Parse(actual);
 
-            _output.WriteLine(actualToken.ToString(Formatting.Indented));
+            TraceJsonToken(actualToken);
 
-            Assert.True(JToken.DeepEquals(expectedToken, actualToken), "Actual JSON string differs from expected");
+            Assert.IsTrue(JToken.DeepEquals(expectedToken, actualToken), "Actual JSON string differs from expected");
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeRequestWhenRequestIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 jsonRpcSerializer.SerializeRequest(null));
         }
 
-        [Fact]
-        public void CoreSerializeRequestWhenParametersAreByPositionAndIsEmptyCollection()
-        {
-            var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("m", 1L, new object[] { });
-
-            var exception = Assert.Throws<JsonRpcException>(() =>
-                 jsonRpcSerializer.SerializeRequest(jsonRpcMessage));
-
-            Assert.Equal(JsonRpcErrorCodes.InvalidOperation, exception.ErrorCode);
-        }
-
-        [Fact]
+        [TestMethod]
         public void CoreSerializeRequestsWhenCollectionIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 jsonRpcSerializer.SerializeRequests(null));
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeRequestsWhenCollectionIsEmpty()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = Assert.Throws<JsonRpcException>(() =>
+            var exception = Assert.ThrowsException<JsonRpcException>(() =>
                 jsonRpcSerializer.SerializeRequests(new JsonRpcRequest[] { }));
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidMessage, exception.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, exception.ErrorCode);
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeRequestsWhenCollectionContainsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = Assert.Throws<JsonRpcException>(() =>
+            var exception = Assert.ThrowsException<JsonRpcException>(() =>
                 jsonRpcSerializer.SerializeRequests(new JsonRpcRequest[] { null }));
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidMessage, exception.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, exception.ErrorCode);
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeRequestToStreamWhenRequestIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
@@ -87,22 +76,22 @@ namespace System.Data.JsonRpc.Tests
 
             using (var jsonStream = new MemoryStream())
             {
-                Assert.Throws<ArgumentNullException>(() =>
+                Assert.ThrowsException<ArgumentNullException>(() =>
                     jsonRpcSerializer.SerializeRequest(null, jsonStream));
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeRequestToStreamWhenStreamIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
             var jsonRpcMessage = new JsonRpcRequest("m", 0L);
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 jsonRpcSerializer.SerializeRequest(jsonRpcMessage, null));
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeRequestToStream()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_req.json");
@@ -119,31 +108,31 @@ namespace System.Data.JsonRpc.Tests
             }
         }
 
-        [Fact]
-        public async void CoreSerializeRequestAsyncToStreamWhenRequestIsNull()
+        [TestMethod]
+        public async Task CoreSerializeRequestAsyncToStreamWhenRequestIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
             var jsonRpcMessage = new JsonRpcRequest("m", 0L);
 
             using (var jsonStream = new MemoryStream())
             {
-                await Assert.ThrowsAsync<ArgumentNullException>(() =>
+                await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
                     jsonRpcSerializer.SerializeRequestAsync(null, jsonStream));
             }
         }
 
-        [Fact]
-        public async void CoreSerializeRequestAsyncToStreamWhenStreamIsNull()
+        [TestMethod]
+        public async Task CoreSerializeRequestAsyncToStreamWhenStreamIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
             var jsonRpcMessage = new JsonRpcRequest("m", 0L);
 
-            await Assert.ThrowsAsync<ArgumentNullException>(() =>
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
                 jsonRpcSerializer.SerializeRequestAsync(jsonRpcMessage, null));
         }
 
-        [Fact]
-        public async void CoreSerializeRequestAsyncToStream()
+        [TestMethod]
+        public async Task CoreSerializeRequestAsyncToStream()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
@@ -159,7 +148,7 @@ namespace System.Data.JsonRpc.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeRequestsToStreamWhenRequestsIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
@@ -167,12 +156,12 @@ namespace System.Data.JsonRpc.Tests
 
             using (var jsonStream = new MemoryStream())
             {
-                Assert.Throws<ArgumentNullException>(() =>
+                Assert.ThrowsException<ArgumentNullException>(() =>
                     jsonRpcSerializer.SerializeRequests(null, jsonStream));
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeRequestsToStreamWhenStreamIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
@@ -180,11 +169,11 @@ namespace System.Data.JsonRpc.Tests
             var jsonRpcMessage2 = new JsonRpcRequest("m", 1L);
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 jsonRpcSerializer.SerializeRequests(jsonRpcMessages, null));
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeRequestsToStream()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_batch_req.json");
@@ -203,33 +192,33 @@ namespace System.Data.JsonRpc.Tests
             }
         }
 
-        [Fact]
-        public async void CoreSerializeRequestsAsyncToStreamWhenRequestIsNull()
+        [TestMethod]
+        public async Task CoreSerializeRequestsAsyncToStreamWhenRequestIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
             var jsonRpcMessage = new JsonRpcRequest("m", 0L);
 
             using (var jsonStream = new MemoryStream())
             {
-                await Assert.ThrowsAsync<ArgumentNullException>(() =>
+                await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
                     jsonRpcSerializer.SerializeRequestsAsync(null, jsonStream));
             }
         }
 
-        [Fact]
-        public async void CoreSerializeRequestsAsyncToStreamWhenStreamIsNull()
+        [TestMethod]
+        public async Task CoreSerializeRequestsAsyncToStreamWhenStreamIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
             var jsonRpcMessage1 = new JsonRpcRequest("m", 0L);
             var jsonRpcMessage2 = new JsonRpcRequest("m", 1L);
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
-            await Assert.ThrowsAsync<ArgumentNullException>(() =>
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
                 jsonRpcSerializer.SerializeRequestsAsync(jsonRpcMessages, null));
         }
 
-        [Fact]
-        public async void CoreSerializeRequestsAsyncToStream()
+        [TestMethod]
+        public async Task CoreSerializeRequestsAsyncToStream()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_batch_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
@@ -247,47 +236,47 @@ namespace System.Data.JsonRpc.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeResponseWhenResponseIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 jsonRpcSerializer.SerializeResponse(null));
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeResponsesWhenCollectionIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 jsonRpcSerializer.SerializeResponses(null));
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeResponsesWhenCollectionIsEmpty()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = Assert.Throws<JsonRpcException>(() =>
+            var exception = Assert.ThrowsException<JsonRpcException>(() =>
                 jsonRpcSerializer.SerializeResponses(new JsonRpcResponse[] { }));
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidMessage, exception.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, exception.ErrorCode);
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeResponsesWhenCollectionContainsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = Assert.Throws<JsonRpcException>(() =>
+            var exception = Assert.ThrowsException<JsonRpcException>(() =>
                 jsonRpcSerializer.SerializeResponses(new JsonRpcResponse[] { null }));
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidMessage, exception.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, exception.ErrorCode);
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeResponseToStreamWhenResponseIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
@@ -295,23 +284,23 @@ namespace System.Data.JsonRpc.Tests
 
             using (var jsonStream = new MemoryStream())
             {
-                Assert.Throws<ArgumentNullException>(() =>
+                Assert.ThrowsException<ArgumentNullException>(() =>
                     jsonRpcSerializer.SerializeResponse(null, jsonStream));
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeResponseToStreamWhenStreamIsNull()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
             var jsonRpcMessage = new JsonRpcResponse(0L, 0L);
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 jsonRpcSerializer.SerializeResponse(jsonRpcMessage, null));
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeResponseToStream()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_res.json");
@@ -328,32 +317,32 @@ namespace System.Data.JsonRpc.Tests
             }
         }
 
-        [Fact]
-        public async void CoreSerializeResponseAsyncToStreamWhenResponseIsNull()
+        [TestMethod]
+        public async Task CoreSerializeResponseAsyncToStreamWhenResponseIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
             var jsonRpcMessage = new JsonRpcRequest("m", 0L);
 
             using (var jsonStream = new MemoryStream())
             {
-                await Assert.ThrowsAsync<ArgumentNullException>(() =>
+                await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
                     jsonRpcSerializer.SerializeResponseAsync(null, jsonStream));
             }
         }
 
-        [Fact]
-        public async void CoreSerializeResponseAsyncToStreamWhenStreamIsNull()
+        [TestMethod]
+        public async Task CoreSerializeResponseAsyncToStreamWhenStreamIsNull()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
             var jsonRpcMessage = new JsonRpcResponse(0L, 0L);
 
-            await Assert.ThrowsAsync<ArgumentNullException>(() =>
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
                 jsonRpcSerializer.SerializeResponseAsync(jsonRpcMessage, null));
         }
 
-        [Fact]
-        public async void CoreSerializeResponseAsyncToStream()
+        [TestMethod]
+        public async Task CoreSerializeResponseAsyncToStream()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
@@ -369,7 +358,7 @@ namespace System.Data.JsonRpc.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeResponsesToStreamWhenResponsesIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
@@ -377,12 +366,12 @@ namespace System.Data.JsonRpc.Tests
 
             using (var jsonStream = new MemoryStream())
             {
-                Assert.Throws<ArgumentNullException>(() =>
+                Assert.ThrowsException<ArgumentNullException>(() =>
                     jsonRpcSerializer.SerializeResponses(null, jsonStream));
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeResponsesToStreamWhenStreamIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
@@ -390,11 +379,11 @@ namespace System.Data.JsonRpc.Tests
             var jsonRpcMessage2 = new JsonRpcResponse(0L, 1L);
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 jsonRpcSerializer.SerializeResponses(jsonRpcMessages, null));
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreSerializeResponsesToStream()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_batch_res.json");
@@ -413,33 +402,33 @@ namespace System.Data.JsonRpc.Tests
             }
         }
 
-        [Fact]
-        public async void CoreSerializeResponsesAsyncToStreamWhenResponsesIsNull()
+        [TestMethod]
+        public async Task CoreSerializeResponsesAsyncToStreamWhenResponsesIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
             var jsonRpcMessage = new JsonRpcRequest("m", 0L);
 
             using (var jsonStream = new MemoryStream())
             {
-                await Assert.ThrowsAsync<ArgumentNullException>(() =>
+                await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
                     jsonRpcSerializer.SerializeResponsesAsync(null, jsonStream));
             }
         }
 
-        [Fact]
-        public async void CoreSerializeResponsesAsyncToStreamWhenStreamIsNull()
+        [TestMethod]
+        public async Task CoreSerializeResponsesAsyncToStreamWhenStreamIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
             var jsonRpcMessage1 = new JsonRpcResponse(0L, 0L);
             var jsonRpcMessage2 = new JsonRpcResponse(0L, 1L);
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
-            await Assert.ThrowsAsync<ArgumentNullException>(() =>
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
                 jsonRpcSerializer.SerializeResponsesAsync(jsonRpcMessages, null));
         }
 
-        [Fact]
-        public async void CoreSerializeResponsesAsyncToStream()
+        [TestMethod]
+        public async Task CoreSerializeResponsesAsyncToStream()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_batch_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
@@ -457,47 +446,47 @@ namespace System.Data.JsonRpc.Tests
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreDeserializeRequestDataWhenJsonStringIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 jsonRpcSerializer.DeserializeRequestData((string)null));
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreDeserializeRequestDataWhenJsonStringIsEmpty()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = Assert.Throws<JsonRpcException>(() =>
+            var exception = Assert.ThrowsException<JsonRpcException>(() =>
                 jsonRpcSerializer.DeserializeRequestData(string.Empty));
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreDeserializeRequestDataFromStreamWhenJsonStreamIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 jsonRpcSerializer.DeserializeRequestData((Stream)null));
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreDeserializeRequestDataFromStreamWhenJsonStreamIsEmpty()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = Assert.Throws<JsonRpcException>(() =>
+            var exception = Assert.ThrowsException<JsonRpcException>(() =>
                 jsonRpcSerializer.DeserializeRequestData(Stream.Null));
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreDeserializeRequestDatatFromStream()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_req.json");
@@ -509,42 +498,42 @@ namespace System.Data.JsonRpc.Tests
             {
                 var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonStream);
 
-                Assert.False(jsonRpcData.IsBatch);
+                Assert.IsFalse(jsonRpcData.IsBatch);
 
                 var jsonRpcItem = jsonRpcData.Item;
 
-                Assert.True(jsonRpcItem.IsValid);
+                Assert.IsTrue(jsonRpcItem.IsValid);
 
                 var jsonRpcMessage = jsonRpcItem.Message;
 
-                Assert.Equal(0L, jsonRpcMessage.Id);
-                Assert.Equal("m", jsonRpcMessage.Method);
-                Assert.Equal(JsonRpcParametersType.None, jsonRpcMessage.ParametersType);
+                Assert.AreEqual(0L, jsonRpcMessage.Id);
+                Assert.AreEqual("m", jsonRpcMessage.Method);
+                Assert.AreEqual(JsonRpcParametersType.None, jsonRpcMessage.ParametersType);
             }
         }
 
-        [Fact]
-        public async void CoreDeserializeRequestDataAsyncFromStreamWhenJsonStreamIsNull()
+        [TestMethod]
+        public async Task CoreDeserializeRequestDataAsyncFromStreamWhenJsonStreamIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            await Assert.ThrowsAsync<ArgumentNullException>(() =>
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
                 jsonRpcSerializer.DeserializeRequestDataAsync((Stream)null));
         }
 
-        [Fact]
-        public async void CoreDeserializeRequestDataAsyncFromStreamWhenJsonStreamIsEmpty()
+        [TestMethod]
+        public async Task CoreDeserializeRequestDataAsyncFromStreamWhenJsonStreamIsEmpty()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = await Assert.ThrowsAsync<JsonRpcException>(() =>
+            var exception = await Assert.ThrowsExceptionAsync<JsonRpcException>(() =>
                 jsonRpcSerializer.DeserializeRequestDataAsync(Stream.Null));
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
         }
 
-        [Fact]
-        public async void CoreDeserializeRequestDatatAsyncFromStream()
+        [TestMethod]
+        public async Task CoreDeserializeRequestDatatAsyncFromStream()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
@@ -555,61 +544,61 @@ namespace System.Data.JsonRpc.Tests
             {
                 var jsonRpcData = await jsonRpcSerializer.DeserializeRequestDataAsync(jsonStream);
 
-                Assert.False(jsonRpcData.IsBatch);
+                Assert.IsFalse(jsonRpcData.IsBatch);
 
                 var jsonRpcItem = jsonRpcData.Item;
 
-                Assert.True(jsonRpcItem.IsValid);
+                Assert.IsTrue(jsonRpcItem.IsValid);
 
                 var jsonRpcMessage = jsonRpcItem.Message;
 
-                Assert.Equal(0L, jsonRpcMessage.Id);
-                Assert.Equal("m", jsonRpcMessage.Method);
-                Assert.Equal(JsonRpcParametersType.None, jsonRpcMessage.ParametersType);
+                Assert.AreEqual(0L, jsonRpcMessage.Id);
+                Assert.AreEqual("m", jsonRpcMessage.Method);
+                Assert.AreEqual(JsonRpcParametersType.None, jsonRpcMessage.ParametersType);
             }
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreDeserializeResponseDataWhenJsonStringIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 jsonRpcSerializer.DeserializeResponseData((string)null));
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreDeserializeResponseDataWhenJsonStringIsEmpty()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = Assert.Throws<JsonRpcException>(() =>
+            var exception = Assert.ThrowsException<JsonRpcException>(() =>
                 jsonRpcSerializer.DeserializeResponseData(string.Empty));
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreDeserializeResponseDataFromStreamWhenJsonStreamIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.ThrowsException<ArgumentNullException>(() =>
                 jsonRpcSerializer.DeserializeResponseData((Stream)null));
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreDeserializeResponseDataFromStreamWhenJsonStreamIsEmpty()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = Assert.Throws<JsonRpcException>(() =>
+            var exception = Assert.ThrowsException<JsonRpcException>(() =>
                 jsonRpcSerializer.DeserializeResponseData(Stream.Null));
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
         }
 
-        [Fact]
+        [TestMethod]
         public void CoreDeserializeResponseDatatFromStream()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_res.json");
@@ -621,42 +610,42 @@ namespace System.Data.JsonRpc.Tests
             {
                 var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonStream);
 
-                Assert.False(jsonRpcData.IsBatch);
+                Assert.IsFalse(jsonRpcData.IsBatch);
 
                 var jsonRpcItem = jsonRpcData.Item;
 
-                Assert.True(jsonRpcItem.IsValid);
+                Assert.IsTrue(jsonRpcItem.IsValid);
 
                 var jsonRpcMessage = jsonRpcItem.Message;
 
-                Assert.Equal(0L, jsonRpcMessage.Id);
-                Assert.True(jsonRpcMessage.Success);
-                Assert.Equal(0L, jsonRpcMessage.Result);
+                Assert.AreEqual(0L, jsonRpcMessage.Id);
+                Assert.IsTrue(jsonRpcMessage.Success);
+                Assert.AreEqual(0L, jsonRpcMessage.Result);
             }
         }
 
-        [Fact]
-        public async void CoreDeserializeResponseDataAsyncFromStreamWhenJsonStreamIsNull()
+        [TestMethod]
+        public async Task CoreDeserializeResponseDataAsyncFromStreamWhenJsonStreamIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            await Assert.ThrowsAsync<ArgumentNullException>(() =>
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
                 jsonRpcSerializer.DeserializeResponseDataAsync((Stream)null));
         }
 
-        [Fact]
-        public async void CoreDeserializeResponseDataAsyncFromStreamWhenJsonStreamIsEmpty()
+        [TestMethod]
+        public async Task CoreDeserializeResponseDataAsyncFromStreamWhenJsonStreamIsEmpty()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = await Assert.ThrowsAsync<JsonRpcException>(() =>
+            var exception = await Assert.ThrowsExceptionAsync<JsonRpcException>(() =>
                 jsonRpcSerializer.DeserializeResponseDataAsync(Stream.Null));
 
-            Assert.Equal(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
         }
 
-        [Fact]
-        public async void CoreDeserializeResponseDatatAsyncFromStream()
+        [TestMethod]
+        public async Task CoreDeserializeResponseDatatAsyncFromStream()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
@@ -667,17 +656,17 @@ namespace System.Data.JsonRpc.Tests
             {
                 var jsonRpcData = await jsonRpcSerializer.DeserializeResponseDataAsync(jsonStream);
 
-                Assert.False(jsonRpcData.IsBatch);
+                Assert.IsFalse(jsonRpcData.IsBatch);
 
                 var jsonRpcItem = jsonRpcData.Item;
 
-                Assert.True(jsonRpcItem.IsValid);
+                Assert.IsTrue(jsonRpcItem.IsValid);
 
                 var jsonRpcMessage = jsonRpcItem.Message;
 
-                Assert.Equal(0L, jsonRpcMessage.Id);
-                Assert.True(jsonRpcMessage.Success);
-                Assert.Equal(0L, jsonRpcMessage.Result);
+                Assert.AreEqual(0L, jsonRpcMessage.Id);
+                Assert.IsTrue(jsonRpcMessage.Success);
+                Assert.AreEqual(0L, jsonRpcMessage.Result);
             }
         }
     }

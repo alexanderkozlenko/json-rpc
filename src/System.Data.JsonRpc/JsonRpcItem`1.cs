@@ -1,44 +1,35 @@
-﻿using System.Diagnostics;
+﻿// © Alexander Kozlenko. Licensed under the MIT License.
 
 namespace System.Data.JsonRpc
 {
     /// <summary>Represents information about an RPC message.</summary>
     /// <typeparam name="T">The type of the message.</typeparam>
-    [DebuggerDisplay("IsValid = {IsValid}")]
     public readonly struct JsonRpcItem<T>
         where T : JsonRpcMessage
     {
-        private readonly T _message;
-        private readonly JsonRpcException _exception;
+        private readonly object _value;
 
-        internal JsonRpcItem(T message)
+        internal JsonRpcItem(object value)
         {
-            _message = message;
-            _exception = null;
-        }
-
-        internal JsonRpcItem(JsonRpcException exception)
-        {
-            _message = null;
-            _exception = exception;
+            _value = value;
         }
 
         /// <summary>Gets a message for the valid item.</summary>
         public T Message
         {
-            get => _message;
+            get => _value as T;
         }
 
         /// <summary>Gets an exception for the invalid item.</summary>
         public JsonRpcException Exception
         {
-            get => _exception;
+            get => _value as JsonRpcException;
         }
 
         /// <summary>Gets a value indicating whether the item represents a valid message.</summary>
         public bool IsValid
         {
-            get => _message != null;
+            get => _value is JsonRpcMessage;
         }
     }
 }

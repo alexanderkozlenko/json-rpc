@@ -1,1 +1,0 @@
-@powershell -noninteractive -noprofile -executionpolicy unrestricted -file "%~dp0clean.ps1"

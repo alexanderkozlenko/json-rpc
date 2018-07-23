@@ -1,10 +1,10 @@
-﻿using System.Data.JsonRpc.Resources;
-using System.Diagnostics;
+﻿// © Alexander Kozlenko. Licensed under the MIT License.
+
+using System.Data.JsonRpc.Resources;
 
 namespace System.Data.JsonRpc
 {
     /// <summary>Represents an RPC response message.</summary>
-    [DebuggerDisplay("Success = {Success}, Id = {Id}")]
     public sealed class JsonRpcResponse : JsonRpcMessage
     {
         private readonly object _result;
@@ -13,13 +13,13 @@ namespace System.Data.JsonRpc
         /// <summary>Initializes a new instance of the <see cref="JsonRpcResponse" /> class.</summary>
         /// <param name="result">The value, which is determined by the method invoked on the server.</param>
         /// <param name="id">The identifier, which must be the same as the value in the request object.</param>
-        /// <exception cref="ArgumentException"><paramref name="id" /> has empty value.</exception>
+        /// <exception cref="ArgumentException"><paramref name="id" /> has undefined value.</exception>
         public JsonRpcResponse(object result, in JsonRpcId id)
             : base(id)
         {
             if (id.Type == JsonRpcIdType.None)
             {
-                throw new ArgumentException(Strings.GetString("response.empty_id"), nameof(id));
+                throw new ArgumentException(Strings.GetString("response.undefined_id"), nameof(id));
             }
 
             _result = result;
