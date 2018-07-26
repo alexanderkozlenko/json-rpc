@@ -73,7 +73,7 @@ namespace System.Data.JsonRpc
             get => _data;
         }
 
-        /// <summary>Gets a value indicating whether the message has additional information specified.</summary>
+        /// <summary>Gets a value indicating whether the additional information about the error is specified.</summary>
         public bool HasData
         {
             get => _hasData;
