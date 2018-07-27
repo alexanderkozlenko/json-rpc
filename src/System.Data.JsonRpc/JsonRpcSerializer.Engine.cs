@@ -102,7 +102,6 @@ namespace System.Data.JsonRpc
                     if (reader.TokenType == JsonToken.PropertyName)
                     {
                         jsonPropertyName = (string)reader.Value;
-
                         reader.Read();
 
                         switch (jsonPropertyName)
@@ -378,7 +377,6 @@ namespace System.Data.JsonRpc
                     if (reader.TokenType == JsonToken.PropertyName)
                     {
                         jsonPropertyName = (string)reader.Value;
-
                         reader.Read();
 
                         switch (jsonPropertyName)
@@ -445,7 +443,6 @@ namespace System.Data.JsonRpc
                                                     if (reader.TokenType == JsonToken.PropertyName)
                                                     {
                                                         jsonPropertyName = (string)reader.Value;
-
                                                         reader.Read();
 
                                                         switch (jsonPropertyName)
@@ -719,6 +716,37 @@ namespace System.Data.JsonRpc
                 writer.WriteValue("2.0");
             }
 
+            switch (request.Id.Type)
+            {
+                case JsonRpcIdType.None:
+                    {
+                        if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level2)
+                        {
+                            writer.WritePropertyName("id");
+                            writer.WriteNull();
+                        }
+                    }
+                    break;
+                case JsonRpcIdType.String:
+                    {
+                        writer.WritePropertyName("id");
+                        writer.WriteValue((string)request.Id);
+                    }
+                    break;
+                case JsonRpcIdType.Integer:
+                    {
+                        writer.WritePropertyName("id");
+                        writer.WriteValue((long)request.Id);
+                    }
+                    break;
+                case JsonRpcIdType.Float:
+                    {
+                        writer.WritePropertyName("id");
+                        writer.WriteValue((double)request.Id);
+                    }
+                    break;
+            }
+
             writer.WritePropertyName("method");
             writer.WriteValue(request.Method);
 
@@ -735,9 +763,7 @@ namespace System.Data.JsonRpc
                             {
                                 for (var i = 0; i < request.ParametersByPosition.Count; i++)
                                 {
-                                    var parameterValue = request.ParametersByPosition[i];
-
-                                    _jsonSerializer.Serialize(writer, parameterValue);
+                                    _jsonSerializer.Serialize(writer, request.ParametersByPosition[i]);
                                 }
                             }
                             catch (JsonException e)
@@ -797,37 +823,6 @@ namespace System.Data.JsonRpc
                     break;
             }
 
-            switch (request.Id.Type)
-            {
-                case JsonRpcIdType.None:
-                    {
-                        if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level2)
-                        {
-                            writer.WritePropertyName("id");
-                            writer.WriteNull();
-                        }
-                    }
-                    break;
-                case JsonRpcIdType.String:
-                    {
-                        writer.WritePropertyName("id");
-                        writer.WriteValue((string)request.Id);
-                    }
-                    break;
-                case JsonRpcIdType.Integer:
-                    {
-                        writer.WritePropertyName("id");
-                        writer.WriteValue((long)request.Id);
-                    }
-                    break;
-                case JsonRpcIdType.Float:
-                    {
-                        writer.WritePropertyName("id");
-                        writer.WriteValue((double)request.Id);
-                    }
-                    break;
-            }
-
             writer.WriteEndObject();
         }
 
@@ -865,57 +860,6 @@ namespace System.Data.JsonRpc
                 writer.WriteValue("2.0");
             }
 
-            if (response.Success)
-            {
-                try
-                {
-                    writer.WritePropertyName("result");
-
-                    _jsonSerializer.Serialize(writer, response.Result);
-                }
-                catch (JsonException e)
-                {
-                    throw new JsonRpcException(JsonRpcErrorCodes.InvalidOperation, Strings.GetString("core.serialize.json_issue"), response.Id, e);
-                }
-
-                if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level2)
-                {
-                    writer.WritePropertyName("error");
-                    writer.WriteNull();
-                }
-            }
-            else
-            {
-                writer.WritePropertyName("error");
-                writer.WriteStartObject();
-                writer.WritePropertyName("code");
-                writer.WriteValue(response.Error.Code);
-                writer.WritePropertyName("message");
-                writer.WriteValue(response.Error.Message);
-
-                if (response.Error.HasData)
-                {
-                    try
-                    {
-                        writer.WritePropertyName("data");
-
-                        _jsonSerializer.Serialize(writer, response.Error.Data);
-                    }
-                    catch (JsonException e)
-                    {
-                        throw new JsonRpcException(JsonRpcErrorCodes.InvalidOperation, Strings.GetString("core.serialize.json_issue"), response.Id, e);
-                    }
-                }
-
-                writer.WriteEndObject();
-
-                if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level2)
-                {
-                    writer.WritePropertyName("result");
-                    writer.WriteNull();
-                }
-            }
-
             switch (response.Id.Type)
             {
                 case JsonRpcIdType.None:
@@ -942,6 +886,57 @@ namespace System.Data.JsonRpc
                         writer.WriteValue((double)response.Id);
                     }
                     break;
+            }
+
+            if (response.Success)
+            {
+                try
+                {
+                    writer.WritePropertyName("result");
+
+                    _jsonSerializer.Serialize(writer, response.Result);
+                }
+                catch (JsonException e)
+                {
+                    throw new JsonRpcException(JsonRpcErrorCodes.InvalidOperation, Strings.GetString("core.serialize.json_issue"), response.Id, e);
+                }
+
+                if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level2)
+                {
+                    writer.WritePropertyName("error");
+                    writer.WriteNull();
+                }
+            }
+            else
+            {
+                if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level2)
+                {
+                    writer.WritePropertyName("result");
+                    writer.WriteNull();
+                }
+
+                writer.WritePropertyName("error");
+                writer.WriteStartObject();
+                writer.WritePropertyName("code");
+                writer.WriteValue(response.Error.Code);
+                writer.WritePropertyName("message");
+                writer.WriteValue(response.Error.Message);
+
+                if (response.Error.HasData)
+                {
+                    try
+                    {
+                        writer.WritePropertyName("data");
+
+                        _jsonSerializer.Serialize(writer, response.Error.Data);
+                    }
+                    catch (JsonException e)
+                    {
+                        throw new JsonRpcException(JsonRpcErrorCodes.InvalidOperation, Strings.GetString("core.serialize.json_issue"), response.Id, e);
+                    }
+                }
+
+                writer.WriteEndObject();
             }
 
             writer.WriteEndObject();
