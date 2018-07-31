@@ -460,10 +460,8 @@ namespace System.Data.JsonRpc.UnitTests
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = Assert.ThrowsException<JsonRpcException>(() =>
+            Assert.ThrowsException<InvalidOperationException>(() =>
                 jsonRpcSerializer.DeserializeRequestData(string.Empty));
-
-            Assert.AreEqual(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
         }
 
         [TestMethod]
@@ -480,19 +478,18 @@ namespace System.Data.JsonRpc.UnitTests
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = Assert.ThrowsException<JsonRpcException>(() =>
+            Assert.ThrowsException<InvalidOperationException>(() =>
                 jsonRpcSerializer.DeserializeRequestData(Stream.Null));
-
-            Assert.AreEqual(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
         }
 
         [TestMethod]
         public void CoreDeserializeRequestDatatFromStream()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_req.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.RequestContracts["m"] = new JsonRpcRequestContract();
+            jsonRpcContractResolver.AddRequestContract("m", new JsonRpcRequestContract());
 
             using (var jsonStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonSample)))
             {
@@ -526,19 +523,18 @@ namespace System.Data.JsonRpc.UnitTests
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = await Assert.ThrowsExceptionAsync<JsonRpcException>(() =>
+            await Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
                 jsonRpcSerializer.DeserializeRequestDataAsync(Stream.Null));
-
-            Assert.AreEqual(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
         }
 
         [TestMethod]
         public async Task CoreDeserializeRequestDatatAsyncFromStream()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_req.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.RequestContracts["m"] = new JsonRpcRequestContract();
+            jsonRpcContractResolver.AddRequestContract("m", new JsonRpcRequestContract());
 
             using (var jsonStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonSample)))
             {
@@ -572,10 +568,8 @@ namespace System.Data.JsonRpc.UnitTests
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = Assert.ThrowsException<JsonRpcException>(() =>
+            Assert.ThrowsException<InvalidOperationException>(() =>
                 jsonRpcSerializer.DeserializeResponseData(string.Empty));
-
-            Assert.AreEqual(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
         }
 
         [TestMethod]
@@ -592,19 +586,18 @@ namespace System.Data.JsonRpc.UnitTests
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = Assert.ThrowsException<JsonRpcException>(() =>
+            Assert.ThrowsException<InvalidOperationException>(() =>
                 jsonRpcSerializer.DeserializeResponseData(Stream.Null));
-
-            Assert.AreEqual(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
         }
 
         [TestMethod]
         public void CoreDeserializeResponseDatatFromStream()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_res.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.DynamicResponseBindings[0L] = new JsonRpcResponseContract(typeof(long));
+            jsonRpcContractResolver.AddResponseContract(0L, new JsonRpcResponseContract(typeof(long)));
 
             using (var jsonStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonSample)))
             {
@@ -638,19 +631,18 @@ namespace System.Data.JsonRpc.UnitTests
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = await Assert.ThrowsExceptionAsync<JsonRpcException>(() =>
+            await Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
                 jsonRpcSerializer.DeserializeResponseDataAsync(Stream.Null));
-
-            Assert.AreEqual(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
         }
 
         [TestMethod]
         public async Task CoreDeserializeResponseDatatAsyncFromStream()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_res.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.DynamicResponseBindings[0L] = new JsonRpcResponseContract(typeof(long));
+            jsonRpcContractResolver.AddResponseContract(0L, new JsonRpcResponseContract(typeof(long)));
 
             using (var jsonStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonSample)))
             {
@@ -668,6 +660,37 @@ namespace System.Data.JsonRpc.UnitTests
                 Assert.IsTrue(jsonRpcMessage.Success);
                 Assert.AreEqual(0L, jsonRpcMessage.Result);
             }
+        }
+
+        [TestMethod]
+        public void IsSystemMethodWhenMethodIsNull()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                JsonRpcSerializer.IsSystemMethod((string)null));
+        }
+
+        [TestMethod]
+        public void IsSystemMethodIsFalse()
+        {
+            var result = JsonRpcSerializer.IsSystemMethod("m");
+
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void IsSystemMethodIsTrueWithLowerCase()
+        {
+            var result = JsonRpcSerializer.IsSystemMethod("rpc.m");
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void IsSystemMethodIsTrueWithUpperCase()
+        {
+            var result = JsonRpcSerializer.IsSystemMethod("RPC.M");
+
+            Assert.IsTrue(result);
         }
     }
 }

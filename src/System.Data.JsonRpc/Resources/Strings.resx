@@ -132,14 +132,11 @@
   <data name="core.deserialize.request.id.invalid_property" xml:space="preserve">
     <value>The request has the invalid identifier property</value>
   </data>
-  <data name="core.deserialize.request.method.contract.undefined" xml:space="preserve">
-    <value>The method type contract for the name "{0}" is not defined</value>
-  </data>
   <data name="core.deserialize.request.method.unsupported" xml:space="preserve">
     <value>The request method "{0}" is not supported</value>
   </data>
   <data name="core.deserialize.request.params.invalid_count" xml:space="preserve">
-    <value>The request parameters count ({0}) is invalid</value>
+    <value>The request parameters count is invalid</value>
   </data>
   <data name="core.deserialize.request.method.invalid_property" xml:space="preserve">
     <value>The request does not have a valid method property</value>
@@ -152,6 +149,9 @@
   </data>
   <data name="core.deserialize.request.protocol.invalid_property" xml:space="preserve">
     <value>The request does not have a valid protocol property</value>
+  </data>
+  <data name="core.deserialize.resolver.undefined" xml:space="preserve">
+    <value>The contract resolver is not defined</value>
   </data>
   <data name="core.deserialize.response.error.code.invalid_property" xml:space="preserve">
     <value>The response error does not have a valid code property</value>
@@ -172,7 +172,7 @@
     <value>The response has invalid set of properties</value>
   </data>
   <data name="core.deserialize.response.method.contract.undefined" xml:space="preserve">
-    <value>The method type contract is not defined</value>
+    <value>The response contract is not defined</value>
   </data>
   <data name="core.deserialize.response.protocol.invalid_property" xml:space="preserve">
     <value>The response does not have a valid protocol property</value>

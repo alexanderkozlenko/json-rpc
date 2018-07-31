@@ -11,9 +11,10 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2CoreDeserializeRequestDataWhenParametersHasInvalidType()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_params_type_invalid.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.RequestContracts["m"] = new JsonRpcRequestContract(new[] { typeof(object) });
+            jsonRpcContractResolver.AddRequestContract("m", new JsonRpcRequestContract(new[] { typeof(object) }));
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -32,10 +33,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2CoreDeserializeResponseDataWhenErrorTypeIsInvalid()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_error_type_invalid.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.ResponseContracts["m"] = new JsonRpcResponseContract(typeof(string));
-            jsonRpcSerializer.StaticResponseBindings[1L] = "m";
+            jsonRpcContractResolver.AddResponseContract("m", new JsonRpcResponseContract(typeof(string)));
+            jsonRpcContractResolver.AddResponseBinding(1L, "m");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -54,10 +56,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2CoreDeserializeResponseDataWhenErrorCodeIsReserved()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_error_code_reserved.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.ResponseContracts["m"] = new JsonRpcResponseContract(typeof(string));
-            jsonRpcSerializer.StaticResponseBindings[1L] = "m";
+            jsonRpcContractResolver.AddResponseContract("m", new JsonRpcResponseContract(typeof(string)));
+            jsonRpcContractResolver.AddResponseBinding(1L, "m");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -76,10 +79,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2CoreDeserializeResponseDataWhenErrorMessageIsNull()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_error_message_null.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.ResponseContracts["m"] = new JsonRpcResponseContract(typeof(string));
-            jsonRpcSerializer.StaticResponseBindings[1L] = "m";
+            jsonRpcContractResolver.AddResponseContract("m", new JsonRpcResponseContract(typeof(string)));
+            jsonRpcContractResolver.AddResponseBinding(1L, "m");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -98,10 +102,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2CoreDeserializeResponseDataWhenHasDataIsFalse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_error_has_data_false.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.ResponseContracts["m"] = new JsonRpcResponseContract(typeof(string));
-            jsonRpcSerializer.StaticResponseBindings[1L] = "m";
+            jsonRpcContractResolver.AddResponseContract("m", new JsonRpcResponseContract(typeof(string)));
+            jsonRpcContractResolver.AddResponseBinding(1L, "m");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -137,10 +142,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2CoreDeserializeResponseDataWhenHasDataIsTrue()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_error_has_data_true.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.ResponseContracts["m"] = new JsonRpcResponseContract(typeof(string), typeof(long));
-            jsonRpcSerializer.StaticResponseBindings[1L] = "m";
+            jsonRpcContractResolver.AddResponseContract("m", new JsonRpcResponseContract(typeof(string), typeof(long)));
+            jsonRpcContractResolver.AddResponseBinding(1L, "m");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -176,10 +182,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2CoreDeserializeResponseDataWhenHasDataIsTrueAnsIsNull()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_error_has_data_true_null.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.ResponseContracts["m"] = new JsonRpcResponseContract(typeof(string), typeof(string));
-            jsonRpcSerializer.StaticResponseBindings[1L] = "m";
+            jsonRpcContractResolver.AddResponseContract("m", new JsonRpcResponseContract(typeof(string), typeof(string)));
+            jsonRpcContractResolver.AddResponseBinding(1L, "m");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -215,9 +222,10 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2CoreDeserializeRequestDataWhenIdTypeIsInvalid()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_id_type_invalid_req.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.RequestContracts["m"] = new JsonRpcRequestContract();
+            jsonRpcContractResolver.AddRequestContract("m", new JsonRpcRequestContract());
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -236,10 +244,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2CoreDeserializeResponseDataWhenIdTypeIsInvalid()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_id_type_invalid_res.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.ResponseContracts["m"] = new JsonRpcResponseContract(typeof(string));
-            jsonRpcSerializer.StaticResponseBindings[1D] = "m";
+            jsonRpcContractResolver.AddResponseContract("m", new JsonRpcResponseContract(typeof(string)));
+            jsonRpcContractResolver.AddResponseBinding(1D, "m");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -269,9 +278,10 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2CoreDeserializeRequestDataWhenIdIsFloat()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_id_float_req.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.RequestContracts["m"] = new JsonRpcRequestContract();
+            jsonRpcContractResolver.AddRequestContract("m", new JsonRpcRequestContract());
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -303,10 +313,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2CoreDeserializeResponseDataWhenIdIsFloat()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_id_float_res.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.ResponseContracts["m"] = new JsonRpcResponseContract(typeof(string));
-            jsonRpcSerializer.StaticResponseBindings[1D] = "m";
+            jsonRpcContractResolver.AddResponseContract("m", new JsonRpcResponseContract(typeof(string)));
+            jsonRpcContractResolver.AddResponseBinding(1D, "m");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -327,10 +338,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2CoreDeserializeResponseWhenStructureIsInvalidAndSuccessIsFalse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_struct_invalid_success_false.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.ResponseContracts["m"] = new JsonRpcResponseContract(typeof(string));
-            jsonRpcSerializer.StaticResponseBindings[1L] = "m";
+            jsonRpcContractResolver.AddResponseContract("m", new JsonRpcResponseContract(typeof(string)));
+            jsonRpcContractResolver.AddResponseBinding(1D, "m");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -349,10 +361,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2CoreDeserializeResponseWhenStructureIsInvalidAndSuccessIsTrue()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_struct_invalid_success_true.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcSerializer.ResponseContracts["m"] = new JsonRpcResponseContract(typeof(string));
-            jsonRpcSerializer.StaticResponseBindings[1L] = "m";
+            jsonRpcContractResolver.AddResponseContract("m", new JsonRpcResponseContract(typeof(string)));
+            jsonRpcContractResolver.AddResponseBinding(1D, "m");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 

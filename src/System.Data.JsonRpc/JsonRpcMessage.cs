@@ -7,6 +7,10 @@ namespace System.Data.JsonRpc
     {
         private readonly JsonRpcId _id;
 
+        private protected JsonRpcMessage()
+        {
+        }
+
         private protected JsonRpcMessage(in JsonRpcId id)
         {
             _id = id;

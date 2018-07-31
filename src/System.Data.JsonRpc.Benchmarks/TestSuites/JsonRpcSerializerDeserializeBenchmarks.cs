@@ -23,51 +23,55 @@ namespace System.Data.JsonRpc.Benchmarks.TestSuites
 
         private static JsonRpcSerializer CreateSerializerRequestParamsNone()
         {
-            var serializer = new JsonRpcSerializer();
+            var resolver = new JsonRpcContractResolver();
+            var serializer = new JsonRpcSerializer(resolver);
 
-            serializer.RequestContracts["m"] = new JsonRpcRequestContract();
+            resolver.AddRequestContract("m", new JsonRpcRequestContract());
 
             return serializer;
         }
 
         private static JsonRpcSerializer CreateSerializerRequestParamsByName()
         {
-            var serializer = new JsonRpcSerializer();
+            var resolver = new JsonRpcContractResolver();
+            var serializer = new JsonRpcSerializer(resolver);
 
             var parameters = new Dictionary<string, Type>
             {
                 ["p"] = typeof(long)
             };
 
-            serializer.RequestContracts["m"] = new JsonRpcRequestContract(parameters);
+            resolver.AddRequestContract("m", new JsonRpcRequestContract(parameters));
 
             return serializer;
         }
 
         private static JsonRpcSerializer CreateSerializerRequestParamsByPosition()
         {
-            var serializer = new JsonRpcSerializer();
+            var resolver = new JsonRpcContractResolver();
+            var serializer = new JsonRpcSerializer(resolver);
 
             var parameters = new[]
             {
                 typeof(long)
             };
 
-            serializer.RequestContracts["m"] = new JsonRpcRequestContract(parameters);
+            resolver.AddRequestContract("m", new JsonRpcRequestContract(parameters));
 
             return serializer;
         }
 
         private static JsonRpcSerializer CreateSerializerResponse()
         {
-            var serializer = new JsonRpcSerializer();
+            var resolver = new JsonRpcContractResolver();
+            var serializer = new JsonRpcSerializer(resolver);
 
             var parameters = new[]
             {
                 typeof(long)
             };
 
-            serializer.DynamicResponseBindings[0L] = new JsonRpcResponseContract(typeof(long), typeof(long));
+            resolver.AddResponseContract(0L, new JsonRpcResponseContract(typeof(long), typeof(long)));
 
             return serializer;
         }

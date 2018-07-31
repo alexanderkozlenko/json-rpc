@@ -29,7 +29,7 @@ namespace System.Data.JsonRpc
         /// <param name="error">The <see cref="JsonRpcError" /> object with information.</param>
         /// <param name="id">The identifier, which must be the same as the value in the request object.</param>
         /// <exception cref="ArgumentNullException"><paramref name="error" /> is <see langword="null" />.</exception>
-        public JsonRpcResponse(JsonRpcError error, in JsonRpcId id = default)
+        public JsonRpcResponse(JsonRpcError error, in JsonRpcId id)
             : base(id)
         {
             if (error == null)

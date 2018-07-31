@@ -6,32 +6,29 @@ Provides support for serializing and deserializing [JSON-RPC 2.0](http://www.jso
 
 ### Important Features
 
-- The serializer supports transparent usage of number and string message identifiers.
-- The serializer supports dynamic response type contracts when result data type depends on method parameters.
-- The serializer supports serializing to and deserializing from streams.
+- The serializer supports defining response type contracts dependent on method parameters.
+- The serializer provides limited backward compatibility with the [JSON-RPC 1.0](http://www.jsonrpc.org/specification_v1).
 
 ### Characteristics
 
-The serializer is stateful. Due to the JSON-RPC protocol peculiarity, deserializing a response requires more than only defining a response contract. Before deserializing a caller must specify a request identifier mapping to the corresponding method name (static bindings), or specify a request identifier mapping to the corresponding response contract (dynamic bindings).
-
-As recommended by the specification, the serializer provides backward compatibility for [JSON-RPC 1.0](http://www.jsonrpc.org/specification_v1) messages, limited to the intersection of JSON-RPC 1.0 and JSON-RPC 2.0 requirements and the API. As an example, the serializer can be used for serializing and deserializing Bitcoin protocol messages, according to the ["Bitcoin Core APIs - Remote Procedure Calls"](https://bitcoin.org/en/developer-reference#remote-procedure-calls-rpcs) documentation. To enable JSON-RPC 1.0 compatibility, a caller must set the corresponding compatibility level on a serializer instance.
+- Deserializing a response requires a binding of a message ID to a method name (or a response contract by a message ID).
+- Backward compatibility with JSON-RPC 1.0 is limited to the intersection of JSON-RPC 1.0 / 2.0 requirements and the API.
 
 ### Usage Examples
 
-- Communication with a JSON-RPC 2.0 server:
-
 ```cs
-var serializer = new JsonRpcSerializer();
-var request = new JsonRpcRequest("sum", 1L, new[] { 1L, 2L });
-var requestString = serializer.SerializeRequest(request);
+var jrContractResolver = new JsonRpcContractResolver();
+var jrSerializer = new JsonRpcSerializer(jrContractResolver);
+var jrRequest = new JsonRpcRequest("sum", 1L, new[] { 1L, 2L });
+var jrRequestString = jrSerializer.SerializeRequest(jrRequest);
 
-// [Sending an HTTP request and storing a response string in the "responseString"]
+// [...] (Storing an HTTP response string in the "jrResponseString" variable)
 
-serializer.ResponseContracts["sum"] = new JsonRpcResponseContract(typeof(int));
-serializer.StaticResponseBindings[request.Id] = "sum";
+jrContractResolver.AddResponseContract("sum", new JsonRpcResponseContract(typeof(int)));
+jrContractResolver.AddResponseBinding(jrRequest.Id, "sum");
 
-var responseData = serializer.DeserializeResponseData(responseString);
-var result = (int)responseData.Item.Message.Result;
+var jrResponseData = jrSerializer.DeserializeResponseData(jrResponseString);
+var jrResult = (int)jrResponseData.Item.Message.Result;
 ```
 
 - Example of client-side usage: https://github.com/alexanderkozlenko/json-rpc-client

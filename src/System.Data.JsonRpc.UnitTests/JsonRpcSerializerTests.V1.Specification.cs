@@ -14,13 +14,10 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT010DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_01.0_req.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            jsonRpcSerializer.RequestContracts["echo"] = new JsonRpcRequestContract(new[] { typeof(string) });
+            jsonRpcContractResolver.AddRequestContract("echo", new JsonRpcRequestContract(new[] { typeof(string) }));
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -35,6 +32,7 @@ namespace System.Data.JsonRpc.UnitTests
             Assert.AreEqual(1L, jsonRpcMessage.Id);
             Assert.AreEqual("echo", jsonRpcMessage.Method);
             Assert.AreEqual(JsonRpcParametersType.ByPosition, jsonRpcMessage.ParametersType);
+
             CollectionAssert.AreEqual(new object[] { "Hello JSON-RPC" }, jsonRpcMessage.ParametersByPosition?.ToArray());
         }
 
@@ -42,11 +40,7 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT010SerializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_01.0_req.json");
-
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
+            var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
             var jsonRpcMessage = new JsonRpcRequest("echo", 1L, new object[] { "Hello JSON-RPC" });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
@@ -58,14 +52,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT010DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_01.0_res.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            jsonRpcSerializer.ResponseContracts["echo"] = new JsonRpcResponseContract(typeof(string));
-            jsonRpcSerializer.StaticResponseBindings[1L] = "echo";
+            jsonRpcContractResolver.AddResponseContract("echo", new JsonRpcResponseContract(typeof(string)));
+            jsonRpcContractResolver.AddResponseBinding(1L, "echo");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -86,12 +77,7 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT010SerializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_01.0_res.json");
-
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
+            var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
             var jsonRpcMessage = new JsonRpcResponse("Hello JSON-RPC", 1L);
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
@@ -106,13 +92,10 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT020DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.0_req.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            jsonRpcSerializer.RequestContracts["postMessage"] = new JsonRpcRequestContract(new[] { typeof(string) });
+            jsonRpcContractResolver.AddRequestContract("postMessage", new JsonRpcRequestContract(new[] { typeof(string) }));
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -127,6 +110,7 @@ namespace System.Data.JsonRpc.UnitTests
             Assert.AreEqual(99L, jsonRpcMessage.Id);
             Assert.AreEqual("postMessage", jsonRpcMessage.Method);
             Assert.AreEqual(JsonRpcParametersType.ByPosition, jsonRpcMessage.ParametersType);
+
             CollectionAssert.AreEqual(new object[] { "Hello all!" }, jsonRpcMessage.ParametersByPosition?.ToArray());
         }
 
@@ -134,12 +118,7 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT020SerializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.0_req.json");
-
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
+            var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
             var jsonRpcMessage = new JsonRpcRequest("postMessage", 99L, new object[] { "Hello all!" });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
@@ -150,14 +129,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT020DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.0_res.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            jsonRpcSerializer.ResponseContracts["echo"] = new JsonRpcResponseContract(typeof(long));
-            jsonRpcSerializer.StaticResponseBindings[99L] = "echo";
+            jsonRpcContractResolver.AddResponseContract("echo", new JsonRpcResponseContract(typeof(long)));
+            jsonRpcContractResolver.AddResponseBinding(99L, "echo");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -178,11 +154,7 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT020SerializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.0_res.json");
-
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
+            var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
             var jsonRpcMessage = new JsonRpcResponse(1L, 99L);
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
@@ -194,13 +166,10 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT021DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.1_req.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            jsonRpcSerializer.RequestContracts["handleMessage"] = new JsonRpcRequestContract(new[] { typeof(string), typeof(string) });
+            jsonRpcContractResolver.AddRequestContract("handleMessage", new JsonRpcRequestContract(new[] { typeof(string), typeof(string) }));
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -215,6 +184,7 @@ namespace System.Data.JsonRpc.UnitTests
             Assert.AreEqual(default, jsonRpcMessage.Id);
             Assert.AreEqual("handleMessage", jsonRpcMessage.Method);
             Assert.AreEqual(JsonRpcParametersType.ByPosition, jsonRpcMessage.ParametersType);
+
             CollectionAssert.AreEqual(new object[] { "user1", "we were just talking" }, jsonRpcMessage.ParametersByPosition?.ToArray());
         }
 
@@ -222,12 +192,7 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT021SerializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.1_req.json");
-
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
+            var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
             var jsonRpcMessage = new JsonRpcRequest("handleMessage", new object[] { "user1", "we were just talking" });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
@@ -250,13 +215,10 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT022DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.2_req.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            jsonRpcSerializer.RequestContracts["handleMessage"] = new JsonRpcRequestContract(new[] { typeof(string), typeof(string) });
+            jsonRpcContractResolver.AddRequestContract("handleMessage", new JsonRpcRequestContract(new[] { typeof(string), typeof(string) }));
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -271,6 +233,7 @@ namespace System.Data.JsonRpc.UnitTests
             Assert.AreEqual(default, jsonRpcMessage.Id);
             Assert.AreEqual("handleMessage", jsonRpcMessage.Method);
             Assert.AreEqual(JsonRpcParametersType.ByPosition, jsonRpcMessage.ParametersType);
+
             CollectionAssert.AreEqual(new object[] { "user3", "sorry, gotta go now, ttyl" }, jsonRpcMessage.ParametersByPosition?.ToArray());
         }
 
@@ -278,12 +241,7 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT022SerializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.2_req.json");
-
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
+            var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
             var jsonRpcMessage = new JsonRpcRequest("handleMessage", new object[] { "user3", "sorry, gotta go now, ttyl" });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
@@ -306,13 +264,10 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT023DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.3_req.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            jsonRpcSerializer.RequestContracts["postMessage"] = new JsonRpcRequestContract(new[] { typeof(string) });
+            jsonRpcContractResolver.AddRequestContract("postMessage", new JsonRpcRequestContract(new[] { typeof(string) }));
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -327,6 +282,7 @@ namespace System.Data.JsonRpc.UnitTests
             Assert.AreEqual(101L, jsonRpcMessage.Id);
             Assert.AreEqual("postMessage", jsonRpcMessage.Method);
             Assert.AreEqual(JsonRpcParametersType.ByPosition, jsonRpcMessage.ParametersType);
+
             CollectionAssert.AreEqual(new object[] { "I have a question:" }, jsonRpcMessage.ParametersByPosition?.ToArray());
         }
 
@@ -334,12 +290,7 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT023SerializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.3_req.json");
-
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
+            var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
             var jsonRpcMessage = new JsonRpcRequest("postMessage", 101L, new object[] { "I have a question:" });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
@@ -362,13 +313,10 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT024DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.4_req.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            jsonRpcSerializer.RequestContracts["userLeft"] = new JsonRpcRequestContract(new[] { typeof(string) });
+            jsonRpcContractResolver.AddRequestContract("userLeft", new JsonRpcRequestContract(new[] { typeof(string) }));
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -383,6 +331,7 @@ namespace System.Data.JsonRpc.UnitTests
             Assert.AreEqual(default, jsonRpcMessage.Id);
             Assert.AreEqual("userLeft", jsonRpcMessage.Method);
             Assert.AreEqual(JsonRpcParametersType.ByPosition, jsonRpcMessage.ParametersType);
+
             CollectionAssert.AreEqual(new object[] { "user3" }, jsonRpcMessage.ParametersByPosition?.ToArray());
         }
 
@@ -390,12 +339,7 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT024SerializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.4_req.json");
-
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
+            var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
             var jsonRpcMessage = new JsonRpcRequest("userLeft", new object[] { "user3" });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
@@ -430,14 +374,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT025DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.5_res.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            jsonRpcSerializer.ResponseContracts["postMessage"] = new JsonRpcResponseContract(typeof(long));
-            jsonRpcSerializer.StaticResponseBindings[101L] = "postMessage";
+            jsonRpcContractResolver.AddResponseContract("postMessage", new JsonRpcResponseContract(typeof(long)));
+            jsonRpcContractResolver.AddResponseBinding(101L, "postMessage");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -458,12 +399,7 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1SpecT025SerializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.5_res.json");
-
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
+            var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
             var jsonRpcMessage = new JsonRpcResponse(1L, 101L);
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 

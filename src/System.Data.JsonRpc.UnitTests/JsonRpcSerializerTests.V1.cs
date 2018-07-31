@@ -15,13 +15,10 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1BitcoinT01DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_btc_01_req.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            jsonRpcSerializer.RequestContracts["getblockhash"] = new JsonRpcRequestContract(new[] { typeof(long) });
+            jsonRpcContractResolver.AddRequestContract("getblockhash", new JsonRpcRequestContract(new[] { typeof(long) }));
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -36,6 +33,7 @@ namespace System.Data.JsonRpc.UnitTests
             Assert.AreEqual("foo", jsonRpcMessage.Id);
             Assert.AreEqual("getblockhash", jsonRpcMessage.Method);
             Assert.AreEqual(JsonRpcParametersType.ByPosition, jsonRpcMessage.ParametersType);
+
             CollectionAssert.AreEqual(new object[] { 0L }, jsonRpcMessage.ParametersByPosition?.ToArray());
         }
 
@@ -43,11 +41,7 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1BitcoinT01SerializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_btc_01_req.json");
-
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
+            var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
             var jsonRpcMessage = new JsonRpcRequest("getblockhash", "foo", new object[] { 0L });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
@@ -59,14 +53,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1BitcoinT01DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_btc_01_res.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            jsonRpcSerializer.ResponseContracts["getblockhash"] = new JsonRpcResponseContract(typeof(string));
-            jsonRpcSerializer.StaticResponseBindings["foo"] = "getblockhash";
+            jsonRpcContractResolver.AddResponseContract("getblockhash", new JsonRpcResponseContract(typeof(string)));
+            jsonRpcContractResolver.AddResponseBinding("foo", "getblockhash");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -87,11 +78,7 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1BitcoinT01SerializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_btc_01_res.json");
-
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
+            var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
             var jsonRpcMessage = new JsonRpcResponse("000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f", "foo");
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
@@ -107,13 +94,10 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1BitcoinT02DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_btc_02_req.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            jsonRpcSerializer.RequestContracts["getblockhash"] = new JsonRpcRequestContract(new[] { typeof(long) });
+            jsonRpcContractResolver.AddRequestContract("getblockhash", new JsonRpcRequestContract(new[] { typeof(long) }));
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -128,6 +112,7 @@ namespace System.Data.JsonRpc.UnitTests
             Assert.AreEqual("foo", jsonRpcMessage.Id);
             Assert.AreEqual("getblockhash", jsonRpcMessage.Method);
             Assert.AreEqual(JsonRpcParametersType.ByPosition, jsonRpcMessage.ParametersType);
+
             CollectionAssert.AreEqual(new object[] { -1L }, jsonRpcMessage.ParametersByPosition?.ToArray());
         }
 
@@ -135,11 +120,7 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1BitcoinT02SerializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_btc_02_req.json");
-
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
+            var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
             var jsonRpcMessage = new JsonRpcRequest("getblockhash", "foo", new object[] { -1L });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
@@ -151,14 +132,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1BitcoinT02DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_btc_02_res.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            jsonRpcSerializer.ResponseContracts["getblockhash"] = new JsonRpcResponseContract(typeof(string));
-            jsonRpcSerializer.StaticResponseBindings["foo"] = "getblockhash";
+            jsonRpcContractResolver.AddResponseContract("getblockhash", new JsonRpcResponseContract(typeof(string)));
+            jsonRpcContractResolver.AddResponseBinding("foo", "getblockhash");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -183,11 +161,7 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1BitcoinT02SerializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_btc_02_res.json");
-
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
+            var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
             var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(-8L, "Block height out of range"), "foo");
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
@@ -202,34 +176,25 @@ namespace System.Data.JsonRpc.UnitTests
         [TestMethod]
         public void V1CoreSerializeRequestWhenParametersAreByName()
         {
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            var parameters = new Dictionary<string, object>
-            {
-                ["p"] = 1L
-            };
-
+            var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
+            var parameters = new Dictionary<string, object> { ["p"] = 1L };
             var message = new JsonRpcRequest("m", parameters);
 
-            Assert.ThrowsException<JsonRpcException>(() =>
+            var exception = Assert.ThrowsException<JsonRpcException>(() =>
                 jsonRpcSerializer.SerializeRequest(message));
+
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, exception.ErrorCode);
         }
 
         [TestMethod]
         public void V1CoreDeserializeResponseWhenErrorTypeIsInvali()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_core_error_type_invalid.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            jsonRpcSerializer.ResponseContracts["m"] = new JsonRpcResponseContract(typeof(string));
-            jsonRpcSerializer.StaticResponseBindings[1L] = "m";
+            jsonRpcContractResolver.AddResponseContract("m", new JsonRpcResponseContract(typeof(string)));
+            jsonRpcContractResolver.AddResponseBinding(1L, "m");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -257,14 +222,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1CoreDeserializeResponseWhenStructureIsInvalidAndSuccessIsFalse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_core_struct_invalid_success_false.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            jsonRpcSerializer.ResponseContracts["m"] = new JsonRpcResponseContract(typeof(string));
-            jsonRpcSerializer.StaticResponseBindings[1L] = "m";
+            jsonRpcContractResolver.AddResponseContract("m", new JsonRpcResponseContract(typeof(string)));
+            jsonRpcContractResolver.AddResponseBinding(1L, "m");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -283,14 +245,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V1CoreDeserializeResponseWhenStructureIsInvalidAndSuccessIsTrue()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_core_struct_invalid_success_true.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcSerializer = new JsonRpcSerializer
-            {
-                CompatibilityLevel = JsonRpcCompatibilityLevel.Level1
-            };
-
-            jsonRpcSerializer.ResponseContracts["m"] = new JsonRpcResponseContract(typeof(string));
-            jsonRpcSerializer.StaticResponseBindings[1L] = "m";
+            jsonRpcContractResolver.AddResponseContract("m", new JsonRpcResponseContract(typeof(string)));
+            jsonRpcContractResolver.AddResponseBinding(1L, "m");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 

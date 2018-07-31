@@ -71,7 +71,7 @@ namespace System.Data.JsonRpc.UnitTests
         public void SuccessIsFalseWhenErrorIsNull()
         {
             Assert.ThrowsException<ArgumentNullException>(() =>
-                new JsonRpcResponse(default(JsonRpcError)));
+                new JsonRpcResponse(default(JsonRpcError), 1L));
         }
     }
 }

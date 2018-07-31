@@ -15,9 +15,10 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT010DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_01.0_req.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
 
-            jsonRpcSerializer.RequestContracts["subtract"] = new JsonRpcRequestContract(new[] { typeof(long), typeof(long) });
+            JsonRpcContractResolver.AddRequestContract("subtract", new JsonRpcRequestContract(new[] { typeof(long), typeof(long) }));
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -50,10 +51,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT010DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_01.0_res.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
 
-            jsonRpcSerializer.ResponseContracts["subtract"] = new JsonRpcResponseContract(typeof(long));
-            jsonRpcSerializer.StaticResponseBindings[1L] = "subtract";
+            JsonRpcContractResolver.AddResponseContract("subtract", new JsonRpcResponseContract(typeof(long)));
+            JsonRpcContractResolver.AddResponseBinding(1L, "subtract");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -85,9 +87,10 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT011DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_01.1_req.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
 
-            jsonRpcSerializer.RequestContracts["subtract"] = new JsonRpcRequestContract(new[] { typeof(long), typeof(long) });
+            JsonRpcContractResolver.AddRequestContract("subtract", new JsonRpcRequestContract(new[] { typeof(long), typeof(long) }));
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -120,10 +123,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT011DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_01.1_res.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
 
-            jsonRpcSerializer.ResponseContracts["subtract"] = new JsonRpcResponseContract(typeof(long));
-            jsonRpcSerializer.StaticResponseBindings[2L] = "subtract";
+            JsonRpcContractResolver.AddResponseContract("subtract", new JsonRpcResponseContract(typeof(long)));
+            JsonRpcContractResolver.AddResponseBinding(2L, "subtract");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -159,7 +163,8 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT020DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_02.0_req.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
 
             var jsonRpcSubtractParametersScheme = new Dictionary<string, Type>
             {
@@ -167,7 +172,7 @@ namespace System.Data.JsonRpc.UnitTests
                 ["minuend"] = typeof(long)
             };
 
-            jsonRpcSerializer.RequestContracts["subtract"] = new JsonRpcRequestContract(jsonRpcSubtractParametersScheme);
+            JsonRpcContractResolver.AddRequestContract("subtract", new JsonRpcRequestContract(jsonRpcSubtractParametersScheme));
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -208,10 +213,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT020DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_02.0_res.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
 
-            jsonRpcSerializer.ResponseContracts["subtract"] = new JsonRpcResponseContract(typeof(long));
-            jsonRpcSerializer.StaticResponseBindings[3] = "subtract";
+            JsonRpcContractResolver.AddResponseContract("subtract", new JsonRpcResponseContract(typeof(long)));
+            JsonRpcContractResolver.AddResponseBinding(3L, "subtract");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -243,7 +249,8 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT021DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_02.1_req.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
 
             var jsonRpcSubtractParametersScheme = new Dictionary<string, Type>
             {
@@ -251,7 +258,7 @@ namespace System.Data.JsonRpc.UnitTests
                 ["minuend"] = typeof(long)
             };
 
-            jsonRpcSerializer.RequestContracts["subtract"] = new JsonRpcRequestContract(jsonRpcSubtractParametersScheme);
+            JsonRpcContractResolver.AddRequestContract("subtract", new JsonRpcRequestContract(jsonRpcSubtractParametersScheme));
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -292,10 +299,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT021DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_02.1_res.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
 
-            jsonRpcSerializer.ResponseContracts["subtract"] = new JsonRpcResponseContract(typeof(long));
-            jsonRpcSerializer.StaticResponseBindings[4] = "subtract";
+            JsonRpcContractResolver.AddResponseContract("subtract", new JsonRpcResponseContract(typeof(long)));
+            JsonRpcContractResolver.AddResponseBinding(4L, "subtract");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -331,10 +339,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT030DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_03.0_req.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
             var jsonRpcSubtractParametersScheme = new[] { typeof(long), typeof(long), typeof(long), typeof(long), typeof(long) };
 
-            jsonRpcSerializer.RequestContracts["update"] = new JsonRpcRequestContract(jsonRpcSubtractParametersScheme);
+            JsonRpcContractResolver.AddRequestContract("update", new JsonRpcRequestContract(jsonRpcSubtractParametersScheme));
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -367,9 +376,10 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT031DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_03.1_req.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
 
-            jsonRpcSerializer.RequestContracts["foobar"] = new JsonRpcRequestContract();
+            JsonRpcContractResolver.AddRequestContract("foobar", new JsonRpcRequestContract());
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -405,9 +415,10 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT040DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_04.0_req.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
 
-            jsonRpcSerializer.RequestContracts["foobar"] = new JsonRpcRequestContract();
+            JsonRpcContractResolver.AddRequestContract("foobar", new JsonRpcRequestContract());
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -439,7 +450,8 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT040DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_04.0_res.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
             Assert.IsFalse(jsonRpcData.IsBatch);
@@ -482,10 +494,8 @@ namespace System.Data.JsonRpc.UnitTests
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_05.0_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = Assert.ThrowsException<JsonRpcException>(() =>
+            Assert.ThrowsException<InvalidOperationException>(() =>
                 jsonRpcSerializer.DeserializeRequestData(jsonSample));
-
-            Assert.AreEqual(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
         }
 
         [TestMethod]
@@ -498,7 +508,8 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT050DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_05.0_res.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
             Assert.IsFalse(jsonRpcData.IsBatch);
@@ -523,7 +534,7 @@ namespace System.Data.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_05.0_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidJson, "Parse error"));
+            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidJson, "Parse error"), default);
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -537,9 +548,10 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT060DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_06.0_req.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
 
-            jsonRpcSerializer.RequestContracts["subtract"] = new JsonRpcRequestContract();
+            JsonRpcContractResolver.AddRequestContract("subtract", new JsonRpcRequestContract());
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -561,7 +573,8 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT060DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_06.0_res.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
             Assert.IsFalse(jsonRpcData.IsBatch);
@@ -586,7 +599,7 @@ namespace System.Data.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_06.0_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidMessage, "Invalid Request"));
+            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidMessage, "Invalid Request"), default);
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -602,10 +615,8 @@ namespace System.Data.JsonRpc.UnitTests
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_07.0_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = Assert.ThrowsException<JsonRpcException>(() =>
+            Assert.ThrowsException<InvalidOperationException>(() =>
                 jsonRpcSerializer.DeserializeRequestData(jsonSample));
-
-            Assert.AreEqual(JsonRpcErrorCodes.InvalidJson, exception.ErrorCode);
         }
 
         [TestMethod]
@@ -618,7 +629,8 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT070DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_07.0_res.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
             Assert.IsFalse(jsonRpcData.IsBatch);
@@ -643,7 +655,7 @@ namespace System.Data.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_07.0_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidJson, "Parse error"));
+            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidJson, "Parse error"), default);
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -659,10 +671,8 @@ namespace System.Data.JsonRpc.UnitTests
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_08.0_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
 
-            var exception = Assert.ThrowsException<JsonRpcException>(() =>
+            Assert.ThrowsException<InvalidOperationException>(() =>
                 jsonRpcSerializer.DeserializeRequestData(jsonSample));
-
-            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, exception.ErrorCode);
         }
 
         [TestMethod]
@@ -675,7 +685,8 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT080DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_08.0_res.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
             Assert.IsFalse(jsonRpcData.IsBatch);
@@ -700,7 +711,7 @@ namespace System.Data.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_08.0_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidMessage, "Invalid Request"));
+            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidMessage, "Invalid Request"), default);
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -714,7 +725,8 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT090DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_09.0_req.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
             Assert.IsTrue(jsonRpcData.IsBatch);
@@ -736,7 +748,8 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT090DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_09.0_res.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
             Assert.IsTrue(jsonRpcData.IsBatch);
@@ -762,7 +775,7 @@ namespace System.Data.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_09.0_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidMessage, "Invalid Request"));
+            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidMessage, "Invalid Request"), default);
             var jsonResult = jsonRpcSerializer.SerializeResponses(new[] { jsonRpcMessage });
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -776,7 +789,8 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT100DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_10.0_req.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
             Assert.IsTrue(jsonRpcData.IsBatch);
@@ -798,7 +812,8 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT100DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_10.0_res.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
             Assert.IsTrue(jsonRpcData.IsBatch);
@@ -828,9 +843,9 @@ namespace System.Data.JsonRpc.UnitTests
 
             var jsonRpcMessages = new[]
             {
-                new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidMessage, "Invalid Request")),
-                new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidMessage, "Invalid Request")),
-                new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidMessage, "Invalid Request"))
+                new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidMessage, "Invalid Request"), default),
+                new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidMessage, "Invalid Request"), default),
+                new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidMessage, "Invalid Request"), default)
             };
 
             var jsonResult = jsonRpcSerializer.SerializeResponses(jsonRpcMessages);
@@ -846,12 +861,13 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT110DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_11.0_req.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
 
-            jsonRpcSerializer.RequestContracts["sum"] = new JsonRpcRequestContract(new[] { typeof(long), typeof(long), typeof(long) });
-            jsonRpcSerializer.RequestContracts["notify_hello"] = new JsonRpcRequestContract(new[] { typeof(long) });
-            jsonRpcSerializer.RequestContracts["subtract"] = new JsonRpcRequestContract(new[] { typeof(long), typeof(long) });
-            jsonRpcSerializer.RequestContracts["get_data"] = new JsonRpcRequestContract();
+            JsonRpcContractResolver.AddRequestContract("sum", new JsonRpcRequestContract(new[] { typeof(long), typeof(long), typeof(long) }));
+            JsonRpcContractResolver.AddRequestContract("notify_hello", new JsonRpcRequestContract(new[] { typeof(long) }));
+            JsonRpcContractResolver.AddRequestContract("subtract", new JsonRpcRequestContract(new[] { typeof(long), typeof(long) }));
+            JsonRpcContractResolver.AddRequestContract("get_data", new JsonRpcRequestContract());
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
@@ -920,15 +936,16 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT110DeserializeResponse()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_11.0_res.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
 
-            jsonRpcSerializer.ResponseContracts["sum"] = new JsonRpcResponseContract(typeof(long));
-            jsonRpcSerializer.ResponseContracts["subtract"] = new JsonRpcResponseContract(typeof(long));
-            jsonRpcSerializer.ResponseContracts["get_data"] = new JsonRpcResponseContract(typeof(object[]));
-            jsonRpcSerializer.StaticResponseBindings["1"] = "sum";
-            jsonRpcSerializer.StaticResponseBindings["2"] = "subtract";
-            jsonRpcSerializer.StaticResponseBindings["5"] = "foo.get";
-            jsonRpcSerializer.StaticResponseBindings["9"] = "get_data";
+            JsonRpcContractResolver.AddResponseContract("sum", new JsonRpcResponseContract(typeof(long)));
+            JsonRpcContractResolver.AddResponseContract("subtract", new JsonRpcResponseContract(typeof(long)));
+            JsonRpcContractResolver.AddResponseContract("get_data", new JsonRpcResponseContract(typeof(object[])));
+            JsonRpcContractResolver.AddResponseBinding("1", "sum");
+            JsonRpcContractResolver.AddResponseBinding("2", "subtract");
+            JsonRpcContractResolver.AddResponseBinding("5", "foo.get");
+            JsonRpcContractResolver.AddResponseBinding("9", "get_data");
 
             var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
@@ -1004,7 +1021,7 @@ namespace System.Data.JsonRpc.UnitTests
             {
                 new JsonRpcResponse(7L, "1"),
                 new JsonRpcResponse(19L, "2"),
-                new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidMessage, "Invalid Request")),
+                new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidMessage, "Invalid Request"), default),
                 new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCodes.InvalidMethod, "Method not found"), "5"),
                 new JsonRpcResponse(new object[] { "hello", 5L }, "9")
             };
@@ -1022,10 +1039,11 @@ namespace System.Data.JsonRpc.UnitTests
         public void V2SpecT120DeserializeRequest()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_12.0_req.json");
-            var jsonRpcSerializer = new JsonRpcSerializer();
+            var JsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(JsonRpcContractResolver);
 
-            jsonRpcSerializer.RequestContracts["notify_sum"] = new JsonRpcRequestContract(new[] { typeof(long), typeof(long), typeof(long) });
-            jsonRpcSerializer.RequestContracts["notify_hello"] = new JsonRpcRequestContract(new[] { typeof(long) });
+            JsonRpcContractResolver.AddRequestContract("notify_sum", new JsonRpcRequestContract(new[] { typeof(long), typeof(long), typeof(long) }));
+            JsonRpcContractResolver.AddRequestContract("notify_hello", new JsonRpcRequestContract(new[] { typeof(long) }));
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 

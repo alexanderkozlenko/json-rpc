@@ -10,10 +10,17 @@ namespace System.Data.JsonRpc
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcResponseContract" /> class.</summary>
         /// <param name="resultType">The type of method result.</param>
-        /// <param name="errorDataType">The type of method error data.</param>
-        public JsonRpcResponseContract(Type resultType = null, Type errorDataType = null)
+        public JsonRpcResponseContract(Type resultType)
         {
             _resultType = resultType;
+        }
+
+        /// <summary>Initializes a new instance of the <see cref="JsonRpcResponseContract" /> class.</summary>
+        /// <param name="resultType">The type of method result.</param>
+        /// <param name="errorDataType">The type of method error data.</param>
+        public JsonRpcResponseContract(Type resultType, Type errorDataType)
+            : this(resultType)
+        {
             _errorDataType = errorDataType;
         }
 
