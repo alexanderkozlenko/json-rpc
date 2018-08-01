@@ -137,7 +137,7 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Adds the specified response contract.</summary>
+        /// <summary>Adds the specified response binding.</summary>
         /// <param name="messageId">The identifier of a JSON-RPC message.</param>
         /// <param name="method">The name of a JSON-RPC method.</param>
         /// <exception cref="ArgumentNullException"><paramref name="method" /> is <see langword="null" />.</exception>
