@@ -26,7 +26,7 @@ namespace System.Data.JsonRpc
         public JsonRpcSerializer(IJsonRpcContractResolver contractResolver = null, JsonSerializer jsonSerializer = null, JsonRpcCompatibilityLevel compatibilityLevel = JsonRpcCompatibilityLevel.Level2)
         {
             _contractResolver = contractResolver;
-            _jsonSerializer = jsonSerializer ?? JsonSerializer.CreateDefault();
+            _jsonSerializer = jsonSerializer ?? JsonSerializer.CreateDefault(_jsonSerializerSettings);
             _compatibilityLevel = compatibilityLevel;
         }
 

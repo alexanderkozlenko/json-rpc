@@ -65,6 +65,21 @@ namespace System.Data.JsonRpc
             return CompareTo(in other);
         }
 
+        internal string UnsafeAsString()
+        {
+            return _valueString;
+        }
+
+        internal long UnsafeAsInteger()
+        {
+            return _valueInteger;
+        }
+
+        internal double UnsafeAsFloat()
+        {
+            return _valueFloat;
+        }
+
         /// <summary>Compares the current <see cref="JsonRpcId" /> with another <see cref="JsonRpcId" /> and returns an integer that indicates whether the current <see cref="JsonRpcId" /> precedes, follows, or occurs in the same position in the sort order as the other <see cref="JsonRpcId" />.</summary>
         /// <param name="other">A <see cref="JsonRpcId" /> to compare with the current <see cref="JsonRpcId" />.</param>
         /// <returns>A value that indicates the relative order of the objects being compared.</returns>

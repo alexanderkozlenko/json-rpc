@@ -11,11 +11,28 @@ namespace System.Data.JsonRpc
 {
     public partial class JsonRpcSerializer
     {
-        private static readonly JsonLoadSettings _jsonLoadSettings = new JsonLoadSettings { LineInfoHandling = LineInfoHandling.Ignore };
+        private static readonly JsonLoadSettings _jsonLoadSettings = CreateJsonLoadSettings();
+        private static readonly JsonSerializerSettings _jsonSerializerSettings = CreateJsonSerializerSettings();
 
         private readonly IJsonRpcContractResolver _contractResolver;
         private readonly JsonSerializer _jsonSerializer;
         private readonly JsonRpcCompatibilityLevel _compatibilityLevel;
+
+        private static JsonLoadSettings CreateJsonLoadSettings()
+        {
+            return new JsonLoadSettings
+            {
+                LineInfoHandling = LineInfoHandling.Ignore
+            };
+        }
+
+        private static JsonSerializerSettings CreateJsonSerializerSettings()
+        {
+            return new JsonSerializerSettings
+            {
+                MetadataPropertyHandling = MetadataPropertyHandling.Ignore
+            };
+        }
 
         private JsonRpcData<JsonRpcRequest> DeserializeRequestData(JsonTextReader reader, CancellationToken cancellationToken = default)
         {
@@ -737,19 +754,19 @@ namespace System.Data.JsonRpc
                 case JsonRpcIdType.String:
                     {
                         writer.WritePropertyName("id");
-                        writer.WriteValue((string)request.Id);
+                        writer.WriteValue(request.Id.UnsafeAsString());
                     }
                     break;
                 case JsonRpcIdType.Integer:
                     {
                         writer.WritePropertyName("id");
-                        writer.WriteValue((long)request.Id);
+                        writer.WriteValue(request.Id.UnsafeAsInteger());
                     }
                     break;
                 case JsonRpcIdType.Float:
                     {
                         writer.WritePropertyName("id");
-                        writer.WriteValue((double)request.Id);
+                        writer.WriteValue(request.Id.UnsafeAsFloat());
                     }
                     break;
             }
@@ -878,19 +895,19 @@ namespace System.Data.JsonRpc
                 case JsonRpcIdType.String:
                     {
                         writer.WritePropertyName("id");
-                        writer.WriteValue((string)response.Id);
+                        writer.WriteValue(response.Id.UnsafeAsString());
                     }
                     break;
                 case JsonRpcIdType.Integer:
                     {
                         writer.WritePropertyName("id");
-                        writer.WriteValue((long)response.Id);
+                        writer.WriteValue(response.Id.UnsafeAsInteger());
                     }
                     break;
                 case JsonRpcIdType.Float:
                     {
                         writer.WritePropertyName("id");
-                        writer.WriteValue((double)response.Id);
+                        writer.WriteValue(response.Id.UnsafeAsFloat());
                     }
                     break;
             }
