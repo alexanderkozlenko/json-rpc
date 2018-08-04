@@ -123,7 +123,7 @@ namespace System.Data.JsonRpc.UnitTests
             var jsonRpcError = jsonRpcMessage.Error;
 
             Assert.IsFalse(jsonRpcError.HasData);
-           Assert.IsNull(jsonRpcError.Data);
+            Assert.IsNull(jsonRpcError.Data);
         }
 
         [TestMethod]
@@ -203,7 +203,7 @@ namespace System.Data.JsonRpc.UnitTests
             var jsonRpcError = jsonRpcMessage.Error;
 
             Assert.IsTrue(jsonRpcError.HasData);
-           Assert.IsNull(jsonRpcError.Data);
+            Assert.IsNull(jsonRpcError.Data);
         }
 
         [TestMethod]
@@ -378,6 +378,33 @@ namespace System.Data.JsonRpc.UnitTests
             var jsonRpcException = jsonRpcItem.Exception;
 
             Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
+        }
+
+        [TestMethod]
+        public void V2CoreDeserializeResponseWhenErrorIsGenericAndHasData()
+        {
+            var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_error_generic_has_data_true.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
+
+            jsonRpcContractResolver.AddResponseContract(default(JsonRpcId), new JsonRpcResponseContract(null, typeof(long)));
+
+            var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
+
+            Assert.IsFalse(jsonRpcData.IsBatch);
+
+            var jsonRpcItem = jsonRpcData.Item;
+
+            Assert.IsTrue(jsonRpcItem.IsValid);
+
+            var jsonRpcMessage = jsonRpcItem.Message;
+
+            Assert.IsFalse(jsonRpcMessage.Success);
+
+            var jsonRpcError = jsonRpcMessage.Error;
+
+            Assert.IsTrue(jsonRpcError.HasData);
+            Assert.AreEqual(0L, jsonRpcError.Data);
         }
     }
 }

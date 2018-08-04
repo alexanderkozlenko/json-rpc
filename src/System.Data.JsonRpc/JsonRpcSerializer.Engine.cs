@@ -606,7 +606,7 @@ namespace System.Data.JsonRpc
 
                             if (responseId.Type == JsonRpcIdType.None)
                             {
-                                responseErrorDataType = _contractResolver.GetGenericErrorDataType();
+                                responseErrorDataType = _contractResolver.GetResponseContract(default)?.ErrorDataType;
                             }
                             else
                             {

@@ -15,8 +15,6 @@ namespace System.Data.JsonRpc
         private readonly IDictionary<JsonRpcId, JsonRpcResponseContract> _dynamicResponseContracts = new Dictionary<JsonRpcId, JsonRpcResponseContract>();
         private readonly IDictionary<JsonRpcId, string> _staticResponseBindings = new Dictionary<JsonRpcId, string>();
 
-        private volatile Type _genericErrorDataType;
-
         /// <summary>Initializes a new instance of the <see cref="JsonRpcContractResolver" /> class.</summary>
         public JsonRpcContractResolver()
         {
@@ -56,11 +54,6 @@ namespace System.Data.JsonRpc
             }
 
             return contract;
-        }
-
-        Type IJsonRpcContractResolver.GetGenericErrorDataType()
-        {
-            return _genericErrorDataType;
         }
 
         /// <summary>Adds the specified request contract.</summary>
@@ -229,13 +222,6 @@ namespace System.Data.JsonRpc
             {
                 _spinLock.Exit();
             }
-        }
-
-        /// <summary>Sets the type of error data for a generic error response.</summary>
-        /// <param name="type">The <see cref="Type" /> instance.</param>
-        public void SetGenericErrorDataType(Type type)
-        {
-            _genericErrorDataType = type;
         }
 
         /// <summary>Removes all request contracts.</summary>
