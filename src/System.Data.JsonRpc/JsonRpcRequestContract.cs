@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace System.Data.JsonRpc
 {
     /// <summary>Specifies a type contract for request deserialization.</summary>
-    public sealed class JsonRpcRequestContract
+    public sealed class JsonRpcRequestContract : JsonRpcMessageContract
     {
         private readonly JsonRpcParametersType _parametersType;
         private readonly IReadOnlyDictionary<string, Type> _parametersByName;

@@ -3,7 +3,7 @@
 namespace System.Data.JsonRpc
 {
     /// <summary>Specifies a type contract for response deserialization.</summary>
-    public sealed class JsonRpcResponseContract
+    public sealed class JsonRpcResponseContract : JsonRpcMessageContract
     {
         private readonly Type _resultType;
         private readonly Type _errorDataType;
