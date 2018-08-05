@@ -145,13 +145,13 @@
     <value>The request does not have a valid parameters property</value>
   </data>
   <data name="core.deserialize.request.params.invalid_structure" xml:space="preserve">
-    <value>The request does not have a parameters property with expected structure</value>
+    <value>The request does not have a valid parameters structure</value>
   </data>
   <data name="core.deserialize.request.protocol.invalid_property" xml:space="preserve">
     <value>The request does not have a valid protocol property</value>
   </data>
   <data name="core.deserialize.resolver.undefined" xml:space="preserve">
-    <value>The contract resolver is not defined</value>
+    <value>The message contract resolver is not defined</value>
   </data>
   <data name="core.deserialize.response.error.code.invalid_property" xml:space="preserve">
     <value>The response error does not have a valid code property</value>
@@ -181,10 +181,10 @@
     <value>An error occurred during serialization to JSON</value>
   </data>
   <data name="core.serialize.request.params.unsupported_structure" xml:space="preserve">
-    <value>The request has unsupported parameters structure for the current protocol compatibility level</value>
+    <value>The request does not have a valid parameters structure for the current compatibility level</value>
   </data>
   <data name="error.code.invalid_range" xml:space="preserve">
-    <value>The specified code is outside the allowable range</value>
+    <value>The specified error code is outside the allowable range</value>
   </data>
   <data name="id.invalid_cast" xml:space="preserve">
     <value>Unable to cast object of type {0} to type {1}</value>

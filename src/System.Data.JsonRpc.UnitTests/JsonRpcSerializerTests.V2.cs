@@ -8,13 +8,57 @@ namespace System.Data.JsonRpc.UnitTests
         // 2.0 Core tests
 
         [TestMethod]
-        public void V2CoreDeserializeRequestDataWhenParametersHasInvalidType()
+        public void V2CoreDeserializeRequestDataWhenParametersAreUndefined()
+        {
+            var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_params_undefined.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
+
+            jsonRpcContractResolver.AddRequestContract("m", new JsonRpcRequestContract(new[] { typeof(long) }));
+
+            var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
+
+            Assert.IsFalse(jsonRpcData.IsBatch);
+
+            var jsonRpcItem = jsonRpcData.Item;
+
+            Assert.IsFalse(jsonRpcItem.IsValid);
+
+            var jsonRpcException = jsonRpcItem.Exception;
+
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidParameters, jsonRpcException.ErrorCode);
+        }
+
+        [TestMethod]
+        public void V2CoreDeserializeRequestDataWhenParametersHaveWrongType()
+        {
+            var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_params_type_wrong.json");
+            var jsonRpcContractResolver = new JsonRpcContractResolver();
+            var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
+
+            jsonRpcContractResolver.AddRequestContract("m", new JsonRpcRequestContract(new[] { typeof(long) }));
+
+            var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
+
+            Assert.IsFalse(jsonRpcData.IsBatch);
+
+            var jsonRpcItem = jsonRpcData.Item;
+
+            Assert.IsFalse(jsonRpcItem.IsValid);
+
+            var jsonRpcException = jsonRpcItem.Exception;
+
+            Assert.AreEqual(JsonRpcErrorCodes.InvalidParameters, jsonRpcException.ErrorCode);
+        }
+
+        [TestMethod]
+        public void V2CoreDeserializeRequestDataWhenParametersHaveInvalidType()
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_params_type_invalid.json");
             var jsonRpcContractResolver = new JsonRpcContractResolver();
             var jsonRpcSerializer = new JsonRpcSerializer(jsonRpcContractResolver);
 
-            jsonRpcContractResolver.AddRequestContract("m", new JsonRpcRequestContract(new[] { typeof(object) }));
+            jsonRpcContractResolver.AddRequestContract("m", new JsonRpcRequestContract(new[] { typeof(long) }));
 
             var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 

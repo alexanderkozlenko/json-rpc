@@ -110,7 +110,7 @@ namespace System.Data.JsonRpc
                 var requestProtocolVersion = default(string);
                 var requestMethod = default(string);
                 var requestId = default(JsonRpcId);
-                var requestParamsetersToken = default(JToken);
+                var requestParamsetersToken = default(JContainer);
 
                 while (reader.Read())
                 {
@@ -176,7 +176,23 @@ namespace System.Data.JsonRpc
                                 break;
                             case "params":
                                 {
-                                    requestParamsetersToken = JToken.ReadFrom(reader, _jsonLoadSettings);
+                                    switch (reader.TokenType)
+                                    {
+                                        case JsonToken.StartArray:
+                                            {
+                                                requestParamsetersToken = JArray.Load(reader, _jsonLoadSettings);
+                                            }
+                                            break;
+                                        case JsonToken.StartObject:
+                                            {
+                                                requestParamsetersToken = JObject.Load(reader, _jsonLoadSettings);
+                                            }
+                                            break;
+                                        default:
+                                            {
+                                                throw new JsonRpcException(JsonRpcErrorCodes.InvalidMessage, Strings.GetString("core.deserialize.request.params.invalid_property"), requestId);
+                                            }
+                                    }
                                 }
                                 break;
                             default:
@@ -216,26 +232,16 @@ namespace System.Data.JsonRpc
 
                     throw new JsonRpcException(JsonRpcErrorCodes.InvalidMethod, exceptionMessage, requestId);
                 }
-                if (requestParamsetersToken != null)
-                {
-                    if ((requestParamsetersToken.Type != JTokenType.Array) && (requestParamsetersToken.Type != JTokenType.Object))
-                    {
-                        throw new JsonRpcException(JsonRpcErrorCodes.InvalidMessage, Strings.GetString("core.deserialize.request.params.invalid_property"), requestId);
-                    }
-                }
 
                 switch (requestContract.ParametersType)
                 {
                     case JsonRpcParametersType.ByPosition:
                         {
-                            if (requestParamsetersToken.Type != JTokenType.Array)
+                            if (!(requestParamsetersToken is JArray requestParametersArrayToken))
                             {
                                 throw new JsonRpcException(JsonRpcErrorCodes.InvalidParameters, Strings.GetString("core.deserialize.request.params.invalid_structure"), requestId);
                             }
-
-                            var requestParamsetersArrayToken = (JArray)requestParamsetersToken;
-
-                            if (requestParamsetersArrayToken.Count < requestContract.ParametersByPosition.Count)
+                            if (requestParametersArrayToken.Count < requestContract.ParametersByPosition.Count)
                             {
                                 throw new JsonRpcException(JsonRpcErrorCodes.InvalidParameters, Strings.GetString("core.deserialize.request.params.invalid_count"), requestId);
                             }
@@ -246,7 +252,7 @@ namespace System.Data.JsonRpc
                             {
                                 for (var i = 0; i < requestParameters.Length; i++)
                                 {
-                                    requestParameters[i] = requestParamsetersArrayToken[i].ToObject(requestContract.ParametersByPosition[i]);
+                                    requestParameters[i] = requestParametersArrayToken[i].ToObject(requestContract.ParametersByPosition[i]);
                                 }
                             }
                             catch (Exception e)
@@ -260,12 +266,11 @@ namespace System.Data.JsonRpc
                         }
                     case JsonRpcParametersType.ByName:
                         {
-                            if (requestParamsetersToken.Type != JTokenType.Object)
+                            if (!(requestParamsetersToken is JObject requestParametersObjectToken))
                             {
                                 throw new JsonRpcException(JsonRpcErrorCodes.InvalidParameters, Strings.GetString("core.deserialize.request.params.invalid_structure"), requestId);
                             }
 
-                            var requestParametersObjectToken = (JObject)requestParamsetersToken;
                             var requestParameters = new Dictionary<string, object>(requestContract.ParametersByName.Count, StringComparer.Ordinal);
 
                             try
