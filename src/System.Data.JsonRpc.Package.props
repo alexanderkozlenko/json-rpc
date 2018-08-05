@@ -1,6 +1,6 @@
 ﻿<Project>
   <PropertyGroup>
-    <Version>1.16.0</Version>
+    <Version>1.16.1</Version>
     <PackageProjectUrl>https://github.com/alexanderkozlenko/json-rpc</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.github.com/alexanderkozlenko/json-rpc/master/LICENSE</PackageLicenseUrl>
     <Authors><![CDATA[Alexander Kozlenko]]></Authors>
