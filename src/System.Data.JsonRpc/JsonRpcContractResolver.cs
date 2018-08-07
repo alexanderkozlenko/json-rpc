@@ -22,6 +22,11 @@ namespace System.Data.JsonRpc
 
         JsonRpcRequestContract IJsonRpcContractResolver.GetRequestContract(string method)
         {
+            if (method == null)
+            {
+                throw new ArgumentNullException(nameof(method));
+            }
+
             var lockTaken = false;
 
             _spinLock.Enter(ref lockTaken);

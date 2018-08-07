@@ -80,5 +80,14 @@ namespace System.Data.JsonRpc.UnitTests
             Assert.ThrowsException<ArgumentNullException>(() =>
                 resolver.RemoveResponseContract(null));
         }
+
+        [TestMethod]
+        public void GetRequestContractWhenMethodIsNull()
+        {
+            var resolver = new JsonRpcContractResolver() as IJsonRpcContractResolver;
+
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                resolver.GetRequestContract(null));
+        }
     }
 }
