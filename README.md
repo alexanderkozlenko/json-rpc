@@ -24,11 +24,11 @@ var jrRequestString = jrSerializer.SerializeRequest(jrRequest);
 
 // [...] (Storing an HTTP response string in the "jrResponseString" variable)
 
-jrContractResolver.AddResponseContract("sum", new JsonRpcResponseContract(typeof(int)));
+jrContractResolver.AddResponseContract("sum", new JsonRpcResponseContract(typeof(long)));
 jrContractResolver.AddResponseBinding(jrRequest.Id, "sum");
 
 var jrResponseData = jrSerializer.DeserializeResponseData(jrResponseString);
-var jrResult = (int)jrResponseData.Item.Message.Result;
+var jrResult = (long)jrResponseData.Item.Message.Result;
 ```
 
 - Example of client-side usage: https://github.com/alexanderkozlenko/json-rpc-client
