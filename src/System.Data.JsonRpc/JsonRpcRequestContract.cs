@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace System.Data.JsonRpc
 {
-    /// <summary>Specifies a type contract for request deserialization.</summary>
+    /// <summary>Represents a type contract for JSON-RPC request deserialization.</summary>
     public sealed class JsonRpcRequestContract : JsonRpcMessageContract
     {
         private readonly JsonRpcParametersType _parametersType;
@@ -44,19 +44,19 @@ namespace System.Data.JsonRpc
             _parametersByName = parameters;
         }
 
-        /// <summary>Gets parameters type.</summary>
+        /// <summary>Gets the JSON-RPC method parameters type.</summary>
         public JsonRpcParametersType ParametersType
         {
             get => _parametersType;
         }
 
-        /// <summary>Gets a contract for parameters, provided by name.</summary>
+        /// <summary>Gets the types of JSON-RPC method parameters, provided by name.</summary>
         public IReadOnlyDictionary<string, Type> ParametersByName
         {
             get => _parametersByName;
         }
 
-        /// <summary>Gets a contract for parameters, provided by position.</summary>
+        /// <summary>Gets the types of JSON-RPC method parameters, provided by position.</summary>
         public IReadOnlyList<Type> ParametersByPosition
         {
             get => _parametersByPosition;

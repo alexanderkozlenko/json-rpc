@@ -30,9 +30,9 @@ namespace System.Data.JsonRpc
             _compatibilityLevel = compatibilityLevel;
         }
 
-        /// <summary>Deserializes the specified JSON string to request data.</summary>
+        /// <summary>Deserializes the specified JSON string to JSON-RPC request data.</summary>
         /// <param name="json">The JSON string to deserialize.</param>
-        /// <returns>RPC information about requests.</returns>
+        /// <returns>A JSON-RPC request data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="json" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
@@ -54,9 +54,9 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Deserializes the specified stream with a JSON string to request data.</summary>
-        /// <param name="stream">The stream with a JSON string to deserialize.</param>
-        /// <returns>RPC information about requests.</returns>
+        /// <summary>Deserializes the specified stream with a JSON string to JSON-RPC request data.</summary>
+        /// <param name="stream">The stream to deserialize from.</param>
+        /// <returns>A JSON-RPC request data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
@@ -78,10 +78,10 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Deserializes the specified stream with a JSON string to request data as an asynchronous operation.</summary>
-        /// <param name="stream">The stream with a JSON string to deserialize.</param>
+        /// <summary>Deserializes the specified stream with a JSON string to JSON-RPC request data as an asynchronous operation.</summary>
+        /// <param name="stream">The stream to deserialize from.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result is RPC information about requests.</returns>
+        /// <returns>A task that represents the asynchronous operation. The task result is a JSON-RPC request data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
@@ -104,9 +104,9 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Deserializes the specified JSON string to response data.</summary>
+        /// <summary>Deserializes the specified JSON string to JSON-RPC response data.</summary>
         /// <param name="json">The JSON string to deserialize.</param>
-        /// <returns>RPC information about responses.</returns>
+        /// <returns>A JSON-RPC response data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="json" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
@@ -128,9 +128,9 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Deserializes the specified stream with a JSON string to response data.</summary>
-        /// <param name="stream">The stream with a JSON string to deserialize.</param>
-        /// <returns>RPC information about responses.</returns>
+        /// <summary>Deserializes the specified stream with a JSON string to JSON-RPC response data.</summary>
+        /// <param name="stream">The stream to deserialize from.</param>
+        /// <returns>A JSON-RPC response data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
@@ -152,10 +152,10 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Deserializes the specified stream with a JSON string to response data as an asynchronous operation.</summary>
-        /// <param name="stream">The stream with a JSON string to deserialize.</param>
+        /// <summary>Deserializes the specified stream with a JSON string to JSON-RPC response data as an asynchronous operation.</summary>
+        /// <param name="stream">The stream to deserialize from.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result is RPC information about responses.</returns>
+        /// <returns>A task that represents the asynchronous operation. The task result is a JSON-RPC response data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
@@ -178,8 +178,8 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified request to a JSON string.</summary>
-        /// <param name="request">The request to serialize.</param>
+        /// <summary>Serializes the specified JSON-RPC request to a JSON string.</summary>
+        /// <param name="request">The JSON-RPC request to serialize.</param>
         /// <returns>A JSON string representation of the specified request.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="request" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
@@ -205,9 +205,9 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified request to the specified stream.</summary>
-        /// <param name="request">The request to serialize.</param>
-        /// <param name="stream">The stream for a JSON string.</param>
+        /// <summary>Serializes the specified JSON-RPC request to the specified stream.</summary>
+        /// <param name="request">The JSON-RPC request to serialize.</param>
+        /// <param name="stream">The stream to deserialize to.</param>
         /// <exception cref="ArgumentNullException"><paramref name="request" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
@@ -234,9 +234,9 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified request to the specified stream as an asynchronous operation.</summary>
-        /// <param name="request">The request to serialize.</param>
-        /// <param name="stream">The stream for a JSON string.</param>
+        /// <summary>Serializes the specified JSON-RPC request to the specified stream as an asynchronous operation.</summary>
+        /// <param name="request">The JSON-RPC request to serialize.</param>
+        /// <param name="stream">The stream to deserialize to.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON string representation of the specified request.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="request" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
@@ -270,9 +270,9 @@ namespace System.Data.JsonRpc
             return Task.FromResult<object>(null);
         }
 
-        /// <summary>Serializes the specified collection of requests to a JSON string.</summary>
-        /// <param name="requests">The collection of requests to serialize.</param>
-        /// <returns>A JSON string representation of the specified collection of requests.</returns>
+        /// <summary>Serializes the specified collection of JSON-RPC requests to a JSON string.</summary>
+        /// <param name="requests">The collection of JSON-RPC requests to serialize.</param>
+        /// <returns>A JSON string representation of the specified collection of JSON-RPC requests.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="requests" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
@@ -297,9 +297,9 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified collection of requests to the specified stream.</summary>
-        /// <param name="requests">The collection of requests to serialize.</param>
-        /// <param name="stream">The stream for a JSON string.</param>
+        /// <summary>Serializes the specified collection of JSON-RPC requests to the specified stream.</summary>
+        /// <param name="requests">The collection of JSON-RPC requests to serialize.</param>
+        /// <param name="stream">The stream to deserialize to.</param>
         /// <exception cref="ArgumentNullException"><paramref name="requests" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
@@ -326,11 +326,11 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified collection of requests to the specified stream as an asynchronous operation.</summary>
-        /// <param name="requests">The collection of requests to serialize.</param>
-        /// <param name="stream">The stream for a JSON string.</param>
+        /// <summary>Serializes the specified collection of JSON-RPC requests to the specified stream as an asynchronous operation.</summary>
+        /// <param name="requests">The collection of JSON-RPC requests to serialize.</param>
+        /// <param name="stream">The stream to deserialize to.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result is a JSON string representation of the specified collection of requests.</returns>
+        /// <returns>A task that represents the asynchronous operation. The task result is a JSON string representation of the specified collection of JSON-RPC requests.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="requests" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
@@ -362,8 +362,8 @@ namespace System.Data.JsonRpc
             return Task.FromResult<object>(null);
         }
 
-        /// <summary>Serializes the specified response to a JSON string.</summary>
-        /// <param name="response">The response to serialize.</param>
+        /// <summary>Serializes the specified JSON-RPC response to a JSON string.</summary>
+        /// <param name="response">The JSON-RPC response to serialize.</param>
         /// <returns>A JSON string representation of the specified response.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="response" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
@@ -389,9 +389,9 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified response to the specified stream.</summary>
-        /// <param name="response">The response to serialize.</param>
-        /// <param name="stream">The stream for a JSON string.</param>
+        /// <summary>Serializes the specified JSON-RPC response to the specified stream.</summary>
+        /// <param name="response">The JSON-RPC response to serialize.</param>
+        /// <param name="stream">The stream to deserialize to.</param>
         /// <exception cref="ArgumentNullException"><paramref name="response" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
@@ -418,9 +418,9 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified response to the specified stream as an asynchronous operation.</summary>
-        /// <param name="response">The response to serialize.</param>
-        /// <param name="stream">The stream for a JSON string.</param>
+        /// <summary>Serializes the specified JSON-RPC response to the specified stream as an asynchronous operation.</summary>
+        /// <param name="response">The JSON-RPC response to serialize.</param>
+        /// <param name="stream">The stream to deserialize to.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON string representation of the specified response.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="response" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
@@ -454,9 +454,9 @@ namespace System.Data.JsonRpc
             return Task.FromResult<object>(null);
         }
 
-        /// <summary>Serializes the specified collection of responses to a JSON string.</summary>
-        /// <param name="responses">The collection of responses to serialize.</param>
-        /// <returns>A JSON string representation of the specified collection of responses.</returns>
+        /// <summary>Serializes the specified collection of JSON-RPC responses to a JSON string.</summary>
+        /// <param name="responses">The collection of JSON-RPC responses to serialize.</param>
+        /// <returns>A JSON string representation of the specified collection of JSON-RPC responses.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="responses" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
@@ -481,9 +481,9 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified collection of responses to the specified stream.</summary>
-        /// <param name="responses">The collection of responses to serialize.</param>
-        /// <param name="stream">The stream for a JSON string.</param>
+        /// <summary>Serializes the specified collection of JSON-RPC responses to the specified stream.</summary>
+        /// <param name="responses">The collection of JSON-RPC responses to serialize.</param>
+        /// <param name="stream">The stream to deserialize to.</param>
         /// <exception cref="ArgumentNullException"><paramref name="responses" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
@@ -510,11 +510,11 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified collection of responses to the specified stream as an asynchronous operation.</summary>
-        /// <param name="responses">The collection of responses to serialize.</param>
-        /// <param name="stream">The stream for a JSON string.</param>
+        /// <summary>Serializes the specified collection of JSON-RPC responses to the specified stream as an asynchronous operation.</summary>
+        /// <param name="responses">The collection of JSON-RPC responses to serialize.</param>
+        /// <param name="stream">The stream to deserialize to.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result is a JSON string representation of the specified collection of responses.</returns>
+        /// <returns>A task that represents the asynchronous operation. The task result is a JSON string representation of the specified collection of JSON-RPC responses.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="responses" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
@@ -546,9 +546,9 @@ namespace System.Data.JsonRpc
             return Task.FromResult<object>(null);
         }
 
-        /// <summary>Checks whether the method is a system extension method.</summary>
-        /// <param name="method">The method name.</param>
-        /// <returns><see langword="true" /> if the specified method is a system extension method; otherwise, <see langword="false" />.</returns>
+        /// <summary>Checks whether the JSON-RPC method is a JSON-RPC system extension method.</summary>
+        /// <param name="method">The name of a JSON-RPC method.</param>
+        /// <returns><see langword="true" /> if the specified JSON-RPC method is a JSON-RPC system extension method; otherwise, <see langword="false" />.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="method" /> is <see langword="null" />.</exception>
         public static bool IsSystemMethod(string method)
         {

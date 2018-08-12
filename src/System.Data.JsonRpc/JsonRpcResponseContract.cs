@@ -2,7 +2,7 @@
 
 namespace System.Data.JsonRpc
 {
-    /// <summary>Specifies a type contract for response deserialization.</summary>
+    /// <summary>Represents a type contract for JSON-RPC response deserialization.</summary>
     public sealed class JsonRpcResponseContract : JsonRpcMessageContract
     {
         private readonly Type _resultType;
@@ -17,20 +17,20 @@ namespace System.Data.JsonRpc
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcResponseContract" /> class.</summary>
         /// <param name="resultType">The type of method result.</param>
-        /// <param name="errorDataType">The type of method error data.</param>
+        /// <param name="errorDataType">The type of JSON-RPC error optional data.</param>
         public JsonRpcResponseContract(Type resultType, Type errorDataType)
             : this(resultType)
         {
             _errorDataType = errorDataType;
         }
 
-        /// <summary>Gets a type of method result object.</summary>
+        /// <summary>Gets a type of method result.</summary>
         public Type ResultType
         {
             get => _resultType;
         }
 
-        /// <summary>Gets a type of method error data object.</summary>
+        /// <summary>Gets a type of JSON-RPC error optional data.</summary>
         public Type ErrorDataType
         {
             get => _errorDataType;

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace System.Data.JsonRpc
 {
-    /// <summary>Represents deserialized RPC data.</summary>
-    /// <typeparam name="T">The type of the message.</typeparam>
+    /// <summary>Represents a JSON-RPC data deserialization result.</summary>
+    /// <typeparam name="T">The type of the JSON-RPC message.</typeparam>
     public sealed class JsonRpcData<T>
         where T : JsonRpcMessage
     {
@@ -28,13 +28,13 @@ namespace System.Data.JsonRpc
             get => _items != null;
         }
 
-        /// <summary>Gets an item for non-batch data.</summary>
+        /// <summary>Gets a JSON-RPC message deserialization result for non-batch data.</summary>
         public JsonRpcItem<T> Item
         {
             get => _item;
         }
 
-        /// <summary>Gets a collection of items for batch data.</summary>
+        /// <summary>Gets a collection of JSON-RPC message deserialization results for batch data.</summary>
         public IReadOnlyList<JsonRpcItem<T>> Items
         {
             get => _items;

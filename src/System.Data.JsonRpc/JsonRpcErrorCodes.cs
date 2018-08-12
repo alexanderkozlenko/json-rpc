@@ -2,7 +2,7 @@
 
 namespace System.Data.JsonRpc
 {
-    /// <summary>Defines standard RPC error codes and error codes ranges.</summary>
+    /// <summary>Defines standard JSON-RPC error codes and error code ranges.</summary>
     public static class JsonRpcErrorCodes
     {
         /// <summary>The error code which specifies, that the provided JSON is invalid.</summary>
@@ -20,16 +20,16 @@ namespace System.Data.JsonRpc
         /// <summary>The error code which specifies, that the provided message is not valid.</summary>
         public const long InvalidMessage = -32600L;
 
-        /// <summary>The lower boundary of the implementation-defined server error codes range.</summary>
+        /// <summary>The lower boundary of the implementation-defined server error code range.</summary>
         public const long ServerErrorsLowerBoundary = -32099L;
 
-        /// <summary>The upper boundary of the implementation-defined server error codes range.</summary>
+        /// <summary>The upper boundary of the implementation-defined server error code range.</summary>
         public const long ServerErrorsUpperBoundary = -32000L;
 
-        /// <summary>The lower boundary of the standard error codes range.</summary>
+        /// <summary>The lower boundary of the standard error code range.</summary>
         public const long StandardErrorsLowerBoundary = -32768L;
 
-        /// <summary>The upper boundary of the standard error codes range.</summary>
+        /// <summary>The upper boundary of the standard error code range.</summary>
         public const long StandardErrorsUpperBoundary = -32000L;
     }
 }

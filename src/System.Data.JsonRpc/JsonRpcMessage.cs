@@ -2,7 +2,7 @@
 
 namespace System.Data.JsonRpc
 {
-    /// <summary>Represents an RPC message.</summary>
+    /// <summary>Represents a JSON-RPC message.</summary>
     public abstract class JsonRpcMessage
     {
         private readonly JsonRpcId _id;
@@ -16,7 +16,7 @@ namespace System.Data.JsonRpc
             _id = id;
         }
 
-        /// <summary>Gets an identifier.</summary>
+        /// <summary>Gets the JSON-RPC message identifier.</summary>
         public ref readonly JsonRpcId Id
         {
             get => ref _id;

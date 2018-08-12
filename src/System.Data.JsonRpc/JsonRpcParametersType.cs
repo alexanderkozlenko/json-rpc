@@ -2,16 +2,16 @@
 
 namespace System.Data.JsonRpc
 {
-    /// <summary>Represents RPC method parameters type.</summary>
+    /// <summary>Represents JSON-RPC method parameters type.</summary>
     public enum JsonRpcParametersType
     {
-        /// <summary>Parameters are not provided.</summary>
+        /// <summary>JSON-RPC method parameters are not provided.</summary>
         None,
 
-        /// <summary>Parameters are provided by position.</summary>
+        /// <summary>JSON-RPC method parameters are provided by position.</summary>
         ByPosition,
 
-        /// <summary>Parameters are provided by name.</summary>
+        /// <summary>JSON-RPC method parameters are provided by name.</summary>
         ByName
     }
 }

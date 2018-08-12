@@ -61,9 +61,9 @@ namespace System.Data.JsonRpc
             return contract;
         }
 
-        /// <summary>Adds the specified request contract.</summary>
+        /// <summary>Adds the specified JSON-RPC request contract.</summary>
         /// <param name="method">The name of a JSON-RPC method.</param>
-        /// <param name="contract">The request contract.</param>
+        /// <param name="contract">The JSON-RPC request contract.</param>
         /// <exception cref="ArgumentNullException"><paramref name="method" /> or <paramref name="contract" /> is <see langword="null" />.</exception>
         public void AddRequestContract(string method, JsonRpcRequestContract contract)
         {
@@ -87,9 +87,9 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Adds the specified response contract.</summary>
+        /// <summary>Adds the specified JSON-RPC response contract.</summary>
         /// <param name="method">The name of a JSON-RPC method.</param>
-        /// <param name="contract">The response contract.</param>
+        /// <param name="contract">The JSON-RPC response contract.</param>
         /// <exception cref="ArgumentNullException"><paramref name="method" /> or <paramref name="contract" /> is <see langword="null" />.</exception>
         public void AddResponseContract(string method, JsonRpcResponseContract contract)
         {
@@ -113,9 +113,9 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Adds the specified response contract.</summary>
-        /// <param name="messageId">The identifier of a JSON-RPC message.</param>
-        /// <param name="contract">The response contract.</param>
+        /// <summary>Adds the specified JSON-RPC response contract.</summary>
+        /// <param name="messageId">The JSON-RPC message identifier.</param>
+        /// <param name="contract">The JSON-RPC response contract.</param>
         /// <exception cref="ArgumentNullException"><paramref name="contract" /> is <see langword="null" />.</exception>
         public void AddResponseContract(in JsonRpcId messageId, JsonRpcResponseContract contract)
         {
@@ -135,8 +135,8 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Adds the specified response binding.</summary>
-        /// <param name="messageId">The identifier of a JSON-RPC message.</param>
+        /// <summary>Adds the specified JSON-RPC response binding.</summary>
+        /// <param name="messageId">The JSON-RPC message identifier.</param>
         /// <param name="method">The name of a JSON-RPC method.</param>
         /// <exception cref="ArgumentNullException"><paramref name="method" /> is <see langword="null" />.</exception>
         public void AddResponseBinding(in JsonRpcId messageId, string method)
@@ -157,7 +157,7 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Removes the corresponding request contract.</summary>
+        /// <summary>Removes the corresponding JSON-RPC request contract.</summary>
         /// <param name="method">The name of a JSON-RPC method.</param>
         /// <exception cref="ArgumentNullException"><paramref name="method" /> is <see langword="null" />.</exception>
         public void RemoveRequestContract(string method)
@@ -178,7 +178,7 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Removes the corresponding response contract.</summary>
+        /// <summary>Removes the corresponding JSON-RPC response contract.</summary>
         /// <param name="method">The name of a JSON-RPC method.</param>
         /// <exception cref="ArgumentNullException"><paramref name="method" /> is <see langword="null" />.</exception>
         public void RemoveResponseContract(string method)
@@ -199,8 +199,8 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Removes the corresponding response contract.</summary>
-        /// <param name="messageId">The identifier of a JSON-RPC message.</param>
+        /// <summary>Removes the corresponding JSON-RPC response contract.</summary>
+        /// <param name="messageId">The JSON-RPC message identifier.</param>
         public void RemoveResponseContract(in JsonRpcId messageId)
         {
             var lockTaken = false;
@@ -214,14 +214,14 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Removes the corresponding response binding.</summary>
-        /// <param name="identifier">The identifier of a JSON-RPC message.</param>
-        public void RemoveResponseBinding(in JsonRpcId identifier)
+        /// <summary>Removes the corresponding JSON-RPC response binding.</summary>
+        /// <param name="messageId">The JSON-RPC message identifier.</param>
+        public void RemoveResponseBinding(in JsonRpcId messageId)
         {
             var lockTaken = false;
 
             _spinLock.Enter(ref lockTaken);
-            _staticResponseBindings.Remove(identifier);
+            _staticResponseBindings.Remove(messageId);
 
             if (lockTaken)
             {
@@ -229,7 +229,7 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Removes all request contracts.</summary>
+        /// <summary>Removes all JSON-RPC request contracts.</summary>
         public void ClearRequestContracts()
         {
             var lockTaken = false;
@@ -243,7 +243,7 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Removes all response contracts.</summary>
+        /// <summary>Removes all JSON-RPC response contracts.</summary>
         public void ClearResponseContracts()
         {
             var lockTaken = false;
@@ -258,7 +258,7 @@ namespace System.Data.JsonRpc
             }
         }
 
-        /// <summary>Removes all response bindings.</summary>
+        /// <summary>Removes all JSON-RPC response bindings.</summary>
         public void ClearResponseBindings()
         {
             var lockTaken = false;

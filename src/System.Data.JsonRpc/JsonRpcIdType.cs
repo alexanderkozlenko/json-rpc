@@ -2,7 +2,7 @@
 
 namespace System.Data.JsonRpc
 {
-    /// <summary>Represents RPC message identifier type.</summary>
+    /// <summary>Represents JSON-RPC message identifier type.</summary>
     public enum JsonRpcIdType
     {
         /// <summary>Undefined identifier.</summary>

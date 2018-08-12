@@ -5,7 +5,7 @@ using System.Globalization;
 
 namespace System.Data.JsonRpc
 {
-    /// <summary>Represents RPC message identifier.</summary>
+    /// <summary>Represents a JSON-RPC message identifier.</summary>
     public readonly struct JsonRpcId : IEquatable<JsonRpcId>, IComparable<JsonRpcId>
     {
         private readonly double _valueFloat;
@@ -316,7 +316,7 @@ namespace System.Data.JsonRpc
             return value._valueFloat;
         }
 
-        /// <summary>Gets the identifier type.</summary>
+        /// <summary>Gets the JSON-RPC message identifier type.</summary>
         public JsonRpcIdType Type
         {
             get => _type;

@@ -2,7 +2,7 @@
 
 namespace System.Data.JsonRpc
 {
-    /// <summary>Represents errors that occur during RPC message processing.</summary>
+    /// <summary>Represents errors that occur during JSON-RPC message processing.</summary>
     public sealed class JsonRpcException : Exception
     {
         private readonly long _errorCode;
@@ -28,13 +28,13 @@ namespace System.Data.JsonRpc
             _messageId = messageId;
         }
 
-        /// <summary>Gets an identifier for the related message.</summary>
+        /// <summary>Gets the identifier of the related JSON-RPC message.</summary>
         public ref readonly JsonRpcId MessageId
         {
             get => ref _messageId;
         }
 
-        /// <summary>Gets the corresponding error code.</summary>
+        /// <summary>Gets the corresponding JSON-RPC error code.</summary>
         public long ErrorCode
         {
             get => _errorCode;

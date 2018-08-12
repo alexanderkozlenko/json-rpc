@@ -1,6 +1,6 @@
 ﻿namespace System.Data.JsonRpc
 {
-    /// <summary>Specifies a type contract for message deserialization.</summary>
+    /// <summary>Represents a type contract for JSON-RPC message deserialization.</summary>
     public abstract class JsonRpcMessageContract
     {
         private protected JsonRpcMessageContract()
