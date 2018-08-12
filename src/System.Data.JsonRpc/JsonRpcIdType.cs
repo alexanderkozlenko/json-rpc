@@ -6,15 +6,15 @@ namespace System.Data.JsonRpc
     public enum JsonRpcIdType
     {
         /// <summary>Undefined identifier.</summary>
-        None,
+        None = 0x00,
 
         /// <summary>Identifier of string type.</summary>
-        String,
+        String = 0x01,
 
         /// <summary>Identifier of integer type.</summary>
-        Integer,
+        Integer = 0x02,
 
         /// <summary>Identifier of float type.</summary>
-        Float
+        Float = 0x03
     }
 }

@@ -123,7 +123,7 @@ namespace System.Data.JsonRpc
                         {
                             case "jsonrpc":
                                 {
-                                    if (_compatibilityLevel == JsonRpcCompatibilityLevel.Level2)
+                                    if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level1)
                                     {
                                         if (reader.TokenType != JsonToken.String)
                                         {
@@ -212,7 +212,7 @@ namespace System.Data.JsonRpc
                     }
                 }
 
-                if (_compatibilityLevel == JsonRpcCompatibilityLevel.Level2)
+                if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level1)
                 {
                     if (requestProtocolVersion != "2.0")
                     {
@@ -402,7 +402,7 @@ namespace System.Data.JsonRpc
                         {
                             case "jsonrpc":
                                 {
-                                    if (_compatibilityLevel == JsonRpcCompatibilityLevel.Level2)
+                                    if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level1)
                                     {
                                         if (reader.TokenType != JsonToken.String)
                                         {
@@ -470,7 +470,7 @@ namespace System.Data.JsonRpc
                                                                 {
                                                                     if (reader.TokenType != JsonToken.Integer)
                                                                     {
-                                                                        if (_compatibilityLevel == JsonRpcCompatibilityLevel.Level2)
+                                                                        if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level1)
                                                                         {
                                                                             throw new JsonRpcException(JsonRpcErrorCodes.InvalidMessage, Strings.GetString("core.deserialize.response.error.code.invalid_property"));
                                                                         }
@@ -485,7 +485,7 @@ namespace System.Data.JsonRpc
                                                                 {
                                                                     if (reader.TokenType != JsonToken.String)
                                                                     {
-                                                                        if (_compatibilityLevel == JsonRpcCompatibilityLevel.Level2)
+                                                                        if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level1)
                                                                         {
                                                                             throw new JsonRpcException(JsonRpcErrorCodes.InvalidMessage, Strings.GetString("core.deserialize.response.error.message.invalid_property"));
                                                                         }
@@ -551,7 +551,7 @@ namespace System.Data.JsonRpc
 
                 var responseSuccess = false;
 
-                if (_compatibilityLevel == JsonRpcCompatibilityLevel.Level2)
+                if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level1)
                 {
                     if (responseProtocolVersion != "2.0")
                     {
@@ -610,7 +610,7 @@ namespace System.Data.JsonRpc
                 {
                     if (!responseErrorSetAsNull)
                     {
-                        if (_compatibilityLevel == JsonRpcCompatibilityLevel.Level2)
+                        if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level1)
                         {
                             if (responseErrorCode == null)
                             {
@@ -691,7 +691,7 @@ namespace System.Data.JsonRpc
                     }
                     else
                     {
-                        if (_compatibilityLevel == JsonRpcCompatibilityLevel.Level2)
+                        if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level1)
                         {
                             throw new JsonRpcException(JsonRpcErrorCodes.InvalidMessage, Strings.GetString("core.deserialize.response.error.invalid_type"), responseId);
                         }
@@ -739,7 +739,7 @@ namespace System.Data.JsonRpc
         {
             writer.WriteStartObject();
 
-            if (_compatibilityLevel == JsonRpcCompatibilityLevel.Level2)
+            if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level1)
             {
                 writer.WritePropertyName("jsonrpc");
                 writer.WriteValue("2.0");
@@ -751,7 +751,7 @@ namespace System.Data.JsonRpc
             {
                 case JsonRpcIdType.None:
                     {
-                        if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level2)
+                        if (_compatibilityLevel == JsonRpcCompatibilityLevel.Level1)
                         {
                             writer.WritePropertyName("id");
                             writer.WriteNull();
@@ -806,7 +806,7 @@ namespace System.Data.JsonRpc
                         }
                         else
                         {
-                            if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level2)
+                            if (_compatibilityLevel == JsonRpcCompatibilityLevel.Level1)
                             {
                                 writer.WritePropertyName("params");
                                 writer.WriteStartArray();
@@ -817,7 +817,7 @@ namespace System.Data.JsonRpc
                     break;
                 case JsonRpcParametersType.ByName:
                     {
-                        if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level2)
+                        if (_compatibilityLevel == JsonRpcCompatibilityLevel.Level1)
                         {
                             throw new JsonRpcException(JsonRpcErrorCodes.InvalidMessage, Strings.GetString("core.serialize.request.params.unsupported_structure"), requestId);
                         }
@@ -844,7 +844,7 @@ namespace System.Data.JsonRpc
                     break;
                 case JsonRpcParametersType.None:
                     {
-                        if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level2)
+                        if (_compatibilityLevel == JsonRpcCompatibilityLevel.Level1)
                         {
                             writer.WritePropertyName("params");
                             writer.WriteStartArray();
@@ -885,7 +885,7 @@ namespace System.Data.JsonRpc
         {
             writer.WriteStartObject();
 
-            if (_compatibilityLevel == JsonRpcCompatibilityLevel.Level2)
+            if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level1)
             {
                 writer.WritePropertyName("jsonrpc");
                 writer.WriteValue("2.0");
@@ -934,7 +934,7 @@ namespace System.Data.JsonRpc
                     throw new JsonSerializationException(Strings.GetString("core.serialize.json_issue"), e);
                 }
 
-                if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level2)
+                if (_compatibilityLevel == JsonRpcCompatibilityLevel.Level1)
                 {
                     writer.WritePropertyName("error");
                     writer.WriteNull();
@@ -942,7 +942,7 @@ namespace System.Data.JsonRpc
             }
             else
             {
-                if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level2)
+                if (_compatibilityLevel == JsonRpcCompatibilityLevel.Level1)
                 {
                     writer.WritePropertyName("result");
                     writer.WriteNull();
