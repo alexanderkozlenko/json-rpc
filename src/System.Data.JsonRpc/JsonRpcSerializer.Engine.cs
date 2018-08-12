@@ -745,7 +745,9 @@ namespace System.Data.JsonRpc
                 writer.WriteValue("2.0");
             }
 
-            switch (request.Id.Type)
+            ref readonly var requestId = ref request.Id;
+
+            switch (requestId.Type)
             {
                 case JsonRpcIdType.None:
                     {
@@ -759,19 +761,19 @@ namespace System.Data.JsonRpc
                 case JsonRpcIdType.String:
                     {
                         writer.WritePropertyName("id");
-                        writer.WriteValue(request.Id.UnsafeAsString());
+                        writer.WriteValue(requestId.UnsafeAsString());
                     }
                     break;
                 case JsonRpcIdType.Integer:
                     {
                         writer.WritePropertyName("id");
-                        writer.WriteValue(request.Id.UnsafeAsInteger());
+                        writer.WriteValue(requestId.UnsafeAsInteger());
                     }
                     break;
                 case JsonRpcIdType.Float:
                     {
                         writer.WritePropertyName("id");
-                        writer.WriteValue(request.Id.UnsafeAsFloat());
+                        writer.WriteValue(requestId.UnsafeAsFloat());
                     }
                     break;
             }
@@ -817,7 +819,7 @@ namespace System.Data.JsonRpc
                     {
                         if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level2)
                         {
-                            throw new JsonRpcException(JsonRpcErrorCodes.InvalidMessage, Strings.GetString("core.serialize.request.params.unsupported_structure"), request.Id);
+                            throw new JsonRpcException(JsonRpcErrorCodes.InvalidMessage, Strings.GetString("core.serialize.request.params.unsupported_structure"), requestId);
                         }
 
                         writer.WritePropertyName("params");
@@ -889,7 +891,9 @@ namespace System.Data.JsonRpc
                 writer.WriteValue("2.0");
             }
 
-            switch (response.Id.Type)
+            ref readonly var responseId = ref response.Id;
+
+            switch (responseId.Type)
             {
                 case JsonRpcIdType.None:
                     {
@@ -900,19 +904,19 @@ namespace System.Data.JsonRpc
                 case JsonRpcIdType.String:
                     {
                         writer.WritePropertyName("id");
-                        writer.WriteValue(response.Id.UnsafeAsString());
+                        writer.WriteValue(responseId.UnsafeAsString());
                     }
                     break;
                 case JsonRpcIdType.Integer:
                     {
                         writer.WritePropertyName("id");
-                        writer.WriteValue(response.Id.UnsafeAsInteger());
+                        writer.WriteValue(responseId.UnsafeAsInteger());
                     }
                     break;
                 case JsonRpcIdType.Float:
                     {
                         writer.WritePropertyName("id");
-                        writer.WriteValue(response.Id.UnsafeAsFloat());
+                        writer.WriteValue(responseId.UnsafeAsFloat());
                     }
                     break;
             }
