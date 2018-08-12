@@ -34,49 +34,49 @@ namespace System.Data.JsonRpc
             };
         }
 
-        private JsonRpcData<JsonRpcRequest> DeserializeRequestData(JsonTextReader reader, CancellationToken cancellationToken = default)
+        private JsonRpcInfo<JsonRpcRequest> DeserializeRequestData(JsonTextReader reader, CancellationToken cancellationToken = default)
         {
             if (_contractResolver == null)
             {
                 throw new InvalidOperationException(Strings.GetString("core.deserialize.resolver.undefined"));
             }
 
-            var itemsBag = default(LinkedList<JsonRpcItem<JsonRpcRequest>>);
+            var messagesList = default(LinkedList<JsonRpcMessageInfo<JsonRpcRequest>>);
 
             while (reader.Read())
             {
                 if (reader.TokenType == JsonToken.StartObject)
                 {
-                    if (itemsBag == null)
+                    if (messagesList == null)
                     {
-                        return new JsonRpcData<JsonRpcRequest>(DeserializeRequest(reader));
+                        return new JsonRpcInfo<JsonRpcRequest>(DeserializeRequest(reader));
                     }
                     else
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        itemsBag.AddLast(DeserializeRequest(reader));
+                        messagesList.AddLast(DeserializeRequest(reader));
                     }
                 }
                 else if (reader.TokenType == JsonToken.StartArray)
                 {
-                    itemsBag = new LinkedList<JsonRpcItem<JsonRpcRequest>>();
+                    messagesList = new LinkedList<JsonRpcMessageInfo<JsonRpcRequest>>();
                 }
                 else if (reader.TokenType == JsonToken.EndArray)
                 {
-                    if (itemsBag.Count == 0)
+                    if (messagesList.Count == 0)
                     {
                         throw new JsonRpcException(JsonRpcErrorCodes.InvalidMessage, Strings.GetString("core.batch.empty"));
                     }
 
-                    var items = new JsonRpcItem<JsonRpcRequest>[itemsBag.Count];
+                    var messagesArray = new JsonRpcMessageInfo<JsonRpcRequest>[messagesList.Count];
 
-                    itemsBag.CopyTo(items, 0);
+                    messagesList.CopyTo(messagesArray, 0);
 
-                    return new JsonRpcData<JsonRpcRequest>(items);
+                    return new JsonRpcInfo<JsonRpcRequest>(messagesArray);
                 }
                 else
                 {
-                    if (itemsBag == null)
+                    if (messagesList == null)
                     {
                         break;
                     }
@@ -84,10 +84,10 @@ namespace System.Data.JsonRpc
                     {
                         cancellationToken.ThrowIfCancellationRequested();
 
-                        var exceptionMessage = string.Format(CultureInfo.InvariantCulture, Strings.GetString("core.batch.invalid_item"), itemsBag.Count);
+                        var exceptionMessage = string.Format(CultureInfo.InvariantCulture, Strings.GetString("core.batch.invalid_item"), messagesList.Count);
                         var exception = new JsonRpcException(JsonRpcErrorCodes.InvalidMessage, exceptionMessage);
 
-                        itemsBag.AddLast(new JsonRpcItem<JsonRpcRequest>(exception));
+                        messagesList.AddLast(new JsonRpcMessageInfo<JsonRpcRequest>(exception));
                     }
                 }
             }
@@ -102,7 +102,7 @@ namespace System.Data.JsonRpc
             }
         }
 
-        private JsonRpcItem<JsonRpcRequest> DeserializeRequest(JsonTextReader reader)
+        private JsonRpcMessageInfo<JsonRpcRequest> DeserializeRequest(JsonTextReader reader)
         {
             try
             {
@@ -262,7 +262,7 @@ namespace System.Data.JsonRpc
 
                             var request = new JsonRpcRequest(requestMethod, requestId, requestParameters);
 
-                            return new JsonRpcItem<JsonRpcRequest>(request);
+                            return new JsonRpcMessageInfo<JsonRpcRequest>(request);
                         }
                     case JsonRpcParametersType.ByName:
                         {
@@ -292,65 +292,65 @@ namespace System.Data.JsonRpc
 
                             var request = new JsonRpcRequest(requestMethod, requestId, requestParameters);
 
-                            return new JsonRpcItem<JsonRpcRequest>(request);
+                            return new JsonRpcMessageInfo<JsonRpcRequest>(request);
                         }
                     default:
                         {
                             var request = new JsonRpcRequest(requestMethod, requestId);
 
-                            return new JsonRpcItem<JsonRpcRequest>(request);
+                            return new JsonRpcMessageInfo<JsonRpcRequest>(request);
                         }
                 }
             }
             catch (JsonRpcException e)
             {
-                return new JsonRpcItem<JsonRpcRequest>(e);
+                return new JsonRpcMessageInfo<JsonRpcRequest>(e);
             }
         }
 
-        private JsonRpcData<JsonRpcResponse> DeserializeResponseData(JsonTextReader reader, CancellationToken cancellationToken = default)
+        private JsonRpcInfo<JsonRpcResponse> DeserializeResponseData(JsonTextReader reader, CancellationToken cancellationToken = default)
         {
             if (_contractResolver == null)
             {
                 throw new InvalidOperationException(Strings.GetString("core.deserialize.resolver.undefined"));
             }
 
-            var itemsBag = default(LinkedList<JsonRpcItem<JsonRpcResponse>>);
+            var messagesList = default(LinkedList<JsonRpcMessageInfo<JsonRpcResponse>>);
 
             while (reader.Read())
             {
                 if (reader.TokenType == JsonToken.StartObject)
                 {
-                    if (itemsBag == null)
+                    if (messagesList == null)
                     {
-                        return new JsonRpcData<JsonRpcResponse>(DeserializeResponse(reader));
+                        return new JsonRpcInfo<JsonRpcResponse>(DeserializeResponse(reader));
                     }
                     else
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        itemsBag.AddLast(DeserializeResponse(reader));
+                        messagesList.AddLast(DeserializeResponse(reader));
                     }
                 }
                 else if (reader.TokenType == JsonToken.StartArray)
                 {
-                    itemsBag = new LinkedList<JsonRpcItem<JsonRpcResponse>>();
+                    messagesList = new LinkedList<JsonRpcMessageInfo<JsonRpcResponse>>();
                 }
                 else if (reader.TokenType == JsonToken.EndArray)
                 {
-                    if (itemsBag.Count == 0)
+                    if (messagesList.Count == 0)
                     {
                         throw new JsonRpcException(JsonRpcErrorCodes.InvalidMessage, Strings.GetString("core.batch.empty"));
                     }
 
-                    var items = new JsonRpcItem<JsonRpcResponse>[itemsBag.Count];
+                    var messagesArray = new JsonRpcMessageInfo<JsonRpcResponse>[messagesList.Count];
 
-                    itemsBag.CopyTo(items, 0);
+                    messagesList.CopyTo(messagesArray, 0);
 
-                    return new JsonRpcData<JsonRpcResponse>(items);
+                    return new JsonRpcInfo<JsonRpcResponse>(messagesArray);
                 }
                 else
                 {
-                    if (itemsBag == null)
+                    if (messagesList == null)
                     {
                         break;
                     }
@@ -358,10 +358,10 @@ namespace System.Data.JsonRpc
                     {
                         cancellationToken.ThrowIfCancellationRequested();
 
-                        var exceptionMessage = string.Format(CultureInfo.InvariantCulture, Strings.GetString("core.batch.invalid_item"), itemsBag.Count);
+                        var exceptionMessage = string.Format(CultureInfo.InvariantCulture, Strings.GetString("core.batch.invalid_item"), messagesList.Count);
                         var exception = new JsonRpcException(JsonRpcErrorCodes.InvalidMessage, exceptionMessage);
 
-                        itemsBag.AddLast(new JsonRpcItem<JsonRpcResponse>(exception));
+                        messagesList.AddLast(new JsonRpcMessageInfo<JsonRpcResponse>(exception));
                     }
                 }
             }
@@ -376,7 +376,7 @@ namespace System.Data.JsonRpc
             }
         }
 
-        private JsonRpcItem<JsonRpcResponse> DeserializeResponse(JsonTextReader reader)
+        private JsonRpcMessageInfo<JsonRpcResponse> DeserializeResponse(JsonTextReader reader)
         {
             try
             {
@@ -604,7 +604,7 @@ namespace System.Data.JsonRpc
 
                     var response = new JsonRpcResponse(responseResult, responseId);
 
-                    return new JsonRpcItem<JsonRpcResponse>(response);
+                    return new JsonRpcMessageInfo<JsonRpcResponse>(response);
                 }
                 else
                 {
@@ -669,7 +669,7 @@ namespace System.Data.JsonRpc
 
                             var response = new JsonRpcResponse(responseError, responseId);
 
-                            return new JsonRpcItem<JsonRpcResponse>(response);
+                            return new JsonRpcMessageInfo<JsonRpcResponse>(response);
                         }
                         else
                         {
@@ -686,7 +686,7 @@ namespace System.Data.JsonRpc
 
                             var response = new JsonRpcResponse(responseError, responseId);
 
-                            return new JsonRpcItem<JsonRpcResponse>(response);
+                            return new JsonRpcMessageInfo<JsonRpcResponse>(response);
                         }
                     }
                     else
@@ -700,14 +700,14 @@ namespace System.Data.JsonRpc
                             var responseError = new JsonRpcError(default, string.Empty);
                             var response = new JsonRpcResponse(responseError, responseId);
 
-                            return new JsonRpcItem<JsonRpcResponse>(response);
+                            return new JsonRpcMessageInfo<JsonRpcResponse>(response);
                         }
                     }
                 }
             }
             catch (JsonRpcException e)
             {
-                return new JsonRpcItem<JsonRpcResponse>(e);
+                return new JsonRpcMessageInfo<JsonRpcResponse>(e);
             }
         }
 

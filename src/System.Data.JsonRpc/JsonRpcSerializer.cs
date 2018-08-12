@@ -36,7 +36,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="json" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
-        public JsonRpcData<JsonRpcRequest> DeserializeRequestData(string json)
+        public JsonRpcInfo<JsonRpcRequest> DeserializeRequestData(string json)
         {
             if (json == null)
             {
@@ -60,7 +60,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
-        public JsonRpcData<JsonRpcRequest> DeserializeRequestData(Stream stream)
+        public JsonRpcInfo<JsonRpcRequest> DeserializeRequestData(Stream stream)
         {
             if (stream == null)
             {
@@ -86,7 +86,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public Task<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(Stream stream, CancellationToken cancellationToken = default)
+        public Task<JsonRpcInfo<JsonRpcRequest>> DeserializeRequestDataAsync(Stream stream, CancellationToken cancellationToken = default)
         {
             if (stream == null)
             {
@@ -110,7 +110,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="json" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
-        public JsonRpcData<JsonRpcResponse> DeserializeResponseData(string json)
+        public JsonRpcInfo<JsonRpcResponse> DeserializeResponseData(string json)
         {
             if (json == null)
             {
@@ -134,7 +134,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
-        public JsonRpcData<JsonRpcResponse> DeserializeResponseData(Stream stream)
+        public JsonRpcInfo<JsonRpcResponse> DeserializeResponseData(Stream stream)
         {
             if (stream == null)
             {
@@ -160,7 +160,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public Task<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(Stream stream, CancellationToken cancellationToken = default)
+        public Task<JsonRpcInfo<JsonRpcResponse>> DeserializeResponseDataAsync(Stream stream, CancellationToken cancellationToken = default)
         {
             if (stream == null)
             {

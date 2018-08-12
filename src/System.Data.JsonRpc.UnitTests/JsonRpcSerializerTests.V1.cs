@@ -20,15 +20,15 @@ namespace System.Data.JsonRpc.UnitTests
 
             jsonRpcContractResolver.AddRequestContract("getblockhash", new JsonRpcRequestContract(new[] { typeof(long) }));
 
-            var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
+            var jsonRpcInfo = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
-            Assert.IsFalse(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcInfo.IsBatch);
 
-            var jsonRpcItem = jsonRpcData.Item;
+            var jsonRpcMessageInfo = jsonRpcInfo.Message;
 
-            Assert.IsTrue(jsonRpcItem.IsValid);
+            Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
-            var jsonRpcMessage = jsonRpcItem.Message;
+            var jsonRpcMessage = jsonRpcMessageInfo.Message;
 
             Assert.AreEqual("foo", jsonRpcMessage.Id);
             Assert.AreEqual("getblockhash", jsonRpcMessage.Method);
@@ -59,15 +59,15 @@ namespace System.Data.JsonRpc.UnitTests
             jsonRpcContractResolver.AddResponseContract("getblockhash", new JsonRpcResponseContract(typeof(string)));
             jsonRpcContractResolver.AddResponseBinding("foo", "getblockhash");
 
-            var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
+            var jsonRpcInfo = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.IsFalse(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcInfo.IsBatch);
 
-            var jsonRpcItem = jsonRpcData.Item;
+            var jsonRpcMessageInfo = jsonRpcInfo.Message;
 
-            Assert.IsTrue(jsonRpcItem.IsValid);
+            Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
-            var jsonRpcMessage = jsonRpcItem.Message;
+            var jsonRpcMessage = jsonRpcMessageInfo.Message;
 
             Assert.AreEqual("foo", jsonRpcMessage.Id);
             Assert.IsInstanceOfType(jsonRpcMessage.Result, typeof(string));
@@ -99,15 +99,15 @@ namespace System.Data.JsonRpc.UnitTests
 
             jsonRpcContractResolver.AddRequestContract("getblockhash", new JsonRpcRequestContract(new[] { typeof(long) }));
 
-            var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
+            var jsonRpcInfo = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
-            Assert.IsFalse(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcInfo.IsBatch);
 
-            var jsonRpcItem = jsonRpcData.Item;
+            var jsonRpcMessageInfo = jsonRpcInfo.Message;
 
-            Assert.IsTrue(jsonRpcItem.IsValid);
+            Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
-            var jsonRpcMessage = jsonRpcItem.Message;
+            var jsonRpcMessage = jsonRpcMessageInfo.Message;
 
             Assert.AreEqual("foo", jsonRpcMessage.Id);
             Assert.AreEqual("getblockhash", jsonRpcMessage.Method);
@@ -138,15 +138,15 @@ namespace System.Data.JsonRpc.UnitTests
             jsonRpcContractResolver.AddResponseContract("getblockhash", new JsonRpcResponseContract(typeof(string)));
             jsonRpcContractResolver.AddResponseBinding("foo", "getblockhash");
 
-            var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
+            var jsonRpcInfo = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.IsFalse(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcInfo.IsBatch);
 
-            var jsonRpcItem = jsonRpcData.Item;
+            var jsonRpcMessageInfo = jsonRpcInfo.Message;
 
-            Assert.IsTrue(jsonRpcItem.IsValid);
+            Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
-            var jsonRpcMessage = jsonRpcItem.Message;
+            var jsonRpcMessage = jsonRpcMessageInfo.Message;
 
             Assert.AreEqual("foo", jsonRpcMessage.Id);
             Assert.IsFalse(jsonRpcMessage.Success);
@@ -196,15 +196,15 @@ namespace System.Data.JsonRpc.UnitTests
             jsonRpcContractResolver.AddResponseContract("m", new JsonRpcResponseContract(typeof(string)));
             jsonRpcContractResolver.AddResponseBinding(1L, "m");
 
-            var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
+            var jsonRpcInfo = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.IsFalse(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcInfo.IsBatch);
 
-            var jsonRpcItem = jsonRpcData.Item;
+            var jsonRpcMessageInfo = jsonRpcInfo.Message;
 
-            Assert.IsTrue(jsonRpcItem.IsValid);
+            Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
-            var jsonRpcMessage = jsonRpcItem.Message;
+            var jsonRpcMessage = jsonRpcMessageInfo.Message;
 
             Assert.IsFalse(jsonRpcMessage.Success);
             Assert.AreEqual(1L, jsonRpcMessage.Id);
@@ -228,15 +228,15 @@ namespace System.Data.JsonRpc.UnitTests
             jsonRpcContractResolver.AddResponseContract("m", new JsonRpcResponseContract(typeof(string)));
             jsonRpcContractResolver.AddResponseBinding(1L, "m");
 
-            var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
+            var jsonRpcInfo = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.IsFalse(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcInfo.IsBatch);
 
-            var jsonRpcItem = jsonRpcData.Item;
+            var jsonRpcMessageInfo = jsonRpcInfo.Message;
 
-            Assert.IsFalse(jsonRpcItem.IsValid);
+            Assert.IsFalse(jsonRpcMessageInfo.IsValid);
 
-            var jsonRpcException = jsonRpcItem.Exception;
+            var jsonRpcException = jsonRpcMessageInfo.Exception;
 
             Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
         }
@@ -251,15 +251,15 @@ namespace System.Data.JsonRpc.UnitTests
             jsonRpcContractResolver.AddResponseContract("m", new JsonRpcResponseContract(typeof(string)));
             jsonRpcContractResolver.AddResponseBinding(1L, "m");
 
-            var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
+            var jsonRpcInfo = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.IsFalse(jsonRpcData.IsBatch);
+            Assert.IsFalse(jsonRpcInfo.IsBatch);
 
-            var jsonRpcItem = jsonRpcData.Item;
+            var jsonRpcMessageInfo = jsonRpcInfo.Message;
 
-            Assert.IsFalse(jsonRpcItem.IsValid);
+            Assert.IsFalse(jsonRpcMessageInfo.IsValid);
 
-            var jsonRpcException = jsonRpcItem.Exception;
+            var jsonRpcException = jsonRpcMessageInfo.Exception;
 
             Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, jsonRpcException.ErrorCode);
         }

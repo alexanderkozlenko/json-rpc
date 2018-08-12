@@ -6,38 +6,38 @@ namespace System.Data.JsonRpc
 {
     /// <summary>Represents a JSON-RPC data deserialization result.</summary>
     /// <typeparam name="T">The type of the JSON-RPC message.</typeparam>
-    public sealed class JsonRpcData<T>
+    public sealed class JsonRpcInfo<T>
         where T : JsonRpcMessage
     {
-        private readonly JsonRpcItem<T> _item;
-        private readonly IReadOnlyList<JsonRpcItem<T>> _items;
+        private readonly JsonRpcMessageInfo<T> _message;
+        private readonly IReadOnlyList<JsonRpcMessageInfo<T>> _messages;
 
-        internal JsonRpcData(JsonRpcItem<T> item)
+        internal JsonRpcInfo(JsonRpcMessageInfo<T> message)
         {
-            _item = item;
+            _message = message;
         }
 
-        internal JsonRpcData(IReadOnlyList<JsonRpcItem<T>> items)
+        internal JsonRpcInfo(IReadOnlyList<JsonRpcMessageInfo<T>> messages)
         {
-            _items = items;
+            _messages = messages;
         }
 
         /// <summary>Gets a value indicating whether the data is a batch.</summary>
         public bool IsBatch
         {
-            get => _items != null;
+            get => _messages != null;
         }
 
         /// <summary>Gets a JSON-RPC message deserialization result for non-batch data.</summary>
-        public JsonRpcItem<T> Item
+        public JsonRpcMessageInfo<T> Message
         {
-            get => _item;
+            get => _message;
         }
 
         /// <summary>Gets a collection of JSON-RPC message deserialization results for batch data.</summary>
-        public IReadOnlyList<JsonRpcItem<T>> Items
+        public IReadOnlyList<JsonRpcMessageInfo<T>> Messages
         {
-            get => _items;
+            get => _messages;
         }
     }
 }
