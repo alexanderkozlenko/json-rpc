@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using System.Data.JsonRpc.Resources;
-using System.Globalization;
 using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -84,7 +83,7 @@ namespace System.Data.JsonRpc
                     {
                         cancellationToken.ThrowIfCancellationRequested();
 
-                        var exceptionMessage = string.Format(CultureInfo.InvariantCulture, Strings.GetString("core.batch.invalid_item"), messagesList.Count);
+                        var exceptionMessage = string.Format(Strings.GetString("core.batch.invalid_item"), messagesList.Count);
                         var exception = new JsonRpcException(JsonRpcErrorCode.InvalidMessage, exceptionMessage);
 
                         messagesList.AddLast(new JsonRpcMessageInfo<JsonRpcRequest>(exception));
@@ -228,7 +227,7 @@ namespace System.Data.JsonRpc
 
                 if (requestContract == null)
                 {
-                    var exceptionMessage = string.Format(CultureInfo.InvariantCulture, Strings.GetString("core.deserialize.request.method.unsupported"), requestMethod);
+                    var exceptionMessage = string.Format(Strings.GetString("core.deserialize.request.method.unsupported"), requestMethod);
 
                     throw new JsonRpcException(JsonRpcErrorCode.InvalidMethod, exceptionMessage, requestId);
                 }
@@ -358,7 +357,7 @@ namespace System.Data.JsonRpc
                     {
                         cancellationToken.ThrowIfCancellationRequested();
 
-                        var exceptionMessage = string.Format(CultureInfo.InvariantCulture, Strings.GetString("core.batch.invalid_item"), messagesList.Count);
+                        var exceptionMessage = string.Format(Strings.GetString("core.batch.invalid_item"), messagesList.Count);
                         var exception = new JsonRpcException(JsonRpcErrorCode.InvalidMessage, exceptionMessage);
 
                         messagesList.AddLast(new JsonRpcMessageInfo<JsonRpcResponse>(exception));
@@ -724,7 +723,7 @@ namespace System.Data.JsonRpc
             {
                 if (requests[i] == null)
                 {
-                    throw new JsonRpcException(JsonRpcErrorCode.InvalidMessage, string.Format(CultureInfo.InvariantCulture, Strings.GetString("core.batch.invalid_item"), i));
+                    throw new JsonRpcException(JsonRpcErrorCode.InvalidMessage, string.Format(Strings.GetString("core.batch.invalid_item"), i));
                 }
 
                 cancellationToken.ThrowIfCancellationRequested();
@@ -870,7 +869,7 @@ namespace System.Data.JsonRpc
             {
                 if (responses[i] == null)
                 {
-                    throw new JsonRpcException(JsonRpcErrorCode.InvalidMessage, string.Format(CultureInfo.InvariantCulture, Strings.GetString("core.batch.invalid_item"), i));
+                    throw new JsonRpcException(JsonRpcErrorCode.InvalidMessage, string.Format(Strings.GetString("core.batch.invalid_item"), i));
                 }
 
                 cancellationToken.ThrowIfCancellationRequested();

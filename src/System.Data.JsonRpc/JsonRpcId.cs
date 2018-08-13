@@ -1,7 +1,6 @@
 ﻿// © Alexander Kozlenko. Licensed under the MIT License.
 
 using System.Data.JsonRpc.Resources;
-using System.Globalization;
 
 namespace System.Data.JsonRpc
 {
@@ -217,6 +216,14 @@ namespace System.Data.JsonRpc
         /// <returns>The string representation of the current <see cref="JsonRpcId" />.</returns>
         public override string ToString()
         {
+            return ToString(null);
+        }
+
+        /// <summary>Converts the current <see cref="JsonRpcId" /> to its equivalent string representation.</summary>
+        /// <param name="provider">An <see cref="IFormatProvider" /> that supplies culture-specific formatting information.</param>
+        /// <returns>The string representation of the current <see cref="JsonRpcId" />.</returns>
+        public string ToString(IFormatProvider provider)
+        {
             switch (_type)
             {
                 case JsonRpcIdType.String:
@@ -225,11 +232,11 @@ namespace System.Data.JsonRpc
                     }
                 case JsonRpcIdType.Integer:
                     {
-                        return _valueInteger.ToString(CultureInfo.InvariantCulture);
+                        return _valueInteger.ToString(provider);
                     }
                 case JsonRpcIdType.Float:
                     {
-                        return _valueFloat.ToString("0.0###############", CultureInfo.InvariantCulture);
+                        return _valueFloat.ToString(provider);
                     }
                 default:
                     {
@@ -284,7 +291,7 @@ namespace System.Data.JsonRpc
         {
             if (value._type != JsonRpcIdType.String)
             {
-                throw new InvalidCastException(string.Format(CultureInfo.InvariantCulture, Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(string)));
+                throw new InvalidCastException(string.Format(Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(string)));
             }
 
             return value._valueString;
@@ -297,7 +304,7 @@ namespace System.Data.JsonRpc
         {
             if (value._type != JsonRpcIdType.Integer)
             {
-                throw new InvalidCastException(string.Format(CultureInfo.InvariantCulture, Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(long)));
+                throw new InvalidCastException(string.Format(Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(long)));
             }
 
             return value._valueInteger;
@@ -310,7 +317,7 @@ namespace System.Data.JsonRpc
         {
             if (value._type != JsonRpcIdType.Float)
             {
-                throw new InvalidCastException(string.Format(CultureInfo.InvariantCulture, Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(double)));
+                throw new InvalidCastException(string.Format(Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(double)));
             }
 
             return value._valueFloat;

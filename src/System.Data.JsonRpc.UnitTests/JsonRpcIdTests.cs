@@ -316,10 +316,10 @@ namespace System.Data.JsonRpc.UnitTests
         [TestMethod]
         public void ObjectToString()
         {
-            Assert.AreEqual("", new JsonRpcId().ToString());
-            Assert.AreEqual("1", new JsonRpcId("1").ToString());
-            Assert.AreEqual("1", new JsonRpcId(1L).ToString());
-            Assert.AreEqual("1.0", new JsonRpcId(1D).ToString());
+            Assert.AreEqual("", new JsonRpcId().ToString(null));
+            Assert.AreEqual("1", new JsonRpcId("1").ToString(null));
+            Assert.AreEqual("1", new JsonRpcId(1L).ToString(null));
+            Assert.AreEqual("1.1", new JsonRpcId(1.1).ToString(null));
         }
 
         [TestMethod]

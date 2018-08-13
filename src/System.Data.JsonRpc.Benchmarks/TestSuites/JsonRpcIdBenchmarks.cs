@@ -84,25 +84,25 @@ namespace System.Data.JsonRpc.Benchmarks.TestSuites
         [Benchmark(Description = "ToString-TYPE=N")]
         public string ToStringNone()
         {
-            return _idNone.ToString();
+            return _idNone.ToString(null);
         }
 
         [Benchmark(Description = "ToString-TYPE=S")]
         public string ToStringString()
         {
-            return _idString.ToString();
+            return _idString.ToString(null);
         }
 
         [Benchmark(Description = "ToString-TYPE=I")]
         public string ToStringInteger()
         {
-            return _idInteger.ToString();
+            return _idInteger.ToString(null);
         }
 
         [Benchmark(Description = "ToString-TYPE=F")]
         public string ToStringFloat()
         {
-            return _idFloat.ToString();
+            return _idFloat.ToString(null);
         }
     }
 }
