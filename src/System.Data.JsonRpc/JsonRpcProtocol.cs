@@ -23,5 +23,34 @@ namespace System.Data.JsonRpc
                 ((method[2] == 'c') || (method[2] == 'C')) &&
                 ((method[3] == '.'));
         }
+
+        /// <summary>Checks whether the JSON-RPC error code is in range of JSON-RPC system error codes.</summary>
+        /// <param name="code">The JSON-RPC error code.</param>
+        /// <returns><see langword="true" /> if the specified JSON-RPC error code is in range of JSON-RPC system error codes; otherwise, <see langword="false" />.</returns>
+        public static bool IsSystemErrorCode(long code)
+        {
+            return (JsonRpcErrorCode.SystemErrorsLowerBoundary <= code) && (code <= JsonRpcErrorCode.SystemErrorsUpperBoundary);
+        }
+
+        /// <summary>Checks whether the JSON-RPC error code is in range of JSON-RPC server error codes.</summary>
+        /// <param name="code">The JSON-RPC error code.</param>
+        /// <returns><see langword="true" /> if the specified JSON-RPC error code is in range of JSON-RPC server error codes; otherwise, <see langword="false" />.</returns>
+        public static bool IsServerErrorCode(long code)
+        {
+            return (JsonRpcErrorCode.ServerErrorsLowerBoundary <= code) && (code <= JsonRpcErrorCode.ServerErrorsUpperBoundary);
+        }
+
+        /// <summary>Checks whether the JSON-RPC error code is one of the standard JSON-RPC system error codes.</summary>
+        /// <param name="code">The JSON-RPC error code.</param>
+        /// <returns><see langword="true" /> if the specified JSON-RPC error code is one of the standard JSON-RPC system error codes; otherwise, <see langword="false" />.</returns>
+        public static bool IsStandardErrorCode(long code)
+        {
+            return
+                (code == JsonRpcErrorCode.InvalidFormat) ||
+                (code == JsonRpcErrorCode.InvalidOperation) ||
+                (code == JsonRpcErrorCode.InvalidParameters) ||
+                (code == JsonRpcErrorCode.InvalidMethod) ||
+                (code == JsonRpcErrorCode.InvalidMessage);
+        }
     }
 }

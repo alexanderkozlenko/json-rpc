@@ -6,17 +6,17 @@ namespace System.Data.JsonRpc.UnitTests
     public sealed class JsonRpcErrorTests
     {
         [DataTestMethod]
-        [DataRow(JsonRpcErrorCodes.StandardErrorsLowerBoundary - 1L)]
-        [DataRow(JsonRpcErrorCodes.InvalidJson)]
-        [DataRow(JsonRpcErrorCodes.InvalidOperation)]
-        [DataRow(JsonRpcErrorCodes.InvalidParameters)]
-        [DataRow(JsonRpcErrorCodes.InvalidMethod)]
-        [DataRow(JsonRpcErrorCodes.InvalidMessage)]
-        [DataRow(JsonRpcErrorCodes.ServerErrorsLowerBoundary)]
-        [DataRow(JsonRpcErrorCodes.ServerErrorsLowerBoundary + 1L)]
-        [DataRow(JsonRpcErrorCodes.ServerErrorsUpperBoundary - 1L)]
-        [DataRow(JsonRpcErrorCodes.ServerErrorsUpperBoundary)]
-        [DataRow(JsonRpcErrorCodes.StandardErrorsUpperBoundary + 1L)]
+        [DataRow(JsonRpcErrorCode.InvalidFormat)]
+        [DataRow(JsonRpcErrorCode.InvalidOperation)]
+        [DataRow(JsonRpcErrorCode.InvalidParameters)]
+        [DataRow(JsonRpcErrorCode.InvalidMethod)]
+        [DataRow(JsonRpcErrorCode.InvalidMessage)]
+        [DataRow(JsonRpcErrorCode.ServerErrorsLowerBoundary)]
+        [DataRow(JsonRpcErrorCode.ServerErrorsLowerBoundary + 1L)]
+        [DataRow(JsonRpcErrorCode.ServerErrorsUpperBoundary - 1L)]
+        [DataRow(JsonRpcErrorCode.ServerErrorsUpperBoundary)]
+        [DataRow(JsonRpcErrorCode.SystemErrorsLowerBoundary - 1L)]
+        [DataRow(JsonRpcErrorCode.SystemErrorsUpperBoundary + 1L)]
         [DataRow(default(long))]
         public void CodeIsValid(long code)
         {
@@ -26,9 +26,9 @@ namespace System.Data.JsonRpc.UnitTests
         }
 
         [DataTestMethod]
-        [DataRow(JsonRpcErrorCodes.StandardErrorsLowerBoundary)]
-        [DataRow(JsonRpcErrorCodes.StandardErrorsLowerBoundary + 1L)]
-        [DataRow(JsonRpcErrorCodes.ServerErrorsLowerBoundary - 1L)]
+        [DataRow(JsonRpcErrorCode.SystemErrorsLowerBoundary)]
+        [DataRow(JsonRpcErrorCode.SystemErrorsLowerBoundary + 1L)]
+        [DataRow(JsonRpcErrorCode.ServerErrorsLowerBoundary - 1L)]
         public void CodeIsInvalid(long code)
         {
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>

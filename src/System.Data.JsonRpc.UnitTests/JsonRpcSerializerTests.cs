@@ -54,7 +54,7 @@ namespace System.Data.JsonRpc.UnitTests
             var exception = Assert.ThrowsException<JsonRpcException>(() =>
                 jsonRpcSerializer.SerializeRequests(new JsonRpcRequest[] { }));
 
-            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, exception.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, exception.ErrorCode);
         }
 
         [TestMethod]
@@ -65,7 +65,7 @@ namespace System.Data.JsonRpc.UnitTests
             var exception = Assert.ThrowsException<JsonRpcException>(() =>
                 jsonRpcSerializer.SerializeRequests(new JsonRpcRequest[] { null }));
 
-            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, exception.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, exception.ErrorCode);
         }
 
         [TestMethod]
@@ -262,7 +262,7 @@ namespace System.Data.JsonRpc.UnitTests
             var exception = Assert.ThrowsException<JsonRpcException>(() =>
                 jsonRpcSerializer.SerializeResponses(new JsonRpcResponse[] { }));
 
-            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, exception.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, exception.ErrorCode);
         }
 
         [TestMethod]
@@ -273,7 +273,7 @@ namespace System.Data.JsonRpc.UnitTests
             var exception = Assert.ThrowsException<JsonRpcException>(() =>
                 jsonRpcSerializer.SerializeResponses(new JsonRpcResponse[] { null }));
 
-            Assert.AreEqual(JsonRpcErrorCodes.InvalidMessage, exception.ErrorCode);
+            Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, exception.ErrorCode);
         }
 
         [TestMethod]
