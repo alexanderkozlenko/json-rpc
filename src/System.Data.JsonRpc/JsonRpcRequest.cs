@@ -136,10 +136,10 @@ namespace System.Data.JsonRpc
             get => Id.Type == JsonRpcIdType.None;
         }
 
-        /// <summary>Gets a value indicating whether the JSON-RPC request is a system extension.</summary>
+        /// <summary>Gets a value indicating whether the JSON-RPC request is a system extension request.</summary>
         public bool IsSystem
         {
-            get => JsonRpcSerializer.IsSystemMethod(_method);
+            get => JsonRpcProtocol.IsSystemMethod(_method);
         }
     }
 }

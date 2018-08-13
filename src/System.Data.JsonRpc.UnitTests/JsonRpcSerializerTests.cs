@@ -661,36 +661,5 @@ namespace System.Data.JsonRpc.UnitTests
                 Assert.AreEqual(0L, jsonRpcMessage.Result);
             }
         }
-
-        [TestMethod]
-        public void IsSystemMethodWhenMethodIsNull()
-        {
-            Assert.ThrowsException<ArgumentNullException>(() =>
-                JsonRpcSerializer.IsSystemMethod((string)null));
-        }
-
-        [TestMethod]
-        public void IsSystemMethodIsFalse()
-        {
-            var result = JsonRpcSerializer.IsSystemMethod("m");
-
-            Assert.IsFalse(result);
-        }
-
-        [TestMethod]
-        public void IsSystemMethodIsTrueWithLowerCase()
-        {
-            var result = JsonRpcSerializer.IsSystemMethod("rpc.m");
-
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
-        public void IsSystemMethodIsTrueWithUpperCase()
-        {
-            var result = JsonRpcSerializer.IsSystemMethod("RPC.M");
-
-            Assert.IsTrue(result);
-        }
     }
 }
