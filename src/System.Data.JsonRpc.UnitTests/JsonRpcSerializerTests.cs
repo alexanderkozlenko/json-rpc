@@ -117,7 +117,7 @@ namespace System.Data.JsonRpc.UnitTests
             using (var jsonStream = new MemoryStream())
             {
                 await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                    jsonRpcSerializer.SerializeRequestAsync(null, jsonStream));
+                    jsonRpcSerializer.SerializeRequestAsync(null, jsonStream).AsTask());
             }
         }
 
@@ -128,7 +128,7 @@ namespace System.Data.JsonRpc.UnitTests
             var jsonRpcMessage = new JsonRpcRequest("m", 0L);
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                jsonRpcSerializer.SerializeRequestAsync(jsonRpcMessage, null));
+                jsonRpcSerializer.SerializeRequestAsync(jsonRpcMessage, null).AsTask());
         }
 
         [TestMethod]
@@ -201,7 +201,7 @@ namespace System.Data.JsonRpc.UnitTests
             using (var jsonStream = new MemoryStream())
             {
                 await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                    jsonRpcSerializer.SerializeRequestsAsync(null, jsonStream));
+                    jsonRpcSerializer.SerializeRequestsAsync(null, jsonStream).AsTask());
             }
         }
 
@@ -214,7 +214,7 @@ namespace System.Data.JsonRpc.UnitTests
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                jsonRpcSerializer.SerializeRequestsAsync(jsonRpcMessages, null));
+                jsonRpcSerializer.SerializeRequestsAsync(jsonRpcMessages, null).AsTask());
         }
 
         [TestMethod]
@@ -326,7 +326,7 @@ namespace System.Data.JsonRpc.UnitTests
             using (var jsonStream = new MemoryStream())
             {
                 await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                    jsonRpcSerializer.SerializeResponseAsync(null, jsonStream));
+                    jsonRpcSerializer.SerializeResponseAsync(null, jsonStream).AsTask());
             }
         }
 
@@ -338,7 +338,7 @@ namespace System.Data.JsonRpc.UnitTests
             var jsonRpcMessage = new JsonRpcResponse(0L, 0L);
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                jsonRpcSerializer.SerializeResponseAsync(jsonRpcMessage, null));
+                jsonRpcSerializer.SerializeResponseAsync(jsonRpcMessage, null).AsTask());
         }
 
         [TestMethod]
@@ -411,7 +411,7 @@ namespace System.Data.JsonRpc.UnitTests
             using (var jsonStream = new MemoryStream())
             {
                 await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                    jsonRpcSerializer.SerializeResponsesAsync(null, jsonStream));
+                    jsonRpcSerializer.SerializeResponsesAsync(null, jsonStream).AsTask());
             }
         }
 
@@ -424,7 +424,7 @@ namespace System.Data.JsonRpc.UnitTests
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                jsonRpcSerializer.SerializeResponsesAsync(jsonRpcMessages, null));
+                jsonRpcSerializer.SerializeResponsesAsync(jsonRpcMessages, null).AsTask());
         }
 
         [TestMethod]
@@ -515,7 +515,7 @@ namespace System.Data.JsonRpc.UnitTests
             var jsonRpcSerializer = new JsonRpcSerializer();
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                jsonRpcSerializer.DeserializeRequestDataAsync((Stream)null));
+                jsonRpcSerializer.DeserializeRequestDataAsync((Stream)null).AsTask());
         }
 
         [TestMethod]
@@ -524,7 +524,7 @@ namespace System.Data.JsonRpc.UnitTests
             var jsonRpcSerializer = new JsonRpcSerializer();
 
             await Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
-                jsonRpcSerializer.DeserializeRequestDataAsync(Stream.Null));
+                jsonRpcSerializer.DeserializeRequestDataAsync(Stream.Null).AsTask());
         }
 
         [TestMethod]
@@ -623,7 +623,7 @@ namespace System.Data.JsonRpc.UnitTests
             var jsonRpcSerializer = new JsonRpcSerializer();
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                jsonRpcSerializer.DeserializeResponseDataAsync((Stream)null));
+                jsonRpcSerializer.DeserializeResponseDataAsync((Stream)null).AsTask());
         }
 
         [TestMethod]
@@ -632,7 +632,7 @@ namespace System.Data.JsonRpc.UnitTests
             var jsonRpcSerializer = new JsonRpcSerializer();
 
             await Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
-                jsonRpcSerializer.DeserializeResponseDataAsync(Stream.Null));
+                jsonRpcSerializer.DeserializeResponseDataAsync(Stream.Null).AsTask());
         }
 
         [TestMethod]

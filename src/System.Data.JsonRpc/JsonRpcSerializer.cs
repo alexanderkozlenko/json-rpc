@@ -86,7 +86,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public Task<JsonRpcInfo<JsonRpcRequest>> DeserializeRequestDataAsync(Stream stream, CancellationToken cancellationToken = default)
+        public ValueTask<JsonRpcInfo<JsonRpcRequest>> DeserializeRequestDataAsync(Stream stream, CancellationToken cancellationToken = default)
         {
             if (stream == null)
             {
@@ -99,7 +99,7 @@ namespace System.Data.JsonRpc
                 {
                     jsonReader.ArrayPool = _jsonBufferPool;
 
-                    return Task.FromResult(DeserializeRequestData(jsonReader, cancellationToken));
+                    return new ValueTask<JsonRpcInfo<JsonRpcRequest>>(DeserializeRequestData(jsonReader, cancellationToken));
                 }
             }
         }
@@ -160,7 +160,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public Task<JsonRpcInfo<JsonRpcResponse>> DeserializeResponseDataAsync(Stream stream, CancellationToken cancellationToken = default)
+        public ValueTask<JsonRpcInfo<JsonRpcResponse>> DeserializeResponseDataAsync(Stream stream, CancellationToken cancellationToken = default)
         {
             if (stream == null)
             {
@@ -173,7 +173,7 @@ namespace System.Data.JsonRpc
                 {
                     jsonReader.ArrayPool = _jsonBufferPool;
 
-                    return Task.FromResult(DeserializeResponseData(jsonReader, cancellationToken));
+                    return new ValueTask<JsonRpcInfo<JsonRpcResponse>>(DeserializeResponseData(jsonReader, cancellationToken));
                 }
             }
         }
@@ -243,7 +243,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public Task SerializeRequestAsync(JsonRpcRequest request, Stream stream, CancellationToken cancellationToken = default)
+        public ValueTask SerializeRequestAsync(JsonRpcRequest request, Stream stream, CancellationToken cancellationToken = default)
         {
             if (request == null)
             {
@@ -267,7 +267,7 @@ namespace System.Data.JsonRpc
                 }
             }
 
-            return Task.FromResult<object>(null);
+            return default;
         }
 
         /// <summary>Serializes the specified collection of JSON-RPC requests to a JSON string.</summary>
@@ -335,7 +335,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public Task SerializeRequestsAsync(IReadOnlyList<JsonRpcRequest> requests, Stream stream, CancellationToken cancellationToken = default)
+        public ValueTask SerializeRequestsAsync(IReadOnlyList<JsonRpcRequest> requests, Stream stream, CancellationToken cancellationToken = default)
         {
             if (requests == null)
             {
@@ -359,7 +359,7 @@ namespace System.Data.JsonRpc
                 }
             }
 
-            return Task.FromResult<object>(null);
+            return default;
         }
 
         /// <summary>Serializes the specified JSON-RPC response to a JSON string.</summary>
@@ -427,7 +427,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public Task SerializeResponseAsync(JsonRpcResponse response, Stream stream, CancellationToken cancellationToken = default)
+        public ValueTask SerializeResponseAsync(JsonRpcResponse response, Stream stream, CancellationToken cancellationToken = default)
         {
             if (response == null)
             {
@@ -451,7 +451,7 @@ namespace System.Data.JsonRpc
                 }
             }
 
-            return Task.FromResult<object>(null);
+            return default;
         }
 
         /// <summary>Serializes the specified collection of JSON-RPC responses to a JSON string.</summary>
@@ -519,7 +519,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public Task SerializeResponsesAsync(IReadOnlyList<JsonRpcResponse> responses, Stream stream, CancellationToken cancellationToken = default)
+        public ValueTask SerializeResponsesAsync(IReadOnlyList<JsonRpcResponse> responses, Stream stream, CancellationToken cancellationToken = default)
         {
             if (responses == null)
             {
@@ -543,7 +543,7 @@ namespace System.Data.JsonRpc
                 }
             }
 
-            return Task.FromResult<object>(null);
+            return default;
         }
 
         /// <summary>Checks whether the JSON-RPC method is a JSON-RPC system extension method.</summary>
