@@ -163,7 +163,19 @@ namespace System.Data.JsonRpc
                                             break;
                                         case JsonToken.Float:
                                             {
-                                                requestId = new JsonRpcId((double)reader.Value);
+                                                switch (_jsonSerializer.FloatParseHandling)
+                                                {
+                                                    case FloatParseHandling.Double:
+                                                        {
+                                                            requestId = new JsonRpcId((double)reader.Value);
+                                                        }
+                                                        break;
+                                                    case FloatParseHandling.Decimal:
+                                                        {
+                                                            requestId = new JsonRpcId((double)(decimal)reader.Value);
+                                                        }
+                                                        break;
+                                                }
                                             }
                                             break;
                                         default:
