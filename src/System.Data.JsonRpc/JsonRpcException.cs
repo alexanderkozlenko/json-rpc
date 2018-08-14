@@ -2,42 +2,28 @@
 
 namespace System.Data.JsonRpc
 {
-    /// <summary>Represents errors that occur during JSON-RPC message processing.</summary>
-    public sealed class JsonRpcException : Exception
+    /// <summary>Represents an error that occurs during JSON-RPC message processing.</summary>
+    public abstract class JsonRpcException : Exception
     {
-        private readonly long _errorCode;
-        private readonly JsonRpcId _messageId;
-
-        internal JsonRpcException(long errorCode, string message)
-            : base(message)
+        /// <summary>Initializes a new instance of the <see cref="JsonRpcException" /> class.</summary>
+        protected JsonRpcException()
+            : base()
         {
-            _errorCode = errorCode;
         }
 
-        internal JsonRpcException(long errorCode, string message, in JsonRpcId messageId)
+        /// <summary>Initializes a new instance of the <see cref="JsonRpcException" /> class.</summary>
+        /// <param name="message">The message that describes the error.</param>
+        protected JsonRpcException(string message)
             : base(message)
         {
-            _errorCode = errorCode;
-            _messageId = messageId;
         }
 
-        internal JsonRpcException(long errorCode, string message, in JsonRpcId messageId, Exception innerException)
+        /// <summary>Initializes a new instance of the <see cref="JsonRpcException" /> class.</summary>
+        /// <param name="message">The message that describes the error.</param>
+        /// <param name="innerException">The exception that is the cause of the current exception.</param>
+        protected JsonRpcException(string message, Exception innerException)
             : base(message, innerException)
         {
-            _errorCode = errorCode;
-            _messageId = messageId;
-        }
-
-        /// <summary>Gets the identifier of the related JSON-RPC message.</summary>
-        public ref readonly JsonRpcId MessageId
-        {
-            get => ref _messageId;
-        }
-
-        /// <summary>Gets the corresponding JSON-RPC error code.</summary>
-        public long ErrorCode
-        {
-            get => _errorCode;
         }
     }
 }

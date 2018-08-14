@@ -21,9 +21,9 @@ namespace System.Data.JsonRpc
         }
 
         /// <summary>Gets an exception for unsuccessful deserialization.</summary>
-        public JsonRpcException Exception
+        public JsonRpcSerializationException Exception
         {
-            get => _value as JsonRpcException;
+            get => _value as JsonRpcSerializationException;
         }
 
         /// <summary>Gets a value indicating whether the deserialization was successful.</summary>

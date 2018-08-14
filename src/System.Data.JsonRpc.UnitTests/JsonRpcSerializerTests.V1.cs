@@ -180,7 +180,7 @@ namespace System.Data.JsonRpc.UnitTests
             var parameters = new Dictionary<string, object> { ["p"] = 1L };
             var message = new JsonRpcRequest("m", parameters);
 
-            var exception = Assert.ThrowsException<JsonRpcException>(() =>
+            var exception = Assert.ThrowsException<JsonRpcSerializationException>(() =>
                 jsonRpcSerializer.SerializeRequest(message));
 
             Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, exception.ErrorCode);
