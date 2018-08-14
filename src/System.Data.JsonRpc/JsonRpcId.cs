@@ -170,7 +170,7 @@ namespace System.Data.JsonRpc
                     }
                 default:
                     {
-                        return false;
+                        return (_type == JsonRpcIdType.None) && (obj == null);
                     }
             }
         }

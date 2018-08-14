@@ -18,10 +18,10 @@ namespace System.Data.JsonRpc
 
             return
                 ((method.Length >= 4)) &&
+                ((method[3] == '.')) &&
                 ((method[0] == 'r') || (method[0] == 'R')) &&
                 ((method[1] == 'p') || (method[1] == 'P')) &&
-                ((method[2] == 'c') || (method[2] == 'C')) &&
-                ((method[3] == '.'));
+                ((method[2] == 'c') || (method[2] == 'C'));
         }
 
         /// <summary>Checks whether the JSON-RPC error code is in range of JSON-RPC system error codes.</summary>
