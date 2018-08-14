@@ -40,7 +40,7 @@ namespace System.Data.JsonRpc
                 throw new InvalidOperationException(Strings.GetString("core.deserialize.resolver.undefined"));
             }
 
-            var messagesList = default(LinkedList<JsonRpcMessageInfo<JsonRpcRequest>>);
+            var messagesList = default(List<JsonRpcMessageInfo<JsonRpcRequest>>);
 
             while (reader.Read())
             {
@@ -53,12 +53,12 @@ namespace System.Data.JsonRpc
                     else
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        messagesList.AddLast(DeserializeRequest(reader));
+                        messagesList.Add(DeserializeRequest(reader));
                     }
                 }
                 else if (reader.TokenType == JsonToken.StartArray)
                 {
-                    messagesList = new LinkedList<JsonRpcMessageInfo<JsonRpcRequest>>();
+                    messagesList = new List<JsonRpcMessageInfo<JsonRpcRequest>>();
                 }
                 else if (reader.TokenType == JsonToken.EndArray)
                 {
@@ -86,7 +86,7 @@ namespace System.Data.JsonRpc
                         var exceptionMessage = string.Format(Strings.GetString("core.batch.invalid_item"), messagesList.Count);
                         var exception = new JsonRpcException(JsonRpcErrorCode.InvalidMessage, exceptionMessage);
 
-                        messagesList.AddLast(new JsonRpcMessageInfo<JsonRpcRequest>(exception));
+                        messagesList.Add(new JsonRpcMessageInfo<JsonRpcRequest>(exception));
                     }
                 }
             }
@@ -314,7 +314,7 @@ namespace System.Data.JsonRpc
                 throw new InvalidOperationException(Strings.GetString("core.deserialize.resolver.undefined"));
             }
 
-            var messagesList = default(LinkedList<JsonRpcMessageInfo<JsonRpcResponse>>);
+            var messagesList = default(List<JsonRpcMessageInfo<JsonRpcResponse>>);
 
             while (reader.Read())
             {
@@ -327,12 +327,12 @@ namespace System.Data.JsonRpc
                     else
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        messagesList.AddLast(DeserializeResponse(reader));
+                        messagesList.Add(DeserializeResponse(reader));
                     }
                 }
                 else if (reader.TokenType == JsonToken.StartArray)
                 {
-                    messagesList = new LinkedList<JsonRpcMessageInfo<JsonRpcResponse>>();
+                    messagesList = new List<JsonRpcMessageInfo<JsonRpcResponse>>();
                 }
                 else if (reader.TokenType == JsonToken.EndArray)
                 {
@@ -360,7 +360,7 @@ namespace System.Data.JsonRpc
                         var exceptionMessage = string.Format(Strings.GetString("core.batch.invalid_item"), messagesList.Count);
                         var exception = new JsonRpcException(JsonRpcErrorCode.InvalidMessage, exceptionMessage);
 
-                        messagesList.AddLast(new JsonRpcMessageInfo<JsonRpcResponse>(exception));
+                        messagesList.Add(new JsonRpcMessageInfo<JsonRpcResponse>(exception));
                     }
                 }
             }
