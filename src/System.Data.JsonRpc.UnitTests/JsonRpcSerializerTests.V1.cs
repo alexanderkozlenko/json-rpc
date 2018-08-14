@@ -208,7 +208,7 @@ namespace System.Data.JsonRpc.UnitTests
 
             Assert.IsFalse(jsonRpcMessage.Success);
             Assert.AreEqual(1L, jsonRpcMessage.Id);
-           Assert.IsNull(jsonRpcMessage.Result);
+            Assert.IsNull(jsonRpcMessage.Result);
             Assert.IsNotNull(jsonRpcMessage.Error);
 
             var jsonRpcError = jsonRpcMessage.Error;
