@@ -40,42 +40,38 @@ namespace System.Data.JsonRpc
                 throw new InvalidOperationException(Strings.GetString("core.deserialize.resolver.undefined"));
             }
 
-            var messagesList = default(List<JsonRpcMessageInfo<JsonRpcRequest>>);
+            var messages = default(List<JsonRpcMessageInfo<JsonRpcRequest>>);
 
             while (reader.Read())
             {
                 if (reader.TokenType == JsonToken.StartObject)
                 {
-                    if (messagesList == null)
+                    if (messages == null)
                     {
                         return new JsonRpcInfo<JsonRpcRequest>(DeserializeRequest(reader));
                     }
                     else
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        messagesList.Add(DeserializeRequest(reader));
+                        messages.Add(DeserializeRequest(reader));
                     }
                 }
                 else if (reader.TokenType == JsonToken.StartArray)
                 {
-                    messagesList = new List<JsonRpcMessageInfo<JsonRpcRequest>>();
+                    messages = new List<JsonRpcMessageInfo<JsonRpcRequest>>();
                 }
                 else if (reader.TokenType == JsonToken.EndArray)
                 {
-                    if (messagesList.Count == 0)
+                    if (messages.Count == 0)
                     {
                         throw new JsonRpcException(JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.batch.empty"));
                     }
 
-                    var messagesArray = new JsonRpcMessageInfo<JsonRpcRequest>[messagesList.Count];
-
-                    messagesList.CopyTo(messagesArray, 0);
-
-                    return new JsonRpcInfo<JsonRpcRequest>(messagesArray);
+                    return new JsonRpcInfo<JsonRpcRequest>(messages.ToArray());
                 }
                 else
                 {
-                    if (messagesList == null)
+                    if (messages == null)
                     {
                         break;
                     }
@@ -83,10 +79,10 @@ namespace System.Data.JsonRpc
                     {
                         cancellationToken.ThrowIfCancellationRequested();
 
-                        var exceptionMessage = string.Format(Strings.GetString("core.batch.invalid_item"), messagesList.Count);
+                        var exceptionMessage = string.Format(Strings.GetString("core.batch.invalid_item"), messages.Count);
                         var exception = new JsonRpcException(JsonRpcErrorCode.InvalidMessage, exceptionMessage);
 
-                        messagesList.Add(new JsonRpcMessageInfo<JsonRpcRequest>(exception));
+                        messages.Add(new JsonRpcMessageInfo<JsonRpcRequest>(exception));
                     }
                 }
             }
@@ -314,42 +310,38 @@ namespace System.Data.JsonRpc
                 throw new InvalidOperationException(Strings.GetString("core.deserialize.resolver.undefined"));
             }
 
-            var messagesList = default(List<JsonRpcMessageInfo<JsonRpcResponse>>);
+            var messages = default(List<JsonRpcMessageInfo<JsonRpcResponse>>);
 
             while (reader.Read())
             {
                 if (reader.TokenType == JsonToken.StartObject)
                 {
-                    if (messagesList == null)
+                    if (messages == null)
                     {
                         return new JsonRpcInfo<JsonRpcResponse>(DeserializeResponse(reader));
                     }
                     else
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        messagesList.Add(DeserializeResponse(reader));
+                        messages.Add(DeserializeResponse(reader));
                     }
                 }
                 else if (reader.TokenType == JsonToken.StartArray)
                 {
-                    messagesList = new List<JsonRpcMessageInfo<JsonRpcResponse>>();
+                    messages = new List<JsonRpcMessageInfo<JsonRpcResponse>>();
                 }
                 else if (reader.TokenType == JsonToken.EndArray)
                 {
-                    if (messagesList.Count == 0)
+                    if (messages.Count == 0)
                     {
                         throw new JsonRpcException(JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.batch.empty"));
                     }
 
-                    var messagesArray = new JsonRpcMessageInfo<JsonRpcResponse>[messagesList.Count];
-
-                    messagesList.CopyTo(messagesArray, 0);
-
-                    return new JsonRpcInfo<JsonRpcResponse>(messagesArray);
+                    return new JsonRpcInfo<JsonRpcResponse>(messages.ToArray());
                 }
                 else
                 {
-                    if (messagesList == null)
+                    if (messages == null)
                     {
                         break;
                     }
@@ -357,10 +349,10 @@ namespace System.Data.JsonRpc
                     {
                         cancellationToken.ThrowIfCancellationRequested();
 
-                        var exceptionMessage = string.Format(Strings.GetString("core.batch.invalid_item"), messagesList.Count);
+                        var exceptionMessage = string.Format(Strings.GetString("core.batch.invalid_item"), messages.Count);
                         var exception = new JsonRpcException(JsonRpcErrorCode.InvalidMessage, exceptionMessage);
 
-                        messagesList.Add(new JsonRpcMessageInfo<JsonRpcResponse>(exception));
+                        messages.Add(new JsonRpcMessageInfo<JsonRpcResponse>(exception));
                     }
                 }
             }
