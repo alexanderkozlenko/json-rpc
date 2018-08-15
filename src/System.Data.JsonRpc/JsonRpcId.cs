@@ -132,11 +132,11 @@ namespace System.Data.JsonRpc
                     }
                 case JsonRpcIdType.Integer:
                     {
-                        return _valueInteger.Equals(other._valueInteger);
+                        return _valueInteger == other._valueInteger;
                     }
                 case JsonRpcIdType.Float:
                     {
-                        return _valueFloat.Equals(other._valueFloat);
+                        return _valueFloat == other._valueFloat;
                     }
                 default:
                     {
@@ -162,11 +162,11 @@ namespace System.Data.JsonRpc
                     }
                 case long other:
                     {
-                        return (_type == JsonRpcIdType.Integer) && _valueInteger.Equals(other);
+                        return (_type == JsonRpcIdType.Integer) && (_valueInteger == other);
                     }
                 case double other:
                     {
-                        return (_type == JsonRpcIdType.Float) && _valueFloat.Equals(other);
+                        return (_type == JsonRpcIdType.Float) && (_valueFloat == other);
                     }
                 default:
                     {
