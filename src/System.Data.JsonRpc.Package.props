@@ -1,9 +1,11 @@
 ﻿<Project>
   <PropertyGroup>
-    <Version>1.17.0</Version>
+    <Version>1.17.1</Version>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/alexanderkozlenko/json-rpc.git</RepositoryUrl>
-    <PackageLicenseUrl>https://raw.github.com/alexanderkozlenko/json-rpc/master/LICENSE</PackageLicenseUrl>
+    <RepositoryBranch>master</RepositoryBranch>
+    <PackageProjectUrl>https://github.com/alexanderkozlenko/json-rpc</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.github.com/alexanderkozlenko/json-rpc/$(RepositoryBranch)/LICENSE</PackageLicenseUrl>
     <Authors><![CDATA[Alexander Kozlenko]]></Authors>
     <Copyright><![CDATA[© Alexander Kozlenko. All rights reserved.]]></Copyright>
     <Description><![CDATA[Provides support for serializing and deserializing JSON-RPC 2.0 messages]]></Description>
