@@ -1,6 +1,6 @@
 ﻿<Project>
   <PropertyGroup>
-    <Version>1.17.1</Version>
+    <Version>1.17.2</Version>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/alexanderkozlenko/json-rpc.git</RepositoryUrl>
     <RepositoryBranch>master</RepositoryBranch>

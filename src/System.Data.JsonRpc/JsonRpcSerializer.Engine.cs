@@ -33,7 +33,7 @@ namespace System.Data.JsonRpc
             };
         }
 
-        private JsonRpcInfo<JsonRpcRequest> DeserializeRequestData(JsonTextReader reader, CancellationToken cancellationToken = default)
+        private JsonRpcData<JsonRpcRequest> DeserializeRequestData(JsonTextReader reader, CancellationToken cancellationToken = default)
         {
             if (_contractResolver == null)
             {
@@ -48,7 +48,7 @@ namespace System.Data.JsonRpc
                 {
                     if (messages == null)
                     {
-                        return new JsonRpcInfo<JsonRpcRequest>(DeserializeRequest(reader));
+                        return new JsonRpcData<JsonRpcRequest>(DeserializeRequest(reader));
                     }
                     else
                     {
@@ -67,7 +67,7 @@ namespace System.Data.JsonRpc
                         throw new JsonRpcSerializationException(JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.batch.empty"));
                     }
 
-                    return new JsonRpcInfo<JsonRpcRequest>(messages.ToArray());
+                    return new JsonRpcData<JsonRpcRequest>(messages.ToArray());
                 }
                 else
                 {
@@ -303,7 +303,7 @@ namespace System.Data.JsonRpc
             }
         }
 
-        private JsonRpcInfo<JsonRpcResponse> DeserializeResponseData(JsonTextReader reader, CancellationToken cancellationToken = default)
+        private JsonRpcData<JsonRpcResponse> DeserializeResponseData(JsonTextReader reader, CancellationToken cancellationToken = default)
         {
             if (_contractResolver == null)
             {
@@ -318,7 +318,7 @@ namespace System.Data.JsonRpc
                 {
                     if (messages == null)
                     {
-                        return new JsonRpcInfo<JsonRpcResponse>(DeserializeResponse(reader));
+                        return new JsonRpcData<JsonRpcResponse>(DeserializeResponse(reader));
                     }
                     else
                     {
@@ -337,7 +337,7 @@ namespace System.Data.JsonRpc
                         throw new JsonRpcSerializationException(JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.batch.empty"));
                     }
 
-                    return new JsonRpcInfo<JsonRpcResponse>(messages.ToArray());
+                    return new JsonRpcData<JsonRpcResponse>(messages.ToArray());
                 }
                 else
                 {

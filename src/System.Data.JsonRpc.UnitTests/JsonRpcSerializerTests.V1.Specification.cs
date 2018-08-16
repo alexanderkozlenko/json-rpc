@@ -19,11 +19,11 @@ namespace System.Data.JsonRpc.UnitTests
 
             jsonRpcContractResolver.AddRequestContract("echo", new JsonRpcRequestContract(new[] { typeof(string) }));
 
-            var jsonRpcInfo = jsonRpcSerializer.DeserializeRequestData(jsonSample);
+            var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
-            Assert.IsFalse(jsonRpcInfo.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
-            var jsonRpcMessageInfo = jsonRpcInfo.Message;
+            var jsonRpcMessageInfo = jsonRpcData.Item;
 
             Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
@@ -58,11 +58,11 @@ namespace System.Data.JsonRpc.UnitTests
             jsonRpcContractResolver.AddResponseContract("echo", new JsonRpcResponseContract(typeof(string)));
             jsonRpcContractResolver.AddResponseBinding(1L, "echo");
 
-            var jsonRpcInfo = jsonRpcSerializer.DeserializeResponseData(jsonSample);
+            var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.IsFalse(jsonRpcInfo.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
-            var jsonRpcMessageInfo = jsonRpcInfo.Message;
+            var jsonRpcMessageInfo = jsonRpcData.Item;
 
             Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
@@ -97,11 +97,11 @@ namespace System.Data.JsonRpc.UnitTests
 
             jsonRpcContractResolver.AddRequestContract("postMessage", new JsonRpcRequestContract(new[] { typeof(string) }));
 
-            var jsonRpcInfo = jsonRpcSerializer.DeserializeRequestData(jsonSample);
+            var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
-            Assert.IsFalse(jsonRpcInfo.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
-            var jsonRpcMessageInfo = jsonRpcInfo.Message;
+            var jsonRpcMessageInfo = jsonRpcData.Item;
 
             Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
@@ -135,11 +135,11 @@ namespace System.Data.JsonRpc.UnitTests
             jsonRpcContractResolver.AddResponseContract("echo", new JsonRpcResponseContract(typeof(long)));
             jsonRpcContractResolver.AddResponseBinding(99L, "echo");
 
-            var jsonRpcInfo = jsonRpcSerializer.DeserializeResponseData(jsonSample);
+            var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.IsFalse(jsonRpcInfo.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
-            var jsonRpcMessageInfo = jsonRpcInfo.Message;
+            var jsonRpcMessageInfo = jsonRpcData.Item;
 
             Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
@@ -171,11 +171,11 @@ namespace System.Data.JsonRpc.UnitTests
 
             jsonRpcContractResolver.AddRequestContract("handleMessage", new JsonRpcRequestContract(new[] { typeof(string), typeof(string) }));
 
-            var jsonRpcInfo = jsonRpcSerializer.DeserializeRequestData(jsonSample);
+            var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
-            Assert.IsFalse(jsonRpcInfo.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
-            var jsonRpcMessageInfo = jsonRpcInfo.Message;
+            var jsonRpcMessageInfo = jsonRpcData.Item;
 
             Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
@@ -220,11 +220,11 @@ namespace System.Data.JsonRpc.UnitTests
 
             jsonRpcContractResolver.AddRequestContract("handleMessage", new JsonRpcRequestContract(new[] { typeof(string), typeof(string) }));
 
-            var jsonRpcInfo = jsonRpcSerializer.DeserializeRequestData(jsonSample);
+            var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
-            Assert.IsFalse(jsonRpcInfo.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
-            var jsonRpcMessageInfo = jsonRpcInfo.Message;
+            var jsonRpcMessageInfo = jsonRpcData.Item;
 
             Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
@@ -269,11 +269,11 @@ namespace System.Data.JsonRpc.UnitTests
 
             jsonRpcContractResolver.AddRequestContract("postMessage", new JsonRpcRequestContract(new[] { typeof(string) }));
 
-            var jsonRpcInfo = jsonRpcSerializer.DeserializeRequestData(jsonSample);
+            var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
-            Assert.IsFalse(jsonRpcInfo.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
-            var jsonRpcMessageInfo = jsonRpcInfo.Message;
+            var jsonRpcMessageInfo = jsonRpcData.Item;
 
             Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
@@ -318,11 +318,11 @@ namespace System.Data.JsonRpc.UnitTests
 
             jsonRpcContractResolver.AddRequestContract("userLeft", new JsonRpcRequestContract(new[] { typeof(string) }));
 
-            var jsonRpcInfo = jsonRpcSerializer.DeserializeRequestData(jsonSample);
+            var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonSample);
 
-            Assert.IsFalse(jsonRpcInfo.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
-            var jsonRpcMessageInfo = jsonRpcInfo.Message;
+            var jsonRpcMessageInfo = jsonRpcData.Item;
 
             Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
@@ -380,11 +380,11 @@ namespace System.Data.JsonRpc.UnitTests
             jsonRpcContractResolver.AddResponseContract("postMessage", new JsonRpcResponseContract(typeof(long)));
             jsonRpcContractResolver.AddResponseBinding(101L, "postMessage");
 
-            var jsonRpcInfo = jsonRpcSerializer.DeserializeResponseData(jsonSample);
+            var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonSample);
 
-            Assert.IsFalse(jsonRpcInfo.IsBatch);
+            Assert.IsFalse(jsonRpcData.IsBatch);
 
-            var jsonRpcMessageInfo = jsonRpcInfo.Message;
+            var jsonRpcMessageInfo = jsonRpcData.Item;
 
             Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 

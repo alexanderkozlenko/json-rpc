@@ -6,18 +6,18 @@ namespace System.Data.JsonRpc
 {
     /// <summary>Represents a JSON-RPC data deserialization result.</summary>
     /// <typeparam name="T">The type of the JSON-RPC message.</typeparam>
-    public sealed class JsonRpcInfo<T>
+    public sealed class JsonRpcData<T>
         where T : JsonRpcMessage
     {
         private readonly JsonRpcMessageInfo<T> _message;
         private readonly IReadOnlyList<JsonRpcMessageInfo<T>> _messages;
 
-        internal JsonRpcInfo(JsonRpcMessageInfo<T> message)
+        internal JsonRpcData(JsonRpcMessageInfo<T> message)
         {
             _message = message;
         }
 
-        internal JsonRpcInfo(IReadOnlyList<JsonRpcMessageInfo<T>> messages)
+        internal JsonRpcData(IReadOnlyList<JsonRpcMessageInfo<T>> messages)
         {
             _messages = messages;
         }
@@ -29,13 +29,13 @@ namespace System.Data.JsonRpc
         }
 
         /// <summary>Gets a JSON-RPC message deserialization result for non-batch data.</summary>
-        public JsonRpcMessageInfo<T> Message
+        public JsonRpcMessageInfo<T> Item
         {
             get => _message;
         }
 
         /// <summary>Gets a collection of JSON-RPC message deserialization results for batch data.</summary>
-        public IReadOnlyList<JsonRpcMessageInfo<T>> Messages
+        public IReadOnlyList<JsonRpcMessageInfo<T>> Items
         {
             get => _messages;
         }

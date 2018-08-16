@@ -36,7 +36,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="json" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
-        public JsonRpcInfo<JsonRpcRequest> DeserializeRequestData(string json)
+        public JsonRpcData<JsonRpcRequest> DeserializeRequestData(string json)
         {
             if (json == null)
             {
@@ -60,7 +60,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
-        public JsonRpcInfo<JsonRpcRequest> DeserializeRequestData(Stream stream)
+        public JsonRpcData<JsonRpcRequest> DeserializeRequestData(Stream stream)
         {
             if (stream == null)
             {
@@ -86,7 +86,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public ValueTask<JsonRpcInfo<JsonRpcRequest>> DeserializeRequestDataAsync(Stream stream, CancellationToken cancellationToken = default)
+        public ValueTask<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(Stream stream, CancellationToken cancellationToken = default)
         {
             if (stream == null)
             {
@@ -99,7 +99,7 @@ namespace System.Data.JsonRpc
                 {
                     jsonReader.ArrayPool = _jsonBufferPool;
 
-                    return new ValueTask<JsonRpcInfo<JsonRpcRequest>>(DeserializeRequestData(jsonReader, cancellationToken));
+                    return new ValueTask<JsonRpcData<JsonRpcRequest>>(DeserializeRequestData(jsonReader, cancellationToken));
                 }
             }
         }
@@ -110,7 +110,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="json" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
-        public JsonRpcInfo<JsonRpcResponse> DeserializeResponseData(string json)
+        public JsonRpcData<JsonRpcResponse> DeserializeResponseData(string json)
         {
             if (json == null)
             {
@@ -134,7 +134,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
-        public JsonRpcInfo<JsonRpcResponse> DeserializeResponseData(Stream stream)
+        public JsonRpcData<JsonRpcResponse> DeserializeResponseData(Stream stream)
         {
             if (stream == null)
             {
@@ -160,7 +160,7 @@ namespace System.Data.JsonRpc
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public ValueTask<JsonRpcInfo<JsonRpcResponse>> DeserializeResponseDataAsync(Stream stream, CancellationToken cancellationToken = default)
+        public ValueTask<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(Stream stream, CancellationToken cancellationToken = default)
         {
             if (stream == null)
             {
@@ -173,7 +173,7 @@ namespace System.Data.JsonRpc
                 {
                     jsonReader.ArrayPool = _jsonBufferPool;
 
-                    return new ValueTask<JsonRpcInfo<JsonRpcResponse>>(DeserializeResponseData(jsonReader, cancellationToken));
+                    return new ValueTask<JsonRpcData<JsonRpcResponse>>(DeserializeResponseData(jsonReader, cancellationToken));
                 }
             }
         }

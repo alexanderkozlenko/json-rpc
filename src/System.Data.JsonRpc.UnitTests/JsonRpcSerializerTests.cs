@@ -493,11 +493,11 @@ namespace System.Data.JsonRpc.UnitTests
 
             using (var jsonStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonSample)))
             {
-                var jsonRpcInfo = jsonRpcSerializer.DeserializeRequestData(jsonStream);
+                var jsonRpcData = jsonRpcSerializer.DeserializeRequestData(jsonStream);
 
-                Assert.IsFalse(jsonRpcInfo.IsBatch);
+                Assert.IsFalse(jsonRpcData.IsBatch);
 
-                var jsonRpcMessageInfo = jsonRpcInfo.Message;
+                var jsonRpcMessageInfo = jsonRpcData.Item;
 
                 Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
@@ -538,11 +538,11 @@ namespace System.Data.JsonRpc.UnitTests
 
             using (var jsonStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonSample)))
             {
-                var jsonRpcInfo = await jsonRpcSerializer.DeserializeRequestDataAsync(jsonStream);
+                var jsonRpcData = await jsonRpcSerializer.DeserializeRequestDataAsync(jsonStream);
 
-                Assert.IsFalse(jsonRpcInfo.IsBatch);
+                Assert.IsFalse(jsonRpcData.IsBatch);
 
-                var jsonRpcMessageInfo = jsonRpcInfo.Message;
+                var jsonRpcMessageInfo = jsonRpcData.Item;
 
                 Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
@@ -601,11 +601,11 @@ namespace System.Data.JsonRpc.UnitTests
 
             using (var jsonStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonSample)))
             {
-                var jsonRpcInfo = jsonRpcSerializer.DeserializeResponseData(jsonStream);
+                var jsonRpcData = jsonRpcSerializer.DeserializeResponseData(jsonStream);
 
-                Assert.IsFalse(jsonRpcInfo.IsBatch);
+                Assert.IsFalse(jsonRpcData.IsBatch);
 
-                var jsonRpcMessageInfo = jsonRpcInfo.Message;
+                var jsonRpcMessageInfo = jsonRpcData.Item;
 
                 Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
@@ -646,11 +646,11 @@ namespace System.Data.JsonRpc.UnitTests
 
             using (var jsonStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonSample)))
             {
-                var jsonRpcInfo = await jsonRpcSerializer.DeserializeResponseDataAsync(jsonStream);
+                var jsonRpcData = await jsonRpcSerializer.DeserializeResponseDataAsync(jsonStream);
 
-                Assert.IsFalse(jsonRpcInfo.IsBatch);
+                Assert.IsFalse(jsonRpcData.IsBatch);
 
-                var jsonRpcMessageInfo = jsonRpcInfo.Message;
+                var jsonRpcMessageInfo = jsonRpcData.Item;
 
                 Assert.IsTrue(jsonRpcMessageInfo.IsValid);
 
