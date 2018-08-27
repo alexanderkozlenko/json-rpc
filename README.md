@@ -16,18 +16,22 @@ Provides support for serializing and deserializing [JSON-RPC 2.0](http://www.jso
 ### Usage Examples
 
 ```cs
-var jrContractResolver = new JsonRpcContractResolver();
-var jrSerializer = new JsonRpcSerializer(jrContractResolver);
-var jrRequest = new JsonRpcRequest("sum", 1L, new[] { 1L, 2L });
-var jrRequestString = jrSerializer.SerializeRequest(jrRequest);
+var contracts = new JsonRpcContractResolver();
+var serializer = new JsonRpcSerializer(contracts);
 
-// [...] (Storing an HTTP response string in the "jrResponseString" variable)
+contracts.AddResponseContract("sum", new JsonRpcResponseContract(typeof(long)));
 
-jrContractResolver.AddResponseContract("sum", new JsonRpcResponseContract(typeof(long)));
-jrContractResolver.AddResponseBinding(jrRequest.Id, "sum");
+var request = new JsonRpcRequest("sum", 1L, new[] { 1L, 2L });
+var requestString = serializer.SerializeRequest(request);
 
-var jrResponseData = jrSerializer.DeserializeResponseData(jrResponseString);
-var jrResult = (long)jrResponseData.Item.Message.Result;
+// [Executing the corresponding HTTP request]
+
+contracts.AddResponseBinding(request.Id, request.Method);
+
+var responseData = serializer.DeserializeResponseData(responseString);
+var response = responseData.Item.Message;
+
+Console.WriteLine((long)response.Result);
 ```
 
 - Example of client-side usage: https://github.com/alexanderkozlenko/json-rpc-client
