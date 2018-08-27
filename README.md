@@ -9,9 +9,8 @@ Provides support for serializing and deserializing [JSON-RPC 2.0](http://www.jso
 - The serializer supports defining response type contracts dependent on method parameters.
 - The serializer provides limited backward compatibility with the [JSON-RPC 1.0](http://www.jsonrpc.org/specification_v1).
 
-### Characteristics
+### Limitations
 
-- Deserializing a response requires a binding of a message ID to a method name (or a response contract by a message ID).
 - Backward compatibility with JSON-RPC 1.0 is limited to the intersection of JSON-RPC 1.0 / 2.0 requirements and the API.
 
 ### Usage Examples
