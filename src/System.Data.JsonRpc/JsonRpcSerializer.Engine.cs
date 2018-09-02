@@ -228,6 +228,8 @@ namespace System.Data.JsonRpc
                     throw new JsonRpcSerializationException(JsonRpcErrorCode.InvalidMethod, exceptionMessage, requestId);
                 }
 
+                var request = default(JsonRpcRequest);
+
                 switch (requestContract.ParametersType)
                 {
                     case JsonRpcParametersType.ByPosition:
@@ -255,10 +257,9 @@ namespace System.Data.JsonRpc
                                 throw new JsonSerializationException(Strings.GetString("core.deserialize.json_issue"), e);
                             }
 
-                            var request = new JsonRpcRequest(requestMethod, requestId, requestParameters);
-
-                            return new JsonRpcMessageInfo<JsonRpcRequest>(request);
+                            request = new JsonRpcRequest(requestMethod, requestId, requestParameters);
                         }
+                        break;
                     case JsonRpcParametersType.ByName:
                         {
                             if (!(requestParamsetersToken is JObject requestParametersObjectToken))
@@ -285,17 +286,17 @@ namespace System.Data.JsonRpc
                                 throw new JsonSerializationException(Strings.GetString("core.deserialize.json_issue"), e);
                             }
 
-                            var request = new JsonRpcRequest(requestMethod, requestId, requestParameters);
-
-                            return new JsonRpcMessageInfo<JsonRpcRequest>(request);
+                            request = new JsonRpcRequest(requestMethod, requestId, requestParameters);
                         }
+                        break;
                     default:
                         {
-                            var request = new JsonRpcRequest(requestMethod, requestId);
-
-                            return new JsonRpcMessageInfo<JsonRpcRequest>(request);
+                            request = new JsonRpcRequest(requestMethod, requestId);
                         }
+                        break;
                 }
+
+                return new JsonRpcMessageInfo<JsonRpcRequest>(request);
             }
             catch (JsonRpcSerializationException e)
             {
@@ -565,6 +566,8 @@ namespace System.Data.JsonRpc
                     responseSuccess = responseErrorSetAsNull;
                 }
 
+                var response = default(JsonRpcResponse);
+
                 if (responseSuccess)
                 {
                     if (responseId.Type == JsonRpcIdType.None)
@@ -593,12 +596,12 @@ namespace System.Data.JsonRpc
                         }
                     }
 
-                    var response = new JsonRpcResponse(responseResult, responseId);
-
-                    return new JsonRpcMessageInfo<JsonRpcResponse>(response);
+                    response = new JsonRpcResponse(responseResult, responseId);
                 }
                 else
                 {
+                    var responseError = default(JsonRpcError);
+
                     if (!responseErrorSetAsNull)
                     {
                         if (_compatibilityLevel != JsonRpcCompatibilityLevel.Level1)
@@ -647,8 +650,6 @@ namespace System.Data.JsonRpc
                                 }
                             }
 
-                            var responseError = default(JsonRpcError);
-
                             try
                             {
                                 responseError = new JsonRpcError(responseErrorCode ?? 0L, responseErrorMessage ?? string.Empty, responseErrorData);
@@ -657,15 +658,9 @@ namespace System.Data.JsonRpc
                             {
                                 throw new JsonRpcSerializationException(JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.deserialize.response.error.code.invalid_range"), responseId, e);
                             }
-
-                            var response = new JsonRpcResponse(responseError, responseId);
-
-                            return new JsonRpcMessageInfo<JsonRpcResponse>(response);
                         }
                         else
                         {
-                            var responseError = default(JsonRpcError);
-
                             try
                             {
                                 responseError = new JsonRpcError(responseErrorCode ?? 0L, responseErrorMessage ?? string.Empty);
@@ -674,10 +669,6 @@ namespace System.Data.JsonRpc
                             {
                                 throw new JsonRpcSerializationException(JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.deserialize.response.error.code.invalid_range"), responseId, e);
                             }
-
-                            var response = new JsonRpcResponse(responseError, responseId);
-
-                            return new JsonRpcMessageInfo<JsonRpcResponse>(response);
                         }
                     }
                     else
@@ -688,13 +679,14 @@ namespace System.Data.JsonRpc
                         }
                         else
                         {
-                            var responseError = new JsonRpcError(default, string.Empty);
-                            var response = new JsonRpcResponse(responseError, responseId);
-
-                            return new JsonRpcMessageInfo<JsonRpcResponse>(response);
+                            responseError = new JsonRpcError(default, string.Empty);
                         }
                     }
+
+                    response = new JsonRpcResponse(responseError, responseId);
                 }
+
+                return new JsonRpcMessageInfo<JsonRpcResponse>(response);
             }
             catch (JsonRpcSerializationException e)
             {
