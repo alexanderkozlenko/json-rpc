@@ -47,6 +47,7 @@ namespace System.Data.JsonRpc
             {
                 using (var jsonReader = new JsonTextReader(stringReader))
                 {
+                    jsonReader.DateParseHandling = DateParseHandling.None;
                     jsonReader.ArrayPool = _jsonBufferPool;
 
                     return DeserializeRequestData(jsonReader);
@@ -71,6 +72,7 @@ namespace System.Data.JsonRpc
             {
                 using (var jsonReader = new JsonTextReader(streamReader))
                 {
+                    jsonReader.DateParseHandling = DateParseHandling.None;
                     jsonReader.ArrayPool = _jsonBufferPool;
 
                     return DeserializeRequestData(jsonReader);
@@ -97,6 +99,7 @@ namespace System.Data.JsonRpc
             {
                 using (var jsonReader = new JsonTextReader(streamReader))
                 {
+                    jsonReader.DateParseHandling = DateParseHandling.None;
                     jsonReader.ArrayPool = _jsonBufferPool;
 
                     return new ValueTask<JsonRpcData<JsonRpcRequest>>(DeserializeRequestData(jsonReader, cancellationToken));
@@ -121,6 +124,7 @@ namespace System.Data.JsonRpc
             {
                 using (var jsonReader = new JsonTextReader(stringReader))
                 {
+                    jsonReader.DateParseHandling = DateParseHandling.None;
                     jsonReader.ArrayPool = _jsonBufferPool;
 
                     return DeserializeResponseData(jsonReader);
@@ -145,6 +149,7 @@ namespace System.Data.JsonRpc
             {
                 using (var jsonReader = new JsonTextReader(streamReader))
                 {
+                    jsonReader.DateParseHandling = DateParseHandling.None;
                     jsonReader.ArrayPool = _jsonBufferPool;
 
                     return DeserializeResponseData(jsonReader);
@@ -171,6 +176,7 @@ namespace System.Data.JsonRpc
             {
                 using (var jsonReader = new JsonTextReader(streamReader))
                 {
+                    jsonReader.DateParseHandling = DateParseHandling.None;
                     jsonReader.ArrayPool = _jsonBufferPool;
 
                     return new ValueTask<JsonRpcData<JsonRpcResponse>>(DeserializeResponseData(jsonReader, cancellationToken));
