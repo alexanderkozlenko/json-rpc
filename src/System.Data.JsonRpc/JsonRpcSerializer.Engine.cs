@@ -615,6 +615,17 @@ namespace System.Data.JsonRpc
                                 throw new JsonRpcSerializationException(JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.deserialize.response.error.message.invalid_property"), responseId);
                             }
                         }
+                        else
+                        {
+                            if (responseErrorCode == null)
+                            {
+                                responseErrorCode = 0L;
+                            }
+                            if (responseErrorMessage == null)
+                            {
+                                responseErrorMessage = string.Empty;
+                            }
+                        }
 
                         if (responseErrorDataToken != null)
                         {
@@ -652,7 +663,7 @@ namespace System.Data.JsonRpc
 
                             try
                             {
-                                responseError = new JsonRpcError(responseErrorCode ?? 0L, responseErrorMessage ?? string.Empty, responseErrorData);
+                                responseError = new JsonRpcError(responseErrorCode.Value, responseErrorMessage, responseErrorData);
                             }
                             catch (ArgumentOutOfRangeException e)
                             {
@@ -663,7 +674,7 @@ namespace System.Data.JsonRpc
                         {
                             try
                             {
-                                responseError = new JsonRpcError(responseErrorCode ?? 0L, responseErrorMessage ?? string.Empty);
+                                responseError = new JsonRpcError(responseErrorCode.Value, responseErrorMessage);
                             }
                             catch (ArgumentOutOfRangeException e)
                             {
