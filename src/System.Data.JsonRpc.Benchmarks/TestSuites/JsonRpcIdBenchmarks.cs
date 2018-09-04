@@ -56,53 +56,5 @@ namespace System.Data.JsonRpc.Benchmarks.TestSuites
         {
             return _idFloat.Equals(_idFloat);
         }
-
-        [Benchmark(Description = "CompareTo-TYPE=N")]
-        public int CompareToNone()
-        {
-            return _idNone.CompareTo(_idNone);
-        }
-
-        [Benchmark(Description = "CompareTo-TYPE=S")]
-        public int CompareToString()
-        {
-            return _idString.CompareTo(_idString);
-        }
-
-        [Benchmark(Description = "CompareTo-TYPE=I")]
-        public int CompareToInteger()
-        {
-            return _idInteger.CompareTo(_idInteger);
-        }
-
-        [Benchmark(Description = "CompareTo-TYPE=F")]
-        public int CompareToFloat()
-        {
-            return _idFloat.CompareTo(_idFloat);
-        }
-
-        [Benchmark(Description = "ToString-TYPE=N")]
-        public string ToStringNone()
-        {
-            return _idNone.ToString(null);
-        }
-
-        [Benchmark(Description = "ToString-TYPE=S")]
-        public string ToStringString()
-        {
-            return _idString.ToString(null);
-        }
-
-        [Benchmark(Description = "ToString-TYPE=I")]
-        public string ToStringInteger()
-        {
-            return _idInteger.ToString(null);
-        }
-
-        [Benchmark(Description = "ToString-TYPE=F")]
-        public string ToStringFloat()
-        {
-            return _idFloat.ToString(null);
-        }
     }
 }

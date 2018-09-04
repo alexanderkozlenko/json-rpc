@@ -321,35 +321,5 @@ namespace System.Data.JsonRpc.UnitTests
             Assert.AreEqual("1", new JsonRpcId(1L).ToString(null));
             Assert.AreEqual("1.1", new JsonRpcId(1.1).ToString(null));
         }
-
-        [TestMethod]
-        public void CompareTo()
-        {
-            Assert.AreEqual(+0, new JsonRpcId().CompareTo(new JsonRpcId()));
-            Assert.AreEqual(-1, new JsonRpcId().CompareTo(new JsonRpcId("1")));
-            Assert.AreEqual(-1, new JsonRpcId().CompareTo(new JsonRpcId(1L)));
-            Assert.AreEqual(-1, new JsonRpcId().CompareTo(new JsonRpcId(1D)));
-
-            Assert.AreEqual(+1, new JsonRpcId("1").CompareTo(new JsonRpcId()));
-            Assert.AreEqual(+1, new JsonRpcId("1").CompareTo(new JsonRpcId("0")));
-            Assert.AreEqual(+0, new JsonRpcId("1").CompareTo(new JsonRpcId("1")));
-            Assert.AreEqual(-1, new JsonRpcId("1").CompareTo(new JsonRpcId("2")));
-            Assert.AreEqual(-1, new JsonRpcId("1").CompareTo(new JsonRpcId(1L)));
-            Assert.AreEqual(-1, new JsonRpcId("1").CompareTo(new JsonRpcId(1D)));
-
-            Assert.AreEqual(+1, new JsonRpcId(1L).CompareTo(new JsonRpcId()));
-            Assert.AreEqual(+1, new JsonRpcId(1L).CompareTo(new JsonRpcId("1")));
-            Assert.AreEqual(+1, new JsonRpcId(1L).CompareTo(new JsonRpcId(0L)));
-            Assert.AreEqual(+0, new JsonRpcId(1L).CompareTo(new JsonRpcId(1L)));
-            Assert.AreEqual(-1, new JsonRpcId(1L).CompareTo(new JsonRpcId(2L)));
-            Assert.AreEqual(-1, new JsonRpcId(1L).CompareTo(new JsonRpcId(1D)));
-
-            Assert.AreEqual(+1, new JsonRpcId(1D).CompareTo(new JsonRpcId()));
-            Assert.AreEqual(+1, new JsonRpcId(1D).CompareTo(new JsonRpcId("1")));
-            Assert.AreEqual(+1, new JsonRpcId(1D).CompareTo(new JsonRpcId(0D)));
-            Assert.AreEqual(+0, new JsonRpcId(1D).CompareTo(new JsonRpcId(1D)));
-            Assert.AreEqual(-1, new JsonRpcId(1D).CompareTo(new JsonRpcId(2D)));
-            Assert.AreEqual(+1, new JsonRpcId(1D).CompareTo(new JsonRpcId(1L)));
-        }
     }
 }

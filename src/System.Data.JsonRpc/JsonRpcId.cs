@@ -5,7 +5,7 @@ using System.Data.JsonRpc.Resources;
 namespace System.Data.JsonRpc
 {
     /// <summary>Represents a JSON-RPC message identifier.</summary>
-    public readonly struct JsonRpcId : IEquatable<JsonRpcId>, IComparable<JsonRpcId>
+    public readonly struct JsonRpcId : IEquatable<JsonRpcId>
     {
         private readonly long _valueNumber;
         private readonly string _valueString;
@@ -55,11 +55,6 @@ namespace System.Data.JsonRpc
             return Equals(in other);
         }
 
-        int IComparable<JsonRpcId>.CompareTo(JsonRpcId other)
-        {
-            return CompareTo(in other);
-        }
-
         internal string UnsafeAsString()
         {
             return _valueString;
@@ -73,40 +68,6 @@ namespace System.Data.JsonRpc
         internal double UnsafeAsFloat()
         {
             return BitConverter.Int64BitsToDouble(_valueNumber);
-        }
-
-        /// <summary>Compares the current <see cref="JsonRpcId" /> with another <see cref="JsonRpcId" /> and returns an integer that indicates whether the current <see cref="JsonRpcId" /> precedes, follows, or occurs in the same position in the sort order as the other <see cref="JsonRpcId" />.</summary>
-        /// <param name="other">A <see cref="JsonRpcId" /> to compare with the current <see cref="JsonRpcId" />.</param>
-        /// <returns>A value that indicates the relative order of the objects being compared.</returns>
-        [CLSCompliant(false)]
-        public int CompareTo(in JsonRpcId other)
-        {
-            var result = ((int)_type).CompareTo((int)other._type);
-
-            if (result != 0)
-            {
-                return result;
-            }
-
-            switch (_type)
-            {
-                case JsonRpcIdType.String:
-                    {
-                        return string.CompareOrdinal(_valueString, other._valueString);
-                    }
-                case JsonRpcIdType.Integer:
-                    {
-                        return _valueNumber.CompareTo(other._valueNumber);
-                    }
-                case JsonRpcIdType.Float:
-                    {
-                        return BitConverter.Int64BitsToDouble(_valueNumber).CompareTo(BitConverter.Int64BitsToDouble(other._valueNumber));
-                    }
-                default:
-                    {
-                        return 0;
-                    }
-            }
         }
 
         /// <summary>Indicates whether the current <see cref="JsonRpcId" /> is equal to another <see cref="JsonRpcId" />.</summary>
