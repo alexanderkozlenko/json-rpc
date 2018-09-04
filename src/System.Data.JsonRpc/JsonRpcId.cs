@@ -7,8 +7,7 @@ namespace System.Data.JsonRpc
     /// <summary>Represents a JSON-RPC message identifier.</summary>
     public readonly struct JsonRpcId : IEquatable<JsonRpcId>, IComparable<JsonRpcId>
     {
-        private readonly double _valueFloat;
-        private readonly long _valueInteger;
+        private readonly long _valueNumber;
         private readonly string _valueString;
         private readonly JsonRpcIdType _type;
 
@@ -24,8 +23,7 @@ namespace System.Data.JsonRpc
 
             _type = JsonRpcIdType.String;
             _valueString = value;
-            _valueInteger = default;
-            _valueFloat = default;
+            _valueNumber = default;
         }
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcId" /> structure.</summary>
@@ -34,8 +32,7 @@ namespace System.Data.JsonRpc
         {
             _type = JsonRpcIdType.Integer;
             _valueString = default;
-            _valueInteger = value;
-            _valueFloat = default;
+            _valueNumber = value;
         }
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcId" /> structure.</summary>
@@ -50,8 +47,7 @@ namespace System.Data.JsonRpc
 
             _type = JsonRpcIdType.Float;
             _valueString = default;
-            _valueInteger = default;
-            _valueFloat = value;
+            _valueNumber = BitConverter.DoubleToInt64Bits(value);
         }
 
         bool IEquatable<JsonRpcId>.Equals(JsonRpcId other)
@@ -71,12 +67,12 @@ namespace System.Data.JsonRpc
 
         internal long UnsafeAsInteger()
         {
-            return _valueInteger;
+            return _valueNumber;
         }
 
         internal double UnsafeAsFloat()
         {
-            return _valueFloat;
+            return BitConverter.Int64BitsToDouble(_valueNumber);
         }
 
         /// <summary>Compares the current <see cref="JsonRpcId" /> with another <see cref="JsonRpcId" /> and returns an integer that indicates whether the current <see cref="JsonRpcId" /> precedes, follows, or occurs in the same position in the sort order as the other <see cref="JsonRpcId" />.</summary>
@@ -100,11 +96,11 @@ namespace System.Data.JsonRpc
                     }
                 case JsonRpcIdType.Integer:
                     {
-                        return _valueInteger.CompareTo(other._valueInteger);
+                        return _valueNumber.CompareTo(other._valueNumber);
                     }
                 case JsonRpcIdType.Float:
                     {
-                        return _valueFloat.CompareTo(other._valueFloat);
+                        return BitConverter.Int64BitsToDouble(_valueNumber).CompareTo(BitConverter.Int64BitsToDouble(other._valueNumber));
                     }
                 default:
                     {
@@ -131,12 +127,9 @@ namespace System.Data.JsonRpc
                         return string.Equals(_valueString, other._valueString);
                     }
                 case JsonRpcIdType.Integer:
-                    {
-                        return _valueInteger == other._valueInteger;
-                    }
                 case JsonRpcIdType.Float:
                     {
-                        return _valueFloat == other._valueFloat;
+                        return _valueNumber == other._valueNumber;
                     }
                 default:
                     {
@@ -162,11 +155,11 @@ namespace System.Data.JsonRpc
                     }
                 case long other:
                     {
-                        return (_type == JsonRpcIdType.Integer) && (_valueInteger == other);
+                        return (_type == JsonRpcIdType.Integer) && (_valueNumber == other);
                     }
                 case double other:
                     {
-                        return (_type == JsonRpcIdType.Float) && (_valueFloat == other);
+                        return (_type == JsonRpcIdType.Float) && (_valueNumber == BitConverter.DoubleToInt64Bits(other));
                     }
                 default:
                     {
@@ -195,14 +188,9 @@ namespace System.Data.JsonRpc
                         }
                         break;
                     case JsonRpcIdType.Integer:
-                        {
-                            hashCode ^= _valueInteger.GetHashCode();
-                            hashCode *= 16777619;
-                        }
-                        break;
                     case JsonRpcIdType.Float:
                         {
-                            hashCode ^= _valueFloat.GetHashCode();
+                            hashCode ^= _valueNumber.GetHashCode();
                             hashCode *= 16777619;
                         }
                         break;
@@ -232,11 +220,11 @@ namespace System.Data.JsonRpc
                     }
                 case JsonRpcIdType.Integer:
                     {
-                        return _valueInteger.ToString(provider);
+                        return _valueNumber.ToString(provider);
                     }
                 case JsonRpcIdType.Float:
                     {
-                        return _valueFloat.ToString(provider);
+                        return BitConverter.Int64BitsToDouble(_valueNumber).ToString(provider);
                     }
                 default:
                     {
@@ -307,7 +295,7 @@ namespace System.Data.JsonRpc
                 throw new InvalidCastException(string.Format(Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(long)));
             }
 
-            return value._valueInteger;
+            return value._valueNumber;
         }
 
         /// <summary>Performs an implicit conversion from <see cref="JsonRpcId" /> to <see cref="double" />.</summary>
@@ -320,7 +308,7 @@ namespace System.Data.JsonRpc
                 throw new InvalidCastException(string.Format(Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(double)));
             }
 
-            return value._valueFloat;
+            return BitConverter.Int64BitsToDouble(value._valueNumber);
         }
 
         /// <summary>Gets the JSON-RPC message identifier type.</summary>
