@@ -1,15 +1,12 @@
 steps:
-- script: dotnet build --verbosity minimal
-  displayName: 'solution.build'
-- script: dotnet test --logger trx --no-build --verbosity minimal
-  displayName: 'solution.test'
+- script: |
+    dotnet build --verbosity minimal
+    dotnet test --logger trx --no-build --verbosity minimal
+    dotnet pack --no-build --verbosity minimal
 - task: PublishTestResults@2
-  displayName: 'solution.test.publish'
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
-- script: dotnet pack --no-build --verbosity minimal
-  displayName: 'solution.pack'
 
 trigger:
   paths:
