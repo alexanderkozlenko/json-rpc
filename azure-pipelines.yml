@@ -1,8 +1,20 @@
 steps:
-- script: dotnet build --verbosity minimal
-- script: dotnet test --no-build --verbosity minimal
-- script: dotnet pack --no-build --verbosity minimal
+- task: DotNetCoreCLI@2
+  displayName: 'solution.build'
+  inputs:
+    command: 'build'
+- task: DotNetCoreCLI@2
+  displayName: 'solution.test'
+  inputs:
+    command: 'test'
+    nobuild: 'true'
 - task: PublishTestResults@2
+  displayName: 'solution.test.publish'
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
+- task: DotNetCoreCLI@2
+  displayName: 'solution.pack'
+  inputs:
+    command: 'pack'
+    nobuild: 'true'
