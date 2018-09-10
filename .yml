@@ -1,7 +1,7 @@
 steps:
 - script: dotnet build --verbosity minimal
   displayName: 'solution.build'
-- script: dotnet test --no-build --verbosity minimal
+- script: dotnet test --logger trx --no-build --verbosity minimal
   displayName: 'solution.test'
 - task: PublishTestResults@2
   displayName: 'solution.test.publish'
@@ -10,6 +10,7 @@ steps:
     testResultsFiles: '**/*.trx'
 - script: dotnet pack --no-build --verbosity minimal
   displayName: 'solution.pack'
+
 trigger:
   paths:
     exclude:
