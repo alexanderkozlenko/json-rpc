@@ -10,3 +10,7 @@ steps:
     testResultsFiles: '**/*.trx'
 - script: dotnet pack --no-build --verbosity minimal
   displayName: 'solution.pack'
+trigger:
+  paths:
+    exclude:
+    - README.md
