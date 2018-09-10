@@ -2,7 +2,7 @@ steps:
 - script: dotnet build --verbosity minimal
 - script: dotnet test --no-build --verbosity minimal
 - script: dotnet pack --no-build --verbosity minimal
-- task: PublishTestResults
+- task: PublishTestResults@2
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
