@@ -1,10 +1,8 @@
-pool:
-  vmImage: 'ubuntu-16.04'
-
 steps:
-- script: dotnet build
-  displayName: 'dotnet build'
-- script: dotnet test --no-build
-  displayName: 'dotnet test'
-- script: dotnet pack --no-build
-  displayName: 'dotnet pack'
+- script: dotnet build --verbosity minimal
+- script: dotnet test --no-build --verbosity minimal
+- script: dotnet pack --no-build --verbosity minimal
+- task: PublishTestResults
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'

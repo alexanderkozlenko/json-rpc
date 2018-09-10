@@ -5,6 +5,8 @@
     <SolutionDirectory>$(MSBuildThisFileDirectory)</SolutionDirectory>
     <BaseIntermediateOutputPath>$(RepositoryDirectory)\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
     <BaseOutputPath>$(RepositoryDirectory)\bin\$(MSBuildProjectName)</BaseOutputPath>
+    <VSTestResultsDirectory>$(RepositoryDirectory)\bin\$(MSBuildProjectName)\$(Configuration)</VSTestResultsDirectory>
+    <VSTestLogger>trx</VSTestLogger>
   </PropertyGroup>
   <PropertyGroup>
     <IsPackable>false</IsPackable>
