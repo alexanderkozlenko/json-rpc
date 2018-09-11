@@ -1,3 +1,4 @@
+name: $(SourceBranchName)-$(Date:yyyyMMddHHmmss)-$(Rev:rr)
 steps:
 - script: |
     dotnet build --verbosity minimal
