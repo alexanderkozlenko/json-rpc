@@ -1,13 +1,15 @@
-name: $(SourceBranchName)-$(Date:yyyyMMddHHmmss)-$(Rev:rr)
 steps:
 - script: |
     dotnet build --verbosity minimal
     dotnet test --logger trx --no-build --verbosity minimal
-    dotnet pack --no-build --verbosity minimal
+    dotnet pack --output $(Build.ArtifactStagingDirectory) --no-build --verbosity minimal
 - task: PublishTestResults@2
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
 
 trigger:
   paths:
