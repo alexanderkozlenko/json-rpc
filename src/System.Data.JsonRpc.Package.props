@@ -1,13 +1,11 @@
-﻿<Project>
+﻿<!-- © Alexander Kozlenko. Licensed under the MIT License. -->
+<Project>
   <PropertyGroup>
-    <Version>1.17.2</Version>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/alexanderkozlenko/json-rpc.git</RepositoryUrl>
-    <RepositoryBranch>master</RepositoryBranch>
-    <PackageProjectUrl>https://github.com/alexanderkozlenko/json-rpc</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.github.com/alexanderkozlenko/json-rpc/$(RepositoryBranch)/LICENSE</PackageLicenseUrl>
+    <VersionPrefix>1.17.2</VersionPrefix>
+    <PackageProjectUrl>$(RepositoryHost)/$(RepositoryAccount)/$(RepositoryProject)</PackageProjectUrl>
+    <PackageLicenseUrl>$(RepositoryContentHost)/$(RepositoryAccount)/$(RepositoryProject)/$(RepositoryDefaultBranch)/LICENSE</PackageLicenseUrl>
     <Authors><![CDATA[Alexander Kozlenko]]></Authors>
-    <Copyright><![CDATA[© Alexander Kozlenko. All rights reserved.]]></Copyright>
+    <Copyright><![CDATA[© $(Authors). All rights reserved.]]></Copyright>
     <Description><![CDATA[Provides support for serializing and deserializing JSON-RPC 2.0 messages]]></Description>
     <PackageTags><![CDATA[json-rpc json rpc protocol]]></PackageTags>
   </PropertyGroup>

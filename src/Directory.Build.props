@@ -1,6 +1,13 @@
 ﻿<!-- © Alexander Kozlenko. Licensed under the MIT License. -->
 <Project>
   <PropertyGroup>
+    <RepositoryHost>https://github.com</RepositoryHost>
+    <RepositoryContentHost>https://raw.githubusercontent.com</RepositoryContentHost>
+    <RepositoryAccount>alexanderkozlenko</RepositoryAccount>
+    <RepositoryProject>json-rpc</RepositoryProject>
+    <RepositoryDefaultBranch>master</RepositoryDefaultBranch>
+  </PropertyGroup>
+  <PropertyGroup>
     <RepositoryDirectory>$([MSBuild]::NormalizeDirectory($(MSBuildThisFileDirectory)..))</RepositoryDirectory>
     <SolutionDirectory>$(MSBuildThisFileDirectory)</SolutionDirectory>
     <BaseIntermediateOutputPath>$(RepositoryDirectory)\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
