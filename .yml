@@ -1,10 +1,10 @@
 steps:
 - script: |
-    dotnet build --version-suffix ci-$(Build.BuildNumber) /p:ContinuousIntegrationBuild=true
+    dotnet build /p:ContinuousIntegrationBuild=true
 - script: |
     dotnet test --logger trx --no-build
 - script: |
-    dotnet pack --version-suffix ci-$(Build.BuildNumber) --output $(Build.ArtifactStagingDirectory) --no-build
+    dotnet pack --output $(Build.ArtifactStagingDirectory) --no-build
 - task: PublishTestResults@2
   inputs:
     testRunner: VSTest

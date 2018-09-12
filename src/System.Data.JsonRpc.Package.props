@@ -1,7 +1,7 @@
 ﻿<!-- © Alexander Kozlenko. Licensed under the MIT License. -->
 <Project>
   <PropertyGroup>
-    <VersionPrefix>1.17.2</VersionPrefix>
+    <Version>1.17.2</Version>
     <PackageProjectUrl>$(RepositoryHost)/$(RepositoryAccount)/$(RepositoryProject)</PackageProjectUrl>
     <PackageLicenseUrl>$(RepositoryContentHost)/$(RepositoryAccount)/$(RepositoryProject)/$(RepositoryDefaultBranch)/LICENSE</PackageLicenseUrl>
     <Authors><![CDATA[Alexander Kozlenko]]></Authors>
