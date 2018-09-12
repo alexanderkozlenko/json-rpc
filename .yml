@@ -17,9 +17,10 @@ steps:
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
+    searchFolder: '$(Agent.TempDirectory)'
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPublish: '$(Agent.TempDirectory)'
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
 
 trigger:
   paths:
