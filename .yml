@@ -1,12 +1,15 @@
 steps:
 - task: DotNetCoreCLI@2
-    command: build
+  inputs:
+    command: 'build'
     buildProperties: ContinuousIntegrationBuild=true
 - task: DotNetCoreCLI@2
-    command: test
+  inputs:
+    command: 'test'
     nobuild: true
 - task: DotNetCoreCLI@2
-    command: pack
+  inputs:
+    command: 'pack'
     nobuild: true
     packagesToPack: '.dotnetproj'
 - task: PublishTestResults@2
