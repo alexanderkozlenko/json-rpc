@@ -12,13 +12,14 @@ steps:
     command: 'pack'
     nobuild: true
     packagesToPack: '.dotnetproj'
+    verbosityPack: 'normal'
 - task: PublishTestResults@2
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    pathtoPublish: '$(Agent.TempDirectory)'
 
 trigger:
   paths:
