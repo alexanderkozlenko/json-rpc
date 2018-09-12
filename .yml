@@ -1,10 +1,14 @@
 steps:
-- script: |
-    dotnet build /p:ContinuousIntegrationBuild=true
-- script: |
-    dotnet test --logger trx --no-build
-- script: |
-    dotnet pack --output $(Build.ArtifactStagingDirectory) --no-build
+- task: DotNetCoreCLI@2
+    command: build
+    buildProperties: ContinuousIntegrationBuild=true
+- task: DotNetCoreCLI@2
+    command: test
+    nobuild: true
+- task: DotNetCoreCLI@2
+    command: pack
+    nobuild: true
+    packagesToPack: '.dotnetproj'
 - task: PublishTestResults@2
   inputs:
     testRunner: VSTest
