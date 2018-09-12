@@ -1,8 +1,10 @@
 steps:
 - script: |
-    dotnet build --verbosity minimal /p:ContinuousIntegrationBuild=true;VersionSuffix=ci-$(Build.BuildNumber)
-    dotnet test --logger trx --no-build --verbosity minimal
-    dotnet pack --output $(Build.ArtifactStagingDirectory) --no-build --verbosity minimal
+    dotnet build /p:ContinuousIntegrationBuild=true;VersionSuffix=ci-$(Build.BuildNumber)
+- script: |
+    dotnet test --logger trx --no-build
+- script: |
+    dotnet pack --output $(Build.ArtifactStagingDirectory) --no-build
 - task: PublishTestResults@2
   inputs:
     testRunner: VSTest
