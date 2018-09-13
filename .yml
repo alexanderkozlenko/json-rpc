@@ -2,7 +2,6 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    arguments: /p:ContinuousIntegrationBuild=true
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
@@ -19,8 +18,6 @@ steps:
     testResultsFiles: '**/*.trx'
     searchFolder: '$(Agent.TempDirectory)'
 - task: PublishBuildArtifacts@1
-  inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
 
 trigger:
   paths:

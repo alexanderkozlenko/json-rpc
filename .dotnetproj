@@ -2,6 +2,7 @@
 <Project>
   <PropertyGroup>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <BuildProperties>Configuration=$(Configuration);ContinuousIntegrationBuild=true</BuildProperties>
     <SourcesDirectory>$(MSBuildThisFileDirectory)src</SourcesDirectory>
   </PropertyGroup>
   <ItemGroup>
@@ -11,26 +12,26 @@
   <Target Name="Clean">
     <MSBuild Projects="@(SolutionReference)"
              Targets="Clean"
-             Properties="Configuration=$(Configuration)" />
+             Properties="$(BuildProperties)" />
   </Target>
   <Target Name="Restore">
     <MSBuild Projects="@(SolutionReference)"
              Targets="Restore"
-             Properties="Configuration=$(Configuration)" />
+             Properties="$(BuildProperties)" />
   </Target>
   <Target Name="Build">
     <MSBuild Projects="@(SolutionReference)"
              Targets="Build"
-             Properties="Configuration=$(Configuration)" />
+             Properties="$(BuildProperties)" />
   </Target>
   <Target Name="VSTest">
     <MSBuild Projects="@(ProjectReference)"
              Targets="Test"
-             Properties="Configuration=$(Configuration)" />
+             Properties="$(BuildProperties)" />
   </Target>
   <Target Name="Pack">
     <MSBuild Projects="@(ProjectReference)"
              Targets="Pack"
-             Properties="Configuration=$(Configuration)" />
+             Properties="$(BuildProperties)" />
   </Target>
 </Project>
