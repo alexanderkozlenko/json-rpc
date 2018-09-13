@@ -1,8 +1,7 @@
 ﻿<!-- © Alexander Kozlenko. Licensed under the MIT License. -->
 <Project>
-  <Target Name="UpdatePackageUrls"
+  <Target Name="InitializePackageUrls"
           DependsOnTargets="$(SourceLinkUrlInitializerTargets)"
-          AfterTargets="$(SourceLinkUrlInitializerTargets)"
           BeforeTargets="GenerateNuspec">
     <PropertyGroup>
       <PackageProjectUrl>%(SourceRoot.RepositoryUrl)</PackageProjectUrl>
