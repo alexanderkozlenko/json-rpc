@@ -2,7 +2,7 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    buildProperties: ContinuousIntegrationBuild=true
+    arguments: /p:ContinuousIntegrationBuild=true
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
