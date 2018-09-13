@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Version>1.17.2</Version>
     <PackageProjectUrl>$(RepositoryHost)/$(RepositoryAccount)/$(RepositoryProject)</PackageProjectUrl>
-    <PackageLicenseUrl>$(RepositoryContentHost)/$(RepositoryAccount)/$(RepositoryProject)/$(RepositoryDefaultBranch)/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl>$(RepositoryContentHost)/$(RepositoryAccount)/$(RepositoryProject)/6fe8b0b3270a6210893eb33c27c330bd560789fd/LICENSE</PackageLicenseUrl>
     <Authors><![CDATA[Alexander Kozlenko]]></Authors>
     <Copyright><![CDATA[© $(Authors). All rights reserved.]]></Copyright>
     <Description><![CDATA[Provides support for serializing and deserializing JSON-RPC 2.0 messages]]></Description>

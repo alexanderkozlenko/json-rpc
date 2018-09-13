@@ -5,7 +5,6 @@
     <RepositoryContentHost>https://raw.githubusercontent.com</RepositoryContentHost>
     <RepositoryAccount>alexanderkozlenko</RepositoryAccount>
     <RepositoryProject>json-rpc</RepositoryProject>
-    <RepositoryDefaultBranch>master</RepositoryDefaultBranch>
   </PropertyGroup>
   <PropertyGroup>
     <RepositoryDirectory>$([MSBuild]::NormalizeDirectory($(MSBuildThisFileDirectory)..))</RepositoryDirectory>
