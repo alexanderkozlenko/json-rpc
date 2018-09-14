@@ -1,7 +1,18 @@
 ﻿<!-- © Alexander Kozlenko. Licensed under the MIT License. -->
 <Project>
-  <Target Name="Test">
-    <CallTarget Targets="VSTest"
-                Condition="'$(IsTestable)' == 'true'" />
+  <Target Name="InitializePackageUrls"
+          DependsOnTargets="$(SourceLinkUrlInitializerTargets)"
+          BeforeTargets="GenerateNuspec"
+          Condition="'$(IsPackable)' == 'true'">
+    <PropertyGroup>
+      <PackageProjectUrl>%(SourceRoot.RepositoryUrl)</PackageProjectUrl>
+      <PackageLicenseUrl>%(SourceRoot.SourceLinkUrl)</PackageLicenseUrl>
+      <PackageProjectUrl>$(PackageProjectUrl.Replace('.git', ''))</PackageProjectUrl>
+      <PackageLicenseUrl>$(PackageLicenseUrl.Replace('*', 'LICENSE'))</PackageLicenseUrl>
+    </PropertyGroup>
+  </Target>
+  <Target Name="Test"
+          Condition="'$(IsTestable)' == 'true'">
+    <CallTarget Targets="VSTest" />
   </Target>
 </Project>
