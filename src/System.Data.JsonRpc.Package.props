@@ -3,6 +3,8 @@
   <PropertyGroup>
     <VersionPrefix>1.18.0</VersionPrefix>
     <VersionSuffix>beta</VersionSuffix>
+  </PropertyGroup>
+  <PropertyGroup>
     <Authors><![CDATA[Alexander Kozlenko]]></Authors>
     <Copyright><![CDATA[© $(Authors). All rights reserved.]]></Copyright>
     <Description><![CDATA[Provides support for serializing and deserializing JSON-RPC 2.0 messages]]></Description>

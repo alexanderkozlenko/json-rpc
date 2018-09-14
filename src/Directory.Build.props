@@ -3,14 +3,21 @@
   <PropertyGroup>
     <RepositoryDirectory>$([MSBuild]::NormalizeDirectory($(MSBuildThisFileDirectory)..))</RepositoryDirectory>
     <SolutionDirectory>$(MSBuildThisFileDirectory)</SolutionDirectory>
-    <BaseIntermediateOutputPath>$(RepositoryDirectory)\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
-    <BaseOutputPath>$(RepositoryDirectory)\bin\$(MSBuildProjectName)</BaseOutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <IsPackable>false</IsPackable>
     <IsTestable>false</IsTestable>
+    <HighEntropyVA>true</HighEntropyVA>
+    <TieredCompilation>true</TieredCompilation>
+    <AssemblyOriginatorKeyFile>$(SolutionDirectory)\Open.snk</AssemblyOriginatorKeyFile>
+    <BaseIntermediateOutputPath>$(RepositoryDirectory)\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(RepositoryDirectory)\bin\$(MSBuildProjectName)</BaseOutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 </Project>

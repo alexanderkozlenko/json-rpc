@@ -1,9 +1,8 @@
 ﻿<!-- © Alexander Kozlenko. Licensed under the MIT License. -->
 <Project>
   <PropertyGroup>
-    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
-    <BuildProperties>Configuration=$(Configuration);ContinuousIntegrationBuild=true</BuildProperties>
     <SourcesDirectory>$(MSBuildThisFileDirectory)src</SourcesDirectory>
+    <BuildProperties>ContinuousIntegrationBuild=true;Configuration=Release</BuildProperties>
   </PropertyGroup>
   <ItemGroup>
     <SolutionReference Include="$(SourcesDirectory)\**\*.sln" />
