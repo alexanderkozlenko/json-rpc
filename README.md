@@ -1,8 +1,8 @@
-## System.Data.JsonRpc
+## Anemonis.JsonRpc
 
 Provides support for serializing and deserializing [JSON-RPC 2.0](http://www.jsonrpc.org/specification) messages.
 
-[![NuGet package](https://img.shields.io/nuget/v/System.Data.JsonRpc.svg?style=flat-square)](https://www.nuget.org/packages/System.Data.JsonRpc)
+[![NuGet package](https://img.shields.io/nuget/v/Anemonis.JsonRpc.svg?style=flat-square)](https://www.nuget.org/packages/Anemonis.JsonRpc)
 
 ### Important Features
 
