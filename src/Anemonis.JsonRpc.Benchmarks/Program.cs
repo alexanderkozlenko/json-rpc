@@ -1,6 +1,6 @@
-﻿using Anemonis.JsonRpc.Benchmarks.Framework;
+﻿using System.Linq;
+using Anemonis.JsonRpc.Benchmarks.Framework;
 using Anemonis.JsonRpc.Benchmarks.TestSuites;
-using System.Linq;
 using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Diagnosers;
