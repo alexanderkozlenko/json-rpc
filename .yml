@@ -18,8 +18,3 @@ steps:
     testResultsFiles: '**/*.trx'
     searchFolder: '$(Agent.TempDirectory)'
 - task: PublishBuildArtifacts@1
-
-trigger:
-  paths:
-    exclude:
-    - README.md
