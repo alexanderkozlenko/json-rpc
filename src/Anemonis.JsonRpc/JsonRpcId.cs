@@ -1,15 +1,25 @@
 ﻿// © Alexander Kozlenko. Licensed under the MIT License.
 
 using System;
+using System.Runtime.InteropServices;
 using Anemonis.JsonRpc.Resources;
 
 namespace Anemonis.JsonRpc
 {
     /// <summary>Represents a JSON-RPC message identifier.</summary>
+    [StructLayout(LayoutKind.Explicit)]
     public readonly struct JsonRpcId : IEquatable<JsonRpcId>
     {
-        private readonly long _valueNumber;
+        [FieldOffset(0x00)]
         private readonly string _valueString;
+
+        [FieldOffset(0x08)]
+        private readonly long _valueInteger;
+
+        [FieldOffset(0x08)]
+        private readonly double _valueFloat;
+
+        [FieldOffset(0x10)]
         private readonly JsonRpcIdType _type;
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcId" /> structure.</summary>
@@ -23,8 +33,9 @@ namespace Anemonis.JsonRpc
             }
 
             _type = JsonRpcIdType.String;
+            _valueInteger = default;
+            _valueFloat = default;
             _valueString = value;
-            _valueNumber = default;
         }
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcId" /> structure.</summary>
@@ -33,7 +44,8 @@ namespace Anemonis.JsonRpc
         {
             _type = JsonRpcIdType.Integer;
             _valueString = default;
-            _valueNumber = value;
+            _valueFloat = default;
+            _valueInteger = value;
         }
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcId" /> structure.</summary>
@@ -48,7 +60,8 @@ namespace Anemonis.JsonRpc
 
             _type = JsonRpcIdType.Float;
             _valueString = default;
-            _valueNumber = BitConverter.DoubleToInt64Bits(value);
+            _valueInteger = default;
+            _valueFloat = value;
         }
 
         bool IEquatable<JsonRpcId>.Equals(JsonRpcId other)
@@ -63,12 +76,12 @@ namespace Anemonis.JsonRpc
 
         internal long UnsafeAsInteger()
         {
-            return _valueNumber;
+            return _valueInteger;
         }
 
         internal double UnsafeAsFloat()
         {
-            return BitConverter.Int64BitsToDouble(_valueNumber);
+            return _valueFloat;
         }
 
         /// <summary>Indicates whether the current <see cref="JsonRpcId" /> is equal to another <see cref="JsonRpcId" />.</summary>
@@ -91,7 +104,7 @@ namespace Anemonis.JsonRpc
                 case JsonRpcIdType.Integer:
                 case JsonRpcIdType.Float:
                     {
-                        return _valueNumber == other._valueNumber;
+                        return _valueInteger == other._valueInteger;
                     }
                 default:
                     {
@@ -117,11 +130,11 @@ namespace Anemonis.JsonRpc
                     }
                 case long other:
                     {
-                        return (_type == JsonRpcIdType.Integer) && (_valueNumber == other);
+                        return (_type == JsonRpcIdType.Integer) && (_valueInteger == other);
                     }
                 case double other:
                     {
-                        return (_type == JsonRpcIdType.Float) && (_valueNumber == BitConverter.DoubleToInt64Bits(other));
+                        return (_type == JsonRpcIdType.Float) && (_valueFloat == other);
                     }
                 default:
                     {
@@ -152,7 +165,7 @@ namespace Anemonis.JsonRpc
                     case JsonRpcIdType.Integer:
                     case JsonRpcIdType.Float:
                         {
-                            hashCode ^= _valueNumber.GetHashCode();
+                            hashCode ^= _valueInteger.GetHashCode();
                             hashCode *= 16777619;
                         }
                         break;
@@ -182,11 +195,11 @@ namespace Anemonis.JsonRpc
                     }
                 case JsonRpcIdType.Integer:
                     {
-                        return _valueNumber.ToString(provider);
+                        return _valueInteger.ToString(provider);
                     }
                 case JsonRpcIdType.Float:
                     {
-                        return BitConverter.Int64BitsToDouble(_valueNumber).ToString(provider);
+                        return _valueFloat.ToString(provider);
                     }
                 default:
                     {
@@ -257,7 +270,7 @@ namespace Anemonis.JsonRpc
                 throw new InvalidCastException(string.Format(Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(long)));
             }
 
-            return value._valueNumber;
+            return value._valueInteger;
         }
 
         /// <summary>Performs an implicit conversion from <see cref="JsonRpcId" /> to <see cref="double" />.</summary>
@@ -270,7 +283,7 @@ namespace Anemonis.JsonRpc
                 throw new InvalidCastException(string.Format(Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(double)));
             }
 
-            return BitConverter.Int64BitsToDouble(value._valueNumber);
+            return value._valueFloat;
         }
 
         /// <summary>Gets the JSON-RPC message identifier type.</summary>
