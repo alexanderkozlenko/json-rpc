@@ -1,17 +1,19 @@
 steps:
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'build'
+    command: 'custom'
+    custom: 'build'
+    arguments: '$(Build.SourcesDirectory)/.dotnetproj'
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'test'
-    nobuild: true
+    command: 'custom'
+    custom: 'test'
+    arguments: '$(Build.SourcesDirectory)/.dotnetproj --logger trx --results-directory $(Agent.TempDirectory) --no-build'
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'pack'
-    nobuild: true
-    packagesToPack: '.dotnetproj'
-    verbosityPack: 'normal'
+    command: 'custom'
+    custom: 'pack'
+    arguments: '$(Build.SourcesDirectory)/.dotnetproj --output $(Build.ArtifactStagingDirectory) --no-build'
 - task: PublishTestResults@2
   inputs:
     testRunner: VSTest
