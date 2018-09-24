@@ -9,7 +9,7 @@ namespace Anemonis.JsonRpc
     /// <summary>Represents a JSON-RPC message contract resolver.</summary>
     public sealed class JsonRpcContractResolver : IJsonRpcContractResolver
     {
-        private readonly SpinLock _spinLock = new SpinLock(false);
+        private readonly SpinLock _operationLock = new SpinLock(false);
 
         private readonly IDictionary<string, JsonRpcRequestContract> _staticRequestContracts = new Dictionary<string, JsonRpcRequestContract>(StringComparer.Ordinal);
         private readonly IDictionary<string, JsonRpcResponseContract> _staticResponseContracts = new Dictionary<string, JsonRpcResponseContract>(StringComparer.Ordinal);
@@ -28,14 +28,14 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(method));
             }
 
-            var lockTaken = false;
+            var operationLockTaken = false;
 
-            _spinLock.Enter(ref lockTaken);
+            _operationLock.Enter(ref operationLockTaken);
             _staticRequestContracts.TryGetValue(method, out var contract);
 
-            if (lockTaken)
+            if (operationLockTaken)
             {
-                _spinLock.Exit();
+                _operationLock.Exit();
             }
 
             return contract;
@@ -43,9 +43,9 @@ namespace Anemonis.JsonRpc
 
         JsonRpcResponseContract IJsonRpcContractResolver.GetResponseContract(in JsonRpcId messageId)
         {
-            var lockTaken = false;
+            var operationLockTaken = false;
 
-            _spinLock.Enter(ref lockTaken);
+            _operationLock.Enter(ref operationLockTaken);
 
             if (!_dynamicResponseContracts.TryGetValue(messageId, out var contract))
             {
@@ -54,9 +54,9 @@ namespace Anemonis.JsonRpc
                     _staticResponseContracts.TryGetValue(method, out contract);
                 }
             }
-            if (lockTaken)
+            if (operationLockTaken)
             {
-                _spinLock.Exit();
+                _operationLock.Exit();
             }
 
             return contract;
@@ -77,14 +77,14 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(contract));
             }
 
-            var lockTaken = false;
+            var operationLockTaken = false;
 
-            _spinLock.Enter(ref lockTaken);
+            _operationLock.Enter(ref operationLockTaken);
             _staticRequestContracts[method] = contract;
 
-            if (lockTaken)
+            if (operationLockTaken)
             {
-                _spinLock.Exit();
+                _operationLock.Exit();
             }
         }
 
@@ -103,14 +103,14 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(contract));
             }
 
-            var lockTaken = false;
+            var operationLockTaken = false;
 
-            _spinLock.Enter(ref lockTaken);
+            _operationLock.Enter(ref operationLockTaken);
             _staticResponseContracts[method] = contract;
 
-            if (lockTaken)
+            if (operationLockTaken)
             {
-                _spinLock.Exit();
+                _operationLock.Exit();
             }
         }
 
@@ -125,14 +125,14 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(contract));
             }
 
-            var lockTaken = false;
+            var operationLockTaken = false;
 
-            _spinLock.Enter(ref lockTaken);
+            _operationLock.Enter(ref operationLockTaken);
             _dynamicResponseContracts[messageId] = contract;
 
-            if (lockTaken)
+            if (operationLockTaken)
             {
-                _spinLock.Exit();
+                _operationLock.Exit();
             }
         }
 
@@ -147,14 +147,14 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(method));
             }
 
-            var lockTaken = false;
+            var operationLockTaken = false;
 
-            _spinLock.Enter(ref lockTaken);
+            _operationLock.Enter(ref operationLockTaken);
             _staticResponseBindings[messageId] = method;
 
-            if (lockTaken)
+            if (operationLockTaken)
             {
-                _spinLock.Exit();
+                _operationLock.Exit();
             }
         }
 
@@ -168,14 +168,14 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(method));
             }
 
-            var lockTaken = false;
+            var operationLockTaken = false;
 
-            _spinLock.Enter(ref lockTaken);
+            _operationLock.Enter(ref operationLockTaken);
             _staticRequestContracts.Remove(method);
 
-            if (lockTaken)
+            if (operationLockTaken)
             {
-                _spinLock.Exit();
+                _operationLock.Exit();
             }
         }
 
@@ -189,14 +189,14 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(method));
             }
 
-            var lockTaken = false;
+            var operationLockTaken = false;
 
-            _spinLock.Enter(ref lockTaken);
+            _operationLock.Enter(ref operationLockTaken);
             _staticResponseContracts.Remove(method);
 
-            if (lockTaken)
+            if (operationLockTaken)
             {
-                _spinLock.Exit();
+                _operationLock.Exit();
             }
         }
 
@@ -204,14 +204,14 @@ namespace Anemonis.JsonRpc
         /// <param name="messageId">The JSON-RPC message identifier.</param>
         public void RemoveResponseContract(in JsonRpcId messageId)
         {
-            var lockTaken = false;
+            var operationLockTaken = false;
 
-            _spinLock.Enter(ref lockTaken);
+            _operationLock.Enter(ref operationLockTaken);
             _dynamicResponseContracts.Remove(messageId);
 
-            if (lockTaken)
+            if (operationLockTaken)
             {
-                _spinLock.Exit();
+                _operationLock.Exit();
             }
         }
 
@@ -219,57 +219,57 @@ namespace Anemonis.JsonRpc
         /// <param name="messageId">The JSON-RPC message identifier.</param>
         public void RemoveResponseBinding(in JsonRpcId messageId)
         {
-            var lockTaken = false;
+            var operationLockTaken = false;
 
-            _spinLock.Enter(ref lockTaken);
+            _operationLock.Enter(ref operationLockTaken);
             _staticResponseBindings.Remove(messageId);
 
-            if (lockTaken)
+            if (operationLockTaken)
             {
-                _spinLock.Exit();
+                _operationLock.Exit();
             }
         }
 
         /// <summary>Removes all JSON-RPC request contracts.</summary>
         public void ClearRequestContracts()
         {
-            var lockTaken = false;
+            var operationLockTaken = false;
 
-            _spinLock.Enter(ref lockTaken);
+            _operationLock.Enter(ref operationLockTaken);
             _staticRequestContracts.Clear();
 
-            if (lockTaken)
+            if (operationLockTaken)
             {
-                _spinLock.Exit();
+                _operationLock.Exit();
             }
         }
 
         /// <summary>Removes all JSON-RPC response contracts.</summary>
         public void ClearResponseContracts()
         {
-            var lockTaken = false;
+            var operationLockTaken = false;
 
-            _spinLock.Enter(ref lockTaken);
+            _operationLock.Enter(ref operationLockTaken);
             _staticResponseContracts.Clear();
             _dynamicResponseContracts.Clear();
 
-            if (lockTaken)
+            if (operationLockTaken)
             {
-                _spinLock.Exit();
+                _operationLock.Exit();
             }
         }
 
         /// <summary>Removes all JSON-RPC response bindings.</summary>
         public void ClearResponseBindings()
         {
-            var lockTaken = false;
+            var operationLockTaken = false;
 
-            _spinLock.Enter(ref lockTaken);
+            _operationLock.Enter(ref operationLockTaken);
             _staticResponseBindings.Clear();
 
-            if (lockTaken)
+            if (operationLockTaken)
             {
-                _spinLock.Exit();
+                _operationLock.Exit();
             }
         }
     }
