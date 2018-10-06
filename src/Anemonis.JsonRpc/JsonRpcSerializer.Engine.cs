@@ -312,14 +312,33 @@ namespace Anemonis.JsonRpc
 
                             try
                             {
-                                foreach (var kvp in requestContract.ParametersByName)
+                                if (requestContract.ParametersByName is Dictionary<string, Type> requestContractParametersByName)
                                 {
-                                    if (!requestParamsetersByName.TryGetValue(kvp.Key, out var requestParameterToken))
-                                    {
-                                        continue;
-                                    }
+                                    var enumerator = requestContractParametersByName.GetEnumerator();
 
-                                    requestParameters[kvp.Key] = requestParameterToken.ToObject(kvp.Value);
+                                    while (enumerator.MoveNext())
+                                    {
+                                        var kvp = enumerator.Current;
+
+                                        if (!requestParamsetersByName.TryGetValue(kvp.Key, out var requestParameterToken))
+                                        {
+                                            continue;
+                                        }
+
+                                        requestParameters[kvp.Key] = requestParameterToken.ToObject(kvp.Value);
+                                    }
+                                }
+                                else
+                                {
+                                    foreach (var kvp in requestContract.ParametersByName)
+                                    {
+                                        if (!requestParamsetersByName.TryGetValue(kvp.Key, out var requestParameterToken))
+                                        {
+                                            continue;
+                                        }
+
+                                        requestParameters[kvp.Key] = requestParameterToken.ToObject(kvp.Value);
+                                    }
                                 }
                             }
                             catch (Exception e)
@@ -870,11 +889,27 @@ namespace Anemonis.JsonRpc
 
                         try
                         {
-                            foreach (var kvp in request.ParametersByName)
+                            if (request.ParametersByName is Dictionary<string, object> requestParametersByName)
                             {
-                                writer.WritePropertyName(kvp.Key);
+                                var enumerator = requestParametersByName.GetEnumerator();
 
-                                _jsonSerializer.Serialize(writer, kvp.Value);
+                                while (enumerator.MoveNext())
+                                {
+                                    var kvp = enumerator.Current;
+
+                                    writer.WritePropertyName(kvp.Key);
+
+                                    _jsonSerializer.Serialize(writer, kvp.Value);
+                                }
+                            }
+                            else
+                            {
+                                foreach (var kvp in request.ParametersByName)
+                                {
+                                    writer.WritePropertyName(kvp.Key);
+
+                                    _jsonSerializer.Serialize(writer, kvp.Value);
+                                }
                             }
                         }
                         catch (Exception e)
