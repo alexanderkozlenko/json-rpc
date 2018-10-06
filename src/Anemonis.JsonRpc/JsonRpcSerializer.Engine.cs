@@ -1,11 +1,11 @@
 ﻿// © Alexander Kozlenko. Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
-using Anemonis.JsonRpc.Resources;
 using System.Threading;
+using Anemonis.JsonRpc.Resources;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 
 namespace Anemonis.JsonRpc
 {
@@ -106,14 +106,23 @@ namespace Anemonis.JsonRpc
                 var requestProtocolVersion = default(string);
                 var requestMethod = default(string);
                 var requestId = default(JsonRpcId);
-                var requestParamsetersToken = default(JContainer);
+                var requestParamsetersByPosition = default(List<JToken>);
+                var requestParamsetersByName = default(Dictionary<string, JToken>);
 
                 while (reader.Read())
                 {
-                    if (reader.TokenType == JsonToken.PropertyName)
+                    if (reader.TokenType == JsonToken.EndObject)
+                    {
+                        break;
+                    }
+                    else if (reader.TokenType == JsonToken.PropertyName)
                     {
                         jsonPropertyName = (string)reader.Value;
-                        reader.Read();
+
+                        if (!reader.Read())
+                        {
+                            break;
+                        }
 
                         switch (jsonPropertyName)
                         {
@@ -176,12 +185,47 @@ namespace Anemonis.JsonRpc
                                     {
                                         case JsonToken.StartArray:
                                             {
-                                                requestParamsetersToken = JArray.Load(reader, _jsonLoadSettings);
+                                                requestParamsetersByPosition = new List<JToken>();
+
+                                                while (reader.Read())
+                                                {
+                                                    if (reader.TokenType == JsonToken.EndArray)
+                                                    {
+                                                        break;
+                                                    }
+                                                    else
+                                                    {
+                                                        var propertyValueToken = JToken.Load(reader, _jsonLoadSettings);
+
+                                                        requestParamsetersByPosition.Add(propertyValueToken);
+                                                    }
+                                                }
                                             }
                                             break;
                                         case JsonToken.StartObject:
                                             {
-                                                requestParamsetersToken = JObject.Load(reader, _jsonLoadSettings);
+                                                requestParamsetersByName = new Dictionary<string, JToken>(StringComparer.Ordinal);
+
+                                                while (reader.Read())
+                                                {
+                                                    if (reader.TokenType == JsonToken.EndObject)
+                                                    {
+                                                        break;
+                                                    }
+                                                    else if (reader.TokenType == JsonToken.PropertyName)
+                                                    {
+                                                        var parameterName = (string)reader.Value;
+
+                                                        if (!reader.Read())
+                                                        {
+                                                            break;
+                                                        }
+
+                                                        var propertyValueToken = JToken.Load(reader, _jsonLoadSettings);
+
+                                                        requestParamsetersByName.Add(parameterName, propertyValueToken);
+                                                    }
+                                                }
                                             }
                                             break;
                                         default:
@@ -197,10 +241,6 @@ namespace Anemonis.JsonRpc
                                 }
                                 break;
                         }
-                    }
-                    else if (reader.TokenType == JsonToken.EndObject)
-                    {
-                        break;
                     }
                     else
                     {
@@ -235,11 +275,11 @@ namespace Anemonis.JsonRpc
                 {
                     case JsonRpcParametersType.ByPosition:
                         {
-                            if (!(requestParamsetersToken is JArray requestParametersArrayToken))
+                            if (requestParamsetersByPosition == null)
                             {
                                 throw new JsonRpcSerializationException(JsonRpcErrorCode.InvalidParameters, Strings.GetString("core.deserialize.request.params.invalid_structure"), requestId);
                             }
-                            if (requestParametersArrayToken.Count < requestContract.ParametersByPosition.Count)
+                            if (requestParamsetersByPosition.Count < requestContract.ParametersByPosition.Count)
                             {
                                 throw new JsonRpcSerializationException(JsonRpcErrorCode.InvalidParameters, Strings.GetString("core.deserialize.request.params.invalid_count"), requestId);
                             }
@@ -250,7 +290,7 @@ namespace Anemonis.JsonRpc
                             {
                                 for (var i = 0; i < requestParameters.Length; i++)
                                 {
-                                    requestParameters[i] = requestParametersArrayToken[i].ToObject(requestContract.ParametersByPosition[i]);
+                                    requestParameters[i] = requestParamsetersByPosition[i].ToObject(requestContract.ParametersByPosition[i]);
                                 }
                             }
                             catch (Exception e)
@@ -263,7 +303,7 @@ namespace Anemonis.JsonRpc
                         break;
                     case JsonRpcParametersType.ByName:
                         {
-                            if (!(requestParamsetersToken is JObject requestParametersObjectToken))
+                            if (requestParamsetersByName == null)
                             {
                                 throw new JsonRpcSerializationException(JsonRpcErrorCode.InvalidParameters, Strings.GetString("core.deserialize.request.params.invalid_structure"), requestId);
                             }
@@ -274,7 +314,7 @@ namespace Anemonis.JsonRpc
                             {
                                 foreach (var kvp in requestContract.ParametersByName)
                                 {
-                                    if (!requestParametersObjectToken.TryGetValue(kvp.Key, StringComparison.Ordinal, out var requestParameterToken))
+                                    if (!requestParamsetersByName.TryGetValue(kvp.Key, out var requestParameterToken))
                                     {
                                         continue;
                                     }
@@ -386,10 +426,18 @@ namespace Anemonis.JsonRpc
 
                 while (reader.Read())
                 {
-                    if (reader.TokenType == JsonToken.PropertyName)
+                    if (reader.TokenType == JsonToken.EndObject)
+                    {
+                        break;
+                    }
+                    else if (reader.TokenType == JsonToken.PropertyName)
                     {
                         jsonPropertyName = (string)reader.Value;
-                        reader.Read();
+
+                        if (!reader.Read())
+                        {
+                            break;
+                        }
 
                         switch (jsonPropertyName)
                         {
@@ -452,10 +500,18 @@ namespace Anemonis.JsonRpc
                                             {
                                                 while (reader.Read())
                                                 {
-                                                    if (reader.TokenType == JsonToken.PropertyName)
+                                                    if (reader.TokenType == JsonToken.EndObject)
+                                                    {
+                                                        break;
+                                                    }
+                                                    else if (reader.TokenType == JsonToken.PropertyName)
                                                     {
                                                         jsonPropertyName = (string)reader.Value;
-                                                        reader.Read();
+
+                                                        if (!reader.Read())
+                                                        {
+                                                            break;
+                                                        }
 
                                                         switch (jsonPropertyName)
                                                         {
@@ -501,10 +557,6 @@ namespace Anemonis.JsonRpc
                                                                 break;
                                                         }
                                                     }
-                                                    else if (reader.TokenType == JsonToken.EndObject)
-                                                    {
-                                                        break;
-                                                    }
                                                     else
                                                     {
                                                         reader.Skip();
@@ -531,10 +583,6 @@ namespace Anemonis.JsonRpc
                                 }
                                 break;
                         }
-                    }
-                    else if (reader.TokenType == JsonToken.EndObject)
-                    {
-                        break;
                     }
                     else
                     {
