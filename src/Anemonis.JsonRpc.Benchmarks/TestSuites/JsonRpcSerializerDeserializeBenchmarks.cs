@@ -67,11 +67,6 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
             var resolver = new JsonRpcContractResolver();
             var serializer = new JsonRpcSerializer(resolver);
 
-            var parameters = new[]
-            {
-                typeof(long)
-            };
-
             resolver.AddResponseContract(0L, new JsonRpcResponseContract(typeof(long), typeof(long)));
 
             return serializer;
