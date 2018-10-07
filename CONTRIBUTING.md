@@ -3,14 +3,12 @@
 ## Creating Issues
 
 - Address only one objective per issue
-- Specify a clear and concise rationale for the requested feature
-- Specify a clear and concise description of the discovered bug
-- Provide additional information for a bug report (environment, versions, stack traces, example code)
+- Use fenced code blocks and syntax highlighting, if applicable
 
-## Submitting Pull Requests
+## Creating Pull Requests
 
 - Address only one objective per pull request
-- Specify a clear and concise rationale for the introduced changes
+- Use fenced code blocks and syntax highlighting, if applicable
 - Use the present tense for a pull request title and commit messages
 
 ## Coding Style

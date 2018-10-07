@@ -17,4 +17,6 @@ Project maintainers have the right and responsibility to remove, edit, or reject
 
 By adopting this Code of Conduct, project maintainers commit themselves to fairly and consistently applying these principles to every aspect of managing this project. Project maintainers who do not follow or enforce the Code of Conduct may be permanently removed from the project team.
 
-This Code of Conduct is adapted from the .NET Foundation Code of Conduct, available from https://www.dotnetfoundation.org/code-of-conduct
+---
+
+This Code of Conduct is adapted from the [.NET Foundation Code of Conduct](https://www.dotnetfoundation.org/code-of-conduct)
