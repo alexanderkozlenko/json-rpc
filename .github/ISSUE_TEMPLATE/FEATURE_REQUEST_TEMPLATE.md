@@ -15,4 +15,4 @@ about: Create a feature request to improve abilities of the product
 
 ### Additional Information
 
-[**TODO**: Additional information required for evaluating the feature]
+[**TODO**: Additional information required for evaluating the feature, if applicable]

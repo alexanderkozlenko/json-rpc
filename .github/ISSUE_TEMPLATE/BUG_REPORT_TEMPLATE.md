@@ -18,7 +18,9 @@ about: Create a bug report to improve the quality of the quality
 
 - Product: [**TODO**: Version of the product used]
 - Runtime: [**TODO**: Type and version of the runtime used to run the product]
-- Operating System: [**TODO**: Type and version of the operating system used to run the product]
+- OS: [**TODO**: Type and version of the operating system used to run the runtime]
+- Locale: [**TODO**: The locale used to run the product, if applicable]
+- Time Zone:  [**TODO**: The time zone used to run the product, if applicable]
 
 ### Code Example
 
@@ -26,4 +28,4 @@ about: Create a bug report to improve the quality of the quality
 
 ### Additional Information
 
-[**TODO**: Additional information required for processing the report]
+[**TODO**: Additional information required for processing the report, if applicable]

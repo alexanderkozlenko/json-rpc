@@ -18,4 +18,4 @@
 
 ### Additional Information
 
-[**TODO**: Additional information required for evaluating the changes]
+[**TODO**: Additional information required for evaluating the changes, if applicable]
