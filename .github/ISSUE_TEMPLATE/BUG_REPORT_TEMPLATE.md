@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Create a bug report to improve the quality of the quality
+about: Create a bug report to improve the quality of the product
 ---
 ### Summary
 
