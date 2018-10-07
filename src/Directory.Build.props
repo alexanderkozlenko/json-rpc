@@ -12,6 +12,7 @@
     <AssemblyOriginatorKeyFile>$(SolutionDirectory)\Open.snk</AssemblyOriginatorKeyFile>
     <BaseIntermediateOutputPath>$(RepositoryDirectory)obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
     <BaseOutputPath>$(RepositoryDirectory)bin\$(MSBuildProjectName)</BaseOutputPath>
+    <TreatWarningsAsErrors Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <LangVersion>7.3</LangVersion>
