@@ -1,19 +1,15 @@
-## Anemonis.JsonRpc
+# Anemonis.JsonRpc
 
 Provides support for serializing and deserializing [JSON-RPC 2.0](http://www.jsonrpc.org/specification) messages.
 
 [![NuGet package](https://img.shields.io/nuget/v/Anemonis.JsonRpc.svg?style=flat-square)](https://www.nuget.org/packages/Anemonis.JsonRpc)
 
-### Important Features
+## Project Overview
 
-- The serializer supports defining response type contracts dependent on method parameters.
-- The serializer provides backward compatibility with the [JSON-RPC 1.0](http://www.jsonrpc.org/specification_v1).
+- Supports dynamic response type contracts based on method parameters.
+- Provides limited backward compatibility with the [JSON-RPC 1.0](http://www.jsonrpc.org/specification_v1) protocol.
 
-### Limitations
-
-- Backward compatibility with JSON-RPC 1.0 is limited to the intersection of JSON-RPC 1.0 / 2.0 requirements and the API.
-
-### Usage Examples
+## Code Examples
 
 ```cs
 var contracts = new JsonRpcContractResolver();
@@ -34,5 +30,10 @@ var response = responseData.Item.Message;
 Console.WriteLine((long)response.Result);
 ```
 
-- Example of client-side usage: https://github.com/alexanderkozlenko/json-rpc-client
-- Example of server-side usage: https://github.com/alexanderkozlenko/aspnetcore-json-rpc
+- Client-side usage: https://github.com/alexanderkozlenko/json-rpc-client
+- Server-side usage: https://github.com/alexanderkozlenko/aspnetcore-json-rpc
+
+## Quick Links
+
+- [Code of Conduct](./CODE_OF_CONDUCT.md)
+- [Contributing Guidelines ](./CONTRIBUTING.md)
