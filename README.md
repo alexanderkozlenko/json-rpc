@@ -35,5 +35,5 @@ Console.WriteLine((long)response.Result);
 
 ## Quick Links
 
-- [Contributing Guidelines ](./CONTRIBUTING.md)
+- [Contributing Guidelines](./CONTRIBUTING.md)
 - [Code of Conduct](./CODE_OF_CONDUCT.md)
