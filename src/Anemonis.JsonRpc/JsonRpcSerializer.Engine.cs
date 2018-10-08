@@ -68,7 +68,7 @@ namespace Anemonis.JsonRpc
                         throw new JsonRpcSerializationException(JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.batch.empty"));
                     }
 
-                    return new JsonRpcData<JsonRpcRequest>(messages.ToArray());
+                    return new JsonRpcData<JsonRpcRequest>(messages);
                 }
                 else
                 {
@@ -398,7 +398,7 @@ namespace Anemonis.JsonRpc
                         throw new JsonRpcSerializationException(JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.batch.empty"));
                     }
 
-                    return new JsonRpcData<JsonRpcResponse>(messages.ToArray());
+                    return new JsonRpcData<JsonRpcResponse>(messages);
                 }
                 else
                 {
