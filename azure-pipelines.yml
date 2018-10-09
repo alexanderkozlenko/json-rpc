@@ -3,17 +3,17 @@ steps:
   inputs:
     command: 'custom'
     custom: 'build'
-    arguments: '$(Build.SourcesDirectory)/.slnproj'
+    arguments: '$(Build.SourcesDirectory)/global.proj'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'custom'
     custom: 'test'
-    arguments: '$(Build.SourcesDirectory)/.slnproj --logger trx --results-directory $(Agent.TempDirectory) --no-build'
+    arguments: '$(Build.SourcesDirectory)/global.proj --logger trx --results-directory $(Agent.TempDirectory) --no-build'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'custom'
     custom: 'pack'
-    arguments: '$(Build.SourcesDirectory)/.slnproj --output $(Build.ArtifactStagingDirectory) --no-build'
+    arguments: '$(Build.SourcesDirectory)/global.proj --output $(Build.ArtifactStagingDirectory) --no-build'
 - task: PublishTestResults@2
   inputs:
     testRunner: VSTest

@@ -1,0 +1,17 @@
+<!-- © Alexander Kozlenko. Licensed under the MIT License. -->
+<Project>
+  <Import Sdk="Microsoft.Build.Traversal"
+          Project="Sdk.props"/>
+  <PropertyGroup>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <Configuration>Release</Configuration>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(MSBuildThisFileDirectory)**\*.??proj" />
+  </ItemGroup>
+  <Import Sdk="Microsoft.Build.Traversal"
+          Project="Sdk.targets"/>
+  <Target Name="VSTest">
+    <CallTarget Targets="Test" />
+  </Target>
+</Project>
