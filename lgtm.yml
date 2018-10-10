@@ -1,3 +1,7 @@
+path_classifiers:
+  test:
+    - "./src/*Tests/**"
+    - "./src/*Benchmarks/**"
 extraction:
   csharp:
     index:
