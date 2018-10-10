@@ -51,3 +51,7 @@ You agree that contributions to Projects and information about contributions may
 ## 9. Entire Agreement/Assignment
 
 This Agreement is the entire agreement between the parties, and supersedes any and all prior agreements, understandings or communications, written or oral, between the parties relating to the subject matter hereof. This Agreement may be assigned by Alexander Kozlenko.
+
+---
+
+This Contribution License Agreement is adapted from the [.NET Foundation Contribution License Agreement](https://github.com/dotnet/foundation/blob/867bce0cb50dc6453dc26931c519f161b889de24/guidance/net-foundation-contribution-license-agreement.pdf)
