@@ -19,7 +19,6 @@ namespace Anemonis.JsonRpc.UnitTests
         public void AddRequestContractWhenContractIsNull()
         {
             var resolver = new JsonRpcContractResolver();
-            var contract = new JsonRpcRequestContract();
 
             Assert.ThrowsException<ArgumentNullException>(() =>
                 resolver.AddRequestContract("m", null));
@@ -38,7 +37,6 @@ namespace Anemonis.JsonRpc.UnitTests
         public void AddResponseContractWithMethodWhenContractIsNull()
         {
             var resolver = new JsonRpcContractResolver();
-            var contract = new JsonRpcRequestContract();
 
             Assert.ThrowsException<ArgumentNullException>(() =>
                 resolver.AddResponseContract("m", null));
@@ -48,7 +46,6 @@ namespace Anemonis.JsonRpc.UnitTests
         public void AddResponseContractWithIdentifierWhenContractIsNull()
         {
             var resolver = new JsonRpcContractResolver();
-            var contract = new JsonRpcRequestContract();
 
             Assert.ThrowsException<ArgumentNullException>(() =>
                 resolver.AddResponseContract(new JsonRpcId(0L), null));
@@ -58,7 +55,6 @@ namespace Anemonis.JsonRpc.UnitTests
         public void AddResponseBindingWhenMethodIsNull()
         {
             var resolver = new JsonRpcContractResolver();
-            var contract = new JsonRpcRequestContract();
 
             Assert.ThrowsException<ArgumentNullException>(() =>
                 resolver.AddResponseBinding(0L, null));

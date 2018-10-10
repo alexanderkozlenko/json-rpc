@@ -73,7 +73,6 @@ namespace Anemonis.JsonRpc.UnitTests
         public void CoreSerializeRequestToStreamWhenRequestIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("m", 0L);
 
             using (var jsonStream = new MemoryStream())
             {
@@ -113,7 +112,6 @@ namespace Anemonis.JsonRpc.UnitTests
         public async Task CoreSerializeRequestAsyncToStreamWhenRequestIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("m", 0L);
 
             using (var jsonStream = new MemoryStream())
             {
@@ -153,7 +151,6 @@ namespace Anemonis.JsonRpc.UnitTests
         public void CoreSerializeRequestsToStreamWhenRequestsIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("m", 0L);
 
             using (var jsonStream = new MemoryStream())
             {
@@ -197,7 +194,6 @@ namespace Anemonis.JsonRpc.UnitTests
         public async Task CoreSerializeRequestsAsyncToStreamWhenRequestIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("m", 0L);
 
             using (var jsonStream = new MemoryStream())
             {
@@ -281,7 +277,6 @@ namespace Anemonis.JsonRpc.UnitTests
         public void CoreSerializeResponseToStreamWhenResponseIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("m", 0L);
 
             using (var jsonStream = new MemoryStream())
             {
@@ -293,7 +288,6 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void CoreSerializeResponseToStreamWhenStreamIsNull()
         {
-            var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
             var jsonRpcMessage = new JsonRpcResponse(0L, 0L);
 
@@ -322,7 +316,6 @@ namespace Anemonis.JsonRpc.UnitTests
         public async Task CoreSerializeResponseAsyncToStreamWhenResponseIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("m", 0L);
 
             using (var jsonStream = new MemoryStream())
             {
@@ -334,7 +327,6 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public async Task CoreSerializeResponseAsyncToStreamWhenStreamIsNull()
         {
-            var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
             var jsonRpcMessage = new JsonRpcResponse(0L, 0L);
 
@@ -363,7 +355,6 @@ namespace Anemonis.JsonRpc.UnitTests
         public void CoreSerializeResponsesToStreamWhenResponsesIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("m", 0L);
 
             using (var jsonStream = new MemoryStream())
             {
@@ -407,7 +398,6 @@ namespace Anemonis.JsonRpc.UnitTests
         public async Task CoreSerializeResponsesAsyncToStreamWhenResponsesIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("m", 0L);
 
             using (var jsonStream = new MemoryStream())
             {
