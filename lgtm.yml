@@ -1,0 +1,4 @@
+extraction:
+  csharp:
+    index:
+      solution: ./global.proj
