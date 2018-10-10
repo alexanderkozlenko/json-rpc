@@ -2,10 +2,6 @@
 <Project>
   <Import Sdk="Microsoft.Build.Traversal"
           Project="Sdk.props"/>
-  <PropertyGroup>
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    <Configuration>Release</Configuration>
-  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="$(MSBuildThisFileDirectory)**\*.??proj" />
   </ItemGroup>

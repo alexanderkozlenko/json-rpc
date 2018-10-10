@@ -1,8 +1,12 @@
+# © Alexander Kozlenko. Licensed under the MIT License.
+
 path_classifiers:
   test:
-    - "./src/*Tests/**"
-    - "./src/*Benchmarks/**"
+    - "$LGTM_SRC/src/*Tests/**"
+    - "$LGTM_SRC/src/*Benchmarks/**"
 extraction:
   csharp:
     index:
-      solution: ./global.proj
+      solution: "$LGTM_SRC/global.proj"
+      dotnet:
+        arguments: "-property:BuildingForLiveUnitTesting=true"

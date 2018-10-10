@@ -1,22 +1,24 @@
+# © Alexander Kozlenko. Licensed under the MIT License.
+
 steps:
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'custom'
-    custom: 'build'
-    arguments: '$(Build.SourcesDirectory)/global.proj'
+    command: "custom"
+    custom: "build"
+    arguments: "$(Build.SourcesDirectory)/global.proj --configuration Release -property:ContinuousIntegrationBuild=true"
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'custom'
-    custom: 'test'
-    arguments: '$(Build.SourcesDirectory)/global.proj --logger trx --results-directory $(Agent.TempDirectory) --no-build'
+    command: "custom"
+    custom: "test"
+    arguments: "$(Build.SourcesDirectory)/global.proj --configuration Release --no-build --logger trx --results-directory $(Agent.TempDirectory)"
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'custom'
-    custom: 'pack'
-    arguments: '$(Build.SourcesDirectory)/global.proj --output $(Build.ArtifactStagingDirectory) --no-build'
+    command: "custom"
+    custom: "pack"
+    arguments: "$(Build.SourcesDirectory)/global.proj --configuration Release --no-build --output $(Build.ArtifactStagingDirectory)"
 - task: PublishTestResults@2
   inputs:
     testRunner: VSTest
-    testResultsFiles: '**/*.trx'
-    searchFolder: '$(Agent.TempDirectory)'
+    testResultsFiles: "**/*.trx"
+    searchFolder: "$(Agent.TempDirectory)"
 - task: PublishBuildArtifacts@1
