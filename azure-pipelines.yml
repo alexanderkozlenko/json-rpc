@@ -1,21 +1,24 @@
 # © Alexander Kozlenko. Licensed under the MIT License.
 
+variables:
+  Project.FilePath: "$(Build.SourcesDirectory)/global.proj"
+  Project.Configuration: "Release"
 steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: "custom"
     custom: "build"
-    arguments: "$(Build.SourcesDirectory)/global.proj --configuration Release -property:ContinuousIntegrationBuild=true"
+    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:ContinuousIntegrationBuild=true"
 - task: DotNetCoreCLI@2
   inputs:
     command: "custom"
     custom: "test"
-    arguments: "$(Build.SourcesDirectory)/global.proj --configuration Release --no-build --logger trx --results-directory $(Agent.TempDirectory)"
+    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) --no-build --logger trx --results-directory $(Agent.TempDirectory)"
 - task: DotNetCoreCLI@2
   inputs:
     command: "custom"
     custom: "pack"
-    arguments: "$(Build.SourcesDirectory)/global.proj --configuration Release --no-build --output $(Build.ArtifactStagingDirectory)"
+    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) --no-build --output $(Build.ArtifactStagingDirectory)"
 - task: PublishTestResults@2
   inputs:
     testRunner: VSTest
