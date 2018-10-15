@@ -2,8 +2,7 @@
 
 path_classifiers:
   test:
-    - "$LGTM_SRC/src/*Benchmarks/**/*.cs"
-    - "$LGTM_SRC/src/*Tests/**/*.cs"
+    - "**/*Benchmarks.cs"
 extraction:
   csharp:
     index:
