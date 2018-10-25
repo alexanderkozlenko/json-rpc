@@ -7,8 +7,10 @@
     <PropertyGroup>
       <PackageProjectUrl>%(SourceRoot.RepositoryUrl)</PackageProjectUrl>
       <PackageLicenseUrl>%(SourceRoot.SourceLinkUrl)</PackageLicenseUrl>
+      <PackageIconUrl>%(SourceRoot.SourceLinkUrl)</PackageIconUrl>
       <PackageProjectUrl>$(PackageProjectUrl.Replace('.git', ''))</PackageProjectUrl>
       <PackageLicenseUrl>$(PackageLicenseUrl.Replace('*', 'LICENSE'))</PackageLicenseUrl>
+      <PackageIconUrl>$(PackageIconUrl.Replace('*', 'img/$(PackageId).png'))</PackageIconUrl>
     </PropertyGroup>
   </Target>
   <Target Name="Test"
