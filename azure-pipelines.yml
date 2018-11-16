@@ -4,6 +4,10 @@ variables:
   Project.FilePath: "$(Build.SourcesDirectory)/global.proj"
   Project.Configuration: "Release"
 steps:
+- task: DotNetCoreInstaller@0
+  inputs:
+    packageType: 'sdk'
+    version: '2.1.500'
 - task: DotNetCoreCLI@2
   inputs:
     command: "custom"
