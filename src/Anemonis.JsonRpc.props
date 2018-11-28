@@ -2,8 +2,8 @@
 <Project>
   <PropertyGroup>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <VersionPrefix>1.18.2</VersionPrefix>
-    <VersionSuffix>beta</VersionSuffix>
+    <VersionPrefix>1.19.0</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
   </PropertyGroup>
   <PropertyGroup>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
