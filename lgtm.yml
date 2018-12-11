@@ -6,4 +6,4 @@ path_classifiers:
 extraction:
   csharp:
     index:
-      build_command: "dotnet build $LGTM_SRC/global.proj -property:BuildingForLiveUnitTesting=true"
+      build_command: "dotnet build ./global.proj -property:BuildingForLiveUnitTesting=true"
