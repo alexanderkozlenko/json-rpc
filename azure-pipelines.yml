@@ -13,7 +13,7 @@ steps:
 - task: DotNetCoreInstaller@0
   inputs:
     packageType: "sdk"
-    version: $(DotNetCoreSdkVersion)
+    version: "$(DotNetCoreSdkVersion)"
 - task: DotNetCoreCLI@2
   inputs:
     command: "custom"
@@ -31,7 +31,7 @@ steps:
     arguments: "$(Project.FilePath) --configuration $(Project.Configuration) --no-build --include-symbols --output $(Build.ArtifactStagingDirectory)"
 - task: PublishTestResults@2
   inputs:
-    testRunner: VSTest
+    testRunner: "VSTest"
     testResultsFiles: "**/*.trx"
     searchFolder: "$(Agent.TempDirectory)"
 - task: PublishBuildArtifacts@1
