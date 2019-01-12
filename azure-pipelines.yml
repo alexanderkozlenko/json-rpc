@@ -9,7 +9,7 @@ steps:
     pwsh: true
     targetType: "inline"
     script: |
-        Write-Host ("##vso[task.setvariable variable=DotNetCoreSdkVersion;]" + (Get-Content -Raw "$PSScriptRoot/global.json" | ConvertFrom-Json)."sdk"."version")
+        Write-Host ("##vso[task.setvariable variable=DotNetCoreSdkVersion;]" + (Get-Content -Raw "$(Build.SourcesDirectory)/global.json" | ConvertFrom-Json)."sdk"."version")
 - task: DotNetCoreInstaller@0
   inputs:
     packageType: "sdk"
