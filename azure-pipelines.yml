@@ -4,10 +4,16 @@ variables:
   Project.FilePath: "$(Build.SourcesDirectory)/global.proj"
   Project.Configuration: "Release"
 steps:
+- task: PowerShell@2
+  inputs:
+    pwsh: true
+    targetType: "inline"
+    script: |
+        Write-Host ("##vso[task.setvariable variable=DotNetCoreSdkVersion;]" + (Get-Content -Raw "$PSScriptRoot/global.json" | ConvertFrom-Json)."sdk"."version")
 - task: DotNetCoreInstaller@0
   inputs:
-    packageType: 'sdk'
-    version: '2.2.102'
+    packageType: "sdk"
+    version: $(DotNetCoreSdkVersion)
 - task: DotNetCoreCLI@2
   inputs:
     command: "custom"
