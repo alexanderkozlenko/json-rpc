@@ -3,7 +3,7 @@ using BenchmarkDotNet.Attributes;
 
 namespace Anemonis.JsonRpc.Benchmarks.TestSuites
 {
-    public sealed class JsonRpcSerializerSerializeBenchmarks
+    public class JsonRpcSerializerSerializeBenchmarks
     {
         private static readonly IReadOnlyDictionary<string, JsonRpcRequest> _requests = CreateRequestDictionary();
         private static readonly IReadOnlyDictionary<string, JsonRpcResponse> _responses = CreateResponseDictionary();

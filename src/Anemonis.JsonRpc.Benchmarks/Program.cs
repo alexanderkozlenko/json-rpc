@@ -9,7 +9,7 @@ using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Loggers;
 using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Running;
-using BenchmarkDotNet.Toolchains.InProcess;
+using BenchmarkDotNet.Toolchains.InProcess.Emit;
 
 namespace Anemonis.JsonRpc.Benchmarks
 {
@@ -19,12 +19,12 @@ namespace Anemonis.JsonRpc.Benchmarks
         {
             var configuration = ManualConfig.CreateEmpty();
 
-            configuration.Add(Job.Default.With(InProcessToolchain.Instance));
+            configuration.Add(Job.Default.With(InProcessEmitToolchain.Instance));
             configuration.Add(MemoryDiagnoser.Default);
             configuration.Add(DefaultConfig.Instance.GetColumnProviders().ToArray());
             configuration.Add(ConsoleLogger.Default);
             configuration.Add(new SimpleBenchmarkExporter());
-            configuration.Set(SummaryStyle.Default.WithTimeUnit(TimeUnit.Nanosecond).WithSizeUnit(SizeUnit.B));
+            configuration.SummaryStyle = SummaryStyle.Default.WithTimeUnit(TimeUnit.Nanosecond).WithSizeUnit(SizeUnit.B);
 
             BenchmarkRunner.Run<JsonRpcIdBenchmarks>(configuration);
             BenchmarkRunner.Run<JsonRpcSerializerSerializeBenchmarks>(configuration);
