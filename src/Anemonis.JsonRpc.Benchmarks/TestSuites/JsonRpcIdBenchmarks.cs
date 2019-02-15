@@ -2,7 +2,7 @@
 
 namespace Anemonis.JsonRpc.Benchmarks.TestSuites
 {
-    public sealed class JsonRpcIdBenchmarks
+    public class JsonRpcIdBenchmarks
     {
         private static readonly JsonRpcId _idNone = new JsonRpcId();
         private static readonly JsonRpcId _idString = new JsonRpcId("1");

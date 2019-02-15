@@ -5,7 +5,7 @@ using BenchmarkDotNet.Attributes;
 
 namespace Anemonis.JsonRpc.Benchmarks.TestSuites
 {
-    public sealed class JsonRpcSerializerDeserializeBenchmarks
+    public class JsonRpcSerializerDeserializeBenchmarks
     {
         private static readonly IReadOnlyDictionary<string, string> _resources = CreateResourceDictionary();
         private static readonly IReadOnlyDictionary<string, JsonRpcSerializer> _serializers = CreatSerializers();
