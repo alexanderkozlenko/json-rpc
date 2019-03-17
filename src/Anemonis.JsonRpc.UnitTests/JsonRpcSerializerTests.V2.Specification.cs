@@ -42,7 +42,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_01.0_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("subtract", 1L, new object[] { 42L, 23L });
+            var jsonRpcMessage = new JsonRpcRequest(1L, "subtract", new object[] { 42L, 23L });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -78,7 +78,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_01.0_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcResponse(19L, 1L);
+            var jsonRpcMessage = new JsonRpcResponse(1L, 19L);
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -114,7 +114,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_01.1_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("subtract", 2L, new object[] { 23L, 42L });
+            var jsonRpcMessage = new JsonRpcRequest(2L, "subtract", new object[] { 23L, 42L });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -150,7 +150,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_01.1_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcResponse(-19L, 2L);
+            var jsonRpcMessage = new JsonRpcResponse(2L, -19L);
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -204,7 +204,7 @@ namespace Anemonis.JsonRpc.UnitTests
                 ["minuend"] = 42L
             };
 
-            var jsonRpcMessage = new JsonRpcRequest("subtract", 3L, jsonRpcSubtractParameters);
+            var jsonRpcMessage = new JsonRpcRequest(3L, "subtract", jsonRpcSubtractParameters);
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -240,7 +240,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_02.0_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcResponse(19L, 3L);
+            var jsonRpcMessage = new JsonRpcResponse(3L, 19L);
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -290,7 +290,7 @@ namespace Anemonis.JsonRpc.UnitTests
                 ["minuend"] = 42L
             };
 
-            var jsonRpcMessage = new JsonRpcRequest("subtract", 4L, jsonRpcSubtractParameters);
+            var jsonRpcMessage = new JsonRpcRequest(4L, "subtract", jsonRpcSubtractParameters);
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -326,7 +326,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_02.1_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcResponse(19L, 4L);
+            var jsonRpcMessage = new JsonRpcResponse(4L, 19L);
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -367,7 +367,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_03.0_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("update", new object[] { 1L, 2L, 3L, 4L, 5L });
+            var jsonRpcMessage = new JsonRpcRequest(default, "update", new object[] { 1L, 2L, 3L, 4L, 5L });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -402,7 +402,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_03.1_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("foobar");
+            var jsonRpcMessage = new JsonRpcRequest(default, "foobar");
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -441,7 +441,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_04.0_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("foobar", "1");
+            var jsonRpcMessage = new JsonRpcRequest("1", "foobar");
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -479,7 +479,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_04.0_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCode.InvalidMethod, "Method not found"), "1");
+            var jsonRpcMessage = new JsonRpcResponse("1", new JsonRpcError(JsonRpcErrorCode.InvalidMethod, "Method not found"));
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -535,7 +535,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_05.0_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCode.InvalidFormat, "Parse error"), default);
+            var jsonRpcMessage = new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidFormat, "Parse error"));
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -600,7 +600,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_06.0_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request"), default);
+            var jsonRpcMessage = new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request"));
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -656,7 +656,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_07.0_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCode.InvalidFormat, "Parse error"), default);
+            var jsonRpcMessage = new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidFormat, "Parse error"));
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -712,7 +712,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_08.0_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request"), default);
+            var jsonRpcMessage = new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request"));
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -776,7 +776,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_spec_09.0_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request"), default);
+            var jsonRpcMessage = new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request"));
             var jsonResult = jsonRpcSerializer.SerializeResponses(new[] { jsonRpcMessage });
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -844,9 +844,9 @@ namespace Anemonis.JsonRpc.UnitTests
 
             var jsonRpcMessages = new[]
             {
-                new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request"), default),
-                new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request"), default),
-                new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request"), default)
+                new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request")),
+                new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request")),
+                new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request"))
             };
 
             var jsonResult = jsonRpcSerializer.SerializeResponses(jsonRpcMessages);
@@ -1020,11 +1020,11 @@ namespace Anemonis.JsonRpc.UnitTests
 
             var jsonRpcMessages = new[]
             {
-                new JsonRpcResponse(7L, "1"),
-                new JsonRpcResponse(19L, "2"),
-                new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request"), default),
-                new JsonRpcResponse(new JsonRpcError(JsonRpcErrorCode.InvalidMethod, "Method not found"), "5"),
-                new JsonRpcResponse(new object[] { "hello", 5L }, "9")
+                new JsonRpcResponse("1", 7L),
+                new JsonRpcResponse("2", 19L),
+                new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request")),
+                new JsonRpcResponse("5", new JsonRpcError(JsonRpcErrorCode.InvalidMethod, "Method not found")),
+                new JsonRpcResponse("9", new object[] { "hello", 5L })
             };
 
             var jsonResult = jsonRpcSerializer.SerializeResponses(jsonRpcMessages);
@@ -1082,8 +1082,8 @@ namespace Anemonis.JsonRpc.UnitTests
 
             var jsonRpcMessages = new[]
             {
-                new JsonRpcRequest("notify_sum", new object[] { 1L, 2L, 4L }),
-                new JsonRpcRequest("notify_hello", new object[] { 7L })
+                new JsonRpcRequest(default, "notify_sum", new object[] { 1L, 2L, 4L }),
+                new JsonRpcRequest(default, "notify_hello", new object[] { 7L })
             };
 
             var jsonResult = jsonRpcSerializer.SerializeRequests(jsonRpcMessages);

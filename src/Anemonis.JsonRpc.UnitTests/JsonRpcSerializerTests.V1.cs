@@ -43,7 +43,7 @@ namespace Anemonis.JsonRpc.UnitTests
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_btc_01_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcMessage = new JsonRpcRequest("getblockhash", "foo", new object[] { 0L });
+            var jsonRpcMessage = new JsonRpcRequest("foo", "getblockhash", new object[] { 0L });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -80,7 +80,7 @@ namespace Anemonis.JsonRpc.UnitTests
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_btc_01_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcMessage = new JsonRpcResponse("000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f", "foo");
+            var jsonRpcMessage = new JsonRpcResponse("foo", "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f");
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -122,7 +122,7 @@ namespace Anemonis.JsonRpc.UnitTests
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_btc_02_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcMessage = new JsonRpcRequest("getblockhash", "foo", new object[] { -1L });
+            var jsonRpcMessage = new JsonRpcRequest("foo", "getblockhash", new object[] { -1L });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -163,7 +163,7 @@ namespace Anemonis.JsonRpc.UnitTests
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_btc_02_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcMessage = new JsonRpcResponse(new JsonRpcError(-8L, "Block height out of range"), "foo");
+            var jsonRpcMessage = new JsonRpcResponse("foo", new JsonRpcError(-8L, "Block height out of range"));
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -178,7 +178,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
             var parameters = new Dictionary<string, object> { ["p"] = 1L };
-            var message = new JsonRpcRequest("m", parameters);
+            var message = new JsonRpcRequest(default, "m", parameters);
 
             var exception = Assert.ThrowsException<JsonRpcSerializationException>(() =>
                 jsonRpcSerializer.SerializeRequest(message));

@@ -12,10 +12,10 @@ namespace Anemonis.JsonRpc
         private readonly JsonRpcError _error;
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcResponse" /> class.</summary>
-        /// <param name="result">The produced result for successful request.</param>
         /// <param name="id">The identifier, which must be the same as the identifier in the JSON-RPC request.</param>
+        /// <param name="result">The produced result for successful request.</param>
         /// <exception cref="ArgumentException"><paramref name="id" /> has undefined value.</exception>
-        public JsonRpcResponse(object result, in JsonRpcId id)
+        public JsonRpcResponse(in JsonRpcId id, object result)
             : base(id)
         {
             if (id.Type == JsonRpcIdType.None)
@@ -27,10 +27,10 @@ namespace Anemonis.JsonRpc
         }
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcResponse" /> class.</summary>
-        /// <param name="error">The produced JSON-RPC error for unsuccessful request.</param>
         /// <param name="id">The identifier, which must be the same as the identifier in the JSON-RPC request.</param>
+        /// <param name="error">The produced JSON-RPC error for unsuccessful request.</param>
         /// <exception cref="ArgumentNullException"><paramref name="error" /> is <see langword="null" />.</exception>
-        public JsonRpcResponse(JsonRpcError error, in JsonRpcId id)
+        public JsonRpcResponse(in JsonRpcId id, JsonRpcError error)
             : base(id)
         {
             if (error == null)

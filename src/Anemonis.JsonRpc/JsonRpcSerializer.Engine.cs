@@ -298,7 +298,7 @@ namespace Anemonis.JsonRpc
                                 throw new JsonSerializationException(Strings.GetString("core.deserialize.json_issue"), e);
                             }
 
-                            request = new JsonRpcRequest(requestMethod, requestId, requestParameters);
+                            request = new JsonRpcRequest(requestId, requestMethod, requestParameters);
                         }
                         break;
                     case JsonRpcParametersType.ByName:
@@ -346,12 +346,12 @@ namespace Anemonis.JsonRpc
                                 throw new JsonSerializationException(Strings.GetString("core.deserialize.json_issue"), e);
                             }
 
-                            request = new JsonRpcRequest(requestMethod, requestId, requestParameters);
+                            request = new JsonRpcRequest(requestId, requestMethod, requestParameters);
                         }
                         break;
                     default:
                         {
-                            request = new JsonRpcRequest(requestMethod, requestId);
+                            request = new JsonRpcRequest(requestId, requestMethod);
                         }
                         break;
                 }
@@ -664,7 +664,7 @@ namespace Anemonis.JsonRpc
                         }
                     }
 
-                    response = new JsonRpcResponse(responseResult, responseId);
+                    response = new JsonRpcResponse(responseId, responseResult);
                 }
                 else
                 {
@@ -762,7 +762,7 @@ namespace Anemonis.JsonRpc
                         }
                     }
 
-                    response = new JsonRpcResponse(responseError, responseId);
+                    response = new JsonRpcResponse(responseId, responseError);
                 }
 
                 return new JsonRpcMessageInfo<JsonRpcResponse>(response);

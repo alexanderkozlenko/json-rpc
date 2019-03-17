@@ -85,7 +85,7 @@ namespace Anemonis.JsonRpc.UnitTests
         public void CoreSerializeRequestToStreamWhenStreamIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("m", 0L);
+            var jsonRpcMessage = new JsonRpcRequest(0L, "m");
 
             Assert.ThrowsException<ArgumentNullException>(() =>
                 jsonRpcSerializer.SerializeRequest(jsonRpcMessage, null));
@@ -96,7 +96,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("m", 0L);
+            var jsonRpcMessage = new JsonRpcRequest(0L, "m");
 
             using (var jsonStream = new MemoryStream())
             {
@@ -124,7 +124,7 @@ namespace Anemonis.JsonRpc.UnitTests
         public async Task CoreSerializeRequestAsyncToStreamWhenStreamIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("m", 0L);
+            var jsonRpcMessage = new JsonRpcRequest(0L, "m");
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
                 jsonRpcSerializer.SerializeRequestAsync(jsonRpcMessage, null).AsTask());
@@ -135,7 +135,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage = new JsonRpcRequest("m", 0L);
+            var jsonRpcMessage = new JsonRpcRequest(0L, "m");
 
             using (var jsonStream = new MemoryStream())
             {
@@ -163,8 +163,8 @@ namespace Anemonis.JsonRpc.UnitTests
         public void CoreSerializeRequestsToStreamWhenStreamIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage1 = new JsonRpcRequest("m", 0L);
-            var jsonRpcMessage2 = new JsonRpcRequest("m", 1L);
+            var jsonRpcMessage1 = new JsonRpcRequest(0L, "m");
+            var jsonRpcMessage2 = new JsonRpcRequest(1L, "m");
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
             Assert.ThrowsException<ArgumentNullException>(() =>
@@ -176,8 +176,8 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_batch_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage1 = new JsonRpcRequest("m", 0L);
-            var jsonRpcMessage2 = new JsonRpcRequest("m", 1L);
+            var jsonRpcMessage1 = new JsonRpcRequest(0L, "m");
+            var jsonRpcMessage2 = new JsonRpcRequest(1L, "m");
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
             using (var jsonStream = new MemoryStream())
@@ -206,8 +206,8 @@ namespace Anemonis.JsonRpc.UnitTests
         public async Task CoreSerializeRequestsAsyncToStreamWhenStreamIsNull()
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage1 = new JsonRpcRequest("m", 0L);
-            var jsonRpcMessage2 = new JsonRpcRequest("m", 1L);
+            var jsonRpcMessage1 = new JsonRpcRequest(0L, "m");
+            var jsonRpcMessage2 = new JsonRpcRequest(1L, "m");
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
@@ -219,8 +219,8 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_batch_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
-            var jsonRpcMessage1 = new JsonRpcRequest("m", 0L);
-            var jsonRpcMessage2 = new JsonRpcRequest("m", 1L);
+            var jsonRpcMessage1 = new JsonRpcRequest(0L, "m");
+            var jsonRpcMessage2 = new JsonRpcRequest(1L, "m");
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
             using (var jsonStream = new MemoryStream())
@@ -368,7 +368,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
             var jsonRpcMessage1 = new JsonRpcResponse(0L, 0L);
-            var jsonRpcMessage2 = new JsonRpcResponse(0L, 1L);
+            var jsonRpcMessage2 = new JsonRpcResponse(1L, 0L);
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
             Assert.ThrowsException<ArgumentNullException>(() =>
@@ -381,7 +381,7 @@ namespace Anemonis.JsonRpc.UnitTests
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_batch_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
             var jsonRpcMessage1 = new JsonRpcResponse(0L, 0L);
-            var jsonRpcMessage2 = new JsonRpcResponse(0L, 1L);
+            var jsonRpcMessage2 = new JsonRpcResponse(1L, 0L);
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
             using (var jsonStream = new MemoryStream())
@@ -411,7 +411,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonRpcSerializer = new JsonRpcSerializer();
             var jsonRpcMessage1 = new JsonRpcResponse(0L, 0L);
-            var jsonRpcMessage2 = new JsonRpcResponse(0L, 1L);
+            var jsonRpcMessage2 = new JsonRpcResponse(1L, 0L);
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
@@ -424,7 +424,7 @@ namespace Anemonis.JsonRpc.UnitTests
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v2_core_batch_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer();
             var jsonRpcMessage1 = new JsonRpcResponse(0L, 0L);
-            var jsonRpcMessage2 = new JsonRpcResponse(0L, 1L);
+            var jsonRpcMessage2 = new JsonRpcResponse(1L, 0L);
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
             using (var jsonStream = new MemoryStream())
