@@ -42,7 +42,7 @@ namespace Anemonis.JsonRpc.UnitTests
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_01.0_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcMessage = new JsonRpcRequest("echo", 1L, new object[] { "Hello JSON-RPC" });
+            var jsonRpcMessage = new JsonRpcRequest(1L, "echo", new object[] { "Hello JSON-RPC" });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -78,7 +78,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_01.0_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
-            var jsonRpcMessage = new JsonRpcResponse("Hello JSON-RPC", 1L);
+            var jsonRpcMessage = new JsonRpcResponse(1L, "Hello JSON-RPC");
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -119,7 +119,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.0_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
-            var jsonRpcMessage = new JsonRpcRequest("postMessage", 99L, new object[] { "Hello all!" });
+            var jsonRpcMessage = new JsonRpcRequest(99L, "postMessage", new object[] { "Hello all!" });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -156,7 +156,7 @@ namespace Anemonis.JsonRpc.UnitTests
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.0_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            var jsonRpcMessage = new JsonRpcResponse(1L, 99L);
+            var jsonRpcMessage = new JsonRpcResponse(99L, 1L);
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -193,7 +193,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.1_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
-            var jsonRpcMessage = new JsonRpcRequest("handleMessage", new object[] { "user1", "we were just talking" });
+            var jsonRpcMessage = new JsonRpcRequest(default, "handleMessage", new object[] { "user1", "we were just talking" });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -242,7 +242,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.2_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
-            var jsonRpcMessage = new JsonRpcRequest("handleMessage", new object[] { "user3", "sorry, gotta go now, ttyl" });
+            var jsonRpcMessage = new JsonRpcRequest(default, "handleMessage", new object[] { "user3", "sorry, gotta go now, ttyl" });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -291,7 +291,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.3_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
-            var jsonRpcMessage = new JsonRpcRequest("postMessage", 101L, new object[] { "I have a question:" });
+            var jsonRpcMessage = new JsonRpcRequest(101L, "postMessage", new object[] { "I have a question:" });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -340,7 +340,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.4_req.json");
             var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
-            var jsonRpcMessage = new JsonRpcRequest("userLeft", new object[] { "user3" });
+            var jsonRpcMessage = new JsonRpcRequest(default, "userLeft", new object[] { "user3" });
             var jsonResult = jsonRpcSerializer.SerializeRequest(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);
@@ -400,7 +400,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jsonSample = EmbeddedResourceManager.GetString("Assets.v1_spec_02.5_res.json");
             var jsonRpcSerializer = new JsonRpcSerializer(compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
-            var jsonRpcMessage = new JsonRpcResponse(1L, 101L);
+            var jsonRpcMessage = new JsonRpcResponse(101L, 1L);
             var jsonResult = jsonRpcSerializer.SerializeResponse(jsonRpcMessage);
 
             CompareJsonStrings(jsonSample, jsonResult);

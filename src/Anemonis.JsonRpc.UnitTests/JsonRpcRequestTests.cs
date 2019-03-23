@@ -10,7 +10,7 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void IsNotificationIsTrueWhenIdIsNone()
         {
-            var message = new JsonRpcRequest("m");
+            var message = new JsonRpcRequest(default, "m");
 
             Assert.AreEqual(default, message.Id);
             Assert.IsTrue(message.IsNotification);
@@ -19,7 +19,7 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void IsNotificationIsFalseWhenIdIsNumber()
         {
-            var message = new JsonRpcRequest("m", 1L);
+            var message = new JsonRpcRequest(1L, "m");
 
             Assert.AreEqual(1L, message.Id);
             Assert.IsFalse(message.IsNotification);
@@ -28,7 +28,7 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void IsNotificationIsFalseWhenIdIsString()
         {
-            var message = new JsonRpcRequest("m", "1");
+            var message = new JsonRpcRequest("1", "m");
 
             Assert.AreEqual("1", message.Id);
             Assert.IsFalse(message.IsNotification);
@@ -37,7 +37,7 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void ParametersTypeIsNoneWhenIdIsNone()
         {
-            var message = new JsonRpcRequest("m");
+            var message = new JsonRpcRequest(default, "m");
 
             Assert.AreEqual(JsonRpcParametersType.None, message.ParametersType);
         }
@@ -46,7 +46,7 @@ namespace Anemonis.JsonRpc.UnitTests
         public void ParametersTypeIsByPositionWhenIdIsNone()
         {
             var parameters = new object[] { 1L };
-            var message = new JsonRpcRequest("m", parameters);
+            var message = new JsonRpcRequest(default, "m", parameters);
 
             Assert.AreEqual(JsonRpcParametersType.ByPosition, message.ParametersType);
         }
@@ -55,7 +55,7 @@ namespace Anemonis.JsonRpc.UnitTests
         public void ParametersTypeIsByNameWhenIdIsNone()
         {
             var parameters = new Dictionary<string, object> { ["p"] = 1L };
-            var message = new JsonRpcRequest("m", parameters);
+            var message = new JsonRpcRequest(default, "m", parameters);
 
             Assert.AreEqual(JsonRpcParametersType.ByName, message.ParametersType);
         }
@@ -63,7 +63,7 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void IsSystemIsFalse()
         {
-            var message = new JsonRpcRequest("m");
+            var message = new JsonRpcRequest(default, "m");
 
             Assert.IsFalse(message.IsSystem);
         }
@@ -71,7 +71,7 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void IsSystemIsTrue()
         {
-            var message = new JsonRpcRequest("rpc.m");
+            var message = new JsonRpcRequest(default, "rpc.m");
 
             Assert.IsTrue(message.IsSystem);
         }
@@ -80,13 +80,13 @@ namespace Anemonis.JsonRpc.UnitTests
         public void MethodIsNull()
         {
             Assert.ThrowsException<ArgumentNullException>(() =>
-                new JsonRpcRequest((string)null));
+                new JsonRpcRequest(default, null));
         }
 
         [TestMethod]
         public void MethodIsEmptyString()
         {
-            var message = new JsonRpcRequest("");
+            var message = new JsonRpcRequest(default, "");
 
             Assert.AreEqual("", message.Method);
         }

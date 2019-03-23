@@ -54,7 +54,7 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
 
         private static JsonRpcRequest CreateRequestParamsNone()
         {
-            return new JsonRpcRequest("m", 0L);
+            return new JsonRpcRequest(0L, "m");
         }
 
         private static JsonRpcRequest CreateRequestParamsByName()
@@ -64,7 +64,7 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
                 ["p"] = 0L
             };
 
-            return new JsonRpcRequest("m", 0L, parameters);
+            return new JsonRpcRequest(0L, "m", parameters);
         }
 
         private static JsonRpcRequest CreateRequestParamsByPosition()
@@ -74,7 +74,7 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
                 0L
             };
 
-            return new JsonRpcRequest("m", 0L, parameters);
+            return new JsonRpcRequest(0L, "m", parameters);
         }
 
         private static JsonRpcResponse CreateResponseSuccess()
@@ -84,12 +84,12 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
 
         private static JsonRpcResponse CreateResponseError()
         {
-            return new JsonRpcResponse(new JsonRpcError(0L, "m"), 0L);
+            return new JsonRpcResponse(0L, new JsonRpcError(0L, "m"));
         }
 
         private static JsonRpcResponse CreateResponseErrorWithData()
         {
-            return new JsonRpcResponse(new JsonRpcError(0L, "m", 0L), 0L);
+            return new JsonRpcResponse(0L, new JsonRpcError(0L, "m", 0L));
         }
 
         [Benchmark(Description = "SerializeRequest-PARAMS=U")]

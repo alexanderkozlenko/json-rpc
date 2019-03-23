@@ -9,7 +9,7 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void SuccessIsFalse()
         {
-            var message = new JsonRpcResponse(new JsonRpcError(2L, "m"), 1L);
+            var message = new JsonRpcResponse(1L, new JsonRpcError(2L, "m"));
 
             Assert.IsFalse(message.Success);
             Assert.IsNotNull(message.Error);
@@ -19,7 +19,7 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void SuccessIsTrueWhenResultIsNumber()
         {
-            var message = new JsonRpcResponse(0L, 1L);
+            var message = new JsonRpcResponse(1L, 0L);
 
             Assert.IsTrue(message.Success);
             Assert.IsNull(message.Error);
@@ -28,7 +28,7 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void SuccessIsTrueWhenResultIsString()
         {
-            var message = new JsonRpcResponse("0", 1L);
+            var message = new JsonRpcResponse(1L, "0");
 
             Assert.IsTrue(message.Success);
             Assert.IsNull(message.Error);
@@ -37,7 +37,7 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void SuccessIsTrueWhenResultIsBoolean()
         {
-            var message = new JsonRpcResponse(true, 1L);
+            var message = new JsonRpcResponse(1L, true);
 
             Assert.IsTrue(message.Success);
             Assert.IsNull(message.Error);
@@ -46,7 +46,7 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void SuccessIsTrueWhenResultIsObject()
         {
-            var message = new JsonRpcResponse(new object(), 1L);
+            var message = new JsonRpcResponse(1L, new object());
 
             Assert.IsTrue(message.Success);
             Assert.IsNull(message.Error);
@@ -55,7 +55,7 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void SuccessIsTrueWhenResultIsNull()
         {
-            var message = new JsonRpcResponse(default(object), 1L);
+            var message = new JsonRpcResponse(1L, default(object));
 
             Assert.IsTrue(message.Success);
             Assert.IsNull(message.Error);
@@ -65,14 +65,14 @@ namespace Anemonis.JsonRpc.UnitTests
         public void SuccessIsTrueWhenIdIsNone()
         {
             Assert.ThrowsException<ArgumentException>(() =>
-                new JsonRpcResponse(1L, default(JsonRpcId)));
+                new JsonRpcResponse(default, 1L));
         }
 
         [TestMethod]
         public void SuccessIsFalseWhenErrorIsNull()
         {
             Assert.ThrowsException<ArgumentNullException>(() =>
-                new JsonRpcResponse(default(JsonRpcError), 1L));
+                new JsonRpcResponse(1L, default(JsonRpcError)));
         }
     }
 }
