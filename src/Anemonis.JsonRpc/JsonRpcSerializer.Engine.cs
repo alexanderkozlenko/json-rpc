@@ -34,7 +34,19 @@ namespace Anemonis.JsonRpc
             };
         }
 
-        private JsonRpcData<JsonRpcRequest> DeserializeRequestData(JsonTextReader reader, CancellationToken cancellationToken = default)
+        private static void SetupJsonReader(JsonTextReader reader)
+        {
+            reader.DateParseHandling = DateParseHandling.None;
+            reader.ArrayPool = _jsonBufferPool;
+        }
+
+        private static void SetupJsonWriter(JsonTextWriter writer)
+        {
+            writer.AutoCompleteOnClose = false;
+            writer.ArrayPool = _jsonBufferPool;
+        }
+
+        private JsonRpcData<JsonRpcRequest> DeserializeRequestData(JsonTextReader reader, CancellationToken cancellationToken)
         {
             if (_contractResolver == null)
             {
@@ -364,7 +376,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        private JsonRpcData<JsonRpcResponse> DeserializeResponseData(JsonTextReader reader, CancellationToken cancellationToken = default)
+        private JsonRpcData<JsonRpcResponse> DeserializeResponseData(JsonTextReader reader, CancellationToken cancellationToken)
         {
             if (_contractResolver == null)
             {
@@ -773,7 +785,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        private void SerializeRequests(JsonTextWriter writer, IReadOnlyList<JsonRpcRequest> requests, CancellationToken cancellationToken = default)
+        private void SerializeRequests(JsonTextWriter writer, IReadOnlyList<JsonRpcRequest> requests, CancellationToken cancellationToken)
         {
             if (requests.Count == 0)
             {
@@ -935,7 +947,7 @@ namespace Anemonis.JsonRpc
             writer.WriteEndObject();
         }
 
-        private void SerializeResponses(JsonTextWriter writer, IReadOnlyList<JsonRpcResponse> responses, CancellationToken cancellationToken = default)
+        private void SerializeResponses(JsonTextWriter writer, IReadOnlyList<JsonRpcResponse> responses, CancellationToken cancellationToken)
         {
             if (responses.Count == 0)
             {

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Anemonis.JsonRpc.UnitTests.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Anemonis.JsonRpc.UnitTests
@@ -13,20 +11,9 @@ namespace Anemonis.JsonRpc.UnitTests
     [TestClass]
     public sealed partial class JsonRpcSerializerTests
     {
-        [Conditional("DEBUG")]
-        private static void TraceJsonToken(JToken token)
-        {
-            Trace.WriteLine(token.ToString(Formatting.Indented));
-        }
-
         private static void CompareJsonStrings(string expected, string actual)
         {
-            var expectedToken = JToken.Parse(expected);
-            var actualToken = JToken.Parse(actual);
-
-            TraceJsonToken(actualToken);
-
-            Assert.IsTrue(JToken.DeepEquals(expectedToken, actualToken), "Actual JSON string differs from expected");
+            Assert.IsTrue(JToken.DeepEquals(JToken.Parse(expected), JToken.Parse(actual)), "Actual JSON string differs from expected");
         }
 
         [TestMethod]
@@ -88,7 +75,7 @@ namespace Anemonis.JsonRpc.UnitTests
             var jsonRpcMessage = new JsonRpcRequest(0L, "m");
 
             Assert.ThrowsException<ArgumentNullException>(() =>
-                jsonRpcSerializer.SerializeRequest(jsonRpcMessage, null));
+                jsonRpcSerializer.SerializeRequest(jsonRpcMessage, (Stream)null));
         }
 
         [TestMethod]
@@ -106,6 +93,15 @@ namespace Anemonis.JsonRpc.UnitTests
 
                 CompareJsonStrings(jsonSample, jsonResult);
             }
+        }
+
+        [TestMethod]
+        public async Task CoreSerializeRequestAsyncToStringWhenRequestIsNull()
+        {
+            var jsonRpcSerializer = new JsonRpcSerializer();
+
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                jsonRpcSerializer.SerializeRequestAsync(null).AsTask());
         }
 
         [TestMethod]
@@ -127,7 +123,7 @@ namespace Anemonis.JsonRpc.UnitTests
             var jsonRpcMessage = new JsonRpcRequest(0L, "m");
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                jsonRpcSerializer.SerializeRequestAsync(jsonRpcMessage, null).AsTask());
+                jsonRpcSerializer.SerializeRequestAsync(jsonRpcMessage, (Stream)null).AsTask());
         }
 
         [TestMethod]
@@ -168,7 +164,7 @@ namespace Anemonis.JsonRpc.UnitTests
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
             Assert.ThrowsException<ArgumentNullException>(() =>
-                jsonRpcSerializer.SerializeRequests(jsonRpcMessages, null));
+                jsonRpcSerializer.SerializeRequests(jsonRpcMessages, (Stream)null));
         }
 
         [TestMethod]
@@ -188,6 +184,15 @@ namespace Anemonis.JsonRpc.UnitTests
 
                 CompareJsonStrings(jsonSample, jsonResult);
             }
+        }
+
+        [TestMethod]
+        public async Task CoreSerializeRequestsAsyncToStringWhenRequestIsNull()
+        {
+            var jsonRpcSerializer = new JsonRpcSerializer();
+
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                jsonRpcSerializer.SerializeRequestsAsync(null).AsTask());
         }
 
         [TestMethod]
@@ -211,7 +216,7 @@ namespace Anemonis.JsonRpc.UnitTests
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                jsonRpcSerializer.SerializeRequestsAsync(jsonRpcMessages, null).AsTask());
+                jsonRpcSerializer.SerializeRequestsAsync(jsonRpcMessages, (Stream)null).AsTask());
         }
 
         [TestMethod]
@@ -292,7 +297,7 @@ namespace Anemonis.JsonRpc.UnitTests
             var jsonRpcMessage = new JsonRpcResponse(0L, 0L);
 
             Assert.ThrowsException<ArgumentNullException>(() =>
-                jsonRpcSerializer.SerializeResponse(jsonRpcMessage, null));
+                jsonRpcSerializer.SerializeResponse(jsonRpcMessage, (Stream)null));
         }
 
         [TestMethod]
@@ -310,6 +315,15 @@ namespace Anemonis.JsonRpc.UnitTests
 
                 CompareJsonStrings(jsonSample, jsonResult);
             }
+        }
+
+        [TestMethod]
+        public async Task CoreSerializeResponseAsyncToStringWhenResponseIsNull()
+        {
+            var jsonRpcSerializer = new JsonRpcSerializer();
+
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                jsonRpcSerializer.SerializeResponseAsync(null).AsTask());
         }
 
         [TestMethod]
@@ -331,7 +345,7 @@ namespace Anemonis.JsonRpc.UnitTests
             var jsonRpcMessage = new JsonRpcResponse(0L, 0L);
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                jsonRpcSerializer.SerializeResponseAsync(jsonRpcMessage, null).AsTask());
+                jsonRpcSerializer.SerializeResponseAsync(jsonRpcMessage, (Stream)null).AsTask());
         }
 
         [TestMethod]
@@ -372,7 +386,7 @@ namespace Anemonis.JsonRpc.UnitTests
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
             Assert.ThrowsException<ArgumentNullException>(() =>
-                jsonRpcSerializer.SerializeResponses(jsonRpcMessages, null));
+                jsonRpcSerializer.SerializeResponses(jsonRpcMessages, (Stream)null));
         }
 
         [TestMethod]
@@ -392,6 +406,15 @@ namespace Anemonis.JsonRpc.UnitTests
 
                 CompareJsonStrings(jsonSample, jsonResult);
             }
+        }
+
+        [TestMethod]
+        public async Task CoreSerializeResponsesAsyncToStringWhenResponsesIsNull()
+        {
+            var jsonRpcSerializer = new JsonRpcSerializer();
+
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                jsonRpcSerializer.SerializeResponsesAsync(null).AsTask());
         }
 
         [TestMethod]
@@ -415,7 +438,7 @@ namespace Anemonis.JsonRpc.UnitTests
             var jsonRpcMessages = new[] { jsonRpcMessage1, jsonRpcMessage2 };
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                jsonRpcSerializer.SerializeResponsesAsync(jsonRpcMessages, null).AsTask());
+                jsonRpcSerializer.SerializeResponsesAsync(jsonRpcMessages, (Stream)null).AsTask());
         }
 
         [TestMethod]
@@ -498,6 +521,15 @@ namespace Anemonis.JsonRpc.UnitTests
                 Assert.AreEqual("m", jsonRpcMessage.Method);
                 Assert.AreEqual(JsonRpcParametersType.None, jsonRpcMessage.ParametersType);
             }
+        }
+
+        [TestMethod]
+        public async Task CoreDeserializeRequestDataAsyncFromStringWhenJsonStreamIsNull()
+        {
+            var jsonRpcSerializer = new JsonRpcSerializer();
+
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                jsonRpcSerializer.DeserializeRequestDataAsync((string)null).AsTask());
         }
 
         [TestMethod]
@@ -606,6 +638,15 @@ namespace Anemonis.JsonRpc.UnitTests
                 Assert.IsTrue(jsonRpcMessage.Success);
                 Assert.AreEqual(0L, jsonRpcMessage.Result);
             }
+        }
+
+        [TestMethod]
+        public async Task CoreDeserializeResponseDataAsyncFromStringWhenJsonStreamIsNull()
+        {
+            var jsonRpcSerializer = new JsonRpcSerializer();
+
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                jsonRpcSerializer.DeserializeResponseDataAsync((string)null).AsTask());
         }
 
         [TestMethod]
