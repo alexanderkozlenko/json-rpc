@@ -1,7 +1,0 @@
-{
-    "method": "getblockhash",
-    "params": [
-        -1
-    ],
-    "id": "foo"
-}
