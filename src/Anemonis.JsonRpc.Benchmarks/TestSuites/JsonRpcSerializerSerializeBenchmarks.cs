@@ -5,10 +5,10 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
 {
     public class JsonRpcSerializerSerializeBenchmarks
     {
-        private static readonly IReadOnlyDictionary<string, JsonRpcRequest> _requests = CreateRequestDictionary();
-        private static readonly IReadOnlyDictionary<string, JsonRpcResponse> _responses = CreateResponseDictionary();
-        private static readonly IReadOnlyDictionary<string, IReadOnlyList<JsonRpcRequest>> _requestBatches = CreateRequestBatchesDictionary();
-        private static readonly IReadOnlyDictionary<string, IReadOnlyList<JsonRpcResponse>> _responseBatches = CreateResponseBatchesDictionary();
+        private static readonly IReadOnlyDictionary<string, JsonRpcRequest> _reqsb0 = CreateRequestDictionary();
+        private static readonly IReadOnlyDictionary<string, JsonRpcResponse> _ressb0 = CreateResponseDictionary();
+        private static readonly IReadOnlyDictionary<string, IReadOnlyList<JsonRpcRequest>> _reqsb1 = CreateRequestBatchesDictionary();
+        private static readonly IReadOnlyDictionary<string, IReadOnlyList<JsonRpcResponse>> _ressb1 = CreateResponseBatchesDictionary();
 
         private readonly JsonRpcSerializer _serializer = new JsonRpcSerializer();
 
@@ -16,9 +16,9 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
         {
             return new Dictionary<string, JsonRpcRequest>
             {
-                ["request_params_by_name"] = CreateRequestParamsByName(),
-                ["request_params_by_position"] = CreateRequestParamsByPosition(),
-                ["request_params_none"] = CreateRequestParamsNone(),
+                ["req_b0i1p2"] = CreateRequestParamsByName(),
+                ["req_b0i1p1"] = CreateRequestParamsByPosition(),
+                ["req_b0i1p0"] = CreateRequestParamsNone(),
             };
         }
 
@@ -26,9 +26,9 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
         {
             return new Dictionary<string, IReadOnlyList<JsonRpcRequest>>
             {
-                ["request_params_by_name"] = new[] { CreateRequestParamsByName() },
-                ["request_params_by_position"] = new[] { CreateRequestParamsByPosition() },
-                ["request_params_none"] = new[] { CreateRequestParamsNone() },
+                ["req_b1i1p2"] = new[] { CreateRequestParamsByName() },
+                ["req_b1i1p1"] = new[] { CreateRequestParamsByPosition() },
+                ["req_b1i1p0"] = new[] { CreateRequestParamsNone() },
             };
         }
 
@@ -36,9 +36,9 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
         {
             return new Dictionary<string, JsonRpcResponse>
             {
-                ["response_error"] = CreateResponseError(),
-                ["response_error_with_data"] = CreateResponseErrorWithData(),
-                ["response_success"] = CreateResponseSuccess(),
+                ["res_b0i1e1d0"] = CreateResponseError(),
+                ["res_b0i1e1d1"] = CreateResponseErrorWithData(),
+                ["res_b0i1e0d0"] = CreateResponseSuccess(),
             };
         }
 
@@ -46,9 +46,9 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
         {
             return new Dictionary<string, IReadOnlyList<JsonRpcResponse>>
             {
-                ["response_error"] = new[] { CreateResponseError() },
-                ["response_error_with_data"] = new[] { CreateResponseErrorWithData() },
-                ["response_success"] = new[] { CreateResponseSuccess() },
+                ["res_b1i1e1d0"] = new[] { CreateResponseError() },
+                ["res_b1i1e1d1"] = new[] { CreateResponseErrorWithData() },
+                ["res_b1i1e0d0"] = new[] { CreateResponseSuccess() },
             };
         }
 
@@ -93,75 +93,75 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
         }
 
         [Benchmark(Description = "SerializeRequest-PARAMS=U")]
-        public object SerializeRequestParamsNone()
+        public object SerializeRequestB0I1P0()
         {
-            return _serializer.SerializeRequest(_requests["request_params_none"]);
-        }
-
-        [Benchmark(Description = "SerializeRequest-PARAMS=N")]
-        public object SerializeRequestParamsByName()
-        {
-            return _serializer.SerializeRequest(_requests["request_params_by_name"]);
+            return _serializer.SerializeRequest(_reqsb0["req_b0i1p0"]);
         }
 
         [Benchmark(Description = "SerializeRequest-PARAMS=P")]
-        public object SerializeRequestParamsByPosition()
+        public object SerializeRequestB0I1P1()
         {
-            return _serializer.SerializeRequest(_requests["request_params_by_position"]);
+            return _serializer.SerializeRequest(_reqsb0["req_b0i1p1"]);
+        }
+
+        [Benchmark(Description = "SerializeRequest-PARAMS=N")]
+        public object SerializeRequestB0I1P2()
+        {
+            return _serializer.SerializeRequest(_reqsb0["req_b0i1p2"]);
         }
 
         [Benchmark(Description = "SerializeRequests-PARAMS=U")]
-        public object SerializeRequestParamsNoneBatch()
+        public object SerializeRequestB1I1P0()
         {
-            return _serializer.SerializeRequests(_requestBatches["request_params_none"]);
-        }
-
-        [Benchmark(Description = "SerializeRequests-PARAMS=N")]
-        public object SerializeRequestParamsByNameBatch()
-        {
-            return _serializer.SerializeRequests(_requestBatches["request_params_by_name"]);
+            return _serializer.SerializeRequests(_reqsb1["req_b1i1p0"]);
         }
 
         [Benchmark(Description = "SerializeRequests-PARAMS=P")]
-        public object SerializeRequestParamsByPositionBatch()
+        public object SerializeRequestB1I1P1()
         {
-            return _serializer.SerializeRequests(_requestBatches["request_params_by_position"]);
+            return _serializer.SerializeRequests(_reqsb1["req_b1i1p1"]);
+        }
+
+        [Benchmark(Description = "SerializeRequests-PARAMS=N")]
+        public object SerializeRequestB1I1P2()
+        {
+            return _serializer.SerializeRequests(_reqsb1["req_b1i1p2"]);
         }
 
         [Benchmark(Description = "SerializeResponse-ERROR=N-DATA=Y")]
-        public object SerializeResponseSuccess()
+        public object SerializeResponseB0E0D0()
         {
-            return _serializer.SerializeResponse(_responses["response_success"]);
+            return _serializer.SerializeResponse(_ressb0["res_b0e0d0"]);
         }
 
         [Benchmark(Description = "SerializeResponse-ERROR=Y-DATA=N")]
-        public object SerializeResponseError()
+        public object SerializeResponseB0E1D0()
         {
-            return _serializer.SerializeResponse(_responses["response_error"]);
+            return _serializer.SerializeResponse(_ressb0["res_b0e1d0"]);
         }
 
         [Benchmark(Description = "SerializeResponse-ERROR=Y-DATA=Y")]
-        public object SerializeResponseErrorData()
+        public object SerializeResponseB0E1D1()
         {
-            return _serializer.SerializeResponse(_responses["response_error_with_data"]);
+            return _serializer.SerializeResponse(_ressb0["res_b0e1d1"]);
         }
 
         [Benchmark(Description = "SerializeResponses-ERROR=N-DATA=Y")]
-        public object SerializeResponsesSuccess()
+        public object SerializeResponsesB1E0D0()
         {
-            return _serializer.SerializeResponses(_responseBatches["response_success"]);
+            return _serializer.SerializeResponses(_ressb1["res_b1e0d0"]);
         }
 
         [Benchmark(Description = "SerializeResponses-ERROR=Y-DATA=N")]
-        public object SerializeResponsesError()
+        public object SerializeResponsesB1E1D0()
         {
-            return _serializer.SerializeResponses(_responseBatches["response_error"]);
+            return _serializer.SerializeResponses(_ressb1["res_b1e1d0"]);
         }
 
         [Benchmark(Description = "SerializeResponses-ERROR=Y-DATA=Y")]
-        public object SerializeResponsesErrorData()
+        public object SerializeResponsesB1E1D1()
         {
-            return _serializer.SerializeResponses(_responseBatches["response_error_with_data"]);
+            return _serializer.SerializeResponses(_ressb1["res_b1e1d1"]);
         }
     }
 }

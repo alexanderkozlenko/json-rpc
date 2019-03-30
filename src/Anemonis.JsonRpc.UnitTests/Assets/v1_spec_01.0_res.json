@@ -1,5 +1,5 @@
 {
-    "result": "Hello JSON-RPC",
-    "error": null,
-    "id": 1
+  "result": "Hello JSON-RPC",
+  "error": null,
+  "id": 1
 }

@@ -76,10 +76,10 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
         {
             return new Dictionary<string, JsonRpcSerializer>
             {
-                ["request_params_by_name"] = CreateSerializerRequestParamsByName(),
-                ["request_params_by_position"] = CreateSerializerRequestParamsByPosition(),
-                ["request_params_none"] = CreateSerializerRequestParamsNone(),
-                ["response"] = CreateSerializerResponse(),
+                ["s0"] = CreateSerializerRequestParamsNone(),
+                ["s1"] = CreateSerializerRequestParamsByPosition(),
+                ["s2"] = CreateSerializerRequestParamsByName(),
+                ["s3"] = CreateSerializerResponse()
             };
         }
 
@@ -87,91 +87,91 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
         {
             return new[]
             {
-                "request_params_by_name",
-                "request_params_by_name_batch",
-                "request_params_by_position",
-                "request_params_by_position_batch",
-                "request_params_none",
-                "request_params_none_batch",
-                "response_error",
-                "response_error_batch",
-                "response_error_with_data",
-                "response_error_with_data_batch",
-                "response_success",
-                "response_success_batch"
+                "req_b0i1p0",
+                "req_b0i1p1",
+                "req_b0i1p2",
+                "req_b1i1p0",
+                "req_b1i1p1",
+                "req_b1i1p2",
+                "res_b0i1e0d0",
+                "res_b0i1e1d0",
+                "res_b0i1e1d1",
+                "res_b1i1e0d0",
+                "res_b1i1e1d0",
+                "res_b1i1e1d1"
             };
         }
 
         [Benchmark(Description = "DeserializeRequestData-PARAMS=U-BATCH=N")]
-        public object DeserializeRequestDataParamsNone()
+        public object DeserializeRequestDataB0I1P0()
         {
-            return _serializers["request_params_none"].DeserializeRequestData(_resources["request_params_none"]);
+            return _serializers["s0"].DeserializeRequestData(_resources["req_b0i1p0"]);
         }
 
         [Benchmark(Description = "DeserializeRequestData-PARAMS=U-BATCH=Y")]
-        public object DeserializeRequestDataParamsNoneBatch()
+        public object DeserializeRequestDataB1I1P0()
         {
-            return _serializers["request_params_none"].DeserializeRequestData(_resources["request_params_none_batch"]);
-        }
-
-        [Benchmark(Description = "DeserializeRequestData-PARAMS=N-BATCH=N")]
-        public object DeserializeRequestDataParamsByName()
-        {
-            return _serializers["request_params_by_name"].DeserializeRequestData(_resources["request_params_by_name"]);
-        }
-
-        [Benchmark(Description = "DeserializeRequestData-PARAMS=N-BATCH=Y")]
-        public object DeserializeRequestDataParamsByNameBatch()
-        {
-            return _serializers["request_params_by_name"].DeserializeRequestData(_resources["request_params_by_name_batch"]);
+            return _serializers["s0"].DeserializeRequestData(_resources["req_b1i1p0"]);
         }
 
         [Benchmark(Description = "DeserializeRequestData-PARAMS=P-BATCH=N")]
-        public object DeserializeRequestDataParamsByPosition()
+        public object DeserializeRequestDataB0I1P1()
         {
-            return _serializers["request_params_by_position"].DeserializeRequestData(_resources["request_params_by_position"]);
+            return _serializers["s1"].DeserializeRequestData(_resources["req_b0i1p1"]);
         }
 
         [Benchmark(Description = "DeserializeRequestData-PARAMS=P-BATCH=Y")]
-        public object DeserializeRequestDataaramsByPositionBatchP()
+        public object DeserializeRequestDataB1I1P1()
         {
-            return _serializers["request_params_by_position"].DeserializeRequestData(_resources["request_params_by_position_batch"]);
+            return _serializers["s1"].DeserializeRequestData(_resources["req_b1i1p1"]);
+        }
+
+        [Benchmark(Description = "DeserializeRequestData-PARAMS=N-BATCH=N")]
+        public object DeserializeRequestDataB0I1P2()
+        {
+            return _serializers["s2"].DeserializeRequestData(_resources["req_b0i1p2"]);
+        }
+
+        [Benchmark(Description = "DeserializeRequestData-PARAMS=N-BATCH=Y")]
+        public object DeserializeRequestDataB1I1P2()
+        {
+            return _serializers["s2"].DeserializeRequestData(_resources["req_b1i1p2"]);
         }
 
         [Benchmark(Description = "DeserializeResponseData-ERROR=N-DATA=Y-BATCH=N")]
-        public object DeserializeResponseDataSuccess()
+        public object DeserializeResponseDataB0I1E0D0()
         {
-            return _serializers["response"].DeserializeResponseData(_resources["response_success"]);
+            return _serializers["s3"].DeserializeResponseData(_resources["res_b0i1e0d0"]);
         }
 
         [Benchmark(Description = "DeserializeResponseData-ERROR=N-DATA=Y-BATCH=Y")]
-        public object DeserializeResponseDataSuccessBatch()
+        public object DeserializeResponseDataB1I1E0D0()
         {
-            return _serializers["response"].DeserializeResponseData(_resources["response_success_batch"]);
+            return _serializers["s3"].DeserializeResponseData(_resources["res_b1i1e0d0"]);
         }
 
         [Benchmark(Description = "DeserializeResponseData-ERROR=Y-DATA=N-BATCH=N")]
-        public object DeserializeResponseDataError()
+        public object DeserializeResponseDataB0I1E1D0()
         {
-            return _serializers["response"].DeserializeResponseData(_resources["response_error"]);
+            return _serializers["s3"].DeserializeResponseData(_resources["res_b0i1e1d0"]);
         }
 
         [Benchmark(Description = "DeserializeResponseData-ERROR=Y-DATA=N-BATCH=Y")]
-        public object DeserializeResponseDataErrorBatch()
+        public object DeserializeResponseDataB1I1E1D0()
         {
-            return _serializers["response"].DeserializeResponseData(_resources["response_error_batch"]);
+            return _serializers["s3"].DeserializeResponseData(_resources["res_b1i1e1d0"]);
         }
 
         [Benchmark(Description = "DeserializeResponseData-ERROR=Y-DATA=Y-BATCH=N")]
-        public object DeserializeResponseDataErrorData()
+        public object DeserializeResponseDataB0I1E1D1()
         {
-            return _serializers["response"].DeserializeResponseData(_resources["response_error_with_data"]);
+            return _serializers["s3"].DeserializeResponseData(_resources["res_b0i1e1d1"]);
         }
 
         [Benchmark(Description = "DeserializeResponseData-ERROR=Y-DATA=Y-BATCH=Y")]
-        public object DeserializeResponseDataErrorDataBatch()
+        public object DeserializeResponseDataB1I1E1D1()
         {
-            return _serializers["response"].DeserializeResponseData(_resources["response_error_with_data_batch"]);
+            return _serializers["s3"].DeserializeResponseData(_resources["res_b1i1e1d1"]);
         }
     }
 }

@@ -1,8 +1,8 @@
 {
-    "method": "handleMessage",
-    "params": [
-        "user3",
-        "sorry, gotta go now, ttyl"
-    ],
-    "id": null
+  "method": "handleMessage",
+  "params": [
+    "user3",
+    "sorry, gotta go now, ttyl"
+  ],
+  "id": null
 }
