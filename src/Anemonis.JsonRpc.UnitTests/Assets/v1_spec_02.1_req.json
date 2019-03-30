@@ -1,8 +1,8 @@
 {
-    "method": "handleMessage",
-    "params": [
-        "user1",
-        "we were just talking"
-    ],
-    "id": null
+  "method": "handleMessage",
+  "params": [
+    "user1",
+    "we were just talking"
+  ],
+  "id": null
 }

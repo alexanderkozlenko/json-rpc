@@ -1,7 +1,7 @@
 {
-    "method": "postMessage",
-    "params": [
-        "I have a question:"
-    ],
-    "id": 101
+  "method": "postMessage",
+  "params": [
+    "I have a question:"
+  ],
+  "id": 101
 }

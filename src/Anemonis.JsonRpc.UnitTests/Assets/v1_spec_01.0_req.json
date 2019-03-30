@@ -1,7 +1,7 @@
 {
-    "method": "echo",
-    "params": [
-        "Hello JSON-RPC"
-    ],
-    "id": 1
+  "method": "echo",
+  "params": [
+    "Hello JSON-RPC"
+  ],
+  "id": 1
 }

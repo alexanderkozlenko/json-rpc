@@ -1,0 +1,16 @@
+[
+  {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": 1,
+      "message": "m"
+    }
+  },
+  {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": 1,
+      "message": "m"
+    }
+  }
+]
