@@ -1,6 +1,7 @@
 [
   {
     "jsonrpc": "2.0",
+    "id": null,
     "error": {
       "code": 1,
       "message": "m"
@@ -8,6 +9,7 @@
   },
   {
     "jsonrpc": "2.0",
+    "id": null,
     "error": {
       "code": 1,
       "message": "m"

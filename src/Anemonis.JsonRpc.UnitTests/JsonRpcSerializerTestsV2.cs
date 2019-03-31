@@ -2072,5 +2072,828 @@ namespace Anemonis.JsonRpc.UnitTests
 
             Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, jre.ErrorCode);
         }
+
+        [TestMethod]
+        public void SerializeRequestTCB0I0P0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i0p0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrm = new JsonRpcRequest(default, "m");
+            var jsonr = jrs.SerializeRequest(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestTCB0I0P1()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i0p1.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrmp = new object[] { 1L };
+            var jrm = new JsonRpcRequest(default, "m", jrmp);
+            var jsonr = jrs.SerializeRequest(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestTCB0I0P2()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i0p2.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrmp = new Dictionary<string, object> { ["p"] = 1L };
+            var jrm = new JsonRpcRequest(default, "m", jrmp);
+            var jsonr = jrs.SerializeRequest(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestTCB0I1P0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i1p0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrm = new JsonRpcRequest("1", "m");
+            var jsonr = jrs.SerializeRequest(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestTCB0I1P1()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i1p1.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrmp = new object[] { 1L };
+            var jrm = new JsonRpcRequest("1", "m", jrmp);
+            var jsonr = jrs.SerializeRequest(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestTCB0I1P2()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i1p2.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrmp = new Dictionary<string, object> { ["p"] = 1L };
+            var jrm = new JsonRpcRequest("1", "m", jrmp);
+            var jsonr = jrs.SerializeRequest(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestTCB0I2P0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i2p0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrm = new JsonRpcRequest(1L, "m");
+            var jsonr = jrs.SerializeRequest(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestTCB0I2P1()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i2p1.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrmp = new object[] { 1L };
+            var jrm = new JsonRpcRequest(1L, "m", jrmp);
+            var jsonr = jrs.SerializeRequest(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestTCB0I2P2()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i2p2.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrmp = new Dictionary<string, object> { ["p"] = 1L };
+            var jrm = new JsonRpcRequest(1L, "m", jrmp);
+            var jsonr = jrs.SerializeRequest(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestTCB0I3P0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i3p0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrm = new JsonRpcRequest(1D, "m");
+            var jsonr = jrs.SerializeRequest(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestTCB0I3P1()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i3p1.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrmp = new object[] { 1L };
+            var jrm = new JsonRpcRequest(1D, "m", jrmp);
+            var jsonr = jrs.SerializeRequest(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestTCB0I3P2()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i3p2.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrmp = new Dictionary<string, object> { ["p"] = 1L };
+            var jrm = new JsonRpcRequest(1D, "m", jrmp);
+            var jsonr = jrs.SerializeRequest(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestsTCB1I0P0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b1i0p0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrm0 = new JsonRpcRequest(default, "m");
+            var jrm1 = new JsonRpcRequest(default, "m");
+            var jsonr = jrs.SerializeRequests(new[] { jrm0 , jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestsTCB1I0P1()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b1i0p1.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrmp = new object[] { 1L };
+            var jrm0 = new JsonRpcRequest(default, "m", jrmp);
+            var jrm1 = new JsonRpcRequest(default, "m", jrmp);
+            var jsonr = jrs.SerializeRequests(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestsTCB1I0P2()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b1i0p2.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrmp = new Dictionary<string, object> { ["p"] = 1L };
+            var jrm0 = new JsonRpcRequest(default, "m", jrmp);
+            var jrm1 = new JsonRpcRequest(default, "m", jrmp);
+            var jsonr = jrs.SerializeRequests(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestsTCB1I1P0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b1i1p0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrm0 = new JsonRpcRequest("1", "m");
+            var jrm1 = new JsonRpcRequest("2", "m");
+            var jsonr = jrs.SerializeRequests(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestsTCB1I1P1()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b1i1p1.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrmp = new object[] { 1L };
+            var jrm0 = new JsonRpcRequest("1", "m", jrmp);
+            var jrm1 = new JsonRpcRequest("2", "m", jrmp);
+            var jsonr = jrs.SerializeRequests(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestsTCB1I1P2()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b1i1p2.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrmp = new Dictionary<string, object> { ["p"] = 1L };
+            var jrm0 = new JsonRpcRequest("1", "m", jrmp);
+            var jrm1 = new JsonRpcRequest("2", "m", jrmp);
+            var jsonr = jrs.SerializeRequests(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestsTCB1I2P0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b1i2p0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrm0 = new JsonRpcRequest(1L, "m");
+            var jrm1 = new JsonRpcRequest(2L, "m");
+            var jsonr = jrs.SerializeRequests(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestsTCB1I2P1()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b1i2p1.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrmp = new object[] { 1L };
+            var jrm0 = new JsonRpcRequest(1L, "m", jrmp);
+            var jrm1 = new JsonRpcRequest(2L, "m", jrmp);
+            var jsonr = jrs.SerializeRequests(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestsTCB1I2P2()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b1i2p2.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrmp = new Dictionary<string, object> { ["p"] = 1L };
+            var jrm0 = new JsonRpcRequest(1L, "m", jrmp);
+            var jrm1 = new JsonRpcRequest(2L, "m", jrmp);
+            var jsonr = jrs.SerializeRequests(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestsTCB1I3P0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b1i3p0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrm0 = new JsonRpcRequest(1D, "m");
+            var jrm1 = new JsonRpcRequest(2D, "m");
+            var jsonr = jrs.SerializeRequests(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestsTCB1I3P1()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b1i3p1.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrmp = new object[] { 1L };
+            var jrm0 = new JsonRpcRequest(1D, "m", jrmp);
+            var jrm1 = new JsonRpcRequest(2D, "m", jrmp);
+            var jsonr = jrs.SerializeRequests(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeRequestsTCB1I3P2()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b1i3p2.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrmp = new Dictionary<string, object> { ["p"] = 1L };
+            var jrm0 = new JsonRpcRequest(1D, "m", jrmp);
+            var jrm1 = new JsonRpcRequest(2D, "m", jrmp);
+            var jsonr = jrs.SerializeRequests(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponseTCB0I0E1D0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i0e1d0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m");
+            var jrm = new JsonRpcResponse(default, jre);
+            var jsonr = jrs.SerializeResponse(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponseTCB0I0E1D1()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i0e1d1.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m", 0L);
+            var jrm = new JsonRpcResponse(default, jre);
+            var jsonr = jrs.SerializeResponse(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponseTCB0I0E1D2()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i0e1d2.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m", null);
+            var jrm = new JsonRpcResponse(default, jre);
+            var jsonr = jrs.SerializeResponse(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponseTCB0I1E0D0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i1e0d0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrm = new JsonRpcResponse("1", 0L);
+            var jsonr = jrs.SerializeResponse(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponseTCB0I1E1D0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i1e1d0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m");
+            var jrm = new JsonRpcResponse("1", jre);
+            var jsonr = jrs.SerializeResponse(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponseTCB0I1E1D1()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i1e1d1.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m", 0L);
+            var jrm = new JsonRpcResponse("1", jre);
+            var jsonr = jrs.SerializeResponse(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponseTCB0I1E1D2()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i1e1d2.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m", null);
+            var jrm = new JsonRpcResponse("1", jre);
+            var jsonr = jrs.SerializeResponse(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponseTCB0I2E0D0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i2e0d0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrm = new JsonRpcResponse(1L, 0L);
+            var jsonr = jrs.SerializeResponse(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponseTCB0I2E1D0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i2e1d0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m");
+            var jrm = new JsonRpcResponse(1L, jre);
+            var jsonr = jrs.SerializeResponse(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponseTCB0I2E1D1()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i2e1d1.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m", 0L);
+            var jrm = new JsonRpcResponse(1L, jre);
+            var jsonr = jrs.SerializeResponse(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponseTCB0I2E1D2()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i2e1d2.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m", null);
+            var jrm = new JsonRpcResponse(1L, jre);
+            var jsonr = jrs.SerializeResponse(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponseTCB0I3E0D0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i3e0d0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrm = new JsonRpcResponse(1D, 0L);
+            var jsonr = jrs.SerializeResponse(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponseTCB0I3E1D0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i3e1d0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m");
+            var jrm = new JsonRpcResponse(1D, jre);
+            var jsonr = jrs.SerializeResponse(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponseTCB0I3E1D1()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i3e1d1.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m", 0L);
+            var jrm = new JsonRpcResponse(1D, jre);
+            var jsonr = jrs.SerializeResponse(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponseTCB0I3E1D2()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i3e1d2.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m", null);
+            var jrm = new JsonRpcResponse(1D, jre);
+            var jsonr = jrs.SerializeResponse(jrm);
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponsesTCB1I0E1D0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b1i0e1d0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m");
+            var jrm0 = new JsonRpcResponse(default, jre);
+            var jrm1 = new JsonRpcResponse(default, jre);
+            var jsonr = jrs.SerializeResponses(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponsesTCB1I0E1D1()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b1i0e1d1.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m", 0L);
+            var jrm0 = new JsonRpcResponse(default, jre);
+            var jrm1 = new JsonRpcResponse(default, jre);
+            var jsonr = jrs.SerializeResponses(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponsesTCB1I0E1D2()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b1i0e1d2.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m", null);
+            var jrm0 = new JsonRpcResponse(default, jre);
+            var jrm1 = new JsonRpcResponse(default, jre);
+            var jsonr = jrs.SerializeResponses(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponsesTCB1I1E0D0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b1i1e0d0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrm0 = new JsonRpcResponse("1", 0L);
+            var jrm1 = new JsonRpcResponse("2", 0L);
+            var jsonr = jrs.SerializeResponses(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponsesTCB1I1E1D0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b1i1e1d0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m");
+            var jrm0 = new JsonRpcResponse("1", jre);
+            var jrm1 = new JsonRpcResponse("2", jre);
+            var jsonr = jrs.SerializeResponses(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponsesTCB1I1E1D1()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b1i1e1d1.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m", 0L);
+            var jrm0 = new JsonRpcResponse("1", jre);
+            var jrm1 = new JsonRpcResponse("2", jre);
+            var jsonr = jrs.SerializeResponses(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponsesTCB1I1E1D2()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b1i1e1d2.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m", null);
+            var jrm0 = new JsonRpcResponse("1", jre);
+            var jrm1 = new JsonRpcResponse("2", jre);
+            var jsonr = jrs.SerializeResponses(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponsesTCB1I2E0D0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b1i2e0d0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrm0 = new JsonRpcResponse(1L, 0L);
+            var jrm1 = new JsonRpcResponse(2L, 0L);
+            var jsonr = jrs.SerializeResponses(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponsesTCB1I2E1D0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b1i2e1d0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m");
+            var jrm0 = new JsonRpcResponse(1L, jre);
+            var jrm1 = new JsonRpcResponse(2L, jre);
+            var jsonr = jrs.SerializeResponses(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponsesTCB1I2E1D1()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b1i2e1d1.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m", 0L);
+            var jrm0 = new JsonRpcResponse(1L, jre);
+            var jrm1 = new JsonRpcResponse(2L, jre);
+            var jsonr = jrs.SerializeResponses(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponsesTCB1I2E1D2()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b1i2e1d2.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m", null);
+            var jrm0 = new JsonRpcResponse(1L, jre);
+            var jrm1 = new JsonRpcResponse(2L, jre);
+            var jsonr = jrs.SerializeResponses(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponsesTCB1I3E0D0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b1i3e0d0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jrm0 = new JsonRpcResponse(1D, 0L);
+            var jrm1 = new JsonRpcResponse(2D, 0L);
+            var jsonr = jrs.SerializeResponses(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponsesTCB1I3E1D0()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b1i3e1d0.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m");
+            var jrm0 = new JsonRpcResponse(1D, jre);
+            var jrm1 = new JsonRpcResponse(2D, jre);
+            var jsonr = jrs.SerializeResponses(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponsesTCB1I3E1D1()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b1i3e1d1.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m", 0L);
+            var jrm0 = new JsonRpcResponse(1D, jre);
+            var jrm1 = new JsonRpcResponse(2D, jre);
+            var jsonr = jrs.SerializeResponses(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
+
+        [TestMethod]
+        public void SerializeResponsesTCB1I3E1D2()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b1i3e1d2.json");
+            var jrs = new JsonRpcSerializer();
+
+            var jre = new JsonRpcError(1L, "m", null);
+            var jrm0 = new JsonRpcResponse(1D, jre);
+            var jrm1 = new JsonRpcResponse(2D, jre);
+            var jsonr = jrs.SerializeResponses(new[] { jrm0, jrm1 });
+
+            Assert.IsNotNull(jsonr);
+
+            JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
+        }
     }
 }

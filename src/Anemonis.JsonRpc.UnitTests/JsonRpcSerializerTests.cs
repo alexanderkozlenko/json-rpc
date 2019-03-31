@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
@@ -9,6 +10,7 @@ namespace Anemonis.JsonRpc.UnitTests
     [TestClass]
     public sealed partial class JsonRpcSerializerTests
     {
+        [DebuggerStepThrough]
         internal static void CompareJsonStrings(string expected, string actual)
         {
             Assert.IsTrue(JToken.DeepEquals(JToken.Parse(expected), JToken.Parse(actual)), "Actual JSON string differs from expected");
