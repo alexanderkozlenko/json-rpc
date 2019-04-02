@@ -2,12 +2,323 @@
 using System.Collections.Generic;
 using Anemonis.JsonRpc.UnitTests.Resources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 
 namespace Anemonis.JsonRpc.UnitTests
 {
     [TestClass]
     public sealed class JsonRpcSerializerTestsV2
     {
+        [TestMethod]
+        public void DeserializeRequestDataWhenParametersAreNoneAndByPositionAreExpected()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i0p0.json");
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
+
+            jrcr.AddRequestContract("m", new JsonRpcRequestContract(new[] { typeof(long) }));
+
+            var jrd = jrs.DeserializeRequestData(jsont);
+
+            Assert.IsNotNull(jrd);
+            Assert.IsFalse(jrd.IsBatch);
+            Assert.IsNull(jrd.Items);
+            Assert.IsFalse(jrd.Item.IsValid);
+            Assert.IsNull(jrd.Item.Message);
+            Assert.IsNotNull(jrd.Item.Exception);
+
+            var jre = jrd.Item.Exception;
+
+            Assert.AreEqual(default, jre.MessageId);
+            Assert.AreEqual(JsonRpcErrorCode.InvalidParameters, jre.ErrorCode);
+        }
+
+        [TestMethod]
+        public void DeserializeRequestDataWhenParametersAreNoneAndByNameAreExpected()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i0p0.json");
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
+
+            jrcr.AddRequestContract("m", new JsonRpcRequestContract(new Dictionary<string, Type> { ["p"] = typeof(long) }));
+
+            var jrd = jrs.DeserializeRequestData(jsont);
+
+            Assert.IsNotNull(jrd);
+            Assert.IsFalse(jrd.IsBatch);
+            Assert.IsNull(jrd.Items);
+            Assert.IsFalse(jrd.Item.IsValid);
+            Assert.IsNull(jrd.Item.Message);
+            Assert.IsNotNull(jrd.Item.Exception);
+
+            var jre = jrd.Item.Exception;
+
+            Assert.AreEqual(default, jre.MessageId);
+            Assert.AreEqual(JsonRpcErrorCode.InvalidParameters, jre.ErrorCode);
+        }
+
+        [TestMethod]
+        public void DeserializeRequestDataWhenParametersAreByPositionAndNoneAreExpected()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i0p1.json");
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
+
+            jrcr.AddRequestContract("m", new JsonRpcRequestContract());
+
+            var jrd = jrs.DeserializeRequestData(jsont);
+
+            Assert.IsNotNull(jrd);
+            Assert.IsFalse(jrd.IsBatch);
+            Assert.IsNull(jrd.Items);
+            Assert.IsTrue(jrd.Item.IsValid);
+            Assert.IsNotNull(jrd.Item.Message);
+            Assert.IsNull(jrd.Item.Exception);
+
+            var jrm = jrd.Item.Message;
+
+            Assert.AreEqual(default, jrm.Id);
+            Assert.AreEqual("m", jrm.Method);
+        }
+
+        [TestMethod]
+        public void DeserializeRequestDataWhenParametersAreByPositionAndByNameAreExpected()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i0p1.json");
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
+
+            jrcr.AddRequestContract("m", new JsonRpcRequestContract(new Dictionary<string, Type> { ["p"] = typeof(long) }));
+
+            var jrd = jrs.DeserializeRequestData(jsont);
+
+            Assert.IsNotNull(jrd);
+            Assert.IsFalse(jrd.IsBatch);
+            Assert.IsNull(jrd.Items);
+            Assert.IsFalse(jrd.Item.IsValid);
+            Assert.IsNull(jrd.Item.Message);
+            Assert.IsNotNull(jrd.Item.Exception);
+
+            var jre = jrd.Item.Exception;
+
+            Assert.AreEqual(default, jre.MessageId);
+            Assert.AreEqual(JsonRpcErrorCode.InvalidParameters, jre.ErrorCode);
+        }
+
+        [TestMethod]
+        public void DeserializeRequestDataWhenParametersAreByPositionAndTypeIsInvalid()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i0p1.json");
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
+
+            jrcr.AddRequestContract("m", new JsonRpcRequestContract(new[] { typeof(DateTime) }));
+
+            Assert.ThrowsException<JsonSerializationException>(() =>
+                jrs.DeserializeRequestData(jsont));
+        }
+
+        [TestMethod]
+        public void DeserializeRequestDataWhenParametersAreByNameAndNoneAreExpected()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i0p2.json");
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
+
+            jrcr.AddRequestContract("m", new JsonRpcRequestContract());
+
+            var jrd = jrs.DeserializeRequestData(jsont);
+
+            Assert.IsNotNull(jrd);
+            Assert.IsFalse(jrd.IsBatch);
+            Assert.IsNull(jrd.Items);
+            Assert.IsTrue(jrd.Item.IsValid);
+            Assert.IsNotNull(jrd.Item.Message);
+            Assert.IsNull(jrd.Item.Exception);
+
+            var jrm = jrd.Item.Message;
+
+            Assert.AreEqual(default, jrm.Id);
+            Assert.AreEqual("m", jrm.Method);
+        }
+
+        [TestMethod]
+        public void DeserializeRequestDataWhenParametersAreByNameAndByPositionAreExpected()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i0p2.json");
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
+
+            jrcr.AddRequestContract("m", new JsonRpcRequestContract(new[] { typeof(long) }));
+
+            var jrd = jrs.DeserializeRequestData(jsont);
+
+            Assert.IsNotNull(jrd);
+            Assert.IsFalse(jrd.IsBatch);
+            Assert.IsNull(jrd.Items);
+            Assert.IsFalse(jrd.Item.IsValid);
+            Assert.IsNull(jrd.Item.Message);
+            Assert.IsNotNull(jrd.Item.Exception);
+
+            var jre = jrd.Item.Exception;
+
+            Assert.AreEqual(default, jre.MessageId);
+            Assert.AreEqual(JsonRpcErrorCode.InvalidParameters, jre.ErrorCode);
+        }
+
+        [TestMethod]
+        public void DeserializeRequestDataWhenParametersAreByNameAndTypeInsInvalid()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_req_b0i0p2.json");
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
+
+            jrcr.AddRequestContract("m", new JsonRpcRequestContract(new Dictionary<string, Type> { ["p"] = typeof(DateTime) }));
+
+            Assert.ThrowsException<JsonSerializationException>(() =>
+                jrs.DeserializeRequestData(jsont));
+        }
+
+        [TestMethod]
+        public void DeserializeResponseDataWhenResultTypeIsInvalid()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i1e0d0.json");
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
+
+            jrcr.AddResponseContract((JsonRpcId)"1", new JsonRpcResponseContract(typeof(DateTime)));
+
+            Assert.ThrowsException<JsonSerializationException>(() =>
+                jrs.DeserializeResponseData(jsont));
+        }
+
+        [TestMethod]
+        public void DeserializeResponseDataWhenErrorHasDataIsFalseAndTypeDefined()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i1e1d0.json");
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
+
+            jrcr.AddResponseContract((JsonRpcId)"1", new JsonRpcResponseContract(typeof(long), typeof(long)));
+
+            var jrd = jrs.DeserializeResponseData(jsont);
+
+            Assert.IsNotNull(jrd);
+            Assert.IsFalse(jrd.IsBatch);
+            Assert.IsNull(jrd.Items);
+            Assert.IsTrue(jrd.Item.IsValid);
+            Assert.IsNotNull(jrd.Item.Message);
+            Assert.IsNull(jrd.Item.Exception);
+
+            var jrm = jrd.Item.Message;
+
+            Assert.AreEqual("1", jrm.Id);
+            Assert.IsFalse(jrm.Success);
+            Assert.AreEqual(1L, jrm.Error.Code);
+            Assert.AreEqual("m", jrm.Error.Message);
+            Assert.IsFalse(jrm.Error.HasData);
+            Assert.IsNull(jrm.Error.Data);
+        }
+
+        [TestMethod]
+        public void DeserializeResponseDataWhenErrorHasDataIsTrueAndTypeIsNotDefined()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i1e1d1.json");
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
+
+            jrcr.AddResponseContract((JsonRpcId)"1", new JsonRpcResponseContract(typeof(long)));
+
+            var jrd = jrs.DeserializeResponseData(jsont);
+
+            Assert.IsNotNull(jrd);
+            Assert.IsFalse(jrd.IsBatch);
+            Assert.IsNull(jrd.Items);
+            Assert.IsTrue(jrd.Item.IsValid);
+            Assert.IsNotNull(jrd.Item.Message);
+            Assert.IsNull(jrd.Item.Exception);
+
+            var jrm = jrd.Item.Message;
+
+            Assert.AreEqual("1", jrm.Id);
+            Assert.IsFalse(jrm.Success);
+            Assert.AreEqual(1L, jrm.Error.Code);
+            Assert.AreEqual("m", jrm.Error.Message);
+            Assert.IsFalse(jrm.Error.HasData);
+            Assert.IsNull(jrm.Error.Data);
+        }
+
+        [TestMethod]
+        public void DeserializeResponseDataWhenErrorHasDataIsTrueAndDefaultTypeIsDefinedAndIdIsNotDefined()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i0e1d1.json");
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
+
+            jrcr.AddResponseContract(default(JsonRpcId), new JsonRpcResponseContract(null, typeof(long)));
+            jrcr.AddResponseContract((JsonRpcId)"1", new JsonRpcResponseContract(typeof(long)));
+
+            var jrd = jrs.DeserializeResponseData(jsont);
+
+            Assert.IsNotNull(jrd);
+            Assert.IsFalse(jrd.IsBatch);
+            Assert.IsNull(jrd.Items);
+            Assert.IsTrue(jrd.Item.IsValid);
+            Assert.IsNotNull(jrd.Item.Message);
+            Assert.IsNull(jrd.Item.Exception);
+
+            var jrm = jrd.Item.Message;
+
+            Assert.AreEqual(default, jrm.Id);
+            Assert.IsFalse(jrm.Success);
+            Assert.AreEqual(1L, jrm.Error.Code);
+            Assert.AreEqual("m", jrm.Error.Message);
+            Assert.IsTrue(jrm.Error.HasData);
+            Assert.AreEqual(0L, jrm.Error.Data);
+        }
+
+        [TestMethod]
+        public void DeserializeResponseDataWhenErrorHasDataIsTrueAndDefaultTypeIsDefinedAndIdIsDefined()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i1e1d1.json");
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
+
+            jrcr.AddResponseContract(default(JsonRpcId), new JsonRpcResponseContract(null, typeof(long)));
+            jrcr.AddResponseContract((JsonRpcId)"1", new JsonRpcResponseContract(typeof(long)));
+
+            var jrd = jrs.DeserializeResponseData(jsont);
+
+            Assert.IsNotNull(jrd);
+            Assert.IsFalse(jrd.IsBatch);
+            Assert.IsNull(jrd.Items);
+            Assert.IsTrue(jrd.Item.IsValid);
+            Assert.IsNotNull(jrd.Item.Message);
+            Assert.IsNull(jrd.Item.Exception);
+
+            var jrm = jrd.Item.Message;
+
+            Assert.AreEqual("1", jrm.Id);
+            Assert.IsFalse(jrm.Success);
+            Assert.AreEqual(1L, jrm.Error.Code);
+            Assert.AreEqual("m", jrm.Error.Message);
+            Assert.IsFalse(jrm.Error.HasData);
+            Assert.IsNull(jrm.Error.Data);
+        }
+
+        [TestMethod]
+        public void DeserializeResponseDataWhenErrorDataTypeIsInvalid()
+        {
+            var jsont = EmbeddedResourceManager.GetString("Assets.v2_tc_res_b0i1e1d1.json");
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
+
+            jrcr.AddResponseContract((JsonRpcId)"1", new JsonRpcResponseContract(typeof(long), typeof(DateTime)));
+
+            Assert.ThrowsException<JsonSerializationException>(() =>
+                jrs.DeserializeResponseData(jsont));
+        }
+
         [TestMethod]
         public void DeserializeRequestDataTCB0I0P0()
         {
@@ -808,6 +1119,7 @@ namespace Anemonis.JsonRpc.UnitTests
 
             var jre = jrd.Item.Exception;
 
+            Assert.AreEqual(default, jre.MessageId);
             Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, jre.ErrorCode);
         }
 
@@ -1910,6 +2222,7 @@ namespace Anemonis.JsonRpc.UnitTests
 
             var jre = jrd.Item.Exception;
 
+            Assert.AreEqual(default, jre.MessageId);
             Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, jre.ErrorCode);
         }
 
@@ -1933,6 +2246,7 @@ namespace Anemonis.JsonRpc.UnitTests
 
             var jre = jrd.Item.Exception;
 
+            Assert.AreEqual(default, jre.MessageId);
             Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, jre.ErrorCode);
         }
 
@@ -1955,6 +2269,7 @@ namespace Anemonis.JsonRpc.UnitTests
 
             var jre = jrd.Item.Exception;
 
+            Assert.AreEqual(default, jre.MessageId);
             Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, jre.ErrorCode);
         }
 
@@ -1978,6 +2293,7 @@ namespace Anemonis.JsonRpc.UnitTests
 
             var jre = jrd.Item.Exception;
 
+            Assert.AreEqual(default, jre.MessageId);
             Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, jre.ErrorCode);
         }
 
@@ -2001,6 +2317,7 @@ namespace Anemonis.JsonRpc.UnitTests
 
             var jre = jrd.Item.Exception;
 
+            Assert.AreEqual(default, jre.MessageId);
             Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, jre.ErrorCode);
         }
 
@@ -2024,6 +2341,7 @@ namespace Anemonis.JsonRpc.UnitTests
 
             var jre = jrd.Item.Exception;
 
+            Assert.AreEqual(default, jre.MessageId);
             Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, jre.ErrorCode);
         }
 
@@ -2047,6 +2365,7 @@ namespace Anemonis.JsonRpc.UnitTests
 
             var jre = jrd.Item.Exception;
 
+            Assert.AreEqual(default, jre.MessageId);
             Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, jre.ErrorCode);
         }
 
@@ -2070,6 +2389,7 @@ namespace Anemonis.JsonRpc.UnitTests
 
             var jre = jrd.Item.Exception;
 
+            Assert.AreEqual(default, jre.MessageId);
             Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, jre.ErrorCode);
         }
 

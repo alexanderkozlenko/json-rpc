@@ -302,7 +302,10 @@ namespace Anemonis.JsonRpc
                             {
                                 for (var i = 0; i < requestParameters.Length; i++)
                                 {
-                                    requestParameters[i] = requestParamsetersByPosition[i].ToObject(requestContract.ParametersByPosition[i]);
+                                    using (var jsonTokenReader = new JTokenReader(requestParamsetersByPosition[i]))
+                                    {
+                                        requestParameters[i] = _jsonSerializer.Deserialize(jsonTokenReader, requestContract.ParametersByPosition[i]);
+                                    }
                                 }
                             }
                             catch (Exception e)
@@ -337,7 +340,10 @@ namespace Anemonis.JsonRpc
                                             continue;
                                         }
 
-                                        requestParameters[kvp.Key] = requestParameterToken.ToObject(kvp.Value);
+                                        using (var jsonTokenReader = new JTokenReader(requestParameterToken))
+                                        {
+                                            requestParameters[kvp.Key] = _jsonSerializer.Deserialize(jsonTokenReader, kvp.Value);
+                                        }
                                     }
                                 }
                                 else
@@ -349,7 +355,10 @@ namespace Anemonis.JsonRpc
                                             continue;
                                         }
 
-                                        requestParameters[kvp.Key] = requestParameterToken.ToObject(kvp.Value);
+                                        using (var jsonTokenReader = new JTokenReader(requestParameterToken))
+                                        {
+                                            requestParameters[kvp.Key] = _jsonSerializer.Deserialize(jsonTokenReader, kvp.Value);
+                                        }
                                     }
                                 }
                             }
@@ -668,7 +677,10 @@ namespace Anemonis.JsonRpc
                     {
                         try
                         {
-                            responseResult = responseResultToken.ToObject(responseContract.ResultType);
+                            using (var jsonTokenReader = new JTokenReader(responseResultToken))
+                            {
+                                responseResult = _jsonSerializer.Deserialize(jsonTokenReader, responseContract.ResultType);
+                            }
                         }
                         catch (Exception e)
                         {
@@ -733,21 +745,35 @@ namespace Anemonis.JsonRpc
                             {
                                 try
                                 {
-                                    responseErrorData = responseErrorDataToken.ToObject(responseErrorDataType);
+                                    using (var jsonTokenReader = new JTokenReader(responseErrorDataToken))
+                                    {
+                                        responseErrorData = _jsonSerializer.Deserialize(jsonTokenReader, responseErrorDataType);
+                                    }
                                 }
                                 catch (Exception e)
                                 {
                                     throw new JsonSerializationException(Strings.GetString("core.deserialize.json_issue"), e);
                                 }
-                            }
 
-                            try
-                            {
-                                responseError = new JsonRpcError(responseErrorCode.Value, responseErrorMessage, responseErrorData);
+                                try
+                                {
+                                    responseError = new JsonRpcError(responseErrorCode.Value, responseErrorMessage, responseErrorData);
+                                }
+                                catch (ArgumentOutOfRangeException e)
+                                {
+                                    throw new JsonRpcSerializationException(JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.deserialize.response.error.code.invalid_range"), responseId, e);
+                                }
                             }
-                            catch (ArgumentOutOfRangeException e)
+                            else
                             {
-                                throw new JsonRpcSerializationException(JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.deserialize.response.error.code.invalid_range"), responseId, e);
+                                try
+                                {
+                                    responseError = new JsonRpcError(responseErrorCode.Value, responseErrorMessage);
+                                }
+                                catch (ArgumentOutOfRangeException e)
+                                {
+                                    throw new JsonRpcSerializationException(JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.deserialize.response.error.code.invalid_range"), responseId, e);
+                                }
                             }
                         }
                         else

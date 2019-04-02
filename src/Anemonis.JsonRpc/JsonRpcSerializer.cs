@@ -36,7 +36,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A JSON-RPC request data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="string" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         public JsonRpcData<JsonRpcRequest> DeserializeRequestData(string @string)
         {
             if (@string == null)
@@ -55,7 +55,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A JSON-RPC request data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         public JsonRpcData<JsonRpcRequest> DeserializeRequestData(Stream stream)
         {
             if (stream == null)
@@ -74,7 +74,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A JSON-RPC request data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="reader" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         public JsonRpcData<JsonRpcRequest> DeserializeRequestData(TextReader reader)
         {
             if (reader == null)
@@ -96,7 +96,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON-RPC request data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="string" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(string @string, CancellationToken cancellationToken = default)
         {
@@ -119,7 +119,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON-RPC request data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(Stream stream, CancellationToken cancellationToken = default)
         {
@@ -142,7 +142,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON-RPC request data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="reader" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(TextReader reader, CancellationToken cancellationToken = default)
         {
@@ -166,7 +166,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A JSON-RPC response data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="string" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         public JsonRpcData<JsonRpcResponse> DeserializeResponseData(string @string)
         {
             if (@string == null)
@@ -185,7 +185,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A JSON-RPC response data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         public JsonRpcData<JsonRpcResponse> DeserializeResponseData(Stream stream)
         {
             if (stream == null)
@@ -204,7 +204,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A JSON-RPC response data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="reader" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         public JsonRpcData<JsonRpcResponse> DeserializeResponseData(TextReader reader)
         {
             if (reader == null)
@@ -226,7 +226,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON-RPC response data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="string" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(string @string, CancellationToken cancellationToken = default)
         {
@@ -249,7 +249,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON-RPC response data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(Stream stream, CancellationToken cancellationToken = default)
         {
@@ -272,7 +272,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON-RPC response data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="reader" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC deserialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(TextReader reader, CancellationToken cancellationToken = default)
         {
@@ -296,7 +296,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A JSON string representation of the specified request.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="request" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public string SerializeRequest(JsonRpcRequest request)
         {
             if (request == null)
@@ -317,7 +317,7 @@ namespace Anemonis.JsonRpc
         /// <param name="stream">The stream to deserialize to.</param>
         /// <exception cref="ArgumentNullException"><paramref name="request" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public void SerializeRequest(JsonRpcRequest request, Stream stream)
         {
             if (request == null)
@@ -340,7 +340,7 @@ namespace Anemonis.JsonRpc
         /// <param name="writer">The writer to use for deserializing.</param>
         /// <exception cref="ArgumentNullException"><paramref name="request" /> or <paramref name="writer" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public void SerializeRequest(JsonRpcRequest request, TextWriter writer)
         {
             if (request == null)
@@ -365,7 +365,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON string representation of the specified request.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="request" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public async ValueTask<string> SerializeRequestAsync(JsonRpcRequest request, CancellationToken cancellationToken = default)
         {
@@ -391,7 +391,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="request" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask SerializeRequestAsync(JsonRpcRequest request, Stream stream, CancellationToken cancellationToken = default)
         {
@@ -419,7 +419,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="request" /> or <paramref name="writer" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask SerializeRequestAsync(JsonRpcRequest request, TextWriter writer, CancellationToken cancellationToken = default)
         {
@@ -448,7 +448,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A JSON string representation of the specified collection of JSON-RPC requests.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="requests" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public string SerializeRequests(IReadOnlyList<JsonRpcRequest> requests)
         {
             if (requests == null)
@@ -469,7 +469,7 @@ namespace Anemonis.JsonRpc
         /// <param name="stream">The stream to deserialize to.</param>
         /// <exception cref="ArgumentNullException"><paramref name="requests" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public void SerializeRequests(IReadOnlyList<JsonRpcRequest> requests, Stream stream)
         {
             if (requests == null)
@@ -492,7 +492,7 @@ namespace Anemonis.JsonRpc
         /// <param name="writer">The writer for deserializing.</param>
         /// <exception cref="ArgumentNullException"><paramref name="requests" /> or <paramref name="writer" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public void SerializeRequests(IReadOnlyList<JsonRpcRequest> requests, TextWriter writer)
         {
             if (requests == null)
@@ -517,7 +517,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON string representation of the specified collection of JSON-RPC requests.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="requests" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public async ValueTask<string> SerializeRequestsAsync(IReadOnlyList<JsonRpcRequest> requests, CancellationToken cancellationToken = default)
         {
@@ -543,7 +543,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="requests" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask SerializeRequestsAsync(IReadOnlyList<JsonRpcRequest> requests, Stream stream, CancellationToken cancellationToken = default)
         {
@@ -571,7 +571,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="requests" /> or <paramref name="writer" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask SerializeRequestsAsync(IReadOnlyList<JsonRpcRequest> requests, TextWriter writer, CancellationToken cancellationToken = default)
         {
@@ -600,7 +600,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A JSON string representation of the specified response.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="response" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public string SerializeResponse(JsonRpcResponse response)
         {
             if (response == null)
@@ -621,7 +621,7 @@ namespace Anemonis.JsonRpc
         /// <param name="stream">The stream to deserialize to.</param>
         /// <exception cref="ArgumentNullException"><paramref name="response" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public void SerializeResponse(JsonRpcResponse response, Stream stream)
         {
             if (response == null)
@@ -644,7 +644,7 @@ namespace Anemonis.JsonRpc
         /// <param name="writer">The writer for deserializing.</param>
         /// <exception cref="ArgumentNullException"><paramref name="response" /> or <paramref name="writer" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public void SerializeResponse(JsonRpcResponse response, TextWriter writer)
         {
             if (response == null)
@@ -669,7 +669,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON string representation of the specified response.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="response" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public async ValueTask<string> SerializeResponseAsync(JsonRpcResponse response, CancellationToken cancellationToken = default)
         {
@@ -695,7 +695,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="response" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask SerializeResponseAsync(JsonRpcResponse response, Stream stream, CancellationToken cancellationToken = default)
         {
@@ -723,7 +723,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="response" /> or <paramref name="writer" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask SerializeResponseAsync(JsonRpcResponse response, TextWriter writer, CancellationToken cancellationToken = default)
         {
@@ -752,7 +752,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A JSON string representation of the specified collection of JSON-RPC responses.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="responses" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public string SerializeResponses(IReadOnlyList<JsonRpcResponse> responses)
         {
             if (responses == null)
@@ -773,7 +773,7 @@ namespace Anemonis.JsonRpc
         /// <param name="stream">The stream to deserialize to.</param>
         /// <exception cref="ArgumentNullException"><paramref name="responses" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public void SerializeResponses(IReadOnlyList<JsonRpcResponse> responses, Stream stream)
         {
             if (responses == null)
@@ -796,7 +796,7 @@ namespace Anemonis.JsonRpc
         /// <param name="writer">The writer for deserializing.</param>
         /// <exception cref="ArgumentNullException"><paramref name="responses" /> or <paramref name="writer" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public void SerializeResponses(IReadOnlyList<JsonRpcResponse> responses, TextWriter writer)
         {
             if (responses == null)
@@ -821,7 +821,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON string representation of the specified collection of JSON-RPC responses.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="responses" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public async ValueTask<string> SerializeResponsesAsync(IReadOnlyList<JsonRpcResponse> responses, CancellationToken cancellationToken = default)
         {
@@ -847,7 +847,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="responses" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask SerializeResponsesAsync(IReadOnlyList<JsonRpcResponse> responses, Stream stream, CancellationToken cancellationToken = default)
         {
@@ -875,7 +875,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="responses" /> or <paramref name="writer" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
-        /// <exception cref="JsonRpcException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask SerializeResponsesAsync(IReadOnlyList<JsonRpcResponse> responses, TextWriter writer, CancellationToken cancellationToken = default)
         {
