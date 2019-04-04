@@ -17,7 +17,7 @@ namespace Anemonis.JsonRpc
         private const int _messageBufferSize = 64;
         private const int _streamBufferSize = 1024;
 
-        private static readonly Encoding _streamEncoding = new UTF8Encoding(false);
+        private static readonly Encoding _streamEncoding = new UTF8Encoding(false, true);
         private static readonly IArrayPool<char> _jsonBufferPool = new JsonBufferPool();
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcSerializer" /> class.</summary>
