@@ -131,37 +131,37 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
         [Benchmark(Description = "SerializeResponse-ERROR=N-DATA=Y")]
         public object SerializeResponseB0E0D0()
         {
-            return _serializer.SerializeResponse(_ressb0["res_b0e0d0"]);
+            return _serializer.SerializeResponse(_ressb0["res_b0i1e0d0"]);
         }
 
         [Benchmark(Description = "SerializeResponse-ERROR=Y-DATA=N")]
         public object SerializeResponseB0E1D0()
         {
-            return _serializer.SerializeResponse(_ressb0["res_b0e1d0"]);
+            return _serializer.SerializeResponse(_ressb0["res_b0i1e1d0"]);
         }
 
         [Benchmark(Description = "SerializeResponse-ERROR=Y-DATA=Y")]
         public object SerializeResponseB0E1D1()
         {
-            return _serializer.SerializeResponse(_ressb0["res_b0e1d1"]);
+            return _serializer.SerializeResponse(_ressb0["res_b0i1e1d1"]);
         }
 
         [Benchmark(Description = "SerializeResponses-ERROR=N-DATA=Y")]
         public object SerializeResponsesB1E0D0()
         {
-            return _serializer.SerializeResponses(_ressb1["res_b1e0d0"]);
+            return _serializer.SerializeResponses(_ressb1["res_b1i1e0d0"]);
         }
 
         [Benchmark(Description = "SerializeResponses-ERROR=Y-DATA=N")]
         public object SerializeResponsesB1E1D0()
         {
-            return _serializer.SerializeResponses(_ressb1["res_b1e1d0"]);
+            return _serializer.SerializeResponses(_ressb1["res_b1i1e1d0"]);
         }
 
         [Benchmark(Description = "SerializeResponses-ERROR=Y-DATA=Y")]
         public object SerializeResponsesB1E1D1()
         {
-            return _serializer.SerializeResponses(_ressb1["res_b1e1d1"]);
+            return _serializer.SerializeResponses(_ressb1["res_b1i1e1d1"]);
         }
     }
 }
