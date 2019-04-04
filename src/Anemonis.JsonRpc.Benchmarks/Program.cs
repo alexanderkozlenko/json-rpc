@@ -19,12 +19,19 @@ namespace Anemonis.JsonRpc.Benchmarks
         {
             var configuration = ManualConfig.CreateEmpty();
 
-            configuration.Add(Job.Default.With(InProcessEmitToolchain.Instance));
+            configuration.Add(Job.Default
+                .WithWarmupCount(1)
+                .WithIterationTime(TimeInterval.FromMilliseconds(250))
+                .WithMinIterationCount(15)
+                .WithMaxIterationCount(20)
+                .With(InProcessEmitToolchain.Instance));
             configuration.Add(MemoryDiagnoser.Default);
             configuration.Add(DefaultConfig.Instance.GetColumnProviders().ToArray());
             configuration.Add(ConsoleLogger.Default);
             configuration.Add(new SimpleBenchmarkExporter());
-            configuration.SummaryStyle = SummaryStyle.Default.WithTimeUnit(TimeUnit.Nanosecond).WithSizeUnit(SizeUnit.B);
+            configuration.SummaryStyle = SummaryStyle.Default
+                .WithTimeUnit(TimeUnit.Nanosecond)
+                .WithSizeUnit(SizeUnit.B);
 
             BenchmarkRunner.Run<JsonRpcIdBenchmarks>(configuration);
             BenchmarkRunner.Run<JsonRpcSerializerSerializeBenchmarks>(configuration);
