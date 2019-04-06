@@ -11,14 +11,15 @@ namespace Anemonis.JsonRpc
 {
     public partial class JsonRpcSerializer
     {
-        private static readonly JsonLoadSettings _jsonLoadSettings = CreateJsonLoadSettings();
         private static readonly JsonSerializerSettings _jsonSerializerSettings = CreateJsonSerializerSettings();
+        private static readonly JsonLoadSettings _jsonSerializerLoadSettings = CreateJsonSerializerLoadSettings();
+        private static readonly IArrayPool<char> _jsonSerializerBufferPool = new JsonBufferPool();
 
-        private readonly IJsonRpcContractResolver _contractResolver;
         private readonly JsonSerializer _jsonSerializer;
+        private readonly IJsonRpcContractResolver _contractResolver;
         private readonly JsonRpcCompatibilityLevel _compatibilityLevel;
 
-        private static JsonLoadSettings CreateJsonLoadSettings()
+        private static JsonLoadSettings CreateJsonSerializerLoadSettings()
         {
             return new JsonLoadSettings
             {
@@ -37,13 +38,13 @@ namespace Anemonis.JsonRpc
         private static void SetupJsonReader(JsonTextReader reader)
         {
             reader.DateParseHandling = DateParseHandling.None;
-            reader.ArrayPool = _jsonBufferPool;
+            reader.ArrayPool = _jsonSerializerBufferPool;
         }
 
         private static void SetupJsonWriter(JsonTextWriter writer)
         {
             writer.AutoCompleteOnClose = false;
-            writer.ArrayPool = _jsonBufferPool;
+            writer.ArrayPool = _jsonSerializerBufferPool;
         }
 
         private JsonRpcData<JsonRpcRequest> DeserializeRequestData(JsonTextReader reader, CancellationToken cancellationToken)
@@ -207,7 +208,7 @@ namespace Anemonis.JsonRpc
                                                     }
                                                     else
                                                     {
-                                                        var propertyValueToken = JToken.Load(reader, _jsonLoadSettings);
+                                                        var propertyValueToken = JToken.Load(reader, _jsonSerializerLoadSettings);
 
                                                         requestParamsetersByPosition.Add(propertyValueToken);
                                                     }
@@ -233,7 +234,7 @@ namespace Anemonis.JsonRpc
                                                             break;
                                                         }
 
-                                                        var propertyValueToken = JToken.Load(reader, _jsonLoadSettings);
+                                                        var propertyValueToken = JToken.Load(reader, _jsonSerializerLoadSettings);
 
                                                         requestParamsetersByName.Add(parameterName, propertyValueToken);
                                                     }
@@ -527,7 +528,7 @@ namespace Anemonis.JsonRpc
                             case "result":
                                 {
                                     responseResultSet = true;
-                                    responseResultToken = JToken.ReadFrom(reader, _jsonLoadSettings);
+                                    responseResultToken = JToken.ReadFrom(reader, _jsonSerializerLoadSettings);
                                 }
                                 break;
                             case "error":
@@ -587,7 +588,7 @@ namespace Anemonis.JsonRpc
                                                                 break;
                                                             case "data":
                                                                 {
-                                                                    responseErrorDataToken = JToken.ReadFrom(reader, _jsonLoadSettings);
+                                                                    responseErrorDataToken = JToken.ReadFrom(reader, _jsonSerializerLoadSettings);
                                                                 }
                                                                 break;
                                                             default:

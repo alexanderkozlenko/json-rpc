@@ -15,10 +15,9 @@ namespace Anemonis.JsonRpc
     public sealed partial class JsonRpcSerializer
     {
         private const int _messageBufferSize = 64;
-        private const int _streamBufferSize = 1024;
+        private const int _defaultStreamBufferSize = 1024;
 
-        private static readonly Encoding _streamEncoding = new UTF8Encoding(false, true);
-        private static readonly IArrayPool<char> _jsonBufferPool = new JsonBufferPool();
+        private static readonly Encoding _defaultJsonEncoding = new UTF8Encoding(false, true);
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcSerializer" /> class.</summary>
         /// <param name="contractResolver">The JSON-RPC message contract resolver instance.</param>
@@ -63,7 +62,7 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            using (var streamReader = new StreamReader(stream, _streamEncoding, false, _streamBufferSize, true))
+            using (var streamReader = new StreamReader(stream, _defaultJsonEncoding, false, _defaultStreamBufferSize, true))
             {
                 return DeserializeRequestData(streamReader);
             }
@@ -130,7 +129,7 @@ namespace Anemonis.JsonRpc
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var streamReader = new StreamReader(stream, _streamEncoding, false, _streamBufferSize, true))
+            using (var streamReader = new StreamReader(stream, _defaultJsonEncoding, false, _defaultStreamBufferSize, true))
             {
                 return DeserializeRequestDataAsync(streamReader, cancellationToken);
             }
@@ -193,7 +192,7 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            using (var streamReader = new StreamReader(stream, _streamEncoding, false, _streamBufferSize, true))
+            using (var streamReader = new StreamReader(stream, _defaultJsonEncoding, false, _defaultStreamBufferSize, true))
             {
                 return DeserializeResponseData(streamReader);
             }
@@ -260,7 +259,7 @@ namespace Anemonis.JsonRpc
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var streamReader = new StreamReader(stream, _streamEncoding, false, _streamBufferSize, true))
+            using (var streamReader = new StreamReader(stream, _defaultJsonEncoding, false, _defaultStreamBufferSize, true))
             {
                 return DeserializeResponseDataAsync(streamReader, cancellationToken);
             }
@@ -329,7 +328,7 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            using (var streamWriter = new StreamWriter(stream, _streamEncoding, _streamBufferSize, true))
+            using (var streamWriter = new StreamWriter(stream, _defaultJsonEncoding, _defaultStreamBufferSize, true))
             {
                 SerializeRequest(request, streamWriter);
             }
@@ -406,7 +405,7 @@ namespace Anemonis.JsonRpc
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var streamWriter = new StreamWriter(stream, _streamEncoding, _streamBufferSize, true))
+            using (var streamWriter = new StreamWriter(stream, _defaultJsonEncoding, _defaultStreamBufferSize, true))
             {
                 return SerializeRequestAsync(request, streamWriter, cancellationToken);
             }
@@ -481,7 +480,7 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            using (var streamWriter = new StreamWriter(stream, _streamEncoding, _streamBufferSize, true))
+            using (var streamWriter = new StreamWriter(stream, _defaultJsonEncoding, _defaultStreamBufferSize, true))
             {
                 SerializeRequests(requests, streamWriter);
             }
@@ -558,7 +557,7 @@ namespace Anemonis.JsonRpc
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var streamWriter = new StreamWriter(stream, _streamEncoding, _streamBufferSize, true))
+            using (var streamWriter = new StreamWriter(stream, _defaultJsonEncoding, _defaultStreamBufferSize, true))
             {
                 return SerializeRequestsAsync(requests, streamWriter, cancellationToken);
             }
@@ -633,7 +632,7 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            using (var streamWriter = new StreamWriter(stream, _streamEncoding, _streamBufferSize, true))
+            using (var streamWriter = new StreamWriter(stream, _defaultJsonEncoding, _defaultStreamBufferSize, true))
             {
                 SerializeResponse(response, streamWriter);
             }
@@ -710,7 +709,7 @@ namespace Anemonis.JsonRpc
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var streamWriter = new StreamWriter(stream, _streamEncoding, _streamBufferSize, true))
+            using (var streamWriter = new StreamWriter(stream, _defaultJsonEncoding, _defaultStreamBufferSize, true))
             {
                 return SerializeResponseAsync(response, streamWriter, cancellationToken);
             }
@@ -785,7 +784,7 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            using (var streamWriter = new StreamWriter(stream, _streamEncoding, _streamBufferSize, true))
+            using (var streamWriter = new StreamWriter(stream, _defaultJsonEncoding, _defaultStreamBufferSize, true))
             {
                 SerializeResponses(responses, streamWriter);
             }
@@ -862,7 +861,7 @@ namespace Anemonis.JsonRpc
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var streamWriter = new StreamWriter(stream, _streamEncoding, _streamBufferSize, true))
+            using (var streamWriter = new StreamWriter(stream, _defaultJsonEncoding, _defaultStreamBufferSize, true))
             {
                 return SerializeResponsesAsync(responses, streamWriter, cancellationToken);
             }

@@ -4,57 +4,57 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
 {
     public class JsonRpcIdBenchmarks
     {
-        private static readonly JsonRpcId _idNone = new JsonRpcId();
-        private static readonly JsonRpcId _idString = new JsonRpcId("1");
-        private static readonly JsonRpcId _idInteger = new JsonRpcId(1L);
-        private static readonly JsonRpcId _idFloat = new JsonRpcId(1D);
+        private static readonly JsonRpcId _id0 = new JsonRpcId();
+        private static readonly JsonRpcId _id1 = new JsonRpcId("1");
+        private static readonly JsonRpcId _id2 = new JsonRpcId(1L);
+        private static readonly JsonRpcId _id3 = new JsonRpcId(1D);
 
         [Benchmark(Description = "GetHashCode-TYPE=N")]
         public int GetHashCodeNone()
         {
-            return _idNone.GetHashCode();
+            return _id0.GetHashCode();
         }
 
         [Benchmark(Description = "GetHashCode-TYPE=S")]
         public int GetHashCodeString()
         {
-            return _idString.GetHashCode();
+            return _id1.GetHashCode();
         }
 
         [Benchmark(Description = "GetHashCode-TYPE=I")]
         public int GetHashCodeInteger()
         {
-            return _idInteger.GetHashCode();
+            return _id2.GetHashCode();
         }
 
         [Benchmark(Description = "GetHashCode-TYPE=F")]
         public int GetHashCodeFloat()
         {
-            return _idFloat.GetHashCode();
+            return _id3.GetHashCode();
         }
 
         [Benchmark(Description = "Equals-TYPE=N")]
         public bool EqualsNone()
         {
-            return _idNone.Equals(_idNone);
+            return _id0.Equals(_id0);
         }
 
         [Benchmark(Description = "Equals-TYPE=S")]
         public bool EqualsString()
         {
-            return _idString.Equals(_idString);
+            return _id1.Equals(_id1);
         }
 
         [Benchmark(Description = "Equals-TYPE=I")]
         public bool EqualsInteger()
         {
-            return _idInteger.Equals(_idInteger);
+            return _id2.Equals(_id2);
         }
 
         [Benchmark(Description = "Equals-TYPE=F")]
         public bool EqualsFloat()
         {
-            return _idFloat.Equals(_idFloat);
+            return _id3.Equals(_id3);
         }
     }
 }

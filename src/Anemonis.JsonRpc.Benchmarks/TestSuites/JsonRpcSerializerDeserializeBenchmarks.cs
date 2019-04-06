@@ -22,7 +22,7 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
             return resources;
         }
 
-        private static JsonRpcSerializer CreateSerializerRequestParamsNone()
+        private static JsonRpcSerializer CreateSerializerRequestParams0()
         {
             var resolver = new JsonRpcContractResolver();
             var serializer = new JsonRpcSerializer(resolver);
@@ -32,7 +32,7 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
             return serializer;
         }
 
-        private static JsonRpcSerializer CreateSerializerRequestParamsByName()
+        private static JsonRpcSerializer CreateSerializerRequestParams2()
         {
             var resolver = new JsonRpcContractResolver();
             var serializer = new JsonRpcSerializer(resolver);
@@ -47,7 +47,7 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
             return serializer;
         }
 
-        private static JsonRpcSerializer CreateSerializerRequestParamsByPosition()
+        private static JsonRpcSerializer CreateSerializerRequestParams1()
         {
             var resolver = new JsonRpcContractResolver();
             var serializer = new JsonRpcSerializer(resolver);
@@ -76,9 +76,9 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
         {
             return new Dictionary<string, JsonRpcSerializer>
             {
-                ["s0"] = CreateSerializerRequestParamsNone(),
-                ["s1"] = CreateSerializerRequestParamsByPosition(),
-                ["s2"] = CreateSerializerRequestParamsByName(),
+                ["s0"] = CreateSerializerRequestParams0(),
+                ["s1"] = CreateSerializerRequestParams1(),
+                ["s2"] = CreateSerializerRequestParams2(),
                 ["s3"] = CreateSerializerResponse()
             };
         }
