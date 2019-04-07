@@ -18,7 +18,7 @@ var serializer = new JsonRpcSerializer(contracts);
 
 contracts.AddResponseContract("sum", new JsonRpcResponseContract(typeof(long)));
 
-var request = new JsonRpcRequest("sum", 1L, new[] { 1L, 2L });
+var request = new JsonRpcRequest(1L, "sum", new[] { 1L, 2L });
 var requestString = serializer.SerializeRequest(request);
 
 // [Executing the corresponding HTTP request]
