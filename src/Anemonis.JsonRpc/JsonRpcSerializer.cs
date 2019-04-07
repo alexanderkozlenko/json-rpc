@@ -49,7 +49,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Deserializes the specified stream with a JSON string to JSON-RPC request data.</summary>
+        /// <summary>Deserializes a UTF-8 encoded JSON string from the specified stream to JSON-RPC request data.</summary>
         /// <param name="stream">The stream to deserialize from.</param>
         /// <returns>A JSON-RPC request data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="stream" /> is <see langword="null" />.</exception>
@@ -112,7 +112,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Deserializes the specified stream with a JSON string to JSON-RPC request data as an asynchronous operation.</summary>
+        /// <summary>Deserializes a UTF-8 encoded JSON string from the specified stream to JSON-RPC request data as an asynchronous operation.</summary>
         /// <param name="stream">The stream to deserialize from.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON-RPC request data deserialization result.</returns>
@@ -179,7 +179,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Deserializes the specified stream with a JSON string to JSON-RPC response data.</summary>
+        /// <summary>Deserializes a UTF-8 encoded JSON string from the specified stream to JSON-RPC response data.</summary>
         /// <param name="stream">The stream to deserialize from.</param>
         /// <returns>A JSON-RPC response data deserialization result.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="stream" /> is <see langword="null" />.</exception>
@@ -242,7 +242,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Deserializes the specified stream with a JSON string to JSON-RPC response data as an asynchronous operation.</summary>
+        /// <summary>Deserializes a UTF-8 encoded JSON string from the specified stream to JSON-RPC response data as an asynchronous operation.</summary>
         /// <param name="stream">The stream to deserialize from.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON-RPC response data deserialization result.</returns>
@@ -311,7 +311,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified JSON-RPC request to the specified stream.</summary>
+        /// <summary>Serializes the specified JSON-RPC request as a UTF-8 encoded JSON string to the specified stream.</summary>
         /// <param name="request">The JSON-RPC request to serialize.</param>
         /// <param name="stream">The stream to deserialize to.</param>
         /// <exception cref="ArgumentNullException"><paramref name="request" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
@@ -334,7 +334,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified JSON-RPC request using the specified writer.</summary>
+        /// <summary>Serializes the specified JSON-RPC request as a JSON string using the specified writer.</summary>
         /// <param name="request">The JSON-RPC request to serialize.</param>
         /// <param name="writer">The writer to use for deserializing.</param>
         /// <exception cref="ArgumentNullException"><paramref name="request" /> or <paramref name="writer" /> is <see langword="null" />.</exception>
@@ -383,7 +383,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified JSON-RPC request to the specified stream as an asynchronous operation.</summary>
+        /// <summary>Serializes the specified JSON-RPC request as a UTF-8 encoded JSON string to the specified stream as an asynchronous operation.</summary>
         /// <param name="request">The JSON-RPC request to serialize.</param>
         /// <param name="stream">The stream to deserialize to.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
@@ -411,7 +411,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified JSON-RPC request using the specified writer as an asynchronous operation.</summary>
+        /// <summary>Serializes the specified JSON-RPC request as a JSON string using the specified writer as an asynchronous operation.</summary>
         /// <param name="request">The JSON-RPC request to serialize.</param>
         /// <param name="writer">The writer to use for deserializing.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
@@ -463,7 +463,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified collection of JSON-RPC requests to the specified stream.</summary>
+        /// <summary>Serializes the specified collection of JSON-RPC requests as a UTF-8 encoded JSON string to the specified stream.</summary>
         /// <param name="requests">The collection of JSON-RPC requests to serialize.</param>
         /// <param name="stream">The stream to deserialize to.</param>
         /// <exception cref="ArgumentNullException"><paramref name="requests" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
@@ -486,7 +486,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified collection of JSON-RPC requests using the specified writer.</summary>
+        /// <summary>Serializes the specified collection of JSON-RPC requests as a JSON string using the specified writer.</summary>
         /// <param name="requests">The collection of JSON-RPC requests to serialize.</param>
         /// <param name="writer">The writer for deserializing.</param>
         /// <exception cref="ArgumentNullException"><paramref name="requests" /> or <paramref name="writer" /> is <see langword="null" />.</exception>
@@ -535,7 +535,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified collection of JSON-RPC requests to the specified stream as an asynchronous operation.</summary>
+        /// <summary>Serializes the specified collection of JSON-RPC requests as a UTF-8 encoded JSON string to the specified stream as an asynchronous operation.</summary>
         /// <param name="requests">The collection of JSON-RPC requests to serialize.</param>
         /// <param name="stream">The stream to deserialize to.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
@@ -563,7 +563,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified collection of JSON-RPC requests using the specified writer as an asynchronous operation.</summary>
+        /// <summary>Serializes the specified collection of JSON-RPC requests as a JSON string using the specified writer as an asynchronous operation.</summary>
         /// <param name="requests">The collection of JSON-RPC requests to serialize.</param>
         /// <param name="writer">The writer for deserializing.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
@@ -615,7 +615,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified JSON-RPC response to the specified stream.</summary>
+        /// <summary>Serializes the specified JSON-RPC response as a UTF-8 encoded JSON string to the specified stream.</summary>
         /// <param name="response">The JSON-RPC response to serialize.</param>
         /// <param name="stream">The stream to deserialize to.</param>
         /// <exception cref="ArgumentNullException"><paramref name="response" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
@@ -638,7 +638,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified JSON-RPC response using the specified writer.</summary>
+        /// <summary>Serializes the specified JSON-RPC response as a JSON string using the specified writer.</summary>
         /// <param name="response">The JSON-RPC response to serialize.</param>
         /// <param name="writer">The writer for deserializing.</param>
         /// <exception cref="ArgumentNullException"><paramref name="response" /> or <paramref name="writer" /> is <see langword="null" />.</exception>
@@ -687,7 +687,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified JSON-RPC response to the specified stream as an asynchronous operation.</summary>
+        /// <summary>Serializes the specified JSON-RPC response as a UTF-8 encoded JSON string to the specified stream as an asynchronous operation.</summary>
         /// <param name="response">The JSON-RPC response to serialize.</param>
         /// <param name="stream">The stream to deserialize to.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
@@ -715,7 +715,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified JSON-RPC response using the specified writer as an asynchronous operation.</summary>
+        /// <summary>Serializes the specified JSON-RPC response as a JSON string using the specified writer as an asynchronous operation.</summary>
         /// <param name="response">The JSON-RPC response to serialize.</param>
         /// <param name="writer">The writer for deserializing.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
@@ -767,7 +767,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified collection of JSON-RPC responses to the specified stream.</summary>
+        /// <summary>Serializes the specified collection of JSON-RPC responses as a UTF-8 encoded JSON string to the specified stream.</summary>
         /// <param name="responses">The collection of JSON-RPC responses to serialize.</param>
         /// <param name="stream">The stream to deserialize to.</param>
         /// <exception cref="ArgumentNullException"><paramref name="responses" /> or <paramref name="stream" /> is <see langword="null" />.</exception>
@@ -790,7 +790,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified collection of JSON-RPC responses using the specified writer.</summary>
+        /// <summary>Serializes the specified collection of JSON-RPC responses as a JSON string using the specified writer.</summary>
         /// <param name="responses">The collection of JSON-RPC responses to serialize.</param>
         /// <param name="writer">The writer for deserializing.</param>
         /// <exception cref="ArgumentNullException"><paramref name="responses" /> or <paramref name="writer" /> is <see langword="null" />.</exception>
@@ -814,7 +814,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified collection of JSON-RPC responses to the specified stream as an asynchronous operation.</summary>
+        /// <summary>Serializes the specified collection of JSON-RPC responses to a JSON string as an asynchronous operation.</summary>
         /// <param name="responses">The collection of JSON-RPC responses to serialize.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON string representation of the specified collection of JSON-RPC responses.</returns>
@@ -839,7 +839,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified collection of JSON-RPC responses to the specified stream as an asynchronous operation.</summary>
+        /// <summary>Serializes the specified collection of JSON-RPC responses as a UTF-8 encoded JSON string to the specified stream as an asynchronous operation.</summary>
         /// <param name="responses">The collection of JSON-RPC responses to serialize.</param>
         /// <param name="stream">The stream to deserialize to.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
@@ -867,7 +867,7 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Serializes the specified collection of JSON-RPC responses using the specified writer as an asynchronous operation.</summary>
+        /// <summary>Serializes the specified collection of JSON-RPC responses as a JSON string using the specified writer as an asynchronous operation.</summary>
         /// <param name="responses">The collection of JSON-RPC responses to serialize.</param>
         /// <param name="writer">The writer for deserializing.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
