@@ -114,8 +114,19 @@ namespace Anemonis.JsonRpc.UnitTests
 
             jrcr.AddRequestContract("m", new JsonRpcRequestContract(new[] { typeof(DateTime) }));
 
-            Assert.ThrowsException<JsonSerializationException>(() =>
-                jrs.DeserializeRequestData(jsont));
+            var jrd = jrs.DeserializeRequestData(jsont);
+
+            Assert.IsNotNull(jrd);
+            Assert.IsFalse(jrd.IsBatch);
+            Assert.IsNull(jrd.Items);
+            Assert.IsFalse(jrd.Item.IsValid);
+            Assert.IsNull(jrd.Item.Message);
+            Assert.IsNotNull(jrd.Item.Exception);
+
+            var jre = jrd.Item.Exception;
+
+            Assert.AreEqual(default, jre.MessageId);
+            Assert.AreEqual(JsonRpcErrorCode.InvalidOperation, jre.ErrorCode);
         }
 
         [TestMethod]
@@ -175,8 +186,19 @@ namespace Anemonis.JsonRpc.UnitTests
 
             jrcr.AddRequestContract("m", new JsonRpcRequestContract(new Dictionary<string, Type> { ["p"] = typeof(DateTime) }));
 
-            Assert.ThrowsException<JsonSerializationException>(() =>
-                jrs.DeserializeRequestData(jsont));
+            var jrd = jrs.DeserializeRequestData(jsont);
+
+            Assert.IsNotNull(jrd);
+            Assert.IsFalse(jrd.IsBatch);
+            Assert.IsNull(jrd.Items);
+            Assert.IsFalse(jrd.Item.IsValid);
+            Assert.IsNull(jrd.Item.Message);
+            Assert.IsNotNull(jrd.Item.Exception);
+
+            var jre = jrd.Item.Exception;
+
+            Assert.AreEqual(default, jre.MessageId);
+            Assert.AreEqual(JsonRpcErrorCode.InvalidOperation, jre.ErrorCode);
         }
 
         [TestMethod]
@@ -188,8 +210,19 @@ namespace Anemonis.JsonRpc.UnitTests
 
             jrcr.AddResponseContract((JsonRpcId)"1", new JsonRpcResponseContract(typeof(DateTime)));
 
-            Assert.ThrowsException<JsonSerializationException>(() =>
-                jrs.DeserializeResponseData(jsont));
+            var jrd = jrs.DeserializeResponseData(jsont);
+
+            Assert.IsNotNull(jrd);
+            Assert.IsFalse(jrd.IsBatch);
+            Assert.IsNull(jrd.Items);
+            Assert.IsFalse(jrd.Item.IsValid);
+            Assert.IsNull(jrd.Item.Message);
+            Assert.IsNotNull(jrd.Item.Exception);
+
+            var jre = jrd.Item.Exception;
+
+            Assert.AreEqual("1", jre.MessageId);
+            Assert.AreEqual(JsonRpcErrorCode.InvalidOperation, jre.ErrorCode);
         }
 
         [TestMethod]
@@ -315,8 +348,19 @@ namespace Anemonis.JsonRpc.UnitTests
 
             jrcr.AddResponseContract((JsonRpcId)"1", new JsonRpcResponseContract(typeof(long), typeof(DateTime)));
 
-            Assert.ThrowsException<JsonSerializationException>(() =>
-                jrs.DeserializeResponseData(jsont));
+            var jrd = jrs.DeserializeResponseData(jsont);
+
+            Assert.IsNotNull(jrd);
+            Assert.IsFalse(jrd.IsBatch);
+            Assert.IsNull(jrd.Items);
+            Assert.IsFalse(jrd.Item.IsValid);
+            Assert.IsNull(jrd.Item.Message);
+            Assert.IsNotNull(jrd.Item.Exception);
+
+            var jre = jrd.Item.Exception;
+
+            Assert.AreEqual("1", jre.MessageId);
+            Assert.AreEqual(JsonRpcErrorCode.InvalidOperation, jre.ErrorCode);
         }
 
         [TestMethod]
