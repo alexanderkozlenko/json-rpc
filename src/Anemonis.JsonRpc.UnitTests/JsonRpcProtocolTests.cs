@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Anemonis.JsonRpc.UnitTests
@@ -10,7 +11,7 @@ namespace Anemonis.JsonRpc.UnitTests
         public void IsSystemMethodWhenMethodIsNull()
         {
             Assert.ThrowsException<ArgumentNullException>(() =>
-                JsonRpcProtocol.IsSystemMethod((string)null));
+                JsonRpcProtocol.IsSystemMethod(null));
         }
 
         [TestMethod]

@@ -3,7 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+
 using Anemonis.JsonRpc.Resources;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 

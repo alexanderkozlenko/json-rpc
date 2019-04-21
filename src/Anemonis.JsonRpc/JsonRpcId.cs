@@ -2,6 +2,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+
 using Anemonis.JsonRpc.Resources;
 
 namespace Anemonis.JsonRpc

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Anemonis.JsonRpc.UnitTests.Resources;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 
 namespace Anemonis.JsonRpc.UnitTests
 {
@@ -2621,7 +2622,7 @@ namespace Anemonis.JsonRpc.UnitTests
 
             var jrm0 = new JsonRpcRequest(default, "m");
             var jrm1 = new JsonRpcRequest(default, "m");
-            var jsonr = jrs.SerializeRequests(new[] { jrm0 , jrm1 });
+            var jsonr = jrs.SerializeRequests(new[] { jrm0, jrm1 });
 
             Assert.IsNotNull(jsonr);
 

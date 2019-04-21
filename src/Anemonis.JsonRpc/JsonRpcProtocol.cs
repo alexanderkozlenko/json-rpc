@@ -19,8 +19,8 @@ namespace Anemonis.JsonRpc
             }
 
             return
-                ((method.Length >= 4)) &&
-                ((method[3] == '.')) &&
+                (method.Length >= 4) &&
+                (method[3] == '.') &&
                 ((method[0] == 'r') || (method[0] == 'R')) &&
                 ((method[1] == 'p') || (method[1] == 'P')) &&
                 ((method[2] == 'c') || (method[2] == 'C'));

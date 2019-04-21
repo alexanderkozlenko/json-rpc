@@ -1,6 +1,7 @@
 ﻿// © Alexander Kozlenko. Licensed under the MIT License.
 
 using System;
+
 using Anemonis.JsonRpc.Resources;
 
 namespace Anemonis.JsonRpc

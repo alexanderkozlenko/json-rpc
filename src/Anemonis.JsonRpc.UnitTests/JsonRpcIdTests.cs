@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Anemonis.JsonRpc.UnitTests
@@ -10,7 +11,7 @@ namespace Anemonis.JsonRpc.UnitTests
         public void ConstructorWhenTypeIsStringAndValueIsNull()
         {
             Assert.ThrowsException<ArgumentNullException>(()
-                => new JsonRpcId((string)null));
+                => new JsonRpcId(default(string)));
         }
 
         [TestMethod]

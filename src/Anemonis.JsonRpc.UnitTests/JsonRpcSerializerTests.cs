@@ -1,8 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Newtonsoft.Json.Linq;
 
 namespace Anemonis.JsonRpc.UnitTests

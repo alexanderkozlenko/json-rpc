@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Anemonis.JsonRpc.Benchmarks.Resources;
+
 using BenchmarkDotNet.Attributes;
 
 namespace Anemonis.JsonRpc.Benchmarks.TestSuites

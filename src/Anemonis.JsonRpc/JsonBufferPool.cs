@@ -1,6 +1,7 @@
 ﻿// © Alexander Kozlenko. Licensed under the MIT License.
 
 using System.Buffers;
+
 using Newtonsoft.Json;
 
 namespace Anemonis.JsonRpc
