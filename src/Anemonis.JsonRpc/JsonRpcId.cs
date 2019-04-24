@@ -1,6 +1,7 @@
 ﻿// © Alexander Kozlenko. Licensed under the MIT License.
 
 using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
 
 using Anemonis.JsonRpc.Resources;
@@ -65,9 +66,29 @@ namespace Anemonis.JsonRpc
             _valueFloat = value;
         }
 
-        bool IEquatable<JsonRpcId>.Equals(JsonRpcId other)
+        private bool Equals(in JsonRpcId other)
         {
-            return Equals(in other);
+            if (_type != other._type)
+            {
+                return false;
+            }
+
+            switch (_type)
+            {
+                case JsonRpcIdType.String:
+                    {
+                        return string.Equals(_valueString, other._valueString, StringComparison.Ordinal);
+                    }
+                case JsonRpcIdType.Integer:
+                case JsonRpcIdType.Float:
+                    {
+                        return _valueInteger == other._valueInteger;
+                    }
+                default:
+                    {
+                        return true;
+                    }
+            }
         }
 
         internal string UnsafeAsString()
@@ -85,35 +106,6 @@ namespace Anemonis.JsonRpc
             return _valueFloat;
         }
 
-        /// <summary>Indicates whether the current <see cref="JsonRpcId" /> is equal to another <see cref="JsonRpcId" />.</summary>
-        /// <param name="other">A <see cref="JsonRpcId" /> to compare with the current <see cref="JsonRpcId" />.</param>
-        /// <returns><see langword="true" /> if the current <see cref="JsonRpcId" /> is equal to the other <see cref="JsonRpcId" />; otherwise, <see langword="false" />.</returns>
-        [CLSCompliant(false)]
-        public bool Equals(in JsonRpcId other)
-        {
-            if (_type != other._type)
-            {
-                return false;
-            }
-
-            switch (_type)
-            {
-                case JsonRpcIdType.String:
-                    {
-                        return string.Equals(_valueString, other._valueString);
-                    }
-                case JsonRpcIdType.Integer:
-                case JsonRpcIdType.Float:
-                    {
-                        return _valueInteger == other._valueInteger;
-                    }
-                default:
-                    {
-                        return true;
-                    }
-            }
-        }
-
         /// <summary>Indicates whether the current <see cref="JsonRpcId" /> is equal to the specified object.</summary>
         /// <param name="obj">The object to compare with the current <see cref="JsonRpcId" />.</param>
         /// <returns><see langword="true" /> if the current <see cref="JsonRpcId" /> is equal to the specified object; otherwise, <see langword="false" />.</returns>
@@ -127,7 +119,7 @@ namespace Anemonis.JsonRpc
                     }
                 case string other:
                     {
-                        return (_type == JsonRpcIdType.String) && string.Equals(_valueString, other);
+                        return (_type == JsonRpcIdType.String) && string.Equals(_valueString, other, StringComparison.Ordinal);
                     }
                 case long other:
                     {
@@ -142,6 +134,14 @@ namespace Anemonis.JsonRpc
                         return (_type == JsonRpcIdType.None) && (obj == null);
                     }
             }
+        }
+
+        /// <summary>Indicates whether the current <see cref="JsonRpcId" /> is equal to another <see cref="JsonRpcId" />.</summary>
+        /// <param name="other">A <see cref="JsonRpcId" /> to compare with the current <see cref="JsonRpcId" />.</param>
+        /// <returns><see langword="true" /> if the current <see cref="JsonRpcId" /> is equal to the other <see cref="JsonRpcId" />; otherwise, <see langword="false" />.</returns>
+        public bool Equals(JsonRpcId other)
+        {
+            return Equals(in other);
         }
 
         /// <summary>Returns the hash code for the current <see cref="JsonRpcId" />.</summary>
@@ -180,7 +180,7 @@ namespace Anemonis.JsonRpc
         /// <returns>The string representation of the current <see cref="JsonRpcId" />.</returns>
         public override string ToString()
         {
-            return ToString(null);
+            return ToString(CultureInfo.CurrentCulture);
         }
 
         /// <summary>Converts the current <see cref="JsonRpcId" /> to its equivalent string representation.</summary>
@@ -207,6 +207,72 @@ namespace Anemonis.JsonRpc
                         return string.Empty;
                     }
             }
+        }
+
+        /// <summary>Performs an implicit conversion from <see cref="string" /> to <see cref="JsonRpcId" />.</summary>
+        /// <param name="value">The value to create a <see cref="JsonRpcId" /> from.</param>
+        /// <returns>A new instance of the <see cref="JsonRpcId" /> structure.</returns>
+        public static JsonRpcId FromString(string value)
+        {
+            return new JsonRpcId(value);
+        }
+
+        /// <summary>Performs an implicit conversion from <see cref="ulong" /> to <see cref="JsonRpcId" />.</summary>
+        /// <param name="value">The value to create a <see cref="JsonRpcId" /> from.</param>
+        /// <returns>A new instance of the <see cref="JsonRpcId" /> structure.</returns>
+        public static JsonRpcId FromInt64(long value)
+        {
+            return new JsonRpcId(value);
+        }
+
+        /// <summary>Performs an implicit conversion from <see cref="double" /> to <see cref="JsonRpcId" />.</summary>
+        /// <param name="value">The value to create a <see cref="JsonRpcId" /> from.</param>
+        /// <returns>A new instance of the <see cref="JsonRpcId" /> structure.</returns>
+        public static JsonRpcId FromDouble(double value)
+        {
+            return new JsonRpcId(value);
+        }
+
+        /// <summary>Performs an implicit conversion from <see cref="JsonRpcId" /> to <see cref="string" />.</summary>
+        /// <param name="value">The identifier to get a <see cref="string" /> value from.</param>
+        /// <returns>An underlying value of type <see cref="string" />.</returns>
+        /// <exception cref="InvalidCastException">The underlying value is not of type <see cref="string" />.</exception>
+        public static string ToString(in JsonRpcId value)
+        {
+            if (value._type != JsonRpcIdType.String)
+            {
+                throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(string)));
+            }
+
+            return value._valueString;
+        }
+
+        /// <summary>Performs an implicit conversion from <see cref="JsonRpcId" /> to <see cref="long" />.</summary>
+        /// <param name="value">The identifier to get a <see cref="long" /> value from.</param>
+        /// <returns>An underlying value of type <see cref="long" />.</returns>
+        /// <exception cref="InvalidCastException">The underlying value is not of type <see cref="long" />.</exception>
+        public static long ToInt64(in JsonRpcId value)
+        {
+            if (value._type != JsonRpcIdType.Integer)
+            {
+                throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(long)));
+            }
+
+            return value._valueInteger;
+        }
+
+        /// <summary>Performs an implicit conversion from <see cref="JsonRpcId" /> to <see cref="double" />.</summary>
+        /// <param name="value">The identifier to get a <see cref="double" /> value from.</param>
+        /// <returns>An underlying value of type <see cref="double" />.</returns>
+        /// <exception cref="InvalidCastException">The underlying value is not of type <see cref="double" />.</exception>
+        public static double ToDouble(in JsonRpcId value)
+        {
+            if (value._type != JsonRpcIdType.Float)
+            {
+                throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(double)));
+            }
+
+            return value._valueFloat;
         }
 
         /// <summary>Indicates whether the left <see cref="JsonRpcId" /> is equal to the right <see cref="JsonRpcId" />.</summary>
@@ -250,41 +316,23 @@ namespace Anemonis.JsonRpc
 
         /// <summary>Performs an implicit conversion from <see cref="JsonRpcId" /> to <see cref="string" />.</summary>
         /// <param name="value">The identifier to get a <see cref="string" /> value from.</param>
-        /// <exception cref="InvalidCastException">The underlying value is not of type <see cref="string" />.</exception>
         public static explicit operator string(in JsonRpcId value)
         {
-            if (value._type != JsonRpcIdType.String)
-            {
-                throw new InvalidCastException(string.Format(Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(string)));
-            }
-
-            return value._valueString;
+            return ToString(value);
         }
 
         /// <summary>Performs an implicit conversion from <see cref="JsonRpcId" /> to <see cref="long" />.</summary>
         /// <param name="value">The identifier to get a <see cref="long" /> value from.</param>
-        /// <exception cref="InvalidCastException">The underlying value is not of type <see cref="long" />.</exception>
         public static explicit operator long(in JsonRpcId value)
         {
-            if (value._type != JsonRpcIdType.Integer)
-            {
-                throw new InvalidCastException(string.Format(Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(long)));
-            }
-
-            return value._valueInteger;
+            return ToInt64(value);
         }
 
         /// <summary>Performs an implicit conversion from <see cref="JsonRpcId" /> to <see cref="double" />.</summary>
         /// <param name="value">The identifier to get a <see cref="double" /> value from.</param>
-        /// <exception cref="InvalidCastException">The underlying value is not of type <see cref="double" />.</exception>
         public static explicit operator double(in JsonRpcId value)
         {
-            if (value._type != JsonRpcIdType.Float)
-            {
-                throw new InvalidCastException(string.Format(Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(double)));
-            }
-
-            return value._valueFloat;
+            return ToDouble(value);
         }
 
         /// <summary>Gets the JSON-RPC message identifier type.</summary>

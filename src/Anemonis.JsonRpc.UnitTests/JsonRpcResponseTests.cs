@@ -73,7 +73,7 @@ namespace Anemonis.JsonRpc.UnitTests
         public void SuccessIsFalseWhenErrorIsNull()
         {
             Assert.ThrowsException<ArgumentNullException>(() =>
-                new JsonRpcResponse(1L, default(JsonRpcError)));
+                new JsonRpcResponse(1L, null as JsonRpcError));
         }
     }
 }
