@@ -10,6 +10,21 @@ namespace Anemonis.JsonRpc
         private readonly long _errorCode;
         private readonly JsonRpcId _messageId;
 
+        internal JsonRpcSerializationException()
+            : base()
+        {
+        }
+
+        internal JsonRpcSerializationException(string message)
+            : base(message)
+        {
+        }
+
+        internal JsonRpcSerializationException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
+
         internal JsonRpcSerializationException(in JsonRpcId messageId, long errorCode, string message)
             : base(message)
         {

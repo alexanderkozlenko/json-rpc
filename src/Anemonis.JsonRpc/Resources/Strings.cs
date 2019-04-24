@@ -1,5 +1,6 @@
 ﻿// © Alexander Kozlenko. Licensed under the MIT License.
 
+using System.Globalization;
 using System.Reflection;
 using System.Resources;
 
@@ -12,7 +13,7 @@ namespace Anemonis.JsonRpc.Resources
 
         public static string GetString(string name)
         {
-            return _resourceManager.GetString(name);
+            return _resourceManager.GetString(name, CultureInfo.CurrentCulture);
         }
     }
 }

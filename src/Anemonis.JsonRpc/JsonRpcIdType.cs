@@ -1,5 +1,7 @@
 ﻿// © Alexander Kozlenko. Licensed under the MIT License.
 
+#pragma warning disable CA1720
+
 namespace Anemonis.JsonRpc
 {
     /// <summary>Represents JSON-RPC message identifier type.</summary>
@@ -18,3 +20,5 @@ namespace Anemonis.JsonRpc
         Float = 0x03
     }
 }
+
+#pragma warning restore CA1720

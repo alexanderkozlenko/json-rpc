@@ -2,12 +2,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 
 using Anemonis.JsonRpc.Resources;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
+#pragma warning disable CA1031
 
 namespace Anemonis.JsonRpc
 {
@@ -95,7 +98,7 @@ namespace Anemonis.JsonRpc
                     {
                         cancellationToken.ThrowIfCancellationRequested();
 
-                        var exceptionMessage = string.Format(Strings.GetString("core.batch.invalid_item"), messages.Count);
+                        var exceptionMessage = string.Format(CultureInfo.CurrentCulture, Strings.GetString("core.batch.invalid_item"), messages.Count);
                         var exception = new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, exceptionMessage);
 
                         messages.Add(new JsonRpcMessageInfo<JsonRpcRequest>(exception));
@@ -279,7 +282,7 @@ namespace Anemonis.JsonRpc
 
                 if (requestContract == null)
                 {
-                    var exceptionMessage = string.Format(Strings.GetString("core.deserialize.request.method.unsupported"), requestMethod);
+                    var exceptionMessage = string.Format(CultureInfo.CurrentCulture, Strings.GetString("core.deserialize.request.method.unsupported"), requestMethod);
 
                     throw new JsonRpcSerializationException(requestId, JsonRpcErrorCode.InvalidMethod, exceptionMessage);
                 }
@@ -434,7 +437,7 @@ namespace Anemonis.JsonRpc
                     {
                         cancellationToken.ThrowIfCancellationRequested();
 
-                        var exceptionMessage = string.Format(Strings.GetString("core.batch.invalid_item"), messages.Count);
+                        var exceptionMessage = string.Format(CultureInfo.CurrentCulture, Strings.GetString("core.batch.invalid_item"), messages.Count);
                         var exception = new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, exceptionMessage);
 
                         messages.Add(new JsonRpcMessageInfo<JsonRpcResponse>(exception));
@@ -827,7 +830,7 @@ namespace Anemonis.JsonRpc
             {
                 if (requests[i] == null)
                 {
-                    throw new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, string.Format(Strings.GetString("core.batch.invalid_item"), i));
+                    throw new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, string.Format(CultureInfo.CurrentCulture, Strings.GetString("core.batch.invalid_item"), i));
                 }
 
                 cancellationToken.ThrowIfCancellationRequested();
@@ -989,7 +992,7 @@ namespace Anemonis.JsonRpc
             {
                 if (responses[i] == null)
                 {
-                    throw new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, string.Format(Strings.GetString("core.batch.invalid_item"), i));
+                    throw new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, string.Format(CultureInfo.CurrentCulture, Strings.GetString("core.batch.invalid_item"), i));
                 }
 
                 cancellationToken.ThrowIfCancellationRequested();
@@ -1095,3 +1098,5 @@ namespace Anemonis.JsonRpc
         }
     }
 }
+
+#pragma warning restore CA1031
