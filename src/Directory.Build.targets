@@ -17,10 +17,10 @@
   </Target>
   <Target Name="GenerateCodeCoverageReport"
           AfterTargets="Test"
-          Condition="'$(IsTestable)' == 'true' and '$(EnableCodeCoverageReport)' == 'true'">
+          Condition="('$(IsTestable)' == 'true') and ('$(EnableCodeCoverageReport)' == 'true')">
     <ReportGenerator ReportFiles="$(CodeCoverageReportFile)"
                      TargetDirectory="$(CodeCoverageReportDirectory)"
-                     ReportTypes="HtmlInline_AzurePipelines"
+                     ReportTypes="HtmlInline_AzurePipelines_Dark"
                      VerbosityLevel="Warning" />
   </Target>
 </Project>

@@ -24,6 +24,8 @@
   <PropertyGroup>
     <EnableCodeCoverage Condition="('$(EnableCodeCoverage)' == '') and ('$(VSTestNoBuild)' != 'true')">true</EnableCodeCoverage>
     <EnableCodeCoverageReport Condition="('$(EnableCodeCoverageReport)' == '') and ('$(EnableCodeCoverage)' == 'true')">true</EnableCodeCoverageReport>
+    <CodeCoverageReportFileName>CodeCoverage.xml</CodeCoverageReportFileName>
+    <CodeCoverageReportDirectoryName>CodeCoverage</CodeCoverageReportDirectoryName>
   </PropertyGroup>
   <PropertyGroup>
     <CollectCoverage>$(EnableCodeCoverage)</CollectCoverage>
