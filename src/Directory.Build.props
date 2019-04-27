@@ -30,5 +30,6 @@
     <CoverletOutputFormat>cobertura</CoverletOutputFormat>
     <Exclude>[*.UnitTests]*</Exclude>
     <UseSourceLink>$(ContinuousIntegrationBuild)</UseSourceLink>
+    <Threshold>95</Threshold>
   </PropertyGroup>
 </Project>
