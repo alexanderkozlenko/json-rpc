@@ -22,15 +22,12 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <PropertyGroup>
-    <EnableCodeCoverage Condition="'$(EnableCodeCoverage)' == ''">true</EnableCodeCoverage>
+    <EnableCodeCoverage Condition="'$(VSTestNoBuild)' != 'true'">true</EnableCodeCoverage>
     <EnableCodeCoverageReport Condition="'$(EnableCodeCoverage)' == 'true' and '$(ContinuousIntegrationBuild)' != 'true'">true</EnableCodeCoverageReport>
-    <CodeCoverageReportFile>$(BaseOutputPath)\$(Configuration)\CodeCoverage.xml</CodeCoverageReportFile>
-    <CodeCoverageReportDirectory>$(BaseOutputPath)\$(Configuration)\CodeCoverage\</CodeCoverageReportDirectory>
   </PropertyGroup>
   <PropertyGroup>
     <CollectCoverage>$(EnableCodeCoverage)</CollectCoverage>
     <CoverletOutputFormat>cobertura</CoverletOutputFormat>
-    <CoverletOutput>$(CodeCoverageReportFile)</CoverletOutput>
     <Exclude>[*.UnitTests]*</Exclude>
     <UseSourceLink>$(ContinuousIntegrationBuild)</UseSourceLink>
   </PropertyGroup>

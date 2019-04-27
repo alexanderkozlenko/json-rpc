@@ -6,6 +6,9 @@
     <NoWin32Manifest>true</NoWin32Manifest>
     <DeterministicSourcePaths>false</DeterministicSourcePaths>
     <VSTestResultsDirectory Condition="'$(VSTestResultsDirectory)' == ''">$(BaseOutputPath)\$(Configuration)</VSTestResultsDirectory>
+    <CodeCoverageReportFile>$(BaseOutputPath)\$(Configuration)\CodeCoverage.xml</CodeCoverageReportFile>
+    <CodeCoverageReportDirectory>$(BaseOutputPath)\$(Configuration)\CodeCoverage\</CodeCoverageReportDirectory>
+    <CoverletOutput>$(CodeCoverageReportFile)</CoverletOutput>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\**" />

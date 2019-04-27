@@ -13,9 +13,6 @@
   </Target>
   <Target Name="Test"
           Condition="'$(IsTestable)' == 'true'">
-    <PropertyGroup>
-      <EnableCodeCoverage>true</EnableCodeCoverage>
-    </PropertyGroup>
     <CallTarget Targets="VSTest" />
   </Target>
   <Target Name="GenerateCodeCoverageReport"
