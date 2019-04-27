@@ -13,6 +13,17 @@
   </Target>
   <Target Name="Test"
           Condition="'$(IsTestable)' == 'true'">
+    <PropertyGroup>
+      <EnableCodeCoverage>true</EnableCodeCoverage>
+    </PropertyGroup>
     <CallTarget Targets="VSTest" />
+  </Target>
+  <Target Name="GenerateCodeCoverageReport"
+          AfterTargets="Test"
+          Condition="'$(IsTestable)' == 'true' and '$(EnableCodeCoverageReport)' == 'true'">
+    <ReportGenerator ReportFiles="$(CodeCoverageReportFile)"
+                     TargetDirectory="$(CodeCoverageReportDirectory)"
+                     ReportTypes="HtmlInline_AzurePipelines"
+                     VerbosityLevel="Warning" />
   </Target>
 </Project>

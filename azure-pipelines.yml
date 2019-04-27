@@ -34,4 +34,8 @@ steps:
     testRunner: "VSTest"
     testResultsFiles: "**/*.trx"
     searchFolder: "$(Agent.TempDirectory)"
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: "cobertura"
+    summaryFileLocation: "$(Build.SourcesDirectory)/**/CodeCoverage.xml"
 - task: PublishBuildArtifacts@1
