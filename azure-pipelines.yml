@@ -19,14 +19,19 @@ steps:
     command: "custom"
     custom: "test"
     arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:EnableCodeCoverageReport=false --logger trx --results-directory $(Agent.TempDirectory)"
-- task: DotNetCoreCLI@2
-  inputs:
-    command: "custom"
-    custom: "pack"
-    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:ContinuousIntegrationBuild=true --include-symbols --output $(Build.ArtifactStagingDirectory)"
 - task: PublishTestResults@2
   inputs:
     testRunner: "VSTest"
     testResultsFiles: "**/*.trx"
     searchFolder: "$(Agent.TempDirectory)"
+- task: DotNetCoreCLI@2
+  inputs:
+    command: "custom"
+    custom: "clean"
+    arguments: "$(Project.FilePath) --configuration $(Project.Configuration)"
+- task: DotNetCoreCLI@2
+  inputs:
+    command: "custom"
+    custom: "pack"
+    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:ContinuousIntegrationBuild=true --include-symbols --output $(Build.ArtifactStagingDirectory)"
 - task: PublishBuildArtifacts@1
