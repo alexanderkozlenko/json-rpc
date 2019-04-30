@@ -11,6 +11,15 @@
       <PackageIconUrl>$(PackageIconUrl.Replace('*', 'img/$(PackageId).png'))</PackageIconUrl>
     </PropertyGroup>
   </Target>
+  <Target Name="InitializeTestProperties"
+          BeforeTargets="Test"
+          Condition="'$(IsTestable)' == 'true'">
+    <PropertyGroup>
+      <VSTestResultsDirectory>$(BaseOutputPath)\$(Configuration)</VSTestResultsDirectory>
+      <CodeCoverageReportFile>$(VSTestResultsDirectory)\CodeCoverage.xml</CodeCoverageReportFile>
+      <CoverletOutput>$(CodeCoverageReportFile)</CoverletOutput>
+    </PropertyGroup>
+  </Target>
   <Target Name="Test"
           Condition="'$(IsTestable)' == 'true'">
     <CallTarget Targets="VSTest" />
@@ -19,7 +28,7 @@
           AfterTargets="Test"
           Condition="('$(IsTestable)' == 'true') and ('$(EnableCodeCoverageReport)' == 'true')">
     <ReportGenerator ReportFiles="$(CodeCoverageReportFile)"
-                     TargetDirectory="$(CodeCoverageReportDirectory)"
+                     TargetDirectory="$(VSTestResultsDirectory)\CodeCoverage"
                      ReportTypes="HtmlInline_AzurePipelines_Dark"
                      VerbosityLevel="Warning" />
   </Target>

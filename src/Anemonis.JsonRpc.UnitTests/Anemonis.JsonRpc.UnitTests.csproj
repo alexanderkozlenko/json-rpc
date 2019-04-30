@@ -5,12 +5,6 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <NoWin32Manifest>true</NoWin32Manifest>
     <DeterministicSourcePaths>false</DeterministicSourcePaths>
-    <VSTestResultsDirectory Condition="'$(VSTestResultsDirectory)' == ''">$(BaseOutputPath)\$(Configuration)</VSTestResultsDirectory>
-    <CodeCoverageReportFile>$(BaseOutputPath)\$(Configuration)\$(CodeCoverageReportFileName)</CodeCoverageReportFile>
-    <CodeCoverageReportDirectory>$(BaseOutputPath)\$(Configuration)\$(CodeCoverageReportDirectoryName)</CodeCoverageReportDirectory>
-  </PropertyGroup>
-  <PropertyGroup>
-    <CoverletOutput>$(CodeCoverageReportFile)</CoverletOutput>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\**" />
