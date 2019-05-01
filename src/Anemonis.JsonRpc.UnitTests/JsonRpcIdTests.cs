@@ -314,9 +314,6 @@ namespace Anemonis.JsonRpc.UnitTests
         public void ObjectGetHashCode()
         {
             Assert.AreEqual(new JsonRpcId().GetHashCode(), new JsonRpcId().GetHashCode());
-            Assert.AreNotEqual(new JsonRpcId().GetHashCode(), new JsonRpcId("1").GetHashCode());
-            Assert.AreNotEqual(new JsonRpcId().GetHashCode(), new JsonRpcId(1L).GetHashCode());
-            Assert.AreNotEqual(new JsonRpcId().GetHashCode(), new JsonRpcId(1D).GetHashCode());
 
             Assert.AreNotEqual(new JsonRpcId("1").GetHashCode(), new JsonRpcId().GetHashCode());
             Assert.AreEqual(new JsonRpcId("1").GetHashCode(), new JsonRpcId("1").GetHashCode());
