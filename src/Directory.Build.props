@@ -22,7 +22,7 @@
   <PropertyGroup>
     <CollectCoverage>$(EnableCodeCoverage)</CollectCoverage>
     <CoverletOutputFormat>cobertura</CoverletOutputFormat>
-    <Exclude>[*.UnitTests]*</Exclude>
+    <Exclude><![CDATA[[*.UnitTests]*]]></Exclude>
     <Threshold>75</Threshold>
   </PropertyGroup>
 </Project>
