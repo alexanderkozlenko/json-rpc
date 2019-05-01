@@ -15,7 +15,7 @@
           BeforeTargets="Test"
           Condition="'$(IsTestable)' == 'true'">
     <PropertyGroup>
-      <VSTestResultsDirectory>$(BaseOutputPath)\$(Configuration)</VSTestResultsDirectory>
+      <VSTestResultsDirectory Condition="'$(VSTestResultsDirectory)' == ''">$(BaseOutputPath)\$(Configuration)</VSTestResultsDirectory>
       <CoverletOutput>$(VSTestResultsDirectory)\CodeCoverage.xml</CoverletOutput>
     </PropertyGroup>
   </Target>
