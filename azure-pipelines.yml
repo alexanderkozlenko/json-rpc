@@ -58,7 +58,7 @@ stages:
       inputs:
         command: "custom"
         custom: "test"
-        arguments: "$(Project.FilePath) --configuration $(Project.Configuration) --logger trx --results-directory $(Agent.TempDirectory)"
+        arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:EnableCodeCoverage=false --logger trx --results-directory $(Agent.TempDirectory)"
     - task: PublishTestResults@2
       inputs:
         testRunner: "VSTest"
