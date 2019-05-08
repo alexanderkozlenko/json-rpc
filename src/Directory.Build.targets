@@ -17,7 +17,6 @@
     <PropertyGroup>
       <VSTestResultsDirectory Condition="'$(VSTestResultsDirectory)' == ''">$(BaseOutputPath)\$(Configuration)</VSTestResultsDirectory>
       <CodeCoverageSummary Condition="'$(CodeCoverageSummary)' == ''">$(VSTestResultsDirectory)\CodeCoverageSummary.xml</CodeCoverageSummary>
-      <CodeCoverageReport Condition="'$(CodeCoverageReport)' == ''">$(VSTestResultsDirectory)\CodeCoverageReport</CodeCoverageReport>
       <CoverletOutput>$(CodeCoverageSummary)</CoverletOutput>
     </PropertyGroup>
   </Target>
@@ -29,7 +28,7 @@
           AfterTargets="Test"
           Condition="('$(IsTestable)' == 'true') and ('$(EnableCodeCoverageReport)' == 'true') and ('$(ReportGeneratorAssembly)' != '')">
     <ReportGenerator ReportFiles="$(CodeCoverageSummary)"
-                     TargetDirectory="$(CodeCoverageReport)"
+                     TargetDirectory="$(VSTestResultsDirectory)\CodeCoverageReport"
                      ReportTypes="HtmlInline_AzurePipelines_Dark"
                      VerbosityLevel="Warning" />
   </Target>
