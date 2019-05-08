@@ -71,7 +71,7 @@ stages:
         arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:EnableCodeCoverageReport=false"
 - stage: Deploy
   displayName: "Deploy"
-  condition: "and(succeeded(), eq(variables[\"Build.Reason\"], \"PullRequest\"))"
+  condition: "and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))"
   jobs:
   - job: Deploy
     displayName: "Deploy"
