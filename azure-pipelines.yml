@@ -11,10 +11,8 @@ trigger:
     - "lgtm.yml*"
 stages:
 - stage: Build
-  displayName: "Build"
   jobs:
   - job: Build
-    displayName: "Build"
     steps:
     - task: PowerShell@2
       inputs:
@@ -36,13 +34,11 @@ stages:
         command: "custom"
         custom: "pack"
         arguments: "$(Project.FilePath) --configuration $(Project.Configuration) --no-build --include-symbols --output $(Build.ArtifactStagingDirectory)"
-    - task: PublishBuildArtifacts@1
+    - task: PublishPipelineArtifact@0
 - stage: Test
-  displayName: "Test"
   condition: "succeeded()"
   jobs:
   - job: Test
-    displayName: "Test"
     steps:
     - task: PowerShell@2
       inputs:
@@ -70,12 +66,13 @@ stages:
         custom: "test"
         arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:EnableCodeCoverageReport=false"
 - stage: Deploy
-  displayName: "Deploy"
   condition: "and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))"
   jobs:
   - job: Deploy
-    displayName: "Deploy"
     steps:
+    - task: DownloadPipelineArtifact@0
+      inputs:
+        targetPath: "$(Build.ArtifactStagingDirectory)"
     - task: NuGetToolInstaller@0
       inputs:
         versionSpec: "5.0.0"
