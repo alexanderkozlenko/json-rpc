@@ -17,8 +17,19 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: "custom"
+    custom: "build"
+    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:ContinuousIntegrationBuild=true"
+- task: DotNetCoreCLI@2
+  inputs:
+    command: "custom"
+    custom: "pack"
+    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) --no-build --include-symbols --output $(Build.ArtifactStagingDirectory)"
+- task: PublishBuildArtifacts@1
+- task: DotNetCoreCLI@2
+  inputs:
+    command: "custom"
     custom: "test"
-    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:EnableCodeCoverageReport=false --logger trx --results-directory $(Agent.TempDirectory)"
+    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) --no-build --logger trx --results-directory $(Agent.TempDirectory)"
 - task: PublishTestResults@2
   inputs:
     testRunner: "VSTest"
@@ -27,11 +38,9 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: "custom"
-    custom: "clean"
-    arguments: "$(Project.FilePath) --configuration $(Project.Configuration)"
-- task: DotNetCoreCLI@2
+    custom: "test"
+    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:CodeCoverageSummary=$(Agent.TempDirectory)\CodeCoverageSummary.xml -property:EnableCodeCoverageReport=false"
+- task: PublishCodeCoverageResults@1
   inputs:
-    command: "custom"
-    custom: "pack"
-    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:ContinuousIntegrationBuild=true --include-symbols --output $(Build.ArtifactStagingDirectory)"
-- task: PublishBuildArtifacts@1
+    codeCoverageTool: "cobertura"
+    summaryFileLocation: "$(Agent.TempDirectory)\CodeCoverageSummary.xml"
