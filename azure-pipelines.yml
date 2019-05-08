@@ -3,40 +3,87 @@
 variables:
   Project.FilePath: "$(Build.SourcesDirectory)/global.proj"
   Project.Configuration: "Release"
-steps:
-- task: PowerShell@2
-  inputs:
-    pwsh: true
-    targetType: "inline"
-    script: |
-        Write-Host ("##vso[task.setvariable variable=DotNetCoreSdkVersion;]" + (Get-Content -Raw "$(Build.SourcesDirectory)/global.json" | ConvertFrom-Json)."sdk"."version")
-- task: DotNetCoreInstaller@0
-  inputs:
-    packageType: "sdk"
-    version: "$(DotNetCoreSdkVersion)"
-- task: DotNetCoreCLI@2
-  inputs:
-    command: "custom"
-    custom: "build"
-    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:ContinuousIntegrationBuild=true"
-- task: DotNetCoreCLI@2
-  inputs:
-    command: "custom"
-    custom: "pack"
-    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) --no-build --include-symbols --output $(Build.ArtifactStagingDirectory)"
-- task: PublishBuildArtifacts@1
-- task: DotNetCoreCLI@2
-  inputs:
-    command: "custom"
-    custom: "test"
-    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) --no-build --logger trx --results-directory $(Agent.TempDirectory)"
-- task: PublishTestResults@2
-  inputs:
-    testRunner: "VSTest"
-    testResultsFiles: "**/*.trx"
-    searchFolder: "$(Agent.TempDirectory)"
-- task: DotNetCoreCLI@2
-  inputs:
-    command: "custom"
-    custom: "test"
-    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:EnableCodeCoverageReport=false"
+trigger:
+  paths:
+    exclude:
+    - ".github/*"
+    - ".gitignore"
+    - "lgtm.yml*"
+stages:
+- stage: Build
+  displayName: "Build"
+  jobs:
+  - job: Build
+    displayName: "Build"
+    steps:
+    - task: PowerShell@2
+      inputs:
+        pwsh: true
+        targetType: "inline"
+        script: |
+            Write-Host ("##vso[task.setvariable variable=DotNetCoreSdkVersion;]" + (Get-Content -Raw "$(Build.SourcesDirectory)/global.json" | ConvertFrom-Json)."sdk"."version")
+    - task: UseDotNet@2
+      inputs:
+        packageType: "sdk"
+        version: "$(DotNetCoreSdkVersion)"
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: "custom"
+        custom: "build"
+        arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:ContinuousIntegrationBuild=true"
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: "custom"
+        custom: "pack"
+        arguments: "$(Project.FilePath) --configuration $(Project.Configuration) --no-build --include-symbols --output $(Build.ArtifactStagingDirectory)"
+    - task: PublishBuildArtifacts@1
+- stage: Test
+  displayName: "Test"
+  condition: "and(succeeded())"
+  jobs:
+  - job: Test
+    displayName: "Test"
+    steps:
+    - task: PowerShell@2
+      inputs:
+        pwsh: true
+        targetType: "inline"
+        script: |
+            Write-Host ("##vso[task.setvariable variable=DotNetCoreSdkVersion;]" + (Get-Content -Raw "$(Build.SourcesDirectory)/global.json" | ConvertFrom-Json)."sdk"."version")
+    - task: UseDotNet@2
+      inputs:
+        packageType: "sdk"
+        version: "$(DotNetCoreSdkVersion)"
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: "custom"
+        custom: "test"
+        arguments: "$(Project.FilePath) --configuration $(Project.Configuration) --logger trx --results-directory $(Agent.TempDirectory)"
+    - task: PublishTestResults@2
+      inputs:
+        testRunner: "VSTest"
+        testResultsFiles: "**/*.trx"
+        searchFolder: "$(Agent.TempDirectory)"
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: "custom"
+        custom: "test"
+        arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:EnableCodeCoverageReport=false"
+- stage: Deploy
+  displayName: "Deploy"
+  condition: "and(succeeded(), eq(variables[\"Build.Reason\"], \"PullRequest\"))"
+  jobs:
+  - job: Deploy
+    displayName: "Deploy"
+    steps:
+      steps:
+      - task: NuGetToolInstaller@0
+        inputs:
+          versionSpec: "5.0.0"
+      steps:
+      - task: NuGetCommand@2
+        inputs:
+          command: "push"
+          packagesToPush: "$(Build.ArtifactStagingDirectory)/**/*.nupkg"
+          nuGetFeedType: "external"
+          publishFeedCredentials: "MyGet"
