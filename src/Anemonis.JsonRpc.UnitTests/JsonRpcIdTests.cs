@@ -232,95 +232,115 @@ namespace Anemonis.JsonRpc.UnitTests
         }
 
         [TestMethod]
-        public void ObjectEquals()
+        public void ObjectEqualsWhenObject1IsDefaultJsonRpcId()
         {
-            Assert.IsTrue(
-                object.Equals(new JsonRpcId(), new JsonRpcId()));
-            Assert.IsFalse(
-                object.Equals(new JsonRpcId(), new JsonRpcId("1")));
-            Assert.IsFalse(
-                object.Equals(new JsonRpcId(), new JsonRpcId(1L)));
-            Assert.IsFalse(
-                object.Equals(new JsonRpcId(), new JsonRpcId(1D)));
+            Assert.IsTrue(new JsonRpcId().Equals((object)new JsonRpcId()));
+            Assert.IsFalse(new JsonRpcId("1").Equals((object)new JsonRpcId()));
+            Assert.IsFalse(new JsonRpcId(1L).Equals((object)new JsonRpcId()));
+            Assert.IsFalse(new JsonRpcId(1D).Equals((object)new JsonRpcId()));
+        }
 
-            Assert.IsFalse(
-                object.Equals(new JsonRpcId("1"), new JsonRpcId()));
-            Assert.IsTrue(
-                object.Equals(new JsonRpcId("1"), new JsonRpcId("1")));
-            Assert.IsFalse(
-                object.Equals(new JsonRpcId("1"), new JsonRpcId("2")));
-            Assert.IsFalse(
-                object.Equals(new JsonRpcId("1"), new JsonRpcId(1L)));
-            Assert.IsFalse(
-                object.Equals(new JsonRpcId("1"), new JsonRpcId(1D)));
+        [TestMethod]
+        public void ObjectEqualsWhenObject1IsStringJsonRpcId()
+        {
+            Assert.IsFalse(new JsonRpcId().Equals((object)new JsonRpcId("1")));
+            Assert.IsTrue(new JsonRpcId("1").Equals((object)new JsonRpcId("1")));
+            Assert.IsFalse(new JsonRpcId("2").Equals((object)new JsonRpcId("1")));
+            Assert.IsFalse(new JsonRpcId(1L).Equals((object)new JsonRpcId("1")));
+            Assert.IsFalse(new JsonRpcId(1D).Equals((object)new JsonRpcId("1")));
+        }
 
-            Assert.IsFalse(
-                object.Equals(new JsonRpcId(1L), new JsonRpcId()));
-            Assert.IsFalse(
-                object.Equals(new JsonRpcId(1L), new JsonRpcId("1")));
-            Assert.IsTrue(
-                object.Equals(new JsonRpcId(1L), new JsonRpcId(1L)));
-            Assert.IsFalse(
-                object.Equals(new JsonRpcId(1L), new JsonRpcId(2L)));
-            Assert.IsFalse(
-                object.Equals(new JsonRpcId(1L), new JsonRpcId(1D)));
+        [TestMethod]
+        public void ObjectEqualsWhenObject1IsIntegerJsonRpcId()
+        {
+            Assert.IsFalse(new JsonRpcId().Equals((object)new JsonRpcId(1L)));
+            Assert.IsFalse(new JsonRpcId("1").Equals((object)new JsonRpcId(1L)));
+            Assert.IsTrue(new JsonRpcId(1L).Equals((object)new JsonRpcId(1L)));
+            Assert.IsFalse(new JsonRpcId(2L).Equals((object)new JsonRpcId(1L)));
+            Assert.IsFalse(new JsonRpcId(1D).Equals((object)new JsonRpcId(1L)));
+        }
 
-            Assert.IsFalse(
-                object.Equals(new JsonRpcId(1D), new JsonRpcId()));
-            Assert.IsFalse(
-                object.Equals(new JsonRpcId(1D), new JsonRpcId("1")));
-            Assert.IsFalse(
-                object.Equals(new JsonRpcId(1D), new JsonRpcId(1L)));
-            Assert.IsTrue(
-                object.Equals(new JsonRpcId(1D), new JsonRpcId(1D)));
-            Assert.IsFalse(
-                object.Equals(new JsonRpcId(1D), new JsonRpcId(2D)));
+        [TestMethod]
+        public void ObjectEqualsWhenObject1IsFloatJsonRpcId()
+        {
+            Assert.IsFalse(new JsonRpcId().Equals((object)new JsonRpcId(1D)));
+            Assert.IsFalse(new JsonRpcId("1").Equals((object)new JsonRpcId(1D)));
+            Assert.IsFalse(new JsonRpcId(1L).Equals((object)new JsonRpcId(1D)));
+            Assert.IsTrue(new JsonRpcId(1D).Equals((object)new JsonRpcId(1D)));
+            Assert.IsFalse(new JsonRpcId(2D).Equals((object)new JsonRpcId(1D)));
+        }
+
+        [TestMethod]
+        public void ObjectEqualsWhenObject1IsString()
+        {
+            Assert.IsFalse(new JsonRpcId().Equals((object)"1"));
+            Assert.IsTrue(new JsonRpcId("1").Equals((object)"1"));
+            Assert.IsFalse(new JsonRpcId("2").Equals((object)"1"));
+            Assert.IsFalse(new JsonRpcId(1L).Equals((object)"1"));
+            Assert.IsFalse(new JsonRpcId(1D).Equals((object)"1"));
+        }
+
+        [TestMethod]
+        public void ObjectEqualsWhenObject1IsInteger()
+        {
+            Assert.IsFalse(new JsonRpcId().Equals((object)1L));
+            Assert.IsFalse(new JsonRpcId("1").Equals((object)1L));
+            Assert.IsTrue(new JsonRpcId(1L).Equals((object)1L));
+            Assert.IsFalse(new JsonRpcId(2L).Equals((object)1L));
+            Assert.IsFalse(new JsonRpcId(1D).Equals((object)1L));
+        }
+
+        [TestMethod]
+        public void ObjectEqualsWhenObject1IsFloat()
+        {
+            Assert.IsFalse(new JsonRpcId().Equals((object)1D));
+            Assert.IsFalse(new JsonRpcId("1").Equals((object)1D));
+            Assert.IsFalse(new JsonRpcId(1L).Equals((object)1D));
+            Assert.IsTrue(new JsonRpcId(1D).Equals((object)1D));
+            Assert.IsFalse(new JsonRpcId(2D).Equals((object)1D));
+        }
+
+        [TestMethod]
+        public void ObjectEqualsWhenObject1IsNull()
+        {
+            Assert.IsTrue(new JsonRpcId().Equals((object)null));
+            Assert.IsFalse(new JsonRpcId("1").Equals((object)null));
+            Assert.IsFalse(new JsonRpcId(1L).Equals((object)null));
+            Assert.IsFalse(new JsonRpcId(1D).Equals((object)null));
+            Assert.IsFalse(new JsonRpcId(2D).Equals((object)null));
         }
 
         [TestMethod]
         public void ObjectGetHashCode()
         {
-            Assert.AreEqual(
-                new JsonRpcId().GetHashCode(), new JsonRpcId().GetHashCode());
-            Assert.AreNotEqual(
-                new JsonRpcId().GetHashCode(), new JsonRpcId("1").GetHashCode());
-            Assert.AreNotEqual(
-                new JsonRpcId().GetHashCode(), new JsonRpcId(1L).GetHashCode());
-            Assert.AreNotEqual(
-                new JsonRpcId().GetHashCode(), new JsonRpcId(1D).GetHashCode());
+            Assert.AreEqual(new JsonRpcId().GetHashCode(), new JsonRpcId().GetHashCode());
 
-            Assert.AreNotEqual(
-                new JsonRpcId("1").GetHashCode(), new JsonRpcId().GetHashCode());
-            Assert.AreEqual(
-                new JsonRpcId("1").GetHashCode(), new JsonRpcId("1").GetHashCode());
-            Assert.AreNotEqual(
-                new JsonRpcId("1").GetHashCode(), new JsonRpcId("2").GetHashCode());
-            Assert.AreNotEqual(
-                new JsonRpcId("1").GetHashCode(), new JsonRpcId(1L).GetHashCode());
-            Assert.AreNotEqual(
-                new JsonRpcId("1").GetHashCode(), new JsonRpcId(1D).GetHashCode());
+            Assert.AreNotEqual(new JsonRpcId("1").GetHashCode(), new JsonRpcId().GetHashCode());
+            Assert.AreEqual(new JsonRpcId("1").GetHashCode(), new JsonRpcId("1").GetHashCode());
+            Assert.AreNotEqual(new JsonRpcId("1").GetHashCode(), new JsonRpcId("2").GetHashCode());
+            Assert.AreNotEqual(new JsonRpcId("1").GetHashCode(), new JsonRpcId(1L).GetHashCode());
+            Assert.AreNotEqual(new JsonRpcId("1").GetHashCode(), new JsonRpcId(1D).GetHashCode());
 
-            Assert.AreNotEqual(
-                new JsonRpcId(1L).GetHashCode(), new JsonRpcId().GetHashCode());
-            Assert.AreNotEqual(
-                new JsonRpcId(1L).GetHashCode(), new JsonRpcId("1").GetHashCode());
-            Assert.AreEqual(
-                new JsonRpcId(1L).GetHashCode(), new JsonRpcId(1L).GetHashCode());
-            Assert.AreNotEqual(
-                new JsonRpcId(1L).GetHashCode(), new JsonRpcId(2L).GetHashCode());
-            Assert.AreNotEqual(
-                new JsonRpcId(1L).GetHashCode(), new JsonRpcId(1D).GetHashCode());
+            Assert.AreNotEqual(new JsonRpcId(1L).GetHashCode(), new JsonRpcId().GetHashCode());
+            Assert.AreNotEqual(new JsonRpcId(1L).GetHashCode(), new JsonRpcId("1").GetHashCode());
+            Assert.AreEqual(new JsonRpcId(1L).GetHashCode(), new JsonRpcId(1L).GetHashCode());
+            Assert.AreNotEqual(new JsonRpcId(1L).GetHashCode(), new JsonRpcId(2L).GetHashCode());
+            Assert.AreNotEqual(new JsonRpcId(1L).GetHashCode(), new JsonRpcId(1D).GetHashCode());
 
-            Assert.AreNotEqual(
-                new JsonRpcId(1D).GetHashCode(), new JsonRpcId().GetHashCode());
-            Assert.AreNotEqual(
-                new JsonRpcId(1D).GetHashCode(), new JsonRpcId("1").GetHashCode());
-            Assert.AreNotEqual(
-                new JsonRpcId(1D).GetHashCode(), new JsonRpcId(1L).GetHashCode());
-            Assert.AreEqual(
-                new JsonRpcId(1D).GetHashCode(), new JsonRpcId(1D).GetHashCode());
-            Assert.AreNotEqual(
-                new JsonRpcId(1D).GetHashCode(), new JsonRpcId(2D).GetHashCode());
+            Assert.AreNotEqual(new JsonRpcId(1D).GetHashCode(), new JsonRpcId().GetHashCode());
+            Assert.AreNotEqual(new JsonRpcId(1D).GetHashCode(), new JsonRpcId("1").GetHashCode());
+            Assert.AreNotEqual(new JsonRpcId(1D).GetHashCode(), new JsonRpcId(1L).GetHashCode());
+            Assert.AreEqual(new JsonRpcId(1D).GetHashCode(), new JsonRpcId(1D).GetHashCode());
+            Assert.AreNotEqual(new JsonRpcId(1D).GetHashCode(), new JsonRpcId(2D).GetHashCode());
+        }
+
+        [TestMethod]
+        public void ObjectToString()
+        {
+            Assert.IsNotNull(new JsonRpcId().ToString());
+            Assert.IsNotNull(new JsonRpcId("1").ToString());
+            Assert.IsNotNull(new JsonRpcId(1L).ToString());
+            Assert.IsNotNull(new JsonRpcId(1.1).ToString());
         }
 
         [TestMethod]

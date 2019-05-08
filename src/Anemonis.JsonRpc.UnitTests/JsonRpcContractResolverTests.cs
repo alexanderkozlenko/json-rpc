@@ -71,6 +71,22 @@ namespace Anemonis.JsonRpc.UnitTests
         }
 
         [TestMethod]
+        public void RemoveRequestContractWhenMethodIsUnknown()
+        {
+            var resolver = new JsonRpcContractResolver();
+
+            resolver.RemoveRequestContract("m");
+        }
+
+        [TestMethod]
+        public void RemoveResponseBindingWhenIdIsDefault()
+        {
+            var resolver = new JsonRpcContractResolver();
+
+            resolver.RemoveResponseBinding(default);
+        }
+
+        [TestMethod]
         public void RemoveResponseContractWithMethodWhenMethodIsNull()
         {
             var resolver = new JsonRpcContractResolver();
@@ -80,12 +96,61 @@ namespace Anemonis.JsonRpc.UnitTests
         }
 
         [TestMethod]
+        public void RemoveResponseContractWithMethodWhenMethodIsUnknown()
+        {
+            var resolver = new JsonRpcContractResolver();
+
+            resolver.RemoveResponseContract("m");
+        }
+
+        [TestMethod]
+        public void RemoveResponseContractWithIdWhenIdIsDefault()
+        {
+            var resolver = new JsonRpcContractResolver();
+
+            resolver.RemoveResponseContract(default(JsonRpcId));
+        }
+
+        [TestMethod]
         public void GetRequestContractWhenMethodIsNull()
         {
-            var resolver = new JsonRpcContractResolver() as IJsonRpcContractResolver;
+            var resolver = new JsonRpcContractResolver();
 
             Assert.ThrowsException<ArgumentNullException>(() =>
                 resolver.GetRequestContract(null));
+        }
+
+        [TestMethod]
+        public void GetResponseContractWhenIdIsDefault()
+        {
+            var resolver = new JsonRpcContractResolver();
+            var contract = resolver.GetResponseContract(default);
+
+            Assert.IsNull(contract);
+        }
+
+        [TestMethod]
+        public void ClearRequestContracts()
+        {
+            var resolver = new JsonRpcContractResolver();
+
+            resolver.ClearRequestContracts();
+        }
+
+        [TestMethod]
+        public void ClearResponseBindings()
+        {
+            var resolver = new JsonRpcContractResolver();
+
+            resolver.ClearResponseBindings();
+        }
+
+        [TestMethod]
+        public void ClearResponseContracts()
+        {
+            var resolver = new JsonRpcContractResolver();
+
+            resolver.ClearResponseContracts();
         }
     }
 }

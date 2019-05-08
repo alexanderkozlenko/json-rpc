@@ -1,24 +1,28 @@
 ﻿<!-- © Alexander Kozlenko. Licensed under the MIT License. -->
 <Project>
   <PropertyGroup>
-    <RepositoryDirectory>$([MSBuild]::NormalizeDirectory($(MSBuildThisFileDirectory)..))</RepositoryDirectory>
-    <SolutionDirectory>$(MSBuildThisFileDirectory)</SolutionDirectory>
-  </PropertyGroup>
-  <PropertyGroup>
     <IsPackable>false</IsPackable>
     <IsTestable>false</IsTestable>
-    <HighEntropyVA>true</HighEntropyVA>
-    <TieredCompilation>true</TieredCompilation>
-    <AssemblyOriginatorKeyFile>$(SolutionDirectory)\Open.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RepositoryDirectory>$([MSBuild]::NormalizeDirectory($(MSBuildThisFileDirectory)..))</RepositoryDirectory>
+    <SolutionDirectory>$(MSBuildThisFileDirectory)</SolutionDirectory>
     <BaseIntermediateOutputPath>$(RepositoryDirectory)obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
     <BaseOutputPath>$(RepositoryDirectory)bin\$(MSBuildProjectName)</BaseOutputPath>
     <TreatWarningsAsErrors Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup>
     <LangVersion>7.3</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup>
+    <HighEntropyVA>true</HighEntropyVA>
+    <TieredCompilation>true</TieredCompilation>
+    <AssemblyOriginatorKeyFile>$(SolutionDirectory)\Open.snk</AssemblyOriginatorKeyFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EnableCodeCoverage Condition="('$(EnableCodeCoverage)' == '') and ('$(VSTestNoBuild)' != 'true')">true</EnableCodeCoverage>
+    <EnableCodeCoverageReport Condition="('$(EnableCodeCoverageReport)' == '') and ('$(EnableCodeCoverage)' == 'true')">true</EnableCodeCoverageReport>
+  </PropertyGroup>
+  <PropertyGroup>
+    <CollectCoverage>$(EnableCodeCoverage)</CollectCoverage>
+    <CoverletOutputFormat>cobertura</CoverletOutputFormat>
+    <Exclude><![CDATA[[*.UnitTests]*]]></Exclude>
+    <Threshold>75</Threshold>
   </PropertyGroup>
 </Project>

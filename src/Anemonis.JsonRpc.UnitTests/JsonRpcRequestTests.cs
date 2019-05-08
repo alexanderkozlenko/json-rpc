@@ -9,6 +9,27 @@ namespace Anemonis.JsonRpc.UnitTests
     public sealed class JsonRpcRequestTests
     {
         [TestMethod]
+        public void ConstructorWhenMethodIsNull()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                new JsonRpcRequest(default, null));
+        }
+
+        [TestMethod]
+        public void ConstructorWithIdAndMethodAndParametersByPositionWhenParametersIsNull()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                new JsonRpcRequest(1L, "m", (IReadOnlyList<object>)null));
+        }
+
+        [TestMethod]
+        public void ConstructorWithIdAndMethodAndParametersByNameWhenParametersIsNull()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                new JsonRpcRequest(1L, "m", (IReadOnlyDictionary<string, object>)null));
+        }
+
+        [TestMethod]
         public void IsNotificationIsTrueWhenIdIsNone()
         {
             var message = new JsonRpcRequest(default, "m");
@@ -75,13 +96,6 @@ namespace Anemonis.JsonRpc.UnitTests
             var message = new JsonRpcRequest(default, "rpc.m");
 
             Assert.IsTrue(message.IsSystem);
-        }
-
-        [TestMethod]
-        public void MethodIsNull()
-        {
-            Assert.ThrowsException<ArgumentNullException>(() =>
-                new JsonRpcRequest(default, null));
         }
 
         [TestMethod]

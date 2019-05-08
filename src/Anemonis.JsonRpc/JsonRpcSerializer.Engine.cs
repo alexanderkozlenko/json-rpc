@@ -18,7 +18,7 @@ namespace Anemonis.JsonRpc
     {
         private static readonly JsonSerializerSettings _jsonSerializerSettings = CreateJsonSerializerSettings();
         private static readonly JsonLoadSettings _jsonSerializerLoadSettings = CreateJsonSerializerLoadSettings();
-        private static readonly IArrayPool<char> _jsonSerializerBufferPool = new JsonBufferPool();
+        private static readonly JsonBufferPool _jsonSerializerBufferPool = new JsonBufferPool();
 
         private readonly JsonSerializer _jsonSerializer;
         private readonly IJsonRpcContractResolver _contractResolver;
