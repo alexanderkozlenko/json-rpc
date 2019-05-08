@@ -39,7 +39,7 @@ stages:
     - task: PublishBuildArtifacts@1
 - stage: Test
   displayName: "Test"
-  condition: "and(succeeded())"
+  condition: "succeeded()"
   jobs:
   - job: Test
     displayName: "Test"
