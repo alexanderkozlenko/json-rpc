@@ -39,8 +39,8 @@ steps:
   inputs:
     command: "custom"
     custom: "test"
-    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:CodeCoverageSummary=$(Agent.TempDirectory)\CodeCoverageSummary.xml -property:EnableCodeCoverageReport=false"
+    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:CodeCoverageSummary=$(Agent.TempDirectory)/CodeCoverageSummary.xml -property:EnableCodeCoverageReport=false"
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: "cobertura"
-    summaryFileLocation: "$(Agent.TempDirectory)\CodeCoverageSummary.xml"
+    summaryFileLocation: "$(Agent.TempDirectory)/CodeCoverageSummary.xml"
