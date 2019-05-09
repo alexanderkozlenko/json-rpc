@@ -37,7 +37,7 @@ stages:
       inputs:
         command: custom
         custom: build
-        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:BuildLabel=$(Build.BuildLabel) -p:BuildNumber=$(Build.BuildNumber) -p:ContinuousIntegrationBuild=true'
+        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:BuildLabel=$(Build.BuildLabel) -p:BuildNumber=$(Build.BuildNumber) -p:ContinuousIntegrationBuild=true -p:UnitTests=true'
     - task: DotNetCoreCLI@2
       displayName: 'dotnet.test'
       inputs:
