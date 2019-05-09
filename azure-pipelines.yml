@@ -1,8 +1,11 @@
 # © Alexander Kozlenko. Licensed under the MIT License.
 
 variables:
-  Project.FilePath: '$(Build.SourcesDirectory)/global.proj'
-  Project.Configuration: 'Release'
+- template: '$(Build.SourcesDirectory)/azure-pipelines-variables.yml'
+- name: 'Build.ProjectPath'
+  value: '$(Build.SourcesDirectory)/global.proj'
+- name: 'Build.ManifestPath'
+  value: '$(Build.SourcesDirectory)/global.json'
 stages:
 - stage: Build
   jobs:
@@ -14,7 +17,7 @@ stages:
         pwsh: true
         targetType: inline
         script: |
-            Write-Host ('##vso[task.setvariable variable=DotNetCoreSdkVersion;]' + (Get-Content -Raw '$(Build.SourcesDirectory)/global.json' | ConvertFrom-Json).'sdk'.'version')
+            Write-Host ('##vso[task.setvariable variable=DotNetCoreSdkVersion;]' + (Get-Content -Raw '$(Build.ManifestPath)' | ConvertFrom-Json).'sdk'.'version')
     - task: UseDotNet@2
       inputs:
         packageType: sdk
@@ -23,12 +26,12 @@ stages:
       inputs:
         command: custom
         custom: build
-        arguments: '$(Project.FilePath) --configuration $(Project.Configuration) -property:ContinuousIntegrationBuild=true'
+        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:ContinuousIntegrationBuild=true -p:BuildLabel=$(Build.BuildLabel) -p:BuildNumber=$(Build.BuildNumber)'
     - task: DotNetCoreCLI@2
       inputs:
         command: custom
         custom: pack
-        arguments: '$(Project.FilePath) --configuration $(Project.Configuration) --no-build --include-symbols --output $(Build.ArtifactStagingDirectory)'
+        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) --no-build --include-symbols -o $(Build.ArtifactStagingDirectory)'
     - task: PublishPipelineArtifact@0
       inputs:
         artifactName: 'artifact'
@@ -44,7 +47,7 @@ stages:
         pwsh: true
         targetType: inline
         script: |
-            Write-Host ('##vso[task.setvariable variable=DotNetCoreSdkVersion;]' + (Get-Content -Raw '$(Build.SourcesDirectory)/global.json' | ConvertFrom-Json).'sdk'.'version')
+            Write-Host ('##vso[task.setvariable variable=DotNetCoreSdkVersion;]' + (Get-Content -Raw '$(Build.ManifestPath)' | ConvertFrom-Json).'sdk'.'version')
     - task: UseDotNet@2
       inputs:
         packageType: sdk
@@ -53,7 +56,7 @@ stages:
       inputs:
         command: custom
         custom: test
-        arguments: '$(Project.FilePath) --configuration $(Project.Configuration) -property:EnableCodeCoverage=false --logger trx --results-directory $(Agent.TempDirectory)'
+        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:EnableCodeCoverage=false -l trx -r $(Agent.TempDirectory)'
     - task: PublishTestResults@2
       inputs:
         testRunner: VSTest
@@ -63,9 +66,9 @@ stages:
       inputs:
         command: custom
         custom: test
-        arguments: '$(Project.FilePath) --configuration $(Project.Configuration) -property:EnableCodeCoverageReport=false'
+        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:EnableCodeCoverageReport=false'
 - stage: Deploy
-  condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.BuildLabel'], ''))
   jobs:
   - job: MyGet
     displayName: 'MyGet'
