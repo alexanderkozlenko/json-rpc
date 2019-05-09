@@ -65,7 +65,7 @@ stages:
         custom: test
         arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:EnableCodeCoverageReport=false'
 - stage: Deploy
-  condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.BuildLabel'], ''))
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.BuildLabel'], ''))
   jobs:
   - job: Packages
     steps:
