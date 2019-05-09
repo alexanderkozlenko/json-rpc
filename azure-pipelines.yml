@@ -1,42 +1,85 @@
 # © Alexander Kozlenko. Licensed under the MIT License.
 
 variables:
-  Project.FilePath: "$(Build.SourcesDirectory)/global.proj"
-  Project.Configuration: "Release"
-steps:
-- task: PowerShell@2
-  inputs:
-    pwsh: true
-    targetType: "inline"
-    script: |
-        Write-Host ("##vso[task.setvariable variable=DotNetCoreSdkVersion;]" + (Get-Content -Raw "$(Build.SourcesDirectory)/global.json" | ConvertFrom-Json)."sdk"."version")
-- task: DotNetCoreInstaller@0
-  inputs:
-    packageType: "sdk"
-    version: "$(DotNetCoreSdkVersion)"
-- task: DotNetCoreCLI@2
-  inputs:
-    command: "custom"
-    custom: "build"
-    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:ContinuousIntegrationBuild=true"
-- task: DotNetCoreCLI@2
-  inputs:
-    command: "custom"
-    custom: "pack"
-    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) --no-build --include-symbols --output $(Build.ArtifactStagingDirectory)"
-- task: PublishBuildArtifacts@1
-- task: DotNetCoreCLI@2
-  inputs:
-    command: "custom"
-    custom: "test"
-    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) --no-build --logger trx --results-directory $(Agent.TempDirectory)"
-- task: PublishTestResults@2
-  inputs:
-    testRunner: "VSTest"
-    testResultsFiles: "**/*.trx"
-    searchFolder: "$(Agent.TempDirectory)"
-- task: DotNetCoreCLI@2
-  inputs:
-    command: "custom"
-    custom: "test"
-    arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:EnableCodeCoverageReport=false"
+- template: 'azure-pipelines-variables.yml'
+- name: 'Build.ProjectPath'
+  value: '$(Build.SourcesDirectory)/global.proj'
+- name: 'Build.ManifestPath'
+  value: '$(Build.SourcesDirectory)/global.json'
+stages:
+- stage: Build
+  jobs:
+  - job: Packages
+    steps:
+    - task: PowerShell@2
+      inputs:
+        pwsh: true
+        targetType: inline
+        script: |
+            Write-Host ('##vso[task.setvariable variable=DotNetCoreSdkVersion;]' + (Get-Content -Raw '$(Build.ManifestPath)' | ConvertFrom-Json).'sdk'.'version')
+    - task: UseDotNet@2
+      inputs:
+        packageType: sdk
+        version: '$(DotNetCoreSdkVersion)'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: custom
+        custom: build
+        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:BuildLabel=$(Build.BuildLabel) -p:BuildNumber=$(Build.BuildNumber) -p:ContinuousIntegrationBuild=true'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: custom
+        custom: pack
+        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:BuildLabel=$(Build.BuildLabel) -p:BuildNumber=$(Build.BuildNumber) -o $(Build.ArtifactStagingDirectory) --include-symbols --no-build'
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: 'artifact'
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+- stage: Test
+  jobs:
+  - job: Packages
+    steps:
+    - task: PowerShell@2
+      inputs:
+        pwsh: true
+        targetType: inline
+        script: |
+            Write-Host ('##vso[task.setvariable variable=DotNetCoreSdkVersion;]' + (Get-Content -Raw '$(Build.ManifestPath)' | ConvertFrom-Json).'sdk'.'version')
+    - task: UseDotNet@2
+      inputs:
+        packageType: sdk
+        version: $(DotNetCoreSdkVersion)
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: custom
+        custom: test
+        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:EnableCodeCoverage=false -l trx -r $(Agent.TempDirectory)'
+    - task: PublishTestResults@2
+      inputs:
+        testRunner: VSTest
+        testResultsFiles: '**/*.trx'
+        searchFolder: '$(Agent.TempDirectory)'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: custom
+        custom: test
+        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:EnableCodeCoverageReport=false'
+- stage: Deploy
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.BuildLabel'], ''))
+  jobs:
+  - job: Packages
+    steps:
+    - checkout: none
+    - task: DownloadPipelineArtifact@0
+      inputs:
+        artifactName: 'artifact'
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+    - task: NuGetToolInstaller@0
+      inputs:
+        versionSpec: '5.0.0'
+    - task: NuGetCommand@2
+      inputs:
+        command: push
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
+        nuGetFeedType: external
+        publishFeedCredentials: MyGet
