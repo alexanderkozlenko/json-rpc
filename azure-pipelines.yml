@@ -10,7 +10,6 @@ stages:
 - stage: Build
   jobs:
   - job: Packages
-    displayName: 'Packages'
     steps:
     - task: PowerShell@2
       inputs:
@@ -37,10 +36,8 @@ stages:
         artifactName: 'artifact'
         targetPath: '$(Build.ArtifactStagingDirectory)'
 - stage: Test
-  condition: succeeded()
   jobs:
-  - job: PackagesAndCoverage
-    displayName: 'Packages and Coverage'
+  - job: Packages
     steps:
     - task: PowerShell@2
       inputs:
@@ -70,8 +67,7 @@ stages:
 - stage: Deploy
   condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.BuildLabel'], ''))
   jobs:
-  - job: MyGet
-    displayName: 'MyGet'
+  - job: Packages
     steps:
     - checkout: none
     - task: DownloadPipelineArtifact@0
