@@ -1,7 +1,7 @@
 # © Alexander Kozlenko. Licensed under the MIT License.
 
 variables:
-- template: '$(Build.SourcesDirectory)/azure-pipelines-variables.yml'
+- template: 'azure-pipelines-variables.yml'
 - name: 'Build.ProjectPath'
   value: '$(Build.SourcesDirectory)/global.proj'
 - name: 'Build.ManifestPath'
