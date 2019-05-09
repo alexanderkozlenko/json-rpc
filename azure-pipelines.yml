@@ -33,7 +33,7 @@ stages:
       inputs:
         pathtoPublish: '$(Build.ArtifactStagingDirectory)'
 - stage: Test
-  condition: 'succeeded()'
+  condition: succeeded()
   jobs:
   - job: PackagesAndCoverage
     displayName: Packages and Coverage
@@ -64,7 +64,7 @@ stages:
         custom: test
         arguments: '$(Project.FilePath) --configuration $(Project.Configuration) -property:EnableCodeCoverageReport=false'
 - stage: Deploy
-  condition: 'and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))'
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
   jobs:
   - job: MyGet
     displayName: MyGet
