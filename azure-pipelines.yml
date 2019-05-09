@@ -76,7 +76,7 @@ stages:
         targetPath: '$(Build.ArtifactStagingDirectory)'
     - task: NuGetToolInstaller@0
       inputs:
-        versionSpec: '5.0.0'
+        versionSpec: '$(Build.NuGetVersion)'
     - task: NuGetCommand@2
       inputs:
         command: push

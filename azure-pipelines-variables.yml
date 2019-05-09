@@ -5,3 +5,5 @@ variables:
   value: 'Release'
 - name: 'Build.BuildLabel'
   value: 'Preview'
+- name: 'Build.NuGetVersion'
+  value: '5.0.0'
