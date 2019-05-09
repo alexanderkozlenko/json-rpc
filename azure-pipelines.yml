@@ -29,7 +29,7 @@ stages:
         command: custom
         custom: pack
         arguments: '$(Project.FilePath) --configuration $(Project.Configuration) --no-build --include-symbols --output $(Build.ArtifactStagingDirectory)'
-    - task: PublishBuildArtifacts@0
+    - task: PublishBuildArtifacts@1
 - stage: Test
   condition: succeeded()
   jobs:
@@ -68,7 +68,7 @@ stages:
     displayName: MyGet
     steps:
     - checkout: none
-    - task: DownloadBuildArtifacts@1
+    - task: DownloadBuildArtifacts@0
     - task: NuGetToolInstaller@0
       inputs:
         versionSpec: '5.0.0'
