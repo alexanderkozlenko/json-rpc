@@ -1,87 +1,82 @@
 # © Alexander Kozlenko. Licensed under the MIT License.
 
 variables:
-  Project.FilePath: "$(Build.SourcesDirectory)/global.proj"
-  Project.Configuration: "Release"
-trigger:
-  paths:
-    exclude:
-    - ".github/*"
-    - ".gitignore"
-    - "lgtm.yml*"
+  Project.FilePath: '$(Build.SourcesDirectory)/global.proj'
+  Project.Configuration: 'Release'
 stages:
 - stage: Build
   jobs:
-  - job: Build
-    displayName: "Build and Package"
+  - job: Packages
+    displayName: Packages
     steps:
     - task: PowerShell@2
       inputs:
         pwsh: true
-        targetType: "inline"
+        targetType: inline
         script: |
-            Write-Host ("##vso[task.setvariable variable=DotNetCoreSdkVersion;]" + (Get-Content -Raw "$(Build.SourcesDirectory)/global.json" | ConvertFrom-Json)."sdk"."version")
+            Write-Host ('##vso[task.setvariable variable=DotNetCoreSdkVersion;]' + (Get-Content -Raw '$(Build.SourcesDirectory)/global.json' | ConvertFrom-Json).'sdk'.'version')
     - task: UseDotNet@2
       inputs:
-        packageType: "sdk"
-        version: "$(DotNetCoreSdkVersion)"
+        packageType: sdk
+        version: '$(DotNetCoreSdkVersion)'
     - task: DotNetCoreCLI@2
       inputs:
-        command: "custom"
-        custom: "build"
-        arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:ContinuousIntegrationBuild=true"
+        command: custom
+        custom: build
+        arguments: '$(Project.FilePath) --configuration $(Project.Configuration) -property:ContinuousIntegrationBuild=true'
     - task: DotNetCoreCLI@2
       inputs:
-        command: "custom"
-        custom: "pack"
-        arguments: "$(Project.FilePath) --configuration $(Project.Configuration) --no-build --include-symbols --output $(Build.ArtifactStagingDirectory)"
+        command: custom
+        custom: pack
+        arguments: '$(Project.FilePath) --configuration $(Project.Configuration) --no-build --include-symbols --output $(Build.ArtifactStagingDirectory)'
     - task: PublishPipelineArtifact@0
+      inputs:
+        pathtoPublish: '$(Build.ArtifactStagingDirectory)'
 - stage: Test
-  condition: "succeeded()"
+  condition: 'succeeded()'
   jobs:
-  - job: Test
-    displayName: "Run Tests"
+  - job: PackagesAndCoverage
+    displayName: Packages and Coverage
     steps:
     - task: PowerShell@2
       inputs:
         pwsh: true
-        targetType: "inline"
+        targetType: inline
         script: |
-            Write-Host ("##vso[task.setvariable variable=DotNetCoreSdkVersion;]" + (Get-Content -Raw "$(Build.SourcesDirectory)/global.json" | ConvertFrom-Json)."sdk"."version")
+            Write-Host ('##vso[task.setvariable variable=DotNetCoreSdkVersion;]' + (Get-Content -Raw '$(Build.SourcesDirectory)/global.json' | ConvertFrom-Json).'sdk'.'version')
     - task: UseDotNet@2
       inputs:
-        packageType: "sdk"
-        version: "$(DotNetCoreSdkVersion)"
+        packageType: sdk
+        version: $(DotNetCoreSdkVersion)
     - task: DotNetCoreCLI@2
       inputs:
-        command: "custom"
-        custom: "test"
-        arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:EnableCodeCoverage=false --logger trx --results-directory $(Agent.TempDirectory)"
+        command: custom
+        custom: test
+        arguments: '$(Project.FilePath) --configuration $(Project.Configuration) -property:EnableCodeCoverage=false --logger trx --results-directory $(Agent.TempDirectory)'
     - task: PublishTestResults@2
       inputs:
-        testRunner: "VSTest"
-        testResultsFiles: "**/*.trx"
-        searchFolder: "$(Agent.TempDirectory)"
+        testRunner: VSTest
+        testResultsFiles: '**/*.trx'
+        searchFolder: '$(Agent.TempDirectory)'
     - task: DotNetCoreCLI@2
       inputs:
-        command: "custom"
-        custom: "test"
-        arguments: "$(Project.FilePath) --configuration $(Project.Configuration) -property:EnableCodeCoverageReport=false"
+        command: custom
+        custom: test
+        arguments: '$(Project.FilePath) --configuration $(Project.Configuration) -property:EnableCodeCoverageReport=false'
 - stage: Deploy
-  condition: "and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))"
+  condition: 'and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))'
   jobs:
-  - job: PushToMyGet
-    displayName: "Push to MyGet"
+  - job: MyGet
+    displayName: MyGet
     steps:
-    - task: DownloadPipelineArtifact@0
-      inputs:
-        targetPath: "$(System.ArtifactsDirectory)"
+    - checkout: none
+    - task: DownloadPipelineArtifact@1
     - task: NuGetToolInstaller@0
       inputs:
-        versionSpec: "5.0.0"
+        versionSpec: '5.0.0'
     - task: NuGetCommand@2
       inputs:
-        command: "push"
-        packagesToPush: "$(System.ArtifactsDirectory)/**/*.nupkg"
-        nuGetFeedType: "external"
-        publishFeedCredentials: "MyGet"
+        command: push
+        packagesToPush: '$(System.ArtifactsDirectory)/**/*.nupkg'
+        nuGetFeedType: external
+        publishFeedCredentials: MyGet
