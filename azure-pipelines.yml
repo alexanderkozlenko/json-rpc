@@ -7,7 +7,7 @@ stages:
 - stage: Build
   jobs:
   - job: Packages
-    displayName: Packages
+    displayName: 'Packages'
     steps:
     - task: PowerShell@2
       inputs:
@@ -29,12 +29,15 @@ stages:
         command: custom
         custom: pack
         arguments: '$(Project.FilePath) --configuration $(Project.Configuration) --no-build --include-symbols --output $(Build.ArtifactStagingDirectory)'
-    - task: PublishBuildArtifacts@1
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: 'artifact'
+        targetPath: '$(Build.ArtifactStagingDirectory)'
 - stage: Test
   condition: succeeded()
   jobs:
   - job: PackagesAndCoverage
-    displayName: Packages and Coverage
+    displayName: 'Packages and Coverage'
     steps:
     - task: PowerShell@2
       inputs:
@@ -65,16 +68,19 @@ stages:
   condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
   jobs:
   - job: MyGet
-    displayName: MyGet
+    displayName: 'MyGet'
     steps:
     - checkout: none
-    - task: DownloadBuildArtifacts@0
+    - task: DownloadPipelineArtifact@0
+      inputs:
+        artifactName: 'artifact'
+        targetPath: '$(Build.ArtifactStagingDirectory)'
     - task: NuGetToolInstaller@0
       inputs:
         versionSpec: '5.0.0'
     - task: NuGetCommand@2
       inputs:
         command: push
-        packagesToPush: '$(System.ArtifactsDirectory)/**/*.nupkg'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
         nuGetFeedType: external
         publishFeedCredentials: MyGet
