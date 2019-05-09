@@ -12,26 +12,31 @@ stages:
   - job: Packages
     steps:
     - task: PowerShell@2
+      displayName: 'dotnet.sdk.version'
       inputs:
         pwsh: true
         targetType: inline
         script: |
             Write-Host ('##vso[task.setvariable variable=DotNetCoreSdkVersion;]' + (Get-Content -Raw '$(Build.ManifestPath)' | ConvertFrom-Json).'sdk'.'version')
     - task: UseDotNet@2
+      displayName: 'dotnet.use'
       inputs:
         packageType: sdk
         version: '$(DotNetCoreSdkVersion)'
     - task: DotNetCoreCLI@2
+      displayName: 'dotnet.build'
       inputs:
         command: custom
         custom: build
         arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:BuildLabel=$(Build.BuildLabel) -p:BuildNumber=$(Build.BuildNumber) -p:ContinuousIntegrationBuild=true'
     - task: DotNetCoreCLI@2
+      displayName: 'dotnet.pack'
       inputs:
         command: custom
         custom: pack
         arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:BuildLabel=$(Build.BuildLabel) -p:BuildNumber=$(Build.BuildNumber) -o $(Build.ArtifactStagingDirectory) --include-symbols --no-build'
     - task: PublishPipelineArtifact@0
+      displayName: 'pipeline.artifacts.publish'
       inputs:
         artifactName: 'artifact'
         targetPath: '$(Build.ArtifactStagingDirectory)'
@@ -40,26 +45,31 @@ stages:
   - job: Packages
     steps:
     - task: PowerShell@2
+      displayName: 'dotnet.sdk.version'
       inputs:
         pwsh: true
         targetType: inline
         script: |
             Write-Host ('##vso[task.setvariable variable=DotNetCoreSdkVersion;]' + (Get-Content -Raw '$(Build.ManifestPath)' | ConvertFrom-Json).'sdk'.'version')
     - task: UseDotNet@2
+      displayName: 'dotnet.use'
       inputs:
         packageType: sdk
         version: $(DotNetCoreSdkVersion)
     - task: DotNetCoreCLI@2
+      displayName: 'dotnet.test'
       inputs:
         command: custom
         custom: test
         arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:EnableCodeCoverage=false -l trx -r $(Agent.TempDirectory)'
     - task: PublishTestResults@2
+      displayName: 'pipeline.reports.publish'
       inputs:
         testRunner: VSTest
         testResultsFiles: '**/*.trx'
         searchFolder: '$(Agent.TempDirectory)'
     - task: DotNetCoreCLI@2
+      displayName: 'dotnet.test.coverage'
       inputs:
         command: custom
         custom: test
@@ -71,15 +81,18 @@ stages:
     steps:
     - checkout: none
     - task: DownloadPipelineArtifact@0
+      displayName: 'pipeline.artifacts.downloads'
       inputs:
         artifactName: 'artifact'
         targetPath: '$(Build.ArtifactStagingDirectory)'
     - task: NuGetToolInstaller@0
+      displayName: 'nuget.use'
       inputs:
         versionSpec: '$(Build.NuGetVersion)'
     - task: NuGetCommand@2
+      displayName: 'nuget.artifacts.publish'
       inputs:
         command: push
         packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
         nuGetFeedType: external
-        publishFeedCredentials: MyGet
+        publishFeedCredentials: 'MyGet'
