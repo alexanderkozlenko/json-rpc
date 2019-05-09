@@ -4,25 +4,12 @@ variables:
 - template: 'azure-pipelines-variables.yml'
 - name: 'Build.ProjectPath'
   value: '$(Build.SourcesDirectory)/global.proj'
-- name: 'Build.ManifestPath'
-  value: '$(Build.SourcesDirectory)/global.json'
 stages:
 - stage: Build
   jobs:
-  - job: Packages
+  - job: Default
     steps:
-    - task: PowerShell@2
-      displayName: 'dotnet.sdk.version'
-      inputs:
-        pwsh: true
-        targetType: inline
-        script: |
-            Write-Host ('##vso[task.setvariable variable=DotNetCoreSdkVersion;]' + (Get-Content -Raw '$(Build.ManifestPath)' | ConvertFrom-Json).'sdk'.'version')
-    - task: UseDotNet@2
-      displayName: 'dotnet.use'
-      inputs:
-        packageType: sdk
-        version: '$(DotNetCoreSdkVersion)'
+    - template: azure-pipelines-sdk.yml
     - task: DotNetCoreCLI@2
       displayName: 'dotnet.build'
       inputs:
@@ -42,42 +29,31 @@ stages:
         targetPath: '$(Build.ArtifactStagingDirectory)'
 - stage: Test
   jobs:
-  - job: Packages
+  - job: Default
     steps:
-    - task: PowerShell@2
-      displayName: 'dotnet.sdk.version'
+    - template: azure-pipelines-sdk.yml
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet.build'
       inputs:
-        pwsh: true
-        targetType: inline
-        script: |
-            Write-Host ('##vso[task.setvariable variable=DotNetCoreSdkVersion;]' + (Get-Content -Raw '$(Build.ManifestPath)' | ConvertFrom-Json).'sdk'.'version')
-    - task: UseDotNet@2
-      displayName: 'dotnet.use'
-      inputs:
-        packageType: sdk
-        version: $(DotNetCoreSdkVersion)
+        command: custom
+        custom: build
+        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:BuildLabel=$(Build.BuildLabel) -p:BuildNumber=$(Build.BuildNumber) -p:ContinuousIntegrationBuild=true'
     - task: DotNetCoreCLI@2
       displayName: 'dotnet.test'
       inputs:
         command: custom
         custom: test
-        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:EnableCodeCoverage=false -l trx -r $(Agent.TempDirectory)'
+        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:EnableCodeCoverageReport=false -l trx -r $(Agent.TempDirectory) --no-build'
     - task: PublishTestResults@2
       displayName: 'pipeline.reports.publish'
       inputs:
         testRunner: VSTest
         testResultsFiles: '**/*.trx'
         searchFolder: '$(Agent.TempDirectory)'
-    - task: DotNetCoreCLI@2
-      displayName: 'dotnet.test.coverage'
-      inputs:
-        command: custom
-        custom: test
-        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:EnableCodeCoverageReport=false'
-- stage: Deploy
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.BuildLabel'], ''))
+- stage: Publish
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
-  - job: Packages
+  - job: Default
     steps:
     - checkout: none
     - task: DownloadPipelineArtifact@0
