@@ -2,11 +2,8 @@
 <Project>
   <Import Sdk="Microsoft.Build.Traversal"
           Project="Sdk.props"/>
-  <ItemGroup Condition="'$(UnitTests)' != 'true'">
+  <ItemGroup>
     <ProjectReference Include="$(MSBuildThisFileDirectory)**\*.??proj" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(UnitTests)' == 'true'">
-    <ProjectReference Include="$(MSBuildThisFileDirectory)**\*.UnitTests.??proj" />
   </ItemGroup>
   <Import Sdk="Microsoft.Build.Traversal"
           Project="Sdk.targets"/>
