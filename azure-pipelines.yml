@@ -29,9 +29,7 @@ stages:
         command: custom
         custom: pack
         arguments: '$(Project.FilePath) --configuration $(Project.Configuration) --no-build --include-symbols --output $(Build.ArtifactStagingDirectory)'
-    - task: PublishPipelineArtifact@0
-      inputs:
-        pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    - task: PublishBuildArtifacts@0
 - stage: Test
   condition: succeeded()
   jobs:
@@ -70,7 +68,7 @@ stages:
     displayName: MyGet
     steps:
     - checkout: none
-    - task: DownloadPipelineArtifact@1
+    - task: DownloadBuildArtifacts@1
     - task: NuGetToolInstaller@0
       inputs:
         versionSpec: '5.0.0'
