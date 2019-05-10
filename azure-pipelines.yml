@@ -1,7 +1,7 @@
 # © Alexander Kozlenko. Licensed under the MIT License.
 
 variables:
-- template: 'azure-pipelines-variables.yml'
+- template: azure-pipelines-variables.yml
 - name: 'Build.ProjectPath'
   value: '$(Build.SourcesDirectory)/global.proj'
 stages:
@@ -43,7 +43,7 @@ stages:
       inputs:
         command: custom
         custom: test
-        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:EnableCodeCoverageReport=false -l trx -r $(Agent.TempDirectory) --no-build'
+        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -l trx -r $(Agent.TempDirectory) --no-build'
     - task: PublishTestResults@2
       displayName: 'pipeline.reports.publish'
       inputs:
