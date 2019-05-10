@@ -17,14 +17,6 @@
     <AssemblyOriginatorKeyFile>$(SolutionDirectory)\Open.snk</AssemblyOriginatorKeyFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <EnableCodeCoverage Condition="('$(EnableCodeCoverage)' == '') and ('$(VSTestNoBuild)' != 'true')">true</EnableCodeCoverage>
-    <EnableCodeCoverageReport Condition="('$(EnableCodeCoverageReport)' == '') and ('$(EnableCodeCoverage)' == 'true')">true</EnableCodeCoverageReport>
     <VersionSuffix Condition="('$(BuildLabel)' != '') and ('$(BuildNumber)' != '')">$(BuildLabel.ToLowerInvariant())-$(BuildNumber)</VersionSuffix>
-  </PropertyGroup>
-  <PropertyGroup>
-    <CollectCoverage>$(EnableCodeCoverage)</CollectCoverage>
-    <CoverletOutputFormat>cobertura</CoverletOutputFormat>
-    <Exclude><![CDATA[[*.UnitTests]*]]></Exclude>
-    <Threshold>75</Threshold>
   </PropertyGroup>
 </Project>

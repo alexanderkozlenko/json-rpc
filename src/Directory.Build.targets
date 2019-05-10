@@ -16,22 +16,10 @@
           Condition="'$(IsTestable)' == 'true'">
     <PropertyGroup>
       <VSTestResultsDirectory Condition="'$(VSTestResultsDirectory)' == ''">$(BaseOutputPath)\$(Configuration)</VSTestResultsDirectory>
-      <CodeCoverageSummary Condition="'$(CodeCoverageSummary)' == ''">$(VSTestResultsDirectory)\CodeCoverageSummary.xml</CodeCoverageSummary>
-    </PropertyGroup>
-    <PropertyGroup>
-      <CoverletOutput>$(CodeCoverageSummary)</CoverletOutput>
     </PropertyGroup>
   </Target>
   <Target Name="Test"
           Condition="'$(IsTestable)' == 'true'">
     <CallTarget Targets="VSTest" />
-  </Target>
-  <Target Name="GenerateCodeCoverageReport"
-          AfterTargets="Test"
-          Condition="('$(IsTestable)' == 'true') and ('$(EnableCodeCoverageReport)' == 'true') and ('$(ReportGeneratorAssembly)' != '')">
-    <ReportGenerator ReportFiles="$(CodeCoverageSummary)"
-                     TargetDirectory="$(VSTestResultsDirectory)\CodeCoverageReport"
-                     ReportTypes="HtmlInline_AzurePipelines"
-                     VerbosityLevel="Warning" />
   </Target>
 </Project>
