@@ -2,7 +2,7 @@
 <Project>
   <PropertyGroup>
     <VersionPrefix>1.23.0</VersionPrefix>
-    <VersionSuffix>beta</VersionSuffix>
+    <VersionSuffix></VersionSuffix>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors><![CDATA[Alexander Kozlenko]]></Authors>
@@ -11,7 +11,7 @@
     <PackageTags><![CDATA[json-rpc json rpc protocol]]></PackageTags>
   </PropertyGroup>
   <PropertyGroup Condition="'$(BuildNumber)' != ''">
-    <VersionSuffix Condition="'$(VersionSuffix)' == ''">$(BuildNumber)</VersionSuffix>
-    <VersionSuffix Condition="'$(VersionSuffix)' != ''">$(VersionSuffix)-$(BuildNumber)</VersionSuffix>
+    <VersionSuffix Condition="'$(VersionSuffix)' != ''">$(VersionSuffix)-ci-$(BuildNumber)</VersionSuffix>
+    <VersionSuffix Condition="'$(VersionSuffix)' == ''">ci-$(BuildNumber)</VersionSuffix>
   </PropertyGroup>
 </Project>
