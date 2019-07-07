@@ -454,7 +454,7 @@ namespace Anemonis.JsonRpc.UnitTests
         }
 
         [TestMethod]
-        public async Task DeserializeRequestDataAsyncWithStringWhenStreamIsNull()
+        public async Task DeserializeRequestDataAsyncWithStringWhenStringIsNull()
         {
             var jrs = new JsonRpcSerializer();
 
