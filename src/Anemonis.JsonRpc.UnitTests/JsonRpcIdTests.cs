@@ -346,10 +346,10 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void ObjectToStringWithProviderWhenProviderIsNull()
         {
-            Assert.AreEqual("", new JsonRpcId().ToString(null));
-            Assert.AreEqual("1", new JsonRpcId("1").ToString(null));
-            Assert.AreEqual("1", new JsonRpcId(1L).ToString(null));
-            Assert.AreEqual("1.1", new JsonRpcId(1.1).ToString(null));
+            Assert.IsNotNull(new JsonRpcId().ToString(null));
+            Assert.IsNotNull(new JsonRpcId("1").ToString(null));
+            Assert.IsNotNull(new JsonRpcId(1L).ToString(null));
+            Assert.IsNotNull(new JsonRpcId(1.1).ToString(null));
         }
 
         [TestMethod]
