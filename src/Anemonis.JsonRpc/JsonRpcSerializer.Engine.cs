@@ -81,12 +81,19 @@ namespace Anemonis.JsonRpc
                 }
                 else if (reader.TokenType == JsonToken.EndArray)
                 {
-                    if (messages.Count == 0)
+                    if (messages == null)
                     {
-                        throw new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.batch.empty"));
+                        throw new JsonReaderException(Strings.GetString("core.deserialize.json_issue"));
                     }
+                    else
+                    {
+                        if (messages.Count == 0)
+                        {
+                            throw new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.batch.empty"));
+                        }
 
-                    return new JsonRpcData<JsonRpcRequest>(messages);
+                        return new JsonRpcData<JsonRpcRequest>(messages);
+                    }
                 }
                 else
                 {
@@ -106,14 +113,7 @@ namespace Anemonis.JsonRpc
                 }
             }
 
-            if (reader.TokenType == JsonToken.None)
-            {
-                throw new JsonReaderException(Strings.GetString("core.deserialize.json_issue"));
-            }
-            else
-            {
-                throw new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.deserialize.input.invalid_structure"));
-            }
+            throw new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.deserialize.input.invalid_structure"));
         }
 
         private JsonRpcMessageInfo<JsonRpcRequest> DeserializeRequest(JsonTextReader reader)
@@ -420,12 +420,19 @@ namespace Anemonis.JsonRpc
                 }
                 else if (reader.TokenType == JsonToken.EndArray)
                 {
-                    if (messages.Count == 0)
+                    if (messages == null)
                     {
-                        throw new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.batch.empty"));
+                        throw new JsonReaderException(Strings.GetString("core.deserialize.json_issue"));
                     }
+                    else
+                    {
+                        if (messages.Count == 0)
+                        {
+                            throw new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.batch.empty"));
+                        }
 
-                    return new JsonRpcData<JsonRpcResponse>(messages);
+                        return new JsonRpcData<JsonRpcResponse>(messages);
+                    }
                 }
                 else
                 {
@@ -445,14 +452,7 @@ namespace Anemonis.JsonRpc
                 }
             }
 
-            if (reader.TokenType == JsonToken.None)
-            {
-                throw new JsonReaderException(Strings.GetString("core.deserialize.json_issue"));
-            }
-            else
-            {
-                throw new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.deserialize.input.invalid_structure"));
-            }
+            throw new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.deserialize.input.invalid_structure"));
         }
 
         private JsonRpcMessageInfo<JsonRpcResponse> DeserializeResponse(JsonTextReader reader)
