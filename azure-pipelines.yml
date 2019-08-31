@@ -49,6 +49,7 @@ stages:
         configMode: 'file'
         configFile: '$(Build.SourcesDirectory)/sonar-project.properties'
         extraProperties: |
+          sonar.projectKey=$(Build.Repository.Name)
           sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)
     - task: DotNetCoreCLI@2
       displayName: 'dotnet.build'
