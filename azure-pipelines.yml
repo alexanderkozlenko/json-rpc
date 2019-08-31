@@ -52,7 +52,7 @@ stages:
         extraProperties: |
           sonar.projectKey=$(Build.Repository.Name)
           sonar.projectBaseDir=$(Build.SourcesDirectory)
-          sonar.cs.analyzer.projectOutPaths=$(Build.SourcesDirectory)/bin
+          sonar.working.directory=$(Build.SourcesDirectory)/.sonar
           sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
     - task: DotNetCoreCLI@2
       displayName: 'dotnet.build'
