@@ -41,6 +41,15 @@ stages:
       inputs:
         useGlobalJson: true
         workingDirectory: '$(Build.SourcesDirectory)'
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: '$(System.ServiceConnection.Sonar)'
+        organization: '$(System.ServiceConnection.Sonar.Organization)'
+        scannerMode: 'CLI'
+        configMode: 'file'
+        configFile: '$(Build.SourcesDirectory)/sonar-project.properties'
+        extraProperties: |
+          sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)
     - task: DotNetCoreCLI@2
       displayName: 'dotnet.build'
       inputs:
@@ -53,6 +62,7 @@ stages:
         command: custom
         custom: test
         arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:ContinuousIntegrationBuild=true -p:BuildNumber=$(Build.BuildNumber) --no-build -l trx -r $(Agent.TempDirectory)'
+    - task: SonarCloudAnalyze@1
     - task: PublishTestResults@2
       displayName: 'pipeline.reports.publish'
       inputs:
