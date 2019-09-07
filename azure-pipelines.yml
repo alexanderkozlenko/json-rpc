@@ -42,10 +42,11 @@ stages:
         useGlobalJson: true
         workingDirectory: '$(Build.SourcesDirectory)'
     - task: SonarCloudPrepare@1
+      displayName: 'sonar.prepare'
       inputs:
         SonarCloud: '$(System.ServiceConnection.Sonar)'
         organization: '$(System.ServiceConnection.Sonar.Organization)'
-        projectKey: '$(Build.Repository.Name)'
+        projectKey: '$(Build.Repository.ID)'
         scannerMode: 'MSBuild'
         extraProperties: |
           sonar.language=cs
@@ -64,6 +65,7 @@ stages:
         custom: test
         arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:ContinuousIntegrationBuild=true -p:BuildNumber=$(Build.BuildNumber) --no-build -l trx -r $(Agent.TempDirectory)'
     - task: SonarCloudAnalyze@1
+      displayName: 'sonar.analyze'
     - task: PublishTestResults@2
 
       displayName: 'pipeline.reports.publish'
