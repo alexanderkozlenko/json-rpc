@@ -2,6 +2,10 @@
 <Project>
   <Import Sdk="Microsoft.Build.Traversal"
           Project="Sdk.props"/>
+  <PropertyGroup>
+    <ProjectGuid>{EC960C09-4829-46FE-A03D-B1DF7E95F5FA}</ProjectGuid>
+    <SonarQubeExclude>true</SonarQubeExclude>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="$(MSBuildThisFileDirectory)**\*.??proj" />
   </ItemGroup>
