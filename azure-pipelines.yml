@@ -45,8 +45,8 @@ stages:
       displayName: 'sonar.prepare'
       inputs:
         SonarCloud: '$(System.ServiceConnection.Sonar)'
-        organization: '$(System.ServiceConnection.Sonar.Organization)'
-        projectKey: '$(Build.Repository.ID)'
+        organization: '$(Sonar.Organization)'
+        projectKey: '$(Sonar.ProjectKey)'
         scannerMode: 'MSBuild'
         extraProperties: |
           sonar.language=cs
