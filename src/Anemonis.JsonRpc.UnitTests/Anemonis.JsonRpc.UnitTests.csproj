@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <ProjectGuid>{CFACA0EB-4B90-4E7F-AD89-E3F2CAD2FA38}</ProjectGuid>
     <IsTestable>true</IsTestable>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
