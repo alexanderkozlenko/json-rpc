@@ -67,12 +67,14 @@ stages:
     - task: SonarCloudAnalyze@1
       displayName: 'sonar.analyze'
     - task: PublishTestResults@2
-
       displayName: 'pipeline.reports.publish'
       inputs:
         testRunner: VSTest
         testResultsFiles: '**/*.trx'
         searchFolder: '$(Agent.TempDirectory)'
+    - task: SonarCloudPublish@1
+      displayName: 'sonar.publish'
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
 - stage: Publish
   condition: and(succeeded(), or(ne(variables['Build.AllowPublish'], ''), eq(variables['Build.SourceBranch'], 'refs/heads/master')))
   jobs:
