@@ -6,7 +6,6 @@ Provides support for serializing and deserializing [JSON-RPC 2.0](http://www.jso
 [![MyGet](https://img.shields.io/myget/alexanderkozlenko/vpre/Anemonis.JsonRpc.svg?label=myget&style=flat-square)](https://www.myget.org/feed/alexanderkozlenko/package/nuget/Anemonis.JsonRpc)
 
 [![SonarCloud](https://img.shields.io/sonar/violations/json-rpc?format=long&label=sonar&server=https%3A%2F%2Fsonarcloud.io&style=flat-square)](https://sonarcloud.io/dashboard?id=json-rpc)
-[![LGTM](https://img.shields.io/lgtm/alerts/github/alexanderkozlenko/json-rpc.svg?style=flat-square)](https://lgtm.com/projects/g/alexanderkozlenko/json-rpc)
 
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square)](https://gitter.im/anemonis/json-rpc)
 
