@@ -6,34 +6,36 @@ variables:
 - name: 'Build.Configuration'
   value: 'Release'
 stages:
-- stage: Build
-  steps:
-  - task: UseDotNet@2
-    displayName: 'dotnet.use'
-    inputs:
-      useGlobalJson: true
-      workingDirectory: '$(Build.SourcesDirectory)'
-  - task: DotNetCoreCLI@2
-    displayName: 'dotnet.build'
-    inputs:
-      command: custom
-      custom: build
-      arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:ContinuousIntegrationBuild=true -p:BuildNumber=$(Build.BuildNumber)'
-  - task: DotNetCoreCLI@2
-    displayName: 'dotnet.pack'
-    inputs:
-      command: custom
-      custom: pack
-      arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:ContinuousIntegrationBuild=true -p:BuildNumber=$(Build.BuildNumber) --no-build --include-symbols -o $(Build.ArtifactStagingDirectory)'
-  - task: PublishPipelineArtifact@0
-    displayName: 'pipeline.artifacts.publish'
-    inputs:
-      artifactName: 'artifact'
-      targetPath: '$(Build.ArtifactStagingDirectory)'
-- stage: Test
-  condition: and(succeeded(), eq(variables['Build.SkipTest'], ''))
+- stage: Building 
   jobs:
-  - job: Default
+  - job: $(Build.Configuration)
+    steps:
+    - task: UseDotNet@2
+      displayName: 'dotnet.use'
+      inputs:
+        useGlobalJson: true
+        workingDirectory: '$(Build.SourcesDirectory)'
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet.build'
+      inputs:
+        command: custom
+        custom: build
+        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:ContinuousIntegrationBuild=true -p:BuildNumber=$(Build.BuildNumber)'
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet.pack'
+      inputs:
+        command: custom
+        custom: pack
+        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:ContinuousIntegrationBuild=true -p:BuildNumber=$(Build.BuildNumber) --no-build --include-symbols -o $(Build.ArtifactStagingDirectory)'
+    - task: PublishPipelineArtifact@0
+      displayName: 'pipeline.artifacts.publish'
+      inputs:
+        artifactName: 'artifact'
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+- stage: Testing
+  condition: and(succeeded(), eq(variables['Build.SkipTesting'], ''))
+  jobs:
+  - job: $(Build.Configuration)
     steps:
     - task: UseDotNet@2
       displayName: 'dotnet.use'
@@ -75,10 +77,10 @@ stages:
     - task: SonarCloudPublish@1
       displayName: 'sonar.publish'
       condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
-- stage: Publish
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SkipPublish'], ''))
+- stage: Publishing
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SkipPublishing'], ''))
   jobs:
-  - job: Default
+  - job: $(Build.Configuration)
     steps:
     - checkout: none
     - task: DownloadPipelineArtifact@1
