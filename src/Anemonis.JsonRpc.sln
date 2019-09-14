@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anemonis.JsonRpc", "Anemoni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anemonis.JsonRpc.UnitTests", "Anemonis.JsonRpc.UnitTests\Anemonis.JsonRpc.UnitTests.csproj", "{CFACA0EB-4B90-4E7F-AD89-E3F2CAD2FA38}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anemonis.JsonRpc.SystemTests", "Anemonis.JsonRpc.SystemTests\Anemonis.JsonRpc.SystemTests.csproj", "{E2A61AD0-559C-488F-9595-9DDBB70DC837}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anemonis.JsonRpc.Benchmarks", "Anemonis.JsonRpc.Benchmarks\Anemonis.JsonRpc.Benchmarks.csproj", "{72B788B3-FBC3-408B-9067-BD3EAD83235E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution.Build", "Solution.Build", "{EC31B321-56E3-413B-A939-6653D32B9538}"
@@ -34,6 +36,10 @@ Global
 		{72B788B3-FBC3-408B-9067-BD3EAD83235E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72B788B3-FBC3-408B-9067-BD3EAD83235E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72B788B3-FBC3-408B-9067-BD3EAD83235E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2A61AD0-559C-488F-9595-9DDBB70DC837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2A61AD0-559C-488F-9595-9DDBB70DC837}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2A61AD0-559C-488F-9595-9DDBB70DC837}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2A61AD0-559C-488F-9595-9DDBB70DC837}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
