@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Anemonis.JsonRpc.UnitTests.Resources;
+using Anemonis.JsonRpc.SystemTests.Resources;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Anemonis.JsonRpc.UnitTests
+namespace Anemonis.JsonRpc.SystemTests
 {
     [TestClass]
-    public sealed class JsonRpcSerializerTestsV2Spec
+    public sealed class JsonRpcSerializerTestsV2
     {
         #region Example T01: RPC call with positional parameters
 
