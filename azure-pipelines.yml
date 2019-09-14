@@ -8,7 +8,7 @@ variables:
 stages:
 - stage: Building 
   jobs:
-  - job: $(Build.Configuration)
+  - job: '$(Build.Configuration)'
     steps:
     - task: UseDotNet@2
       displayName: 'dotnet.use'
@@ -35,7 +35,7 @@ stages:
 - stage: Testing
   condition: and(succeeded(), eq(variables['Build.SkipTesting'], ''))
   jobs:
-  - job: $(Build.Configuration)
+  - job: '$(Build.Configuration)'
     steps:
     - task: UseDotNet@2
       displayName: 'dotnet.use'
@@ -80,7 +80,7 @@ stages:
 - stage: Publishing
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SkipPublishing'], ''))
   jobs:
-  - job: $(Build.Configuration)
+  - job: '$(Build.Configuration)'
     steps:
     - checkout: none
     - task: DownloadPipelineArtifact@1
