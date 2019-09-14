@@ -7,11 +7,17 @@
     <SonarQubeExclude>true</SonarQubeExclude>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="$(MSBuildThisFileDirectory)**\*.??proj" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)**\*.sln" />
+    <ProjectFileReference Include="$(MSBuildThisFileDirectory)**\*.??proj" />
   </ItemGroup>
   <Import Sdk="Microsoft.Build.Traversal"
           Project="Sdk.targets"/>
+  <Target Name="Restore">
+    <MSBuild Projects="@(ProjectReference)"
+             Targets="Restore" />
+  </Target>
   <Target Name="VSTest">
-    <CallTarget Targets="Test" />
+    <MSBuild Projects="@(ProjectFileReference)"
+             Targets="VSTest" />
   </Target>
 </Project>
