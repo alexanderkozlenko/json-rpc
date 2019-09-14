@@ -33,6 +33,7 @@ stages:
         artifactName: 'artifact'
         targetPath: '$(Build.ArtifactStagingDirectory)'
 - stage: Test
+  condition: and(succeeded(), eq(variables['Build.SkipTesting'], ''))
   jobs:
   - job: Default
     steps:
@@ -72,11 +73,12 @@ stages:
         testRunner: VSTest
         testResultsFiles: '**/*.trx'
         searchFolder: '$(Agent.TempDirectory)'
+      condition: always()
     - task: SonarCloudPublish@1
       displayName: 'sonar.publish'
       condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
 - stage: Publish
-  condition: and(succeeded(), or(ne(variables['Build.AllowPublish'], ''), eq(variables['Build.SourceBranch'], 'refs/heads/master')))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SkipPublishing'], ''))
   jobs:
   - job: Default
     steps:
