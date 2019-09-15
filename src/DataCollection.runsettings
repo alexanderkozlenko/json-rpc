@@ -6,7 +6,7 @@
         <Configuration>
           <Format>opencover</Format>
           <SingleHit>false</SingleHit>
-          <UseSourceLink>true</UseSourceLink>
+          <Include>[Anemonis.JsonRpc]*</Include>
         </Configuration>
       </DataCollector>
     </DataCollectors>

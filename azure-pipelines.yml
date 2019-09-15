@@ -28,7 +28,7 @@ stages:
     - task: PublishPipelineArtifact@0
       displayName: 'artifact.publish'
       inputs:
-        artifactName: 'artifact'
+        artifactName: 'packages'
         targetPath: '$(Build.ArtifactStagingDirectory)'
 - stage: Test
   condition: and(succeeded(), eq(variables['Build.SkipTest'], ''))
@@ -90,6 +90,7 @@ stages:
     - task: DownloadPipelineArtifact@1
       displayName: 'artifact.download'
       inputs:
+        artifactName: 'packages'
         targetPath: '$(Build.ArtifactStagingDirectory)'
     - task: NuGetToolInstaller@1
       displayName: 'nuget.use'
