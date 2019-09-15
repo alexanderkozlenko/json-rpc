@@ -4,7 +4,6 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <NoWin32Manifest>true</NoWin32Manifest>
     <DeterministicSourcePaths>false</DeterministicSourcePaths>
-    <CopyLocalLockFileAssemblies Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\**" />
