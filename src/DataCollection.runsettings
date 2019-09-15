@@ -4,7 +4,7 @@
     <DataCollectors>
       <DataCollector friendlyName="XPlat code coverage">
         <Configuration>
-          <Format>json,cobertura,opencover</Format>
+          <Format>json,cobertura</Format>
           <SingleHit>false</SingleHit>
           <Include>[Anemonis.JsonRpc]*</Include>
         </Configuration>
