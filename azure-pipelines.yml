@@ -26,7 +26,7 @@ stages:
         custom: pack
         arguments: '$(Build.ProjectPath) -c Release -p:ContinuousIntegrationBuild=true -p:BuildNumber=$(Build.BuildNumber) --no-build --include-symbols -o $(Build.ArtifactStagingDirectory)'
     - task: PublishPipelineArtifact@0
-      displayName: 'pipeline.artifacts.publish'
+      displayName: 'artifact.publish'
       inputs:
         artifactName: 'artifact'
         targetPath: '$(Build.ArtifactStagingDirectory)'
@@ -66,7 +66,7 @@ stages:
     - task: SonarCloudAnalyze@1
       displayName: 'sonar.analyze'
     - task: PublishTestResults@2
-      displayName: 'pipeline.reports.publish'
+      displayName: 'report.publish'
       inputs:
         testRunner: VSTest
         testResultsFiles: '**/*.trx'
@@ -82,7 +82,7 @@ stages:
     steps:
     - checkout: none
     - task: DownloadPipelineArtifact@1
-      displayName: 'pipeline.artifacts.download'
+      displayName: 'artifact.download'
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)'
     - task: NuGetToolInstaller@1
@@ -90,7 +90,7 @@ stages:
       inputs:
         versionSpec: '$(System.NuGet.Version)'
     - task: NuGetCommand@2
-      displayName: 'nuget.artifacts.publish'
+      displayName: 'nuget.push'
       inputs:
         command: push
         packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
