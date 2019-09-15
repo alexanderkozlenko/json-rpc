@@ -7,17 +7,22 @@
     <SonarQubeExclude>true</SonarQubeExclude>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="$(MSBuildThisFileDirectory)**\*.sln" />
-    <ProjectFileReference Include="$(MSBuildThisFileDirectory)**\*.??proj" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)**\*.??proj" />
+    <SolutionReference Include="$(MSBuildThisFileDirectory)**\*.sln" />
   </ItemGroup>
   <Import Sdk="Microsoft.Build.Traversal"
           Project="Sdk.targets"/>
-  <Target Name="Restore">
+  <Target Name="Build"
+          DependsOnTargets="$(BuildDependsOn)">
     <MSBuild Projects="@(ProjectReference)"
-             Targets="Restore" />
-  </Target>
-  <Target Name="VSTest">
-    <MSBuild Projects="@(ProjectFileReference)"
-             Targets="VSTest" />
+             BuildInParallel="$(BuildInParallel)"
+             SkipNonexistentProjects="$(SkipNonexistentProjects)"
+             SkipNonexistentTargets="$(SkipNonexistentTargets)"
+             Condition="'$(UseSolution)' == ''" />
+    <MSBuild Projects="@(SolutionReference)"
+             BuildInParallel="$(BuildInParallel)"
+             SkipNonexistentProjects="$(SkipNonexistentProjects)"
+             SkipNonexistentTargets="$(SkipNonexistentTargets)"
+             Condition="'$(UseSolution)' != ''" />
   </Target>
 </Project>
