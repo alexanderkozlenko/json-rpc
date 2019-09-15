@@ -49,7 +49,6 @@ stages:
         scannerMode: 'MSBuild'
         extraProperties: |
           sonar.log.level=$(Sonar.Logging.Level)
-          sonar.language=cs
           sonar.cs.roslyn.ignoreIssues=true
           sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
     - task: DotNetCoreCLI@2
