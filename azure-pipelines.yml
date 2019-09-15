@@ -3,12 +3,10 @@
 variables:
 - name: 'Build.ProjectPath'
   value: '$(Build.SourcesDirectory)/global.proj'
-- name: 'Build.Configuration'
-  value: 'Release'
 stages:
 - stage: Building 
   jobs:
-  - job: '$(Build.Configuration)'
+  - job: Release
     steps:
     - task: UseDotNet@2
       displayName: 'dotnet.use'
@@ -20,13 +18,13 @@ stages:
       inputs:
         command: custom
         custom: build
-        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:ContinuousIntegrationBuild=true -p:BuildNumber=$(Build.BuildNumber)'
+        arguments: '$(Build.ProjectPath) -c Release -p:ContinuousIntegrationBuild=true -p:BuildNumber=$(Build.BuildNumber)'
     - task: DotNetCoreCLI@2
       displayName: 'dotnet.pack'
       inputs:
         command: custom
         custom: pack
-        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:ContinuousIntegrationBuild=true -p:BuildNumber=$(Build.BuildNumber) --no-build --include-symbols -o $(Build.ArtifactStagingDirectory)'
+        arguments: '$(Build.ProjectPath) -c Release -p:ContinuousIntegrationBuild=true -p:BuildNumber=$(Build.BuildNumber) --no-build --include-symbols -o $(Build.ArtifactStagingDirectory)'
     - task: PublishPipelineArtifact@0
       displayName: 'pipeline.artifacts.publish'
       inputs:
@@ -35,7 +33,7 @@ stages:
 - stage: Testing
   condition: and(succeeded(), eq(variables['Build.SkipTesting'], ''))
   jobs:
-  - job: '$(Build.Configuration)'
+  - job: Release
     steps:
     - task: UseDotNet@2
       displayName: 'dotnet.use'
@@ -58,13 +56,13 @@ stages:
       inputs:
         command: custom
         custom: build
-        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:ContinuousIntegrationBuild=true -p:BuildNumber=$(Build.BuildNumber)'
+        arguments: '$(Build.ProjectPath) -c Release -p:ContinuousIntegrationBuild=true -p:BuildNumber=$(Build.BuildNumber)'
     - task: DotNetCoreCLI@2
       displayName: 'dotnet.test'
       inputs:
         command: custom
         custom: test
-        arguments: '$(Build.ProjectPath) -c $(Build.Configuration) -p:ContinuousIntegrationBuild=true -p:BuildNumber=$(Build.BuildNumber) --no-build -l trx -r $(Agent.TempDirectory)'
+        arguments: '$(Build.ProjectPath) -c Release -p:ContinuousIntegrationBuild=true -p:BuildNumber=$(Build.BuildNumber) --no-build -l trx -r $(Agent.TempDirectory)'
     - task: SonarCloudAnalyze@1
       displayName: 'sonar.analyze'
     - task: PublishTestResults@2
@@ -80,7 +78,7 @@ stages:
 - stage: Publishing
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SkipPublishing'], ''))
   jobs:
-  - job: '$(Build.Configuration)'
+  - job: Release
     steps:
     - checkout: none
     - task: DownloadPipelineArtifact@1
