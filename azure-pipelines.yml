@@ -4,7 +4,7 @@ variables:
 - name: 'Build.ProjectPath'
   value: '$(Build.SourcesDirectory)/global.proj'
 stages:
-- stage: Building 
+- stage: Build
   jobs:
   - job: Release
     steps:
@@ -30,8 +30,8 @@ stages:
       inputs:
         artifactName: 'artifact'
         targetPath: '$(Build.ArtifactStagingDirectory)'
-- stage: Testing
-  condition: and(succeeded(), eq(variables['Build.SkipTesting'], ''))
+- stage: Test
+  condition: and(succeeded(), eq(variables['Build.SkipTest'], ''))
   jobs:
   - job: Release
     steps:
@@ -48,6 +48,7 @@ stages:
         projectKey: '$(Sonar.ProjectKey)'
         scannerMode: 'MSBuild'
         extraProperties: |
+          sonar.log.level=$(Sonar.Logging.Level)
           sonar.language=cs
           sonar.cs.roslyn.ignoreIssues=true
           sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
@@ -75,8 +76,8 @@ stages:
     - task: SonarCloudPublish@1
       displayName: 'sonar.publish'
       condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
-- stage: Publishing
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SkipPublishing'], ''))
+- stage: Publish
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SkipPublish'], ''))
   jobs:
   - job: Release
     steps:
