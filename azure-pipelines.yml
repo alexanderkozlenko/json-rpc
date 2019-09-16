@@ -49,6 +49,7 @@ stages:
         scannerMode: 'MSBuild'
         extraProperties: |
           sonar.log.level=$(Sonar.Logging.Level)
+          sonar.scm.disabled=true
           sonar.cs.roslyn.ignoreIssues=true
           sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/reports/**/*.trx
           sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/reports/**/*.opencover.xml
