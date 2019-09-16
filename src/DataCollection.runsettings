@@ -6,7 +6,6 @@
         <Configuration>
           <Format>opencover</Format>
           <SingleHit>false</SingleHit>
-          <Include>[*]*</Include>
         </Configuration>
       </DataCollector>
     </DataCollectors>

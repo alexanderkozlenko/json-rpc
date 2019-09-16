@@ -51,7 +51,7 @@ stages:
           sonar.log.level=$(Sonar.Logging.Level)
           sonar.cs.roslyn.ignoreIssues=true
           sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/reports/**/*.trx
-          sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/reports/**/coverage.opencover.xml
+          sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/reports/**/*.opencover.xml
     - task: DotNetCoreCLI@2
       displayName: 'dotnet.build'
       inputs:
@@ -63,7 +63,7 @@ stages:
       inputs:
         command: custom
         custom: test
-        arguments: '$(Build.ProjectPath) -v $(DOTNET_VERBOSITY) -c Release -p:BuildNumber=$(Build.BuildNumber) -s $(Build.SourcesDirectory)/src/DataCollection.runsettings -l trx -r $(Agent.TempDirectory)/reports'
+        arguments: '$(Build.ProjectPath) -v $(DOTNET_VERBOSITY) -c Release -p:BuildNumber=$(Build.BuildNumber) --no-build -s $(Build.SourcesDirectory)/src/DataCollection.runsettings -l trx -r $(Agent.TempDirectory)/reports'
     - task: SonarCloudAnalyze@1
       displayName: 'sonar.analyze'
     - task: PublishTestResults@2
@@ -76,11 +76,6 @@ stages:
     - task: SonarCloudPublish@1
       displayName: 'sonar.publish'
       condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
-    - task: PublishPipelineArtifact@0
-      displayName: 'report.publish'
-      inputs:
-        artifactName: 'reports'
-        targetPath: '$(Agent.TempDirectory)/reports'
 - stage: Publish
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SkipPublish'], ''))
   jobs:
