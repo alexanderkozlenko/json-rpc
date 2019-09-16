@@ -58,7 +58,7 @@ stages:
       inputs:
         command: custom
         custom: build
-        arguments: '$(Build.ProjectPath) -v $(DOTNET_VERBOSITY) -c Release -p:BuildNumber=$(Build.BuildNumber) -p:UseSolution=true'
+        arguments: '$(Build.ProjectPath) -v $(DOTNET_VERBOSITY) -c Release -p:BuildNumber=$(Build.BuildNumber) -p:UseSolution=true -p:CopyLocalLockFileAssemblies=true'
     - task: DotNetCoreCLI@2
       displayName: 'dotnet.test'
       inputs:
