@@ -148,26 +148,28 @@ namespace Anemonis.JsonRpc
         /// <returns>A 32-bit signed integer hash code.</returns>
         public override int GetHashCode()
         {
+            // FNV-1a
+
             unchecked
             {
-                var hashCode = (int)2166136261;
+                var hashCode = HashCode.FNV_OFFSET_BASIS_32;
 
                 hashCode ^= _type.GetHashCode();
-                hashCode *= 16777619;
+                hashCode *= HashCode.FNV_PRIME_32;
 
                 switch (_type)
                 {
                     case JsonRpcIdType.String:
                         {
                             hashCode ^= _valueString.GetHashCode();
-                            hashCode *= 16777619;
+                            hashCode *= HashCode.FNV_PRIME_32;
                         }
                         break;
                     case JsonRpcIdType.Integer:
                     case JsonRpcIdType.Float:
                         {
                             hashCode ^= _valueInteger.GetHashCode();
-                            hashCode *= 16777619;
+                            hashCode *= HashCode.FNV_PRIME_32;
                         }
                         break;
                 }
