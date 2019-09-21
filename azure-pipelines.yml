@@ -33,7 +33,7 @@ stages:
         targetPath: '$(Build.ArtifactStagingDirectory)'
 - stage: Test
   dependsOn: []
-  condition: and(succeeded(), eq(variables['Build.SkipTest'], ''))
+  condition: eq(variables['Build.SkipTest'], '')
   jobs:
   - job: Release
     steps:
