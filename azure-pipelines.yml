@@ -4,7 +4,8 @@ variables:
 - name: 'Build.ProjectPath'
   value: '$(Build.SourcesDirectory)/global.proj'
 stages:
-- stage: Build
+- stage: Pack
+  dependsOn: []
   jobs:
   - job: Release
     steps:
@@ -31,6 +32,7 @@ stages:
         artifactName: 'packages'
         targetPath: '$(Build.ArtifactStagingDirectory)'
 - stage: Test
+  dependsOn: []
   condition: and(succeeded(), eq(variables['Build.SkipTest'], ''))
   jobs:
   - job: Release
@@ -77,8 +79,11 @@ stages:
     - task: SonarCloudPublish@1
       displayName: 'sonar.publish'
       condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
-- stage: Publish
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SkipPublish'], ''))
+- stage: Push
+  dependsOn:
+  - Pack
+  - Test
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SkipPush'], ''))
   jobs:
   - job: Release
     steps:
