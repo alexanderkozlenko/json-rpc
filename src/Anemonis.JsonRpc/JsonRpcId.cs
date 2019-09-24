@@ -330,7 +330,7 @@ namespace Anemonis.JsonRpc
         }
 
         /// <summary>Gets the JSON-RPC message identifier type.</summary>
-        public readonly JsonRpcIdType Type
+        public JsonRpcIdType Type
         {
             get => _type;
         }

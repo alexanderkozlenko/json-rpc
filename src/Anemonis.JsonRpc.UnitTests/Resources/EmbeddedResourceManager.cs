@@ -12,7 +12,7 @@ namespace Anemonis.JsonRpc.Resources
     internal static class EmbeddedResourceManager
     {
         private static readonly Assembly _assembly = Assembly.GetExecutingAssembly();
-        private static readonly string _assemblyName = Assembly.GetExecutingAssembly().GetName().Name!;
+        private static readonly string _assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 
         public static string GetString(string name)
         {
