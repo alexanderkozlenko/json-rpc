@@ -8,9 +8,9 @@
     <BaseOutputPath>$(RepositoryDirectory)bin\$(MSBuildProjectName)</BaseOutputPath>
     <NoWarn>$(NoWarn);NU5105</NoWarn>
     <TreatWarningsAsErrors Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</TreatWarningsAsErrors>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
     <HighEntropyVA>true</HighEntropyVA>
-    <TieredCompilation>true</TieredCompilation>
     <AssemblyOriginatorKeyFile>$(SolutionDirectory)\Open.snk</AssemblyOriginatorKeyFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>

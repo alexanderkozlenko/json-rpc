@@ -10,7 +10,7 @@ namespace Anemonis.JsonRpc
         where T : JsonRpcMessage
     {
         private readonly JsonRpcMessageInfo<T> _message;
-        private readonly IReadOnlyList<JsonRpcMessageInfo<T>> _messages;
+        private readonly IReadOnlyList<JsonRpcMessageInfo<T>>? _messages;
 
         internal JsonRpcData(JsonRpcMessageInfo<T> message)
         {
@@ -35,7 +35,7 @@ namespace Anemonis.JsonRpc
         }
 
         /// <summary>Gets a collection of JSON-RPC message deserialization results for batch data.</summary>
-        public IReadOnlyList<JsonRpcMessageInfo<T>> Items
+        public IReadOnlyList<JsonRpcMessageInfo<T>>? Items
         {
             get => _messages;
         }

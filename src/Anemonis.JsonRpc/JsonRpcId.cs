@@ -13,7 +13,7 @@ namespace Anemonis.JsonRpc
     public readonly struct JsonRpcId : IEquatable<JsonRpcId>
     {
         [FieldOffset(0x00)]
-        private readonly string _valueString;
+        private readonly string? _valueString;
 
         [FieldOffset(0x08)]
         private readonly long _valueInteger;
@@ -66,7 +66,7 @@ namespace Anemonis.JsonRpc
             _valueFloat = value;
         }
 
-        private bool Equals(in JsonRpcId other)
+        private readonly bool Equals(in JsonRpcId other)
         {
             if (_type != other._type)
             {
@@ -91,17 +91,17 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        internal string UnsafeAsString()
+        internal readonly string? UnsafeAsString()
         {
             return _valueString;
         }
 
-        internal long UnsafeAsInteger()
+        internal readonly long UnsafeAsInteger()
         {
             return _valueInteger;
         }
 
-        internal double UnsafeAsFloat()
+        internal readonly double UnsafeAsFloat()
         {
             return _valueFloat;
         }
@@ -109,7 +109,7 @@ namespace Anemonis.JsonRpc
         /// <summary>Indicates whether the current <see cref="JsonRpcId" /> is equal to the specified object.</summary>
         /// <param name="obj">The object to compare with the current <see cref="JsonRpcId" />.</param>
         /// <returns><see langword="true" /> if the current <see cref="JsonRpcId" /> is equal to the specified object; otherwise, <see langword="false" />.</returns>
-        public override bool Equals(object obj)
+        public override readonly bool Equals(object obj)
         {
             switch (obj)
             {
@@ -131,7 +131,7 @@ namespace Anemonis.JsonRpc
                     }
                 default:
                     {
-                        return (_type == JsonRpcIdType.None) && (obj == null);
+                        return (_type == JsonRpcIdType.None) && (obj is null);
                     }
             }
         }
@@ -139,48 +139,40 @@ namespace Anemonis.JsonRpc
         /// <summary>Indicates whether the current <see cref="JsonRpcId" /> is equal to another <see cref="JsonRpcId" />.</summary>
         /// <param name="other">A <see cref="JsonRpcId" /> to compare with the current <see cref="JsonRpcId" />.</param>
         /// <returns><see langword="true" /> if the current <see cref="JsonRpcId" /> is equal to the other <see cref="JsonRpcId" />; otherwise, <see langword="false" />.</returns>
-        public bool Equals(JsonRpcId other)
+        public readonly bool Equals(JsonRpcId other)
         {
             return Equals(in other);
         }
 
         /// <summary>Returns the hash code for the current <see cref="JsonRpcId" />.</summary>
         /// <returns>A 32-bit signed integer hash code.</returns>
-        public override int GetHashCode()
+        public override readonly int GetHashCode()
         {
-            // FNV-1a
+            var hashCode = new HashCode();
 
-            unchecked
+            hashCode.Add(_type);
+
+            switch (_type)
             {
-                var hashCode = HashCode.FNV_OFFSET_BASIS_32;
-
-                hashCode ^= _type.GetHashCode();
-                hashCode *= HashCode.FNV_PRIME_32;
-
-                switch (_type)
-                {
-                    case JsonRpcIdType.String:
-                        {
-                            hashCode ^= _valueString.GetHashCode();
-                            hashCode *= HashCode.FNV_PRIME_32;
-                        }
-                        break;
-                    case JsonRpcIdType.Integer:
-                    case JsonRpcIdType.Float:
-                        {
-                            hashCode ^= _valueInteger.GetHashCode();
-                            hashCode *= HashCode.FNV_PRIME_32;
-                        }
-                        break;
-                }
-
-                return hashCode;
+                case JsonRpcIdType.String:
+                    {
+                        hashCode.Add(_valueString);
+                    }
+                    break;
+                case JsonRpcIdType.Integer:
+                case JsonRpcIdType.Float:
+                    {
+                        hashCode.Add(_valueInteger);
+                    }
+                    break;
             }
+
+            return hashCode.ToHashCode();
         }
 
         /// <summary>Converts the current <see cref="JsonRpcId" /> to its equivalent string representation.</summary>
         /// <returns>The string representation of the current <see cref="JsonRpcId" />.</returns>
-        public override string ToString()
+        public override readonly string ToString()
         {
             return ToString(CultureInfo.CurrentCulture);
         }
@@ -188,13 +180,13 @@ namespace Anemonis.JsonRpc
         /// <summary>Converts the current <see cref="JsonRpcId" /> to its equivalent string representation.</summary>
         /// <param name="provider">An <see cref="IFormatProvider" /> that supplies culture-specific formatting information.</param>
         /// <returns>The string representation of the current <see cref="JsonRpcId" />.</returns>
-        public string ToString(IFormatProvider provider)
+        public readonly string ToString(IFormatProvider provider)
         {
             switch (_type)
             {
                 case JsonRpcIdType.String:
                     {
-                        return _valueString;
+                        return _valueString!;
                     }
                 case JsonRpcIdType.Integer:
                     {
@@ -246,7 +238,7 @@ namespace Anemonis.JsonRpc
                 throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(string)));
             }
 
-            return value._valueString;
+            return value._valueString!;
         }
 
         /// <summary>Performs an implicit conversion from <see cref="JsonRpcId" /> to <see cref="long" />.</summary>
@@ -338,7 +330,7 @@ namespace Anemonis.JsonRpc
         }
 
         /// <summary>Gets the JSON-RPC message identifier type.</summary>
-        public JsonRpcIdType Type
+        public readonly JsonRpcIdType Type
         {
             get => _type;
         }

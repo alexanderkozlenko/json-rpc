@@ -9,14 +9,14 @@ namespace Anemonis.JsonRpc
     /// <summary>Represents a JSON-RPC response message.</summary>
     public sealed class JsonRpcResponse : JsonRpcMessage
     {
-        private readonly object _result;
-        private readonly JsonRpcError _error;
+        private readonly object? _result;
+        private readonly JsonRpcError? _error;
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcResponse" /> class.</summary>
         /// <param name="id">The identifier, which must be the same as the identifier in the JSON-RPC request.</param>
         /// <param name="result">The produced result for successful request.</param>
         /// <exception cref="ArgumentException"><paramref name="id" /> has undefined value.</exception>
-        public JsonRpcResponse(in JsonRpcId id, object result)
+        public JsonRpcResponse(in JsonRpcId id, object? result)
             : base(id)
         {
             if (id.Type == JsonRpcIdType.None)
@@ -43,13 +43,13 @@ namespace Anemonis.JsonRpc
         }
 
         /// <summary>Gets the produced result for successful request.</summary>
-        public object Result
+        public object? Result
         {
             get => _result;
         }
 
         /// <summary>Gets the produced JSON-RPC error for unsuccessful request.</summary>
-        public JsonRpcError Error
+        public JsonRpcError? Error
         {
             get => _error;
         }

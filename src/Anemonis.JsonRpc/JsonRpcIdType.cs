@@ -20,5 +20,3 @@ namespace Anemonis.JsonRpc
         Float = 0x03
     }
 }
-
-#pragma warning restore CA1720

@@ -6,13 +6,13 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace Anemonis.JsonRpc.Benchmarks.Resources
+namespace Anemonis.JsonRpc.Resources
 {
     [DebuggerStepThrough]
     internal static class EmbeddedResourceManager
     {
         private static readonly Assembly _assembly = Assembly.GetExecutingAssembly();
-        private static readonly string _assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+        private static readonly string _assemblyName = Assembly.GetExecutingAssembly().GetName().Name!;
 
         public static string GetString(string name)
         {
@@ -21,20 +21,18 @@ namespace Anemonis.JsonRpc.Benchmarks.Resources
                 throw new ArgumentNullException(nameof(name));
             }
 
-            using (var resourceStream = _assembly.GetManifestResourceStream(_assemblyName + "." + name))
+            using var resourceStream = _assembly.GetManifestResourceStream(_assemblyName + "." + name);
+
+            if (resourceStream == null)
             {
-                if (resourceStream == null)
-                {
-                    throw new InvalidOperationException($"The resource \"{name}\" was not found");
-                }
-
-                using (var bufferStream = new MemoryStream((int)resourceStream.Length))
-                {
-                    resourceStream.CopyTo(bufferStream);
-
-                    return Encoding.UTF8.GetString(bufferStream.ToArray());
-                }
+                throw new InvalidOperationException($"The resource \"{name}\" was not found");
             }
+
+            using var bufferStream = new MemoryStream((int)resourceStream.Length);
+
+            resourceStream.CopyTo(bufferStream);
+
+            return Encoding.UTF8.GetString(bufferStream.ToArray());
         }
     }
 }

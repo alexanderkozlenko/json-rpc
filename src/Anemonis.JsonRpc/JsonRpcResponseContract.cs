@@ -8,7 +8,7 @@ namespace Anemonis.JsonRpc
     public sealed class JsonRpcResponseContract : JsonRpcMessageContract
     {
         private readonly Type _resultType;
-        private readonly Type _errorDataType;
+        private readonly Type? _errorDataType;
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcResponseContract" /> class.</summary>
         /// <param name="resultType">The type of method result.</param>
@@ -33,7 +33,7 @@ namespace Anemonis.JsonRpc
         }
 
         /// <summary>Gets a type of JSON-RPC error optional data.</summary>
-        public Type ErrorDataType
+        public Type? ErrorDataType
         {
             get => _errorDataType;
         }
