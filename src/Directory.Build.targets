@@ -9,10 +9,4 @@
       <PackageIconUrl>$(PackageIconUrl.Replace('*', 'img/$(PackageId).png'))</PackageIconUrl>
     </PropertyGroup>
   </Target>
-  <Target Name="InitializeTestProperties"
-          BeforeTargets="VSTest">
-    <PropertyGroup>
-      <VSTestResultsDirectory Condition="'$(VSTestResultsDirectory)' == ''">$(BaseOutputPath)$(Configuration)</VSTestResultsDirectory>
-    </PropertyGroup>
-  </Target>
 </Project>
