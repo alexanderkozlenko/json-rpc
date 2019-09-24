@@ -9,8 +9,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Newtonsoft.Json.Linq;
 
-#nullable disable warnings
-
 namespace Anemonis.JsonRpc.UnitTests
 {
     [TestClass]

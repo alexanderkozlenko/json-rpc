@@ -4,8 +4,6 @@ using Anemonis.JsonRpc.Resources;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-#nullable disable warnings
-
 namespace Anemonis.JsonRpc.UnitTests
 {
     [TestClass]

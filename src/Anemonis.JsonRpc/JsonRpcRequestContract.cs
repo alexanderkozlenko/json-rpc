@@ -9,8 +9,8 @@ namespace Anemonis.JsonRpc
     public sealed class JsonRpcRequestContract : JsonRpcMessageContract
     {
         private readonly JsonRpcParametersType _parametersType;
-        private readonly IReadOnlyDictionary<string, Type>? _parametersByName;
-        private readonly IReadOnlyList<Type>? _parametersByPosition;
+        private readonly IReadOnlyDictionary<string, Type> _parametersByName;
+        private readonly IReadOnlyList<Type> _parametersByPosition;
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcRequestContract" /> class.</summary>
         public JsonRpcRequestContract()
@@ -52,13 +52,13 @@ namespace Anemonis.JsonRpc
         }
 
         /// <summary>Gets the types of JSON-RPC method parameters, provided by name.</summary>
-        public IReadOnlyDictionary<string, Type>? ParametersByName
+        public IReadOnlyDictionary<string, Type> ParametersByName
         {
             get => _parametersByName;
         }
 
         /// <summary>Gets the types of JSON-RPC method parameters, provided by position.</summary>
-        public IReadOnlyList<Type>? ParametersByPosition
+        public IReadOnlyList<Type> ParametersByPosition
         {
             get => _parametersByPosition;
         }

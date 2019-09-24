@@ -13,7 +13,7 @@ namespace Anemonis.JsonRpc
     public readonly struct JsonRpcId : IEquatable<JsonRpcId>
     {
         [FieldOffset(0x00)]
-        private readonly string? _valueString;
+        private readonly string _valueString;
 
         [FieldOffset(0x08)]
         private readonly long _valueInteger;
@@ -66,7 +66,7 @@ namespace Anemonis.JsonRpc
             _valueFloat = value;
         }
 
-        private readonly bool Equals(in JsonRpcId other)
+        private bool Equals(in JsonRpcId other)
         {
             if (_type != other._type)
             {
@@ -91,17 +91,17 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        internal readonly string? UnsafeAsString()
+        internal string UnsafeAsString()
         {
             return _valueString;
         }
 
-        internal readonly long UnsafeAsInteger()
+        internal long UnsafeAsInteger()
         {
             return _valueInteger;
         }
 
-        internal readonly double UnsafeAsFloat()
+        internal double UnsafeAsFloat()
         {
             return _valueFloat;
         }
@@ -109,7 +109,7 @@ namespace Anemonis.JsonRpc
         /// <summary>Indicates whether the current <see cref="JsonRpcId" /> is equal to the specified object.</summary>
         /// <param name="obj">The object to compare with the current <see cref="JsonRpcId" />.</param>
         /// <returns><see langword="true" /> if the current <see cref="JsonRpcId" /> is equal to the specified object; otherwise, <see langword="false" />.</returns>
-        public override readonly bool Equals(object obj)
+        public override bool Equals(object obj)
         {
             switch (obj)
             {
@@ -139,14 +139,14 @@ namespace Anemonis.JsonRpc
         /// <summary>Indicates whether the current <see cref="JsonRpcId" /> is equal to another <see cref="JsonRpcId" />.</summary>
         /// <param name="other">A <see cref="JsonRpcId" /> to compare with the current <see cref="JsonRpcId" />.</param>
         /// <returns><see langword="true" /> if the current <see cref="JsonRpcId" /> is equal to the other <see cref="JsonRpcId" />; otherwise, <see langword="false" />.</returns>
-        public readonly bool Equals(JsonRpcId other)
+        public bool Equals(JsonRpcId other)
         {
             return Equals(in other);
         }
 
         /// <summary>Returns the hash code for the current <see cref="JsonRpcId" />.</summary>
         /// <returns>A 32-bit signed integer hash code.</returns>
-        public override readonly int GetHashCode()
+        public override int GetHashCode()
         {
             var hashCode = new HashCode();
 
@@ -172,7 +172,7 @@ namespace Anemonis.JsonRpc
 
         /// <summary>Converts the current <see cref="JsonRpcId" /> to its equivalent string representation.</summary>
         /// <returns>The string representation of the current <see cref="JsonRpcId" />.</returns>
-        public override readonly string ToString()
+        public override string ToString()
         {
             return ToString(CultureInfo.CurrentCulture);
         }
@@ -180,13 +180,13 @@ namespace Anemonis.JsonRpc
         /// <summary>Converts the current <see cref="JsonRpcId" /> to its equivalent string representation.</summary>
         /// <param name="provider">An <see cref="IFormatProvider" /> that supplies culture-specific formatting information.</param>
         /// <returns>The string representation of the current <see cref="JsonRpcId" />.</returns>
-        public readonly string ToString(IFormatProvider provider)
+        public string ToString(IFormatProvider provider)
         {
             switch (_type)
             {
                 case JsonRpcIdType.String:
                     {
-                        return _valueString!;
+                        return _valueString;
                     }
                 case JsonRpcIdType.Integer:
                     {
@@ -238,7 +238,7 @@ namespace Anemonis.JsonRpc
                 throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Strings.GetString("id.invalid_cast"), typeof(JsonRpcId), typeof(string)));
             }
 
-            return value._valueString!;
+            return value._valueString;
         }
 
         /// <summary>Performs an implicit conversion from <see cref="JsonRpcId" /> to <see cref="long" />.</summary>

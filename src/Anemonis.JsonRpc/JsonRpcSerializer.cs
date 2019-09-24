@@ -24,7 +24,7 @@ namespace Anemonis.JsonRpc
         /// <param name="contractResolver">The JSON-RPC message contract resolver instance.</param>
         /// <param name="jsonSerializer">The JSON serializer instance.</param>
         /// <param name="compatibilityLevel">The JSON-RPC protocol compatibility level.</param>
-        public JsonRpcSerializer(IJsonRpcContractResolver? contractResolver = null, JsonSerializer? jsonSerializer = null, JsonRpcCompatibilityLevel compatibilityLevel = default)
+        public JsonRpcSerializer(IJsonRpcContractResolver contractResolver = null, JsonSerializer jsonSerializer = null, JsonRpcCompatibilityLevel compatibilityLevel = default)
         {
             _contractResolver = contractResolver;
             _jsonSerializer = jsonSerializer ?? JsonSerializer.CreateDefault(_jsonSerializerSettings);

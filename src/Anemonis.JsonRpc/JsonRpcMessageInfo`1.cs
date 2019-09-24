@@ -19,7 +19,7 @@ namespace Anemonis.JsonRpc
         /// <summary>Indicates whether the current <see cref="JsonRpcMessageInfo{T}" /> is equal to the specified object.</summary>
         /// <param name="obj">The object to compare with the current <see cref="JsonRpcMessageInfo{T}" />.</param>
         /// <returns><see langword="true" /> if the current <see cref="JsonRpcMessageInfo{T}" /> is equal to the specified object; otherwise, <see langword="false" />.</returns>
-        public override readonly bool Equals(object obj)
+        public override bool Equals(object obj)
         {
             return (obj is JsonRpcMessageInfo<T> other) && Equals(other);
         }
@@ -27,14 +27,14 @@ namespace Anemonis.JsonRpc
         /// <summary>Indicates whether the current <see cref="JsonRpcMessageInfo{T}" /> is equal to another <see cref="JsonRpcMessageInfo{T}" />.</summary>
         /// <param name="other">A <see cref="JsonRpcMessageInfo{T}" /> to compare with the current <see cref="JsonRpcMessageInfo{T}" />.</param>
         /// <returns><see langword="true" /> if the current <see cref="JsonRpcMessageInfo{T}" /> is equal to the other <see cref="JsonRpcMessageInfo{T}" />; otherwise, <see langword="false" />.</returns>
-        public readonly bool Equals(JsonRpcMessageInfo<T> other)
+        public bool Equals(JsonRpcMessageInfo<T> other)
         {
             return object.ReferenceEquals(_value, other._value);
         }
 
         /// <summary>Returns the hash code for the current <see cref="JsonRpcMessageInfo{T}" />.</summary>
         /// <returns>A 32-bit signed integer hash code.</returns>
-        public override readonly int GetHashCode()
+        public override int GetHashCode()
         {
             return HashCode.Combine(_value);
         }
@@ -58,19 +58,19 @@ namespace Anemonis.JsonRpc
         }
 
         /// <summary>Gets a JSON-RPC message for successful deserialization.</summary>
-        public readonly T? Message
+        public T Message
         {
             get => _value as T;
         }
 
         /// <summary>Gets an exception for unsuccessful deserialization.</summary>
-        public readonly JsonRpcSerializationException? Exception
+        public JsonRpcSerializationException Exception
         {
             get => _value as JsonRpcSerializationException;
         }
 
         /// <summary>Gets a value indicating whether the deserialization was successful.</summary>
-        public readonly bool IsValid
+        public bool IsValid
         {
             get => _value is JsonRpcMessage;
         }

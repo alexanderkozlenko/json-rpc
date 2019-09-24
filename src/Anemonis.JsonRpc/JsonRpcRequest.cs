@@ -10,8 +10,8 @@ namespace Anemonis.JsonRpc
     {
         private readonly string _method;
         private readonly JsonRpcParametersType _parametersType;
-        private readonly IReadOnlyDictionary<string, object>? _parametersByName;
-        private readonly IReadOnlyList<object>? _parametersByPosition;
+        private readonly IReadOnlyDictionary<string, object> _parametersByName;
+        private readonly IReadOnlyList<object> _parametersByPosition;
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcRequest" /> class.</summary>
         /// <param name="id">The identifier established by the client.</param>
@@ -75,13 +75,13 @@ namespace Anemonis.JsonRpc
         }
 
         /// <summary>Gets the JSON-RPC method parameters, provided by name.</summary>
-        public IReadOnlyDictionary<string, object>? ParametersByName
+        public IReadOnlyDictionary<string, object> ParametersByName
         {
             get => _parametersByName;
         }
 
         /// <summary>Gets the JSON-RPC method parameters, provided by position.</summary>
-        public IReadOnlyList<object>? ParametersByPosition
+        public IReadOnlyList<object> ParametersByPosition
         {
             get => _parametersByPosition;
         }

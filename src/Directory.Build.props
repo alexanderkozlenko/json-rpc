@@ -9,7 +9,6 @@
     <NoWarn>$(NoWarn);NU5105</NoWarn>
     <TreatWarningsAsErrors Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</TreatWarningsAsErrors>
     <LangVersion>8.0</LangVersion>
-    <Nullable>enable</Nullable>
     <HighEntropyVA>true</HighEntropyVA>
     <AssemblyOriginatorKeyFile>$(SolutionDirectory)\Open.snk</AssemblyOriginatorKeyFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>

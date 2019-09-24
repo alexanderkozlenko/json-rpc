@@ -35,7 +35,7 @@ namespace Anemonis.JsonRpc.Benchmarks.Framework
             }
         }
 
-        protected override string? FileCaption
+        protected override string FileCaption
         {
             get => null;
         }

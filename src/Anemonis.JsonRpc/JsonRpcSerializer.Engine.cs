@@ -21,7 +21,7 @@ namespace Anemonis.JsonRpc
         private static readonly JsonBufferPool _jsonSerializerBufferPool = new JsonBufferPool();
 
         private readonly JsonSerializer _jsonSerializer;
-        private readonly IJsonRpcContractResolver? _contractResolver;
+        private readonly IJsonRpcContractResolver _contractResolver;
         private readonly JsonRpcCompatibilityLevel _compatibilityLevel;
 
         private static JsonLoadSettings CreateJsonSerializerLoadSettings()
@@ -278,7 +278,7 @@ namespace Anemonis.JsonRpc
                     throw new JsonRpcSerializationException(requestId, JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.deserialize.request.method.invalid_property"));
                 }
 
-                var requestContract = _contractResolver!.GetRequestContract(requestMethod);
+                var requestContract = _contractResolver.GetRequestContract(requestMethod);
 
                 if (requestContract == null)
                 {
@@ -297,7 +297,7 @@ namespace Anemonis.JsonRpc
                             {
                                 throw new JsonRpcSerializationException(requestId, JsonRpcErrorCode.InvalidParameters, Strings.GetString("core.deserialize.request.params.invalid_structure"));
                             }
-                            if (requestParamsetersByPosition.Count < requestContract.ParametersByPosition!.Count)
+                            if (requestParamsetersByPosition.Count < requestContract.ParametersByPosition.Count)
                             {
                                 throw new JsonRpcSerializationException(requestId, JsonRpcErrorCode.InvalidParameters, Strings.GetString("core.deserialize.request.params.invalid_count"));
                             }
@@ -329,7 +329,7 @@ namespace Anemonis.JsonRpc
                                 throw new JsonRpcSerializationException(requestId, JsonRpcErrorCode.InvalidParameters, Strings.GetString("core.deserialize.request.params.invalid_structure"));
                             }
 
-                            var requestParameters = new Dictionary<string, object>(requestContract.ParametersByName!.Count, StringComparer.Ordinal);
+                            var requestParameters = new Dictionary<string, object>(requestContract.ParametersByName.Count, StringComparer.Ordinal);
 
                             try
                             {
@@ -670,7 +670,7 @@ namespace Anemonis.JsonRpc
                         throw new JsonRpcSerializationException(responseId, JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.deserialize.response.invalid_properties"));
                     }
 
-                    var responseContract = _contractResolver!.GetResponseContract(responseId);
+                    var responseContract = _contractResolver.GetResponseContract(responseId);
 
                     if (responseContract == null)
                     {
@@ -715,14 +715,8 @@ namespace Anemonis.JsonRpc
                         }
                         else
                         {
-                            if (responseErrorCode == null)
-                            {
-                                responseErrorCode = 0L;
-                            }
-                            if (responseErrorMessage == null)
-                            {
-                                responseErrorMessage = string.Empty;
-                            }
+                            responseErrorCode ??= 0L;
+                            responseErrorMessage ??= string.Empty;
                         }
 
                         if (responseErrorDataToken != null)
@@ -731,11 +725,11 @@ namespace Anemonis.JsonRpc
 
                             if (responseId.Type == JsonRpcIdType.None)
                             {
-                                responseErrorDataType = _contractResolver!.GetResponseContract(default)?.ErrorDataType;
+                                responseErrorDataType = _contractResolver.GetResponseContract(default)?.ErrorDataType;
                             }
                             else
                             {
-                                var responseContract = _contractResolver!.GetResponseContract(responseId);
+                                var responseContract = _contractResolver.GetResponseContract(responseId);
 
                                 if (responseContract == null)
                                 {
@@ -891,7 +885,7 @@ namespace Anemonis.JsonRpc
             {
                 case JsonRpcParametersType.ByPosition:
                     {
-                        if (request.ParametersByPosition!.Count != 0)
+                        if (request.ParametersByPosition.Count != 0)
                         {
                             writer.WritePropertyName("params");
                             writer.WriteStartArray();
@@ -948,7 +942,7 @@ namespace Anemonis.JsonRpc
                             }
                             else
                             {
-                                foreach (var kvp in request.ParametersByName!)
+                                foreach (var kvp in request.ParametersByName)
                                 {
                                     writer.WritePropertyName(kvp.Key);
 
@@ -1073,9 +1067,9 @@ namespace Anemonis.JsonRpc
                 writer.WritePropertyName("error");
                 writer.WriteStartObject();
                 writer.WritePropertyName("code");
-                writer.WriteValue(response.Error!.Code);
+                writer.WriteValue(response.Error.Code);
                 writer.WritePropertyName("message");
-                writer.WriteValue(response.Error!.Message);
+                writer.WriteValue(response.Error.Message);
 
                 if (response.Error.HasData)
                 {

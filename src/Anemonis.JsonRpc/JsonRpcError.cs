@@ -11,7 +11,7 @@ namespace Anemonis.JsonRpc
     {
         private readonly long _code;
         private readonly string _message;
-        private readonly object? _data;
+        private readonly object _data;
         private readonly bool _hasData;
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcError" /> class.</summary>
@@ -60,7 +60,7 @@ namespace Anemonis.JsonRpc
         }
 
         /// <summary>Gets an optional value that contains additional information about the error.</summary>
-        public object? Data
+        public object Data
         {
             get => _data;
         }
