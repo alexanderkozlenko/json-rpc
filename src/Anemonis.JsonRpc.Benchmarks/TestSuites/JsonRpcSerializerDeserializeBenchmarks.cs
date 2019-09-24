@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Anemonis.JsonRpc.Resources;
+using Anemonis.Resources;
 
 using BenchmarkDotNet.Attributes;
 

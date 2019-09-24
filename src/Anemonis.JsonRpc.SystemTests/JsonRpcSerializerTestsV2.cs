@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Anemonis.JsonRpc.Resources;
+using Anemonis.Resources;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
-using Anemonis.JsonRpc.Resources;
+using Anemonis.Resources;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

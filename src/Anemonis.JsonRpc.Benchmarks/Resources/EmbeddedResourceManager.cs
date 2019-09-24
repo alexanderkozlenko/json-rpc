@@ -6,7 +6,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace Anemonis.JsonRpc.Resources
+namespace Anemonis.Resources
 {
     [DebuggerStepThrough]
     internal static class EmbeddedResourceManager
