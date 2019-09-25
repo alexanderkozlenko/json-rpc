@@ -1,6 +1,6 @@
 using System.Linq;
 
-using Anemonis.JsonRpc.SystemTests.Resources;
+using Anemonis.Resources;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

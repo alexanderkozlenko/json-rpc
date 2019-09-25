@@ -131,7 +131,7 @@ namespace Anemonis.JsonRpc
                     }
                 default:
                     {
-                        return (_type == JsonRpcIdType.None) && (obj == null);
+                        return (_type == JsonRpcIdType.None) && (obj is null);
                     }
             }
         }
@@ -148,34 +148,26 @@ namespace Anemonis.JsonRpc
         /// <returns>A 32-bit signed integer hash code.</returns>
         public override int GetHashCode()
         {
-            // FNV-1a
+            var hashCode = new HashCode();
 
-            unchecked
+            hashCode.Add(_type);
+
+            switch (_type)
             {
-                var hashCode = HashCode.FNV_OFFSET_BASIS_32;
-
-                hashCode ^= _type.GetHashCode();
-                hashCode *= HashCode.FNV_PRIME_32;
-
-                switch (_type)
-                {
-                    case JsonRpcIdType.String:
-                        {
-                            hashCode ^= _valueString.GetHashCode();
-                            hashCode *= HashCode.FNV_PRIME_32;
-                        }
-                        break;
-                    case JsonRpcIdType.Integer:
-                    case JsonRpcIdType.Float:
-                        {
-                            hashCode ^= _valueInteger.GetHashCode();
-                            hashCode *= HashCode.FNV_PRIME_32;
-                        }
-                        break;
-                }
-
-                return hashCode;
+                case JsonRpcIdType.String:
+                    {
+                        hashCode.Add(_valueString);
+                    }
+                    break;
+                case JsonRpcIdType.Integer:
+                case JsonRpcIdType.Float:
+                    {
+                        hashCode.Add(_valueInteger);
+                    }
+                    break;
             }
+
+            return hashCode.ToHashCode();
         }
 
         /// <summary>Converts the current <see cref="JsonRpcId" /> to its equivalent string representation.</summary>

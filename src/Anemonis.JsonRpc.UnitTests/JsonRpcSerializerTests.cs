@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
-using Anemonis.JsonRpc.UnitTests.Resources;
+using Anemonis.Resources;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -65,11 +65,10 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jrs = new JsonRpcSerializer();
 
-            using (var stream = new MemoryStream())
-            {
-                Assert.ThrowsException<ArgumentNullException>(() =>
-                    jrs.SerializeRequest(null, stream));
-            }
+            using var stream = new MemoryStream();
+
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                jrs.SerializeRequest(null, stream));
         }
 
         [TestMethod]
@@ -106,11 +105,10 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jrs = new JsonRpcSerializer();
 
-            using (var stream = new MemoryStream())
-            {
-                await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                    jrs.SerializeRequestAsync(null, stream, default).AsTask());
-            }
+            using var stream = new MemoryStream();
+
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                jrs.SerializeRequestAsync(null, stream, default).AsTask());
         }
 
         [TestMethod]
@@ -138,11 +136,10 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jrs = new JsonRpcSerializer();
 
-            using (var stream = new MemoryStream())
-            {
-                Assert.ThrowsException<ArgumentNullException>(() =>
-                    jrs.SerializeRequests(null, stream));
-            }
+            using var stream = new MemoryStream();
+
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                jrs.SerializeRequests(null, stream));
         }
 
         [TestMethod]
@@ -183,11 +180,10 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jrs = new JsonRpcSerializer();
 
-            using (var stream = new MemoryStream())
-            {
-                await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                    jrs.SerializeRequestsAsync(null, stream, default).AsTask());
-            }
+            using var stream = new MemoryStream();
+
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                jrs.SerializeRequestsAsync(null, stream, default).AsTask());
         }
 
         [TestMethod]
@@ -259,11 +255,10 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jrs = new JsonRpcSerializer();
 
-            using (var stream = new MemoryStream())
-            {
-                Assert.ThrowsException<ArgumentNullException>(() =>
-                    jrs.SerializeResponse(null, stream));
-            }
+            using var stream = new MemoryStream();
+
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                jrs.SerializeResponse(null, stream));
         }
 
         [TestMethod]
@@ -300,11 +295,10 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jrs = new JsonRpcSerializer();
 
-            using (var stream = new MemoryStream())
-            {
-                await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                    jrs.SerializeResponseAsync(null, stream, default).AsTask());
-            }
+            using var stream = new MemoryStream();
+
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                jrs.SerializeResponseAsync(null, stream, default).AsTask());
         }
 
         [TestMethod]
@@ -332,11 +326,10 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jrs = new JsonRpcSerializer();
 
-            using (var stream = new MemoryStream())
-            {
-                Assert.ThrowsException<ArgumentNullException>(() =>
-                    jrs.SerializeResponses(null, stream));
-            }
+            using var stream = new MemoryStream();
+
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                jrs.SerializeResponses(null, stream));
         }
 
         [TestMethod]
@@ -377,11 +370,10 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             var jrs = new JsonRpcSerializer();
 
-            using (var stream = new MemoryStream())
-            {
-                await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                    jrs.SerializeResponsesAsync(null, stream, default).AsTask());
-            }
+            using var stream = new MemoryStream();
+
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                jrs.SerializeResponsesAsync(null, stream, default).AsTask());
         }
 
         [TestMethod]

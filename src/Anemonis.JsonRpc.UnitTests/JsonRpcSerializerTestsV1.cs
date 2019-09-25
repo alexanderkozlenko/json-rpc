@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using Anemonis.JsonRpc.UnitTests.Resources;
+using Anemonis.Resources;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -36,17 +36,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A 32-bit signed integer hash code.</returns>
         public override int GetHashCode()
         {
-            // FNV-1a
-
-            unchecked
-            {
-                var hashCode = HashCode.FNV_OFFSET_BASIS_32;
-
-                hashCode ^= _value?.GetHashCode() ?? 0;
-                hashCode *= HashCode.FNV_PRIME_32;
-
-                return hashCode;
-            }
+            return HashCode.Combine(_value);
         }
 
         /// <summary>Indicates whether the left <see cref="JsonRpcMessageInfo{T}" /> is equal to the right <see cref="JsonRpcMessageInfo{T}" />.</summary>

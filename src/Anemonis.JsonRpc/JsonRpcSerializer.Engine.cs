@@ -715,14 +715,8 @@ namespace Anemonis.JsonRpc
                         }
                         else
                         {
-                            if (responseErrorCode == null)
-                            {
-                                responseErrorCode = 0L;
-                            }
-                            if (responseErrorMessage == null)
-                            {
-                                responseErrorMessage = string.Empty;
-                            }
+                            responseErrorCode ??= 0L;
+                            responseErrorMessage ??= string.Empty;
                         }
 
                         if (responseErrorDataToken != null)
@@ -1098,5 +1092,3 @@ namespace Anemonis.JsonRpc
         }
     }
 }
-
-#pragma warning restore CA1031
