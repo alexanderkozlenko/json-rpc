@@ -13,10 +13,7 @@ namespace Anemonis.JsonRpc
         /// <summary>JSON-RPC message identifier of string type.</summary>
         String = 0x01,
 
-        /// <summary>JSON-RPC message identifier of integer type.</summary>
-        Integer = 0x02,
-
-        /// <summary>JSON-RPC message identifier of float type.</summary>
-        Float = 0x03
+        /// <summary>JSON-RPC message identifier of number type.</summary>
+        Number = 0x02
     }
 }

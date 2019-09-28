@@ -48,8 +48,7 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             Assert.AreEqual(JsonRpcIdType.None, new JsonRpcId().Type);
             Assert.AreEqual(JsonRpcIdType.String, new JsonRpcId("1").Type);
-            Assert.AreEqual(JsonRpcIdType.Integer, new JsonRpcId(1L).Type);
-            Assert.AreEqual(JsonRpcIdType.Float, new JsonRpcId(1D).Type);
+            Assert.AreEqual(JsonRpcIdType.Number, new JsonRpcId(1D).Type);
         }
 
         [TestMethod]
@@ -60,13 +59,9 @@ namespace Anemonis.JsonRpc.UnitTests
             Assert.IsFalse(
                 new JsonRpcId() == new JsonRpcId("1"));
             Assert.IsFalse(
-                new JsonRpcId() == new JsonRpcId(1L));
-            Assert.IsFalse(
                 new JsonRpcId() == new JsonRpcId(1D));
             Assert.IsFalse(
                 new JsonRpcId() == "1");
-            Assert.IsFalse(
-                new JsonRpcId() == 1L);
             Assert.IsFalse(
                 new JsonRpcId() == 1D);
 
@@ -77,51 +72,24 @@ namespace Anemonis.JsonRpc.UnitTests
             Assert.IsFalse(
                 new JsonRpcId("1") == new JsonRpcId("2"));
             Assert.IsFalse(
-                new JsonRpcId("1") == new JsonRpcId(1L));
-            Assert.IsFalse(
                 new JsonRpcId("1") == new JsonRpcId(1D));
             Assert.IsTrue(
                 new JsonRpcId("1") == "1");
             Assert.IsFalse(
                 new JsonRpcId("1") == "2");
             Assert.IsFalse(
-                new JsonRpcId("1") == 1L);
-            Assert.IsFalse(
                 new JsonRpcId("1") == 1D);
-
-            Assert.IsFalse(
-                new JsonRpcId(1L) == new JsonRpcId());
-            Assert.IsFalse(
-                new JsonRpcId(1L) == new JsonRpcId("1"));
-            Assert.IsTrue(
-                new JsonRpcId(1L) == new JsonRpcId(1L));
-            Assert.IsFalse(
-                new JsonRpcId(1L) == new JsonRpcId(2L));
-            Assert.IsFalse(
-                new JsonRpcId(1L) == new JsonRpcId(1D));
-            Assert.IsFalse(
-                new JsonRpcId(1L) == "1");
-            Assert.IsTrue(
-                new JsonRpcId(1L) == 1L);
-            Assert.IsFalse(
-                new JsonRpcId(1L) == 2L);
-            Assert.IsFalse(
-                new JsonRpcId(1L) == 1D);
 
             Assert.IsFalse(
                 new JsonRpcId(1D) == new JsonRpcId());
             Assert.IsFalse(
                 new JsonRpcId(1D) == new JsonRpcId("1"));
-            Assert.IsFalse(
-                new JsonRpcId(1D) == new JsonRpcId(1L));
             Assert.IsTrue(
                 new JsonRpcId(1D) == new JsonRpcId(1D));
             Assert.IsFalse(
                 new JsonRpcId(1D) == new JsonRpcId(2D));
             Assert.IsFalse(
                 new JsonRpcId(1D) == "1");
-            Assert.IsFalse(
-                new JsonRpcId(1D) == 1L);
             Assert.IsTrue(
                 new JsonRpcId(1D) == 1D);
             Assert.IsFalse(
@@ -136,13 +104,9 @@ namespace Anemonis.JsonRpc.UnitTests
             Assert.IsTrue(
                 new JsonRpcId() != new JsonRpcId("1"));
             Assert.IsTrue(
-                new JsonRpcId() != new JsonRpcId(1L));
-            Assert.IsTrue(
                 new JsonRpcId() != new JsonRpcId(1D));
             Assert.IsTrue(
                 new JsonRpcId() != "1");
-            Assert.IsTrue(
-                new JsonRpcId() != 1L);
             Assert.IsTrue(
                 new JsonRpcId() != 1D);
 
@@ -153,51 +117,24 @@ namespace Anemonis.JsonRpc.UnitTests
             Assert.IsTrue(
                 new JsonRpcId("1") != new JsonRpcId("2"));
             Assert.IsTrue(
-                new JsonRpcId("1") != new JsonRpcId(1L));
-            Assert.IsTrue(
                 new JsonRpcId("1") != new JsonRpcId(1D));
             Assert.IsFalse(
                 new JsonRpcId("1") != "1");
             Assert.IsTrue(
                 new JsonRpcId("1") != "2");
             Assert.IsTrue(
-                new JsonRpcId("1") != 1L);
-            Assert.IsTrue(
                 new JsonRpcId("1") != 1D);
-
-            Assert.IsTrue(
-                new JsonRpcId(1L) != new JsonRpcId());
-            Assert.IsTrue(
-                new JsonRpcId(1L) != new JsonRpcId("1"));
-            Assert.IsFalse(
-                new JsonRpcId(1L) != new JsonRpcId(1L));
-            Assert.IsTrue(
-                new JsonRpcId(1L) != new JsonRpcId(2L));
-            Assert.IsTrue(
-                new JsonRpcId(1L) != new JsonRpcId(1D));
-            Assert.IsTrue(
-                new JsonRpcId(1L) != "1");
-            Assert.IsFalse(
-                new JsonRpcId(1L) != 1L);
-            Assert.IsTrue(
-                new JsonRpcId(1L) != 2L);
-            Assert.IsTrue(
-                new JsonRpcId(1L) != 1D);
 
             Assert.IsTrue(
                 new JsonRpcId(1D) != new JsonRpcId());
             Assert.IsTrue(
                 new JsonRpcId(1D) != new JsonRpcId("1"));
-            Assert.IsTrue(
-                new JsonRpcId(1D) != new JsonRpcId(1L));
             Assert.IsFalse(
                 new JsonRpcId(1D) != new JsonRpcId(1D));
             Assert.IsTrue(
                 new JsonRpcId(1D) != new JsonRpcId(2D));
             Assert.IsTrue(
                 new JsonRpcId(1D) != "1");
-            Assert.IsTrue(
-                new JsonRpcId(1D) != 1L);
             Assert.IsFalse(
                 new JsonRpcId(1D) != 1D);
             Assert.IsTrue(
@@ -207,27 +144,16 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void ObjectCastToString()
         {
-            Assert.ThrowsException<InvalidCastException>(() => (string)new JsonRpcId());
+            Assert.AreEqual(default, (string)new JsonRpcId());
             Assert.AreEqual("1", (string)new JsonRpcId("1"));
-            Assert.ThrowsException<InvalidCastException>(() => (string)new JsonRpcId(1L));
-            Assert.ThrowsException<InvalidCastException>(() => (string)new JsonRpcId(1D));
-        }
-
-        [TestMethod]
-        public void ObjectCastToLong()
-        {
-            Assert.ThrowsException<InvalidCastException>(() => (long)new JsonRpcId());
-            Assert.ThrowsException<InvalidCastException>(() => (long)new JsonRpcId("1"));
-            Assert.AreEqual(1L, (long)new JsonRpcId(1L));
-            Assert.ThrowsException<InvalidCastException>(() => (long)new JsonRpcId(1D));
+            Assert.AreEqual(default, (string)new JsonRpcId(1D));
         }
 
         [TestMethod]
         public void ObjectCastToDouble()
         {
-            Assert.ThrowsException<InvalidCastException>(() => (double)new JsonRpcId());
-            Assert.ThrowsException<InvalidCastException>(() => (double)new JsonRpcId("1"));
-            Assert.ThrowsException<InvalidCastException>(() => (double)new JsonRpcId(1L));
+            Assert.AreEqual(default, (double)new JsonRpcId());
+            Assert.AreEqual(default, (double)new JsonRpcId("1"));
             Assert.AreEqual(1D, (double)new JsonRpcId(1D));
         }
 
@@ -236,7 +162,6 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             Assert.IsTrue(new JsonRpcId().Equals((object)new JsonRpcId()));
             Assert.IsFalse(new JsonRpcId("1").Equals((object)new JsonRpcId()));
-            Assert.IsFalse(new JsonRpcId(1L).Equals((object)new JsonRpcId()));
             Assert.IsFalse(new JsonRpcId(1D).Equals((object)new JsonRpcId()));
         }
 
@@ -246,18 +171,7 @@ namespace Anemonis.JsonRpc.UnitTests
             Assert.IsFalse(new JsonRpcId().Equals((object)new JsonRpcId("1")));
             Assert.IsTrue(new JsonRpcId("1").Equals((object)new JsonRpcId("1")));
             Assert.IsFalse(new JsonRpcId("2").Equals((object)new JsonRpcId("1")));
-            Assert.IsFalse(new JsonRpcId(1L).Equals((object)new JsonRpcId("1")));
             Assert.IsFalse(new JsonRpcId(1D).Equals((object)new JsonRpcId("1")));
-        }
-
-        [TestMethod]
-        public void ObjectEqualsWhenObject1IsIntegerJsonRpcId()
-        {
-            Assert.IsFalse(new JsonRpcId().Equals((object)new JsonRpcId(1L)));
-            Assert.IsFalse(new JsonRpcId("1").Equals((object)new JsonRpcId(1L)));
-            Assert.IsTrue(new JsonRpcId(1L).Equals((object)new JsonRpcId(1L)));
-            Assert.IsFalse(new JsonRpcId(2L).Equals((object)new JsonRpcId(1L)));
-            Assert.IsFalse(new JsonRpcId(1D).Equals((object)new JsonRpcId(1L)));
         }
 
         [TestMethod]
@@ -265,7 +179,6 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             Assert.IsFalse(new JsonRpcId().Equals((object)new JsonRpcId(1D)));
             Assert.IsFalse(new JsonRpcId("1").Equals((object)new JsonRpcId(1D)));
-            Assert.IsFalse(new JsonRpcId(1L).Equals((object)new JsonRpcId(1D)));
             Assert.IsTrue(new JsonRpcId(1D).Equals((object)new JsonRpcId(1D)));
             Assert.IsFalse(new JsonRpcId(2D).Equals((object)new JsonRpcId(1D)));
         }
@@ -276,18 +189,7 @@ namespace Anemonis.JsonRpc.UnitTests
             Assert.IsFalse(new JsonRpcId().Equals((object)"1"));
             Assert.IsTrue(new JsonRpcId("1").Equals((object)"1"));
             Assert.IsFalse(new JsonRpcId("2").Equals((object)"1"));
-            Assert.IsFalse(new JsonRpcId(1L).Equals((object)"1"));
             Assert.IsFalse(new JsonRpcId(1D).Equals((object)"1"));
-        }
-
-        [TestMethod]
-        public void ObjectEqualsWhenObject1IsInteger()
-        {
-            Assert.IsFalse(new JsonRpcId().Equals((object)1L));
-            Assert.IsFalse(new JsonRpcId("1").Equals((object)1L));
-            Assert.IsTrue(new JsonRpcId(1L).Equals((object)1L));
-            Assert.IsFalse(new JsonRpcId(2L).Equals((object)1L));
-            Assert.IsFalse(new JsonRpcId(1D).Equals((object)1L));
         }
 
         [TestMethod]
@@ -295,7 +197,6 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             Assert.IsFalse(new JsonRpcId().Equals((object)1D));
             Assert.IsFalse(new JsonRpcId("1").Equals((object)1D));
-            Assert.IsFalse(new JsonRpcId(1L).Equals((object)1D));
             Assert.IsTrue(new JsonRpcId(1D).Equals((object)1D));
             Assert.IsFalse(new JsonRpcId(2D).Equals((object)1D));
         }
@@ -305,7 +206,6 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             Assert.IsTrue(new JsonRpcId().Equals((object)null));
             Assert.IsFalse(new JsonRpcId("1").Equals((object)null));
-            Assert.IsFalse(new JsonRpcId(1L).Equals((object)null));
             Assert.IsFalse(new JsonRpcId(1D).Equals((object)null));
             Assert.IsFalse(new JsonRpcId(2D).Equals((object)null));
         }
@@ -318,18 +218,10 @@ namespace Anemonis.JsonRpc.UnitTests
             Assert.AreNotEqual(new JsonRpcId("1").GetHashCode(), new JsonRpcId().GetHashCode());
             Assert.AreEqual(new JsonRpcId("1").GetHashCode(), new JsonRpcId("1").GetHashCode());
             Assert.AreNotEqual(new JsonRpcId("1").GetHashCode(), new JsonRpcId("2").GetHashCode());
-            Assert.AreNotEqual(new JsonRpcId("1").GetHashCode(), new JsonRpcId(1L).GetHashCode());
             Assert.AreNotEqual(new JsonRpcId("1").GetHashCode(), new JsonRpcId(1D).GetHashCode());
-
-            Assert.AreNotEqual(new JsonRpcId(1L).GetHashCode(), new JsonRpcId().GetHashCode());
-            Assert.AreNotEqual(new JsonRpcId(1L).GetHashCode(), new JsonRpcId("1").GetHashCode());
-            Assert.AreEqual(new JsonRpcId(1L).GetHashCode(), new JsonRpcId(1L).GetHashCode());
-            Assert.AreNotEqual(new JsonRpcId(1L).GetHashCode(), new JsonRpcId(2L).GetHashCode());
-            Assert.AreNotEqual(new JsonRpcId(1L).GetHashCode(), new JsonRpcId(1D).GetHashCode());
 
             Assert.AreNotEqual(new JsonRpcId(1D).GetHashCode(), new JsonRpcId().GetHashCode());
             Assert.AreNotEqual(new JsonRpcId(1D).GetHashCode(), new JsonRpcId("1").GetHashCode());
-            Assert.AreNotEqual(new JsonRpcId(1D).GetHashCode(), new JsonRpcId(1L).GetHashCode());
             Assert.AreEqual(new JsonRpcId(1D).GetHashCode(), new JsonRpcId(1D).GetHashCode());
             Assert.AreNotEqual(new JsonRpcId(1D).GetHashCode(), new JsonRpcId(2D).GetHashCode());
         }
@@ -339,7 +231,6 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             Assert.IsNotNull(new JsonRpcId().ToString());
             Assert.IsNotNull(new JsonRpcId("1").ToString());
-            Assert.IsNotNull(new JsonRpcId(1L).ToString());
             Assert.IsNotNull(new JsonRpcId(1.1).ToString());
         }
 
@@ -348,7 +239,6 @@ namespace Anemonis.JsonRpc.UnitTests
         {
             Assert.IsNotNull(new JsonRpcId().ToString(null));
             Assert.IsNotNull(new JsonRpcId("1").ToString(null));
-            Assert.IsNotNull(new JsonRpcId(1L).ToString(null));
             Assert.IsNotNull(new JsonRpcId(1.1).ToString(null));
         }
 
@@ -362,20 +252,11 @@ namespace Anemonis.JsonRpc.UnitTests
         }
 
         [TestMethod]
-        public void StaticFromInt64()
-        {
-            var jsonRpcId = JsonRpcId.FromInt64(1L);
-
-            Assert.AreEqual(JsonRpcIdType.Integer, jsonRpcId.Type);
-            Assert.AreEqual(1L, jsonRpcId);
-        }
-
-        [TestMethod]
         public void StaticFromDouble()
         {
             var jsonRpcId = JsonRpcId.FromDouble(1D);
 
-            Assert.AreEqual(JsonRpcIdType.Float, jsonRpcId.Type);
+            Assert.AreEqual(JsonRpcIdType.Number, jsonRpcId.Type);
             Assert.AreEqual(1D, jsonRpcId);
         }
 
@@ -386,15 +267,6 @@ namespace Anemonis.JsonRpc.UnitTests
             var value = JsonRpcId.ToString(jsonRpcId);
 
             Assert.AreEqual("1", value);
-        }
-
-        [TestMethod]
-        public void StaticToInt64()
-        {
-            var jsonRpcId = JsonRpcId.FromInt64(1L);
-            var value = JsonRpcId.ToInt64(jsonRpcId);
-
-            Assert.AreEqual(1L, value);
         }
 
         [TestMethod]

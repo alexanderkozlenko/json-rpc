@@ -186,13 +186,10 @@
   <data name="error.code.invalid_range" xml:space="preserve">
     <value>The specified error code is outside the allowable range</value>
   </data>
-  <data name="id.invalid_cast" xml:space="preserve">
-    <value>Unable to cast object of type {0} to type {1}</value>
-  </data>
-  <data name="id.invalid_float" xml:space="preserve">
-    <value>The specified floating-point value is invalid</value>
+  <data name="id.float_not_finite" xml:space="preserve">
+    <value>The specified floating-point value is not finite</value>
   </data>
   <data name="response.undefined_id" xml:space="preserve">
-    <value>The specified identifier has undefined value</value>
+    <value>The specified identifier has no value</value>
   </data>
 </root>
