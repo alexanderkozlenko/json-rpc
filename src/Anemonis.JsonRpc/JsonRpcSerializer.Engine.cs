@@ -861,19 +861,23 @@ namespace Anemonis.JsonRpc
                 case JsonRpcIdType.String:
                     {
                         writer.WritePropertyName("id");
-                        writer.WriteValue(requestId.UnsafeAsString());
+                        writer.WriteValue(requestId.GetStringValue());
                     }
                     break;
-                case JsonRpcIdType.Integer:
+                case JsonRpcIdType.Number:
                     {
                         writer.WritePropertyName("id");
-                        writer.WriteValue(requestId.UnsafeAsInteger());
-                    }
-                    break;
-                case JsonRpcIdType.Float:
-                    {
-                        writer.WritePropertyName("id");
-                        writer.WriteValue(requestId.UnsafeAsFloat());
+
+                        var responseIdValue = requestId.GetNumberValue();
+
+                        if (responseIdValue % 1 != 0)
+                        {
+                            writer.WriteValue(responseIdValue);
+                        }
+                        else
+                        {
+                            writer.WriteValue((long)responseIdValue);
+                        }
                     }
                     break;
             }
@@ -1020,19 +1024,23 @@ namespace Anemonis.JsonRpc
                 case JsonRpcIdType.String:
                     {
                         writer.WritePropertyName("id");
-                        writer.WriteValue(responseId.UnsafeAsString());
+                        writer.WriteValue(responseId.GetStringValue());
                     }
                     break;
-                case JsonRpcIdType.Integer:
+                case JsonRpcIdType.Number:
                     {
                         writer.WritePropertyName("id");
-                        writer.WriteValue(responseId.UnsafeAsInteger());
-                    }
-                    break;
-                case JsonRpcIdType.Float:
-                    {
-                        writer.WritePropertyName("id");
-                        writer.WriteValue(responseId.UnsafeAsFloat());
+
+                        var responseIdValue = responseId.GetNumberValue();
+
+                        if (responseIdValue % 1 != 0)
+                        {
+                            writer.WriteValue(responseIdValue);
+                        }
+                        else
+                        {
+                            writer.WriteValue((long)responseIdValue);
+                        }
                     }
                     break;
             }
