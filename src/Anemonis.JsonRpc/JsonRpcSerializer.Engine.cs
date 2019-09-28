@@ -40,18 +40,6 @@ namespace Anemonis.JsonRpc
             };
         }
 
-        private static void SetupJsonReader(JsonTextReader reader)
-        {
-            reader.DateParseHandling = DateParseHandling.None;
-            reader.ArrayPool = _jsonSerializerBufferPool;
-        }
-
-        private static void SetupJsonWriter(JsonTextWriter writer)
-        {
-            writer.AutoCompleteOnClose = false;
-            writer.ArrayPool = _jsonSerializerBufferPool;
-        }
-
         private JsonRpcData<JsonRpcRequest> DeserializeRequestData(JsonTextReader reader, CancellationToken cancellationToken)
         {
             if (_contractResolver == null)

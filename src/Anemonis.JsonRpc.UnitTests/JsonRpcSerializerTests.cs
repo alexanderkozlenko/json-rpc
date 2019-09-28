@@ -82,16 +82,6 @@ namespace Anemonis.JsonRpc.UnitTests
         }
 
         [TestMethod]
-        public void SerializeRequestWithWriterWhenWriterIsNull()
-        {
-            var jrs = new JsonRpcSerializer();
-            var jrm = new JsonRpcRequest(0L, "m");
-
-            Assert.ThrowsException<ArgumentNullException>(() =>
-                jrs.SerializeRequest(jrm, (TextWriter)null));
-        }
-
-        [TestMethod]
         public async Task SerializeRequestAsyncWhenRequestIsNull()
         {
             var jrs = new JsonRpcSerializer();
@@ -122,16 +112,6 @@ namespace Anemonis.JsonRpc.UnitTests
         }
 
         [TestMethod]
-        public async Task SerializeRequestAsyncWithWriterWhenWriterIsNull()
-        {
-            var jrs = new JsonRpcSerializer();
-            var jrm = new JsonRpcRequest(0L, "m");
-
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                jrs.SerializeRequestAsync(jrm, (TextWriter)null, default).AsTask());
-        }
-
-        [TestMethod]
         public void SerializeRequestsWithStreamWhenRequestsIsNull()
         {
             var jrs = new JsonRpcSerializer();
@@ -152,18 +132,6 @@ namespace Anemonis.JsonRpc.UnitTests
 
             Assert.ThrowsException<ArgumentNullException>(() =>
                 jrs.SerializeRequests(jrms, (Stream)null));
-        }
-
-        [TestMethod]
-        public void SerializeRequestsWithWriterWhenWriterIsNull()
-        {
-            var jrs = new JsonRpcSerializer();
-            var jrm1 = new JsonRpcRequest(0L, "m");
-            var jrm2 = new JsonRpcRequest(1L, "m");
-            var jrms = new[] { jrm1, jrm2 };
-
-            Assert.ThrowsException<ArgumentNullException>(() =>
-                jrs.SerializeRequests(jrms, (TextWriter)null));
         }
 
         [TestMethod]
@@ -196,18 +164,6 @@ namespace Anemonis.JsonRpc.UnitTests
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
                 jrs.SerializeRequestsAsync(jrms, (Stream)null, default).AsTask());
-        }
-
-        [TestMethod]
-        public async Task SerializeRequestsAsyncWithWriterWhenWriterIsNull()
-        {
-            var jrs = new JsonRpcSerializer();
-            var jrm1 = new JsonRpcRequest(0L, "m");
-            var jrm2 = new JsonRpcRequest(1L, "m");
-            var jrms = new[] { jrm1, jrm2 };
-
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                jrs.SerializeRequestsAsync(jrms, (TextWriter)null, default).AsTask());
         }
 
         [TestMethod]
@@ -272,16 +228,6 @@ namespace Anemonis.JsonRpc.UnitTests
         }
 
         [TestMethod]
-        public void SerializeResponseWithWriterWhenWriterIsNull()
-        {
-            var jrs = new JsonRpcSerializer();
-            var jrm = new JsonRpcResponse(0L, 0L);
-
-            Assert.ThrowsException<ArgumentNullException>(() =>
-                jrs.SerializeResponse(jrm, (TextWriter)null));
-        }
-
-        [TestMethod]
         public async Task SerializeResponseAsyncWhenResponseIsNull()
         {
             var jrs = new JsonRpcSerializer();
@@ -312,16 +258,6 @@ namespace Anemonis.JsonRpc.UnitTests
         }
 
         [TestMethod]
-        public async Task SerializeResponseAsyncWithWriterWhenWriterIsNull()
-        {
-            var jrs = new JsonRpcSerializer();
-            var jrm = new JsonRpcResponse(0L, 0L);
-
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                jrs.SerializeResponseAsync(jrm, (TextWriter)null, default).AsTask());
-        }
-
-        [TestMethod]
         public void SerializeResponsesWithStreamWhenResponsesIsNull()
         {
             var jrs = new JsonRpcSerializer();
@@ -342,18 +278,6 @@ namespace Anemonis.JsonRpc.UnitTests
 
             Assert.ThrowsException<ArgumentNullException>(() =>
                 jrs.SerializeResponses(jrms, (Stream)null));
-        }
-
-        [TestMethod]
-        public void SerializeResponsesWithWriterWhenWriterIsNull()
-        {
-            var jrs = new JsonRpcSerializer();
-            var jrm1 = new JsonRpcResponse(0L, 0L);
-            var jrm2 = new JsonRpcResponse(1L, 0L);
-            var jrms = new[] { jrm1, jrm2 };
-
-            Assert.ThrowsException<ArgumentNullException>(() =>
-                jrs.SerializeResponses(jrms, (TextWriter)null));
         }
 
         [TestMethod]
@@ -386,18 +310,6 @@ namespace Anemonis.JsonRpc.UnitTests
 
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
                 jrs.SerializeResponsesAsync(jrms, (Stream)null, default).AsTask());
-        }
-
-        [TestMethod]
-        public async Task SerializeResponsesAsyncWithWriterWhenWriterIsNull()
-        {
-            var jrs = new JsonRpcSerializer();
-            var jrm1 = new JsonRpcResponse(0L, 0L);
-            var jrm2 = new JsonRpcResponse(1L, 0L);
-            var jrms = new[] { jrm1, jrm2 };
-
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                jrs.SerializeResponsesAsync(jrms, (TextWriter)null, default).AsTask());
         }
 
         [TestMethod]
@@ -437,15 +349,6 @@ namespace Anemonis.JsonRpc.UnitTests
         }
 
         [TestMethod]
-        public void DeserializeRequestDataWithReaderWhenReaderIsNull()
-        {
-            var jrs = new JsonRpcSerializer();
-
-            Assert.ThrowsException<ArgumentNullException>(() =>
-                jrs.DeserializeRequestData((TextReader)null));
-        }
-
-        [TestMethod]
         public async Task DeserializeRequestDataAsyncWithStringWhenStringIsNull()
         {
             var jrs = new JsonRpcSerializer();
@@ -470,15 +373,6 @@ namespace Anemonis.JsonRpc.UnitTests
 
             await Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
                 jrs.DeserializeRequestDataAsync(Stream.Null, default).AsTask());
-        }
-
-        [TestMethod]
-        public async Task DeserializeRequestDataAsyncWithReaderWhenReaderIsNull()
-        {
-            var jrs = new JsonRpcSerializer();
-
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                jrs.DeserializeRequestDataAsync((TextReader)null, default).AsTask());
         }
 
         [TestMethod]
@@ -534,15 +428,6 @@ namespace Anemonis.JsonRpc.UnitTests
         }
 
         [TestMethod]
-        public void DeserializeResponseDataWithReaderWhenReaderIsNull()
-        {
-            var jrs = new JsonRpcSerializer();
-
-            Assert.ThrowsException<ArgumentNullException>(() =>
-                jrs.DeserializeResponseData((TextReader)null));
-        }
-
-        [TestMethod]
         public async Task DeserializeResponseDataAsyncWithStringWhenStringIsNull()
         {
             var jrs = new JsonRpcSerializer();
@@ -567,15 +452,6 @@ namespace Anemonis.JsonRpc.UnitTests
 
             await Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
                 jrs.DeserializeResponseDataAsync(Stream.Null, default).AsTask());
-        }
-
-        [TestMethod]
-        public async Task DeserializeResponseDataAsyncWithReaderWhenReaderIsNull()
-        {
-            var jrs = new JsonRpcSerializer();
-
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                jrs.DeserializeResponseDataAsync((TextReader)null, default).AsTask());
         }
 
         [TestMethod]
