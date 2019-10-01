@@ -18,7 +18,7 @@ namespace Anemonis.JsonRpc
         private const int _messageBufferSize = 64;
         private const int _defaultStreamBufferSize = 1024;
 
-        private static readonly Encoding _defaultJsonEncoding = new UTF8Encoding(false, true);
+        private static readonly Encoding _utf8Encoding = new UTF8Encoding(false, true);
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcSerializer" /> class.</summary>
         /// <param name="contractResolver">The JSON-RPC message contract resolver instance.</param>
@@ -31,312 +31,293 @@ namespace Anemonis.JsonRpc
             _compatibilityLevel = compatibilityLevel;
         }
 
-        private JsonRpcData<JsonRpcRequest> DeserializeRequestData(TextReader input)
+        private JsonRpcData<JsonRpcRequest> DeserializeRequestData(TextReader textReader)
         {
-            using (var jsonReader = new JsonTextReader(input))
-            {
-                jsonReader.DateParseHandling = DateParseHandling.None;
-                jsonReader.ArrayPool = _jsonSerializerBufferPool;
+            using var jsonReader = new JsonTextReader(textReader);
 
-                return DeserializeRequestData(jsonReader, default);
-            }
+            jsonReader.DateParseHandling = _jsonSerializer.DateParseHandling;
+            jsonReader.ArrayPool = _jsonBufferPool;
+
+            return DeserializeRequestData(jsonReader, default);
         }
 
-        private ValueTask<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(TextReader input, CancellationToken cancellationToken)
+        private ValueTask<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(TextReader textReader, CancellationToken cancellationToken)
         {
-            using (var jsonReader = new JsonTextReader(input))
-            {
-                jsonReader.DateParseHandling = DateParseHandling.None;
-                jsonReader.ArrayPool = _jsonSerializerBufferPool;
+            using var jsonReader = new JsonTextReader(textReader);
 
-                return new ValueTask<JsonRpcData<JsonRpcRequest>>(DeserializeRequestData(jsonReader, cancellationToken));
-            }
+            jsonReader.DateParseHandling = _jsonSerializer.DateParseHandling;
+            jsonReader.ArrayPool = _jsonBufferPool;
+
+            return new ValueTask<JsonRpcData<JsonRpcRequest>>(DeserializeRequestData(jsonReader, cancellationToken));
         }
 
-        private JsonRpcData<JsonRpcResponse> DeserializeResponseData(TextReader input)
+        private JsonRpcData<JsonRpcResponse> DeserializeResponseData(TextReader textReader)
         {
-            using (var jsonReader = new JsonTextReader(input))
-            {
-                jsonReader.DateParseHandling = DateParseHandling.None;
-                jsonReader.ArrayPool = _jsonSerializerBufferPool;
+            using var jsonReader = new JsonTextReader(textReader);
 
-                return DeserializeResponseData(jsonReader, default);
-            }
+            jsonReader.DateParseHandling = _jsonSerializer.DateParseHandling;
+            jsonReader.ArrayPool = _jsonBufferPool;
+
+            return DeserializeResponseData(jsonReader, default);
         }
 
-        private ValueTask<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(TextReader input, CancellationToken cancellationToken)
+        private ValueTask<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(TextReader textReader, CancellationToken cancellationToken)
         {
-            using (var jsonReader = new JsonTextReader(input))
-            {
-                jsonReader.DateParseHandling = DateParseHandling.None;
-                jsonReader.ArrayPool = _jsonSerializerBufferPool;
+            using var jsonReader = new JsonTextReader(textReader);
 
-                return new ValueTask<JsonRpcData<JsonRpcResponse>>(DeserializeResponseData(jsonReader, cancellationToken));
-            }
+            jsonReader.DateParseHandling = _jsonSerializer.DateParseHandling;
+            jsonReader.ArrayPool = _jsonBufferPool;
+
+            return new ValueTask<JsonRpcData<JsonRpcResponse>>(DeserializeResponseData(jsonReader, cancellationToken));
         }
 
-        private void SerializeRequest(JsonRpcRequest request, TextWriter output)
+        private void SerializeRequest(JsonRpcRequest request, TextWriter textWriter)
         {
-            using (var jsonWriter = new JsonTextWriter(output))
-            {
-                jsonWriter.AutoCompleteOnClose = false;
-                jsonWriter.ArrayPool = _jsonSerializerBufferPool;
+            using var jsonWriter = new JsonTextWriter(textWriter);
 
-                SerializeRequest(jsonWriter, request);
-            }
+            jsonWriter.AutoCompleteOnClose = false;
+            jsonWriter.ArrayPool = _jsonBufferPool;
+
+            SerializeRequest(jsonWriter, request);
         }
 
-        private ValueTask SerializeRequestAsync(JsonRpcRequest request, TextWriter output)
+        private ValueTask SerializeRequestAsync(JsonRpcRequest request, TextWriter textWriter)
         {
-            using (var jsonWriter = new JsonTextWriter(output))
-            {
-                jsonWriter.AutoCompleteOnClose = false;
-                jsonWriter.ArrayPool = _jsonSerializerBufferPool;
+            using var jsonWriter = new JsonTextWriter(textWriter);
 
-                SerializeRequest(jsonWriter, request);
-            }
+            jsonWriter.AutoCompleteOnClose = false;
+            jsonWriter.ArrayPool = _jsonBufferPool;
+
+            SerializeRequest(jsonWriter, request);
 
             return default;
         }
 
-        private void SerializeRequests(IReadOnlyList<JsonRpcRequest> requests, TextWriter output)
+        private void SerializeRequests(IReadOnlyList<JsonRpcRequest> requests, TextWriter textWriter)
         {
-            using (var jsonWriter = new JsonTextWriter(output))
-            {
-                jsonWriter.AutoCompleteOnClose = false;
-                jsonWriter.ArrayPool = _jsonSerializerBufferPool;
+            using var jsonWriter = new JsonTextWriter(textWriter);
 
-                SerializeRequests(jsonWriter, requests, default);
-            }
+            jsonWriter.AutoCompleteOnClose = false;
+            jsonWriter.ArrayPool = _jsonBufferPool;
+
+            SerializeRequests(jsonWriter, requests, default);
         }
 
-        private ValueTask SerializeRequestsAsync(IReadOnlyList<JsonRpcRequest> requests, TextWriter output, CancellationToken cancellationToken)
+        private ValueTask SerializeRequestsAsync(IReadOnlyList<JsonRpcRequest> requests, TextWriter textWriter, CancellationToken cancellationToken)
         {
-            using (var jsonWriter = new JsonTextWriter(output))
-            {
-                jsonWriter.AutoCompleteOnClose = false;
-                jsonWriter.ArrayPool = _jsonSerializerBufferPool;
+            using var jsonWriter = new JsonTextWriter(textWriter);
 
-                SerializeRequests(jsonWriter, requests, cancellationToken);
-            }
+            jsonWriter.AutoCompleteOnClose = false;
+            jsonWriter.ArrayPool = _jsonBufferPool;
+
+            SerializeRequests(jsonWriter, requests, cancellationToken);
 
             return default;
         }
 
-        private void SerializeResponse(JsonRpcResponse response, TextWriter output)
+        private void SerializeResponse(JsonRpcResponse response, TextWriter textWriter)
         {
-            using (var jsonWriter = new JsonTextWriter(output))
-            {
-                jsonWriter.AutoCompleteOnClose = false;
-                jsonWriter.ArrayPool = _jsonSerializerBufferPool;
+            using var jsonWriter = new JsonTextWriter(textWriter);
 
-                SerializeResponse(jsonWriter, response);
-            }
+            jsonWriter.AutoCompleteOnClose = false;
+            jsonWriter.ArrayPool = _jsonBufferPool;
+
+            SerializeResponse(jsonWriter, response);
         }
 
-        private ValueTask SerializeResponseAsync(JsonRpcResponse response, TextWriter output)
+        private ValueTask SerializeResponseAsync(JsonRpcResponse response, TextWriter textWriter)
         {
-            using (var jsonWriter = new JsonTextWriter(output))
-            {
-                jsonWriter.AutoCompleteOnClose = false;
-                jsonWriter.ArrayPool = _jsonSerializerBufferPool;
+            using var jsonWriter = new JsonTextWriter(textWriter);
 
-                SerializeResponse(jsonWriter, response);
-            }
+            jsonWriter.AutoCompleteOnClose = false;
+            jsonWriter.ArrayPool = _jsonBufferPool;
+
+            SerializeResponse(jsonWriter, response);
 
             return default;
         }
 
-        private void SerializeResponses(IReadOnlyList<JsonRpcResponse> responses, TextWriter output)
+        private void SerializeResponses(IReadOnlyList<JsonRpcResponse> responses, TextWriter textWriter)
         {
-            using (var jsonWriter = new JsonTextWriter(output))
-            {
-                jsonWriter.AutoCompleteOnClose = false;
-                jsonWriter.ArrayPool = _jsonSerializerBufferPool;
+            using var jsonWriter = new JsonTextWriter(textWriter);
 
-                SerializeResponses(jsonWriter, responses, default);
-            }
+            jsonWriter.AutoCompleteOnClose = false;
+            jsonWriter.ArrayPool = _jsonBufferPool;
+
+            SerializeResponses(jsonWriter, responses, default);
         }
 
-        private ValueTask SerializeResponsesAsync(IReadOnlyList<JsonRpcResponse> responses, TextWriter output, CancellationToken cancellationToken)
+        private ValueTask SerializeResponsesAsync(IReadOnlyList<JsonRpcResponse> responses, TextWriter textWriter, CancellationToken cancellationToken)
         {
-            using (var jsonWriter = new JsonTextWriter(output))
-            {
-                jsonWriter.AutoCompleteOnClose = false;
-                jsonWriter.ArrayPool = _jsonSerializerBufferPool;
+            using var jsonWriter = new JsonTextWriter(textWriter);
 
-                SerializeResponses(jsonWriter, responses, cancellationToken);
-            }
+            jsonWriter.AutoCompleteOnClose = false;
+            jsonWriter.ArrayPool = _jsonBufferPool;
+
+            SerializeResponses(jsonWriter, responses, cancellationToken);
 
             return default;
         }
 
         /// <summary>Deserializes the specified JSON string to JSON-RPC request data.</summary>
-        /// <param name="input">The JSON string to deserialize.</param>
+        /// <param name="json">The JSON string to deserialize.</param>
         /// <returns>A JSON-RPC request data deserialization result.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="input" /> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="json" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
-        public JsonRpcData<JsonRpcRequest> DeserializeRequestData(string input)
+        public JsonRpcData<JsonRpcRequest> DeserializeRequestData(string json)
         {
-            if (input == null)
+            if (json == null)
             {
-                throw new ArgumentNullException(nameof(input));
+                throw new ArgumentNullException(nameof(json));
             }
 
-            using (var stringReader = new StringReader(input))
-            {
-                return DeserializeRequestData(stringReader);
-            }
+            using var stringReader = new StringReader(json);
+
+            return DeserializeRequestData(stringReader);
         }
 
         /// <summary>Deserializes a UTF-8 encoded JSON string from the specified stream to JSON-RPC request data.</summary>
-        /// <param name="input">The stream to deserialize from.</param>
+        /// <param name="jsonStream">The stream to deserialize from.</param>
         /// <returns>A JSON-RPC request data deserialization result.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="input" /> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="jsonStream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
-        public JsonRpcData<JsonRpcRequest> DeserializeRequestData(Stream input)
+        public JsonRpcData<JsonRpcRequest> DeserializeRequestData(Stream jsonStream)
         {
-            if (input == null)
+            if (jsonStream == null)
             {
-                throw new ArgumentNullException(nameof(input));
+                throw new ArgumentNullException(nameof(jsonStream));
             }
 
-            using (var streamReader = new StreamReader(input, _defaultJsonEncoding, false, _defaultStreamBufferSize, true))
-            {
-                return DeserializeRequestData(streamReader);
-            }
+            using var streamReader = new StreamReader(jsonStream, _utf8Encoding, false, _defaultStreamBufferSize, true);
+
+            return DeserializeRequestData(streamReader);
         }
 
         /// <summary>Deserializes the specified JSON string to JSON-RPC request data as an asynchronous operation.</summary>
-        /// <param name="input">The JSON string to deserialize.</param>
+        /// <param name="json">The JSON string to deserialize.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON-RPC request data deserialization result.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="input" /> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="json" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public ValueTask<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(string input, CancellationToken cancellationToken = default)
+        public ValueTask<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(string json, CancellationToken cancellationToken = default)
         {
-            if (input == null)
+            if (json == null)
             {
-                throw new ArgumentNullException(nameof(input));
+                throw new ArgumentNullException(nameof(json));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var stringReader = new StringReader(input))
-            {
-                return DeserializeRequestDataAsync(stringReader, cancellationToken);
-            }
+            using var stringReader = new StringReader(json);
+
+            return DeserializeRequestDataAsync(stringReader, cancellationToken);
         }
 
         /// <summary>Deserializes a UTF-8 encoded JSON string from the specified stream to JSON-RPC request data as an asynchronous operation.</summary>
-        /// <param name="input">The stream to deserialize from.</param>
+        /// <param name="jsonStream">The stream to deserialize from.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON-RPC request data deserialization result.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="input" /> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="jsonStream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public ValueTask<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(Stream input, CancellationToken cancellationToken = default)
+        public ValueTask<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(Stream jsonStream, CancellationToken cancellationToken = default)
         {
-            if (input == null)
+            if (jsonStream == null)
             {
-                throw new ArgumentNullException(nameof(input));
+                throw new ArgumentNullException(nameof(jsonStream));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var streamReader = new StreamReader(input, _defaultJsonEncoding, false, _defaultStreamBufferSize, true))
-            {
-                return DeserializeRequestDataAsync(streamReader, cancellationToken);
-            }
+            using var streamReader = new StreamReader(jsonStream, _utf8Encoding, false, _defaultStreamBufferSize, true);
+
+            return DeserializeRequestDataAsync(streamReader, cancellationToken);
         }
 
         /// <summary>Deserializes the specified JSON string to JSON-RPC response data.</summary>
-        /// <param name="input">The JSON string to deserialize.</param>
+        /// <param name="json">The JSON string to deserialize.</param>
         /// <returns>A JSON-RPC response data deserialization result.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="input" /> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="json" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
-        public JsonRpcData<JsonRpcResponse> DeserializeResponseData(string input)
+        public JsonRpcData<JsonRpcResponse> DeserializeResponseData(string json)
         {
-            if (input == null)
+            if (json == null)
             {
-                throw new ArgumentNullException(nameof(input));
+                throw new ArgumentNullException(nameof(json));
             }
 
-            using (var stringReader = new StringReader(input))
-            {
-                return DeserializeResponseData(stringReader);
-            }
+            using var stringReader = new StringReader(json);
+
+            return DeserializeResponseData(stringReader);
         }
 
         /// <summary>Deserializes a UTF-8 encoded JSON string from the specified stream to JSON-RPC response data.</summary>
-        /// <param name="input">The stream to deserialize from.</param>
+        /// <param name="jsonStream">The stream to deserialize from.</param>
         /// <returns>A JSON-RPC response data deserialization result.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="input" /> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="jsonStream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
-        public JsonRpcData<JsonRpcResponse> DeserializeResponseData(Stream input)
+        public JsonRpcData<JsonRpcResponse> DeserializeResponseData(Stream jsonStream)
         {
-            if (input == null)
+            if (jsonStream == null)
             {
-                throw new ArgumentNullException(nameof(input));
+                throw new ArgumentNullException(nameof(jsonStream));
             }
 
-            using (var streamReader = new StreamReader(input, _defaultJsonEncoding, false, _defaultStreamBufferSize, true))
-            {
-                return DeserializeResponseData(streamReader);
-            }
+            using var streamReader = new StreamReader(jsonStream, _utf8Encoding, false, _defaultStreamBufferSize, true);
+
+            return DeserializeResponseData(streamReader);
+
         }
 
         /// <summary>Deserializes the specified JSON string to JSON-RPC response data as an asynchronous operation.</summary>
-        /// <param name="input">The JSON string to deserialize.</param>
+        /// <param name="json">The JSON string to deserialize.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON-RPC response data deserialization result.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="input" /> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="json" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public ValueTask<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(string input, CancellationToken cancellationToken = default)
+        public ValueTask<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(string json, CancellationToken cancellationToken = default)
         {
-            if (input == null)
+            if (json == null)
             {
-                throw new ArgumentNullException(nameof(input));
+                throw new ArgumentNullException(nameof(json));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var stringReader = new StringReader(input))
-            {
-                return DeserializeResponseDataAsync(stringReader, cancellationToken);
-            }
+            using var stringReader = new StringReader(json);
+
+            return DeserializeResponseDataAsync(stringReader, cancellationToken);
         }
 
         /// <summary>Deserializes a UTF-8 encoded JSON string from the specified stream to JSON-RPC response data as an asynchronous operation.</summary>
-        /// <param name="input">The stream to deserialize from.</param>
+        /// <param name="jsonStream">The stream to deserialize from.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
         /// <returns>A task that represents the asynchronous operation. The task result is a JSON-RPC response data deserialization result.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="input" /> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="jsonStream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public ValueTask<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(Stream input, CancellationToken cancellationToken = default)
+        public ValueTask<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(Stream jsonStream, CancellationToken cancellationToken = default)
         {
-            if (input == null)
+            if (jsonStream == null)
             {
-                throw new ArgumentNullException(nameof(input));
+                throw new ArgumentNullException(nameof(jsonStream));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var streamReader = new StreamReader(input, _defaultJsonEncoding, false, _defaultStreamBufferSize, true))
-            {
-                return DeserializeResponseDataAsync(streamReader, cancellationToken);
-            }
+            using var streamReader = new StreamReader(jsonStream, _utf8Encoding, false, _defaultStreamBufferSize, true);
+
+            return DeserializeResponseDataAsync(streamReader, cancellationToken);
         }
 
         /// <summary>Serializes the specified JSON-RPC request to a JSON string.</summary>
@@ -352,35 +333,33 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(request));
             }
 
-            using (var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize), CultureInfo.InvariantCulture))
-            {
-                SerializeRequest(request, stringWriter);
+            using var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize), CultureInfo.InvariantCulture);
 
-                return stringWriter.ToString();
-            }
+            SerializeRequest(request, stringWriter);
+
+            return stringWriter.ToString();
         }
 
         /// <summary>Serializes the specified JSON-RPC request as a UTF-8 encoded JSON string to the specified stream.</summary>
         /// <param name="request">The JSON-RPC request to serialize.</param>
-        /// <param name="output">The stream to deserialize to.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="request" /> or <paramref name="output" /> is <see langword="null" />.</exception>
+        /// <param name="jsonStream">The stream to deserialize to.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="request" /> or <paramref name="jsonStream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
-        public void SerializeRequest(JsonRpcRequest request, Stream output)
+        public void SerializeRequest(JsonRpcRequest request, Stream jsonStream)
         {
             if (request == null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (output == null)
+            if (jsonStream == null)
             {
-                throw new ArgumentNullException(nameof(output));
+                throw new ArgumentNullException(nameof(jsonStream));
             }
 
-            using (var streamWriter = new StreamWriter(output, _defaultJsonEncoding, _defaultStreamBufferSize, true))
-            {
-                SerializeRequest(request, streamWriter);
-            }
+            using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+
+            SerializeRequest(request, streamWriter);
         }
 
         /// <summary>Serializes the specified JSON-RPC request to a JSON string as an asynchronous operation.</summary>
@@ -400,40 +379,38 @@ namespace Anemonis.JsonRpc
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize), CultureInfo.InvariantCulture))
-            {
-                await SerializeRequestAsync(request, stringWriter).ConfigureAwait(false);
+            using var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize), CultureInfo.InvariantCulture);
 
-                return stringWriter.ToString();
-            }
+            await SerializeRequestAsync(request, stringWriter).ConfigureAwait(false);
+
+            return stringWriter.ToString();
         }
 
         /// <summary>Serializes the specified JSON-RPC request as a UTF-8 encoded JSON string to the specified stream as an asynchronous operation.</summary>
         /// <param name="request">The JSON-RPC request to serialize.</param>
-        /// <param name="output">The stream to deserialize to.</param>
+        /// <param name="jsonStream">The stream to deserialize to.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="request" /> or <paramref name="output" /> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="request" /> or <paramref name="jsonStream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public ValueTask SerializeRequestAsync(JsonRpcRequest request, Stream output, CancellationToken cancellationToken = default)
+        public ValueTask SerializeRequestAsync(JsonRpcRequest request, Stream jsonStream, CancellationToken cancellationToken = default)
         {
             if (request == null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (output == null)
+            if (jsonStream == null)
             {
-                throw new ArgumentNullException(nameof(output));
+                throw new ArgumentNullException(nameof(jsonStream));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var streamWriter = new StreamWriter(output, _defaultJsonEncoding, _defaultStreamBufferSize, true))
-            {
-                return SerializeRequestAsync(request, streamWriter);
-            }
+            using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+
+            return SerializeRequestAsync(request, streamWriter);
         }
 
         /// <summary>Serializes the specified collection of JSON-RPC requests to a JSON string.</summary>
@@ -449,35 +426,33 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(requests));
             }
 
-            using (var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize * requests.Count), CultureInfo.InvariantCulture))
-            {
-                SerializeRequests(requests, stringWriter);
+            using var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize * requests.Count), CultureInfo.InvariantCulture);
 
-                return stringWriter.ToString();
-            }
+            SerializeRequests(requests, stringWriter);
+
+            return stringWriter.ToString();
         }
 
         /// <summary>Serializes the specified collection of JSON-RPC requests as a UTF-8 encoded JSON string to the specified stream.</summary>
         /// <param name="requests">The collection of JSON-RPC requests to serialize.</param>
-        /// <param name="output">The stream to deserialize to.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="requests" /> or <paramref name="output" /> is <see langword="null" />.</exception>
+        /// <param name="jsonStream">The stream to deserialize to.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="requests" /> or <paramref name="jsonStream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
-        public void SerializeRequests(IReadOnlyList<JsonRpcRequest> requests, Stream output)
+        public void SerializeRequests(IReadOnlyList<JsonRpcRequest> requests, Stream jsonStream)
         {
             if (requests == null)
             {
                 throw new ArgumentNullException(nameof(requests));
             }
-            if (output == null)
+            if (jsonStream == null)
             {
-                throw new ArgumentNullException(nameof(output));
+                throw new ArgumentNullException(nameof(jsonStream));
             }
 
-            using (var streamWriter = new StreamWriter(output, _defaultJsonEncoding, _defaultStreamBufferSize, true))
-            {
-                SerializeRequests(requests, streamWriter);
-            }
+            using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+
+            SerializeRequests(requests, streamWriter);
         }
 
         /// <summary>Serializes the specified collection of JSON-RPC requests to a JSON string as an asynchronous operation.</summary>
@@ -497,40 +472,38 @@ namespace Anemonis.JsonRpc
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize * requests.Count), CultureInfo.InvariantCulture))
-            {
-                await SerializeRequestsAsync(requests, stringWriter, cancellationToken).ConfigureAwait(false);
+            using var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize * requests.Count), CultureInfo.InvariantCulture);
 
-                return stringWriter.ToString();
-            }
+            await SerializeRequestsAsync(requests, stringWriter, cancellationToken).ConfigureAwait(false);
+
+            return stringWriter.ToString();
         }
 
         /// <summary>Serializes the specified collection of JSON-RPC requests as a UTF-8 encoded JSON string to the specified stream as an asynchronous operation.</summary>
         /// <param name="requests">The collection of JSON-RPC requests to serialize.</param>
-        /// <param name="output">The stream to deserialize to.</param>
+        /// <param name="jsonStream">The stream to deserialize to.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="requests" /> or <paramref name="output" /> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="requests" /> or <paramref name="jsonStream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public ValueTask SerializeRequestsAsync(IReadOnlyList<JsonRpcRequest> requests, Stream output, CancellationToken cancellationToken = default)
+        public ValueTask SerializeRequestsAsync(IReadOnlyList<JsonRpcRequest> requests, Stream jsonStream, CancellationToken cancellationToken = default)
         {
             if (requests == null)
             {
                 throw new ArgumentNullException(nameof(requests));
             }
-            if (output == null)
+            if (jsonStream == null)
             {
-                throw new ArgumentNullException(nameof(output));
+                throw new ArgumentNullException(nameof(jsonStream));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var streamWriter = new StreamWriter(output, _defaultJsonEncoding, _defaultStreamBufferSize, true))
-            {
-                return SerializeRequestsAsync(requests, streamWriter, cancellationToken);
-            }
+            using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+
+            return SerializeRequestsAsync(requests, streamWriter, cancellationToken);
         }
 
         /// <summary>Serializes the specified JSON-RPC response to a JSON string.</summary>
@@ -546,35 +519,33 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(response));
             }
 
-            using (var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize), CultureInfo.InvariantCulture))
-            {
-                SerializeResponse(response, stringWriter);
+            using var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize), CultureInfo.InvariantCulture);
 
-                return stringWriter.ToString();
-            }
+            SerializeResponse(response, stringWriter);
+
+            return stringWriter.ToString();
         }
 
         /// <summary>Serializes the specified JSON-RPC response as a UTF-8 encoded JSON string to the specified stream.</summary>
         /// <param name="response">The JSON-RPC response to serialize.</param>
-        /// <param name="output">The stream to deserialize to.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="response" /> or <paramref name="output" /> is <see langword="null" />.</exception>
+        /// <param name="jsonStream">The stream to deserialize to.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="response" /> or <paramref name="jsonStream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
-        public void SerializeResponse(JsonRpcResponse response, Stream output)
+        public void SerializeResponse(JsonRpcResponse response, Stream jsonStream)
         {
             if (response == null)
             {
                 throw new ArgumentNullException(nameof(response));
             }
-            if (output == null)
+            if (jsonStream == null)
             {
-                throw new ArgumentNullException(nameof(output));
+                throw new ArgumentNullException(nameof(jsonStream));
             }
 
-            using (var streamWriter = new StreamWriter(output, _defaultJsonEncoding, _defaultStreamBufferSize, true))
-            {
-                SerializeResponse(response, streamWriter);
-            }
+            using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+
+            SerializeResponse(response, streamWriter);
         }
 
         /// <summary>Serializes the specified JSON-RPC response to a JSON string as an asynchronous operation.</summary>
@@ -594,40 +565,38 @@ namespace Anemonis.JsonRpc
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize), CultureInfo.InvariantCulture))
-            {
-                await SerializeResponseAsync(response, stringWriter).ConfigureAwait(false);
+            using var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize), CultureInfo.InvariantCulture);
 
-                return stringWriter.ToString();
-            }
+            await SerializeResponseAsync(response, stringWriter).ConfigureAwait(false);
+
+            return stringWriter.ToString();
         }
 
         /// <summary>Serializes the specified JSON-RPC response as a UTF-8 encoded JSON string to the specified stream as an asynchronous operation.</summary>
         /// <param name="response">The JSON-RPC response to serialize.</param>
-        /// <param name="output">The stream to deserialize to.</param>
+        /// <param name="jsonStream">The stream to deserialize to.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="response" /> or <paramref name="output" /> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="response" /> or <paramref name="jsonStream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public ValueTask SerializeResponseAsync(JsonRpcResponse response, Stream output, CancellationToken cancellationToken = default)
+        public ValueTask SerializeResponseAsync(JsonRpcResponse response, Stream jsonStream, CancellationToken cancellationToken = default)
         {
             if (response == null)
             {
                 throw new ArgumentNullException(nameof(response));
             }
-            if (output == null)
+            if (jsonStream == null)
             {
-                throw new ArgumentNullException(nameof(output));
+                throw new ArgumentNullException(nameof(jsonStream));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var streamWriter = new StreamWriter(output, _defaultJsonEncoding, _defaultStreamBufferSize, true))
-            {
-                return SerializeResponseAsync(response, streamWriter);
-            }
+            using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+
+            return SerializeResponseAsync(response, streamWriter);
         }
 
         /// <summary>Serializes the specified collection of JSON-RPC responses to a JSON string.</summary>
@@ -643,35 +612,33 @@ namespace Anemonis.JsonRpc
                 throw new ArgumentNullException(nameof(responses));
             }
 
-            using (var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize * responses.Count), CultureInfo.InvariantCulture))
-            {
-                SerializeResponses(responses, stringWriter);
+            using var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize * responses.Count), CultureInfo.InvariantCulture);
 
-                return stringWriter.ToString();
-            }
+            SerializeResponses(responses, stringWriter);
+
+            return stringWriter.ToString();
         }
 
         /// <summary>Serializes the specified collection of JSON-RPC responses as a UTF-8 encoded JSON string to the specified stream.</summary>
         /// <param name="responses">The collection of JSON-RPC responses to serialize.</param>
-        /// <param name="output">The stream to deserialize to.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="responses" /> or <paramref name="output" /> is <see langword="null" />.</exception>
+        /// <param name="jsonStream">The stream to deserialize to.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="responses" /> or <paramref name="jsonStream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
-        public void SerializeResponses(IReadOnlyList<JsonRpcResponse> responses, Stream output)
+        public void SerializeResponses(IReadOnlyList<JsonRpcResponse> responses, Stream jsonStream)
         {
             if (responses == null)
             {
                 throw new ArgumentNullException(nameof(responses));
             }
-            if (output == null)
+            if (jsonStream == null)
             {
-                throw new ArgumentNullException(nameof(output));
+                throw new ArgumentNullException(nameof(jsonStream));
             }
 
-            using (var streamWriter = new StreamWriter(output, _defaultJsonEncoding, _defaultStreamBufferSize, true))
-            {
-                SerializeResponses(responses, streamWriter);
-            }
+            using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+
+            SerializeResponses(responses, streamWriter);
         }
 
         /// <summary>Serializes the specified collection of JSON-RPC responses to a JSON string as an asynchronous operation.</summary>
@@ -691,40 +658,38 @@ namespace Anemonis.JsonRpc
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize * responses.Count), CultureInfo.InvariantCulture))
-            {
-                await SerializeResponsesAsync(responses, stringWriter, cancellationToken).ConfigureAwait(false);
+            using var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize * responses.Count), CultureInfo.InvariantCulture);
 
-                return stringWriter.ToString();
-            }
+            await SerializeResponsesAsync(responses, stringWriter, cancellationToken).ConfigureAwait(false);
+
+            return stringWriter.ToString();
         }
 
         /// <summary>Serializes the specified collection of JSON-RPC responses as a UTF-8 encoded JSON string to the specified stream as an asynchronous operation.</summary>
         /// <param name="responses">The collection of JSON-RPC responses to serialize.</param>
-        /// <param name="output">The stream to deserialize to.</param>
+        /// <param name="jsonStream">The stream to deserialize to.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="responses" /> or <paramref name="output" /> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="responses" /> or <paramref name="jsonStream" /> is <see langword="null" />.</exception>
         /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
-        public ValueTask SerializeResponsesAsync(IReadOnlyList<JsonRpcResponse> responses, Stream output, CancellationToken cancellationToken = default)
+        public ValueTask SerializeResponsesAsync(IReadOnlyList<JsonRpcResponse> responses, Stream jsonStream, CancellationToken cancellationToken = default)
         {
             if (responses == null)
             {
                 throw new ArgumentNullException(nameof(responses));
             }
-            if (output == null)
+            if (jsonStream == null)
             {
-                throw new ArgumentNullException(nameof(output));
+                throw new ArgumentNullException(nameof(jsonStream));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using (var streamWriter = new StreamWriter(output, _defaultJsonEncoding, _defaultStreamBufferSize, true))
-            {
-                return SerializeResponsesAsync(responses, streamWriter, cancellationToken);
-            }
+            using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+
+            return SerializeResponsesAsync(responses, streamWriter, cancellationToken);
         }
     }
 }
