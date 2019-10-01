@@ -17,14 +17,14 @@ namespace Anemonis.JsonRpc
     public partial class JsonRpcSerializer
     {
         private static readonly JsonSerializerSettings _jsonSerializerSettings = CreateJsonSerializerSettings();
-        private static readonly JsonLoadSettings _jsonSerializerLoadSettings = CreateJsonSerializerLoadSettings();
-        private static readonly JsonBufferPool _jsonSerializerBufferPool = new JsonBufferPool();
+        private static readonly JsonLoadSettings _jsonLoadSettings = CreateJsonLoadSettings();
+        private static readonly JsonBufferPool _jsonBufferPool = new JsonBufferPool();
 
         private readonly JsonSerializer _jsonSerializer;
         private readonly IJsonRpcContractResolver _contractResolver;
         private readonly JsonRpcCompatibilityLevel _compatibilityLevel;
 
-        private static JsonLoadSettings CreateJsonSerializerLoadSettings()
+        private static JsonLoadSettings CreateJsonLoadSettings()
         {
             return new JsonLoadSettings
             {
@@ -36,7 +36,8 @@ namespace Anemonis.JsonRpc
         {
             return new JsonSerializerSettings
             {
-                MetadataPropertyHandling = MetadataPropertyHandling.Ignore
+                MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
+                DateParseHandling = DateParseHandling.None
             };
         }
 
@@ -201,7 +202,7 @@ namespace Anemonis.JsonRpc
                                                     }
                                                     else
                                                     {
-                                                        var propertyValueToken = JToken.Load(reader, _jsonSerializerLoadSettings);
+                                                        var propertyValueToken = JToken.Load(reader, _jsonLoadSettings);
 
                                                         requestParamsetersByPosition.Add(propertyValueToken);
                                                     }
@@ -227,7 +228,7 @@ namespace Anemonis.JsonRpc
                                                             break;
                                                         }
 
-                                                        var propertyValueToken = JToken.Load(reader, _jsonSerializerLoadSettings);
+                                                        var propertyValueToken = JToken.Load(reader, _jsonLoadSettings);
 
                                                         requestParamsetersByName.Add(parameterName, propertyValueToken);
                                                     }
@@ -521,7 +522,7 @@ namespace Anemonis.JsonRpc
                             case "result":
                                 {
                                     responseResultSet = true;
-                                    responseResultToken = JToken.ReadFrom(reader, _jsonSerializerLoadSettings);
+                                    responseResultToken = JToken.ReadFrom(reader, _jsonLoadSettings);
                                 }
                                 break;
                             case "error":
@@ -581,7 +582,7 @@ namespace Anemonis.JsonRpc
                                                                 break;
                                                             case "data":
                                                                 {
-                                                                    responseErrorDataToken = JToken.ReadFrom(reader, _jsonSerializerLoadSettings);
+                                                                    responseErrorDataToken = JToken.ReadFrom(reader, _jsonLoadSettings);
                                                                 }
                                                                 break;
                                                             default:

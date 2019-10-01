@@ -8,16 +8,14 @@ namespace Anemonis.JsonRpc
 {
     internal sealed class JsonBufferPool : IArrayPool<char>
     {
-        private static readonly ArrayPool<char> _arrayPool = ArrayPool<char>.Shared;
-
         public char[] Rent(int minimumLength)
         {
-            return _arrayPool.Rent(minimumLength);
+            return ArrayPool<char>.Shared.Rent(minimumLength);
         }
 
         public void Return(char[] array)
         {
-            _arrayPool.Return(array);
+            ArrayPool<char>.Shared.Return(array);
         }
     }
 }
