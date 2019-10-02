@@ -9,7 +9,7 @@ namespace Anemonis.JsonRpc.SystemTests
     [TestClass]
     public sealed class JsonRpcSerializerTestsV1
     {
-        #region Example T01: Echo service
+        #region T01: Echo service
 
         [TestMethod]
         public void DeserializeRequestDataT010()
@@ -86,7 +86,7 @@ namespace Anemonis.JsonRpc.SystemTests
 
         #endregion
 
-        #region Example T02: Chat application
+        #region T02: Chat application
 
         [TestMethod]
         public void DeserializeRequestDataT020()

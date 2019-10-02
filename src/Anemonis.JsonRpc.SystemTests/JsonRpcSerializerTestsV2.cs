@@ -11,7 +11,7 @@ namespace Anemonis.JsonRpc.SystemTests
     [TestClass]
     public sealed class JsonRpcSerializerTestsV2
     {
-        #region Example T01: RPC call with positional parameters
+        #region T01: RPC call with positional parameters
 
         [TestMethod]
         public void DeserializeRequestDataT010()
@@ -159,7 +159,7 @@ namespace Anemonis.JsonRpc.SystemTests
 
         #endregion
 
-        #region Example T02: RPC call with named parameters
+        #region T02: RPC call with named parameters
 
         [TestMethod]
         public void DeserializeRequestDataT020()
@@ -335,7 +335,7 @@ namespace Anemonis.JsonRpc.SystemTests
 
         #endregion
 
-        #region Example T03: RPC notification
+        #region T03: RPC notification
 
         [TestMethod]
         public void DeserializeRequestDataT030()
@@ -411,7 +411,7 @@ namespace Anemonis.JsonRpc.SystemTests
 
         #endregion
 
-        #region Example T04: RPC call of non-existent method
+        #region T04: RPC call of non-existent method
 
         [TestMethod]
         public void DeserializeRequestDataT040()
@@ -470,7 +470,6 @@ namespace Anemonis.JsonRpc.SystemTests
             var jre = jrm.Error;
 
             Assert.AreEqual(JsonRpcErrorCode.InvalidMethod, jre.Code);
-            Assert.IsNotNull(jre.Message);
             Assert.AreEqual("Method not found", jre.Message);
             Assert.IsFalse(jre.HasData);
         }
@@ -488,7 +487,7 @@ namespace Anemonis.JsonRpc.SystemTests
 
         #endregion
 
-        #region Example T05: RPC call with invalid JSON
+        #region T05: RPC call with invalid JSON
 
         [TestMethod]
         public void DeserializeRequestDataT050()
@@ -538,7 +537,7 @@ namespace Anemonis.JsonRpc.SystemTests
 
         #endregion
 
-        #region Example T06: RPC call with invalid request object
+        #region T06: RPC call with invalid request object
 
         [TestMethod]
         public void DeserializeRequestDataT060()
@@ -597,7 +596,7 @@ namespace Anemonis.JsonRpc.SystemTests
 
         #endregion
 
-        #region Example T07: RPC call batch, invalid JSON
+        #region T07: RPC call batch, invalid JSON
 
         [TestMethod]
         public void DeserializeRequestDataT070()
@@ -647,7 +646,7 @@ namespace Anemonis.JsonRpc.SystemTests
 
         #endregion
 
-        #region Example T08: RPC call with an empty array
+        #region T08: RPC call with an empty array
 
         [TestMethod]
         public void DeserializeRequestDataT080()
@@ -697,7 +696,7 @@ namespace Anemonis.JsonRpc.SystemTests
 
         #endregion
 
-        #region Example T09: RPC call with an invalid batch (but not empty)
+        #region T09: RPC call with an invalid batch (but not empty)
 
         [TestMethod]
         public void DeserializeRequestDataT090()
@@ -755,7 +754,7 @@ namespace Anemonis.JsonRpc.SystemTests
 
         #endregion
 
-        #region Example T10: RPC call with invalid batch
+        #region T10: RPC call with invalid batch
 
         [TestMethod]
         public void DeserializeRequestDataT100()
@@ -821,7 +820,7 @@ namespace Anemonis.JsonRpc.SystemTests
 
         #endregion
 
-        #region Example T11: RPC call batch
+        #region T11: RPC call batch
 
         [TestMethod]
         public void DeserializeRequestDataT110()
@@ -993,7 +992,7 @@ namespace Anemonis.JsonRpc.SystemTests
 
         #endregion
 
-        #region Example T12: RPC call batch (all notifications)
+        #region T12: RPC call batch (all notifications)
 
         [TestMethod]
         public void DeserializeRequestDataT120()
