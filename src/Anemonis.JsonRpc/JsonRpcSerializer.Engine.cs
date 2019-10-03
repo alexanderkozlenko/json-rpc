@@ -36,8 +36,8 @@ namespace Anemonis.JsonRpc
         {
             return new JsonSerializerSettings
             {
-                MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-                DateParseHandling = DateParseHandling.None
+                DateParseHandling = DateParseHandling.None,
+                MetadataPropertyHandling = MetadataPropertyHandling.Ignore
             };
         }
 
