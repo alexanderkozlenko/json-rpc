@@ -5,10 +5,6 @@ update_configs:
     update_schedule: "live"
     automerged_updates:
       - match:
-          dependency_name: "Benchmark*"
-      - match:
-          dependency_name: "coverlet.*"
-      - match:
           dependency_name: "Microsoft.*.Analyzers"
       - match:
           dependency_name: "Microsoft.*.Sdk"
