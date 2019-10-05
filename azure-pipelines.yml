@@ -1,11 +1,5 @@
 # © Alexander Kozlenko. Licensed under the MIT License.
 
-trigger:
-  paths:
-    exclude:
-    - .dependabot/*
-    - .github/*
-    - .git*
 variables:
 - name: 'Build.ProjectPath'
   value: '$(Build.SourcesDirectory)/global.proj'
