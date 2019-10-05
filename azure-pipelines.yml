@@ -1,5 +1,11 @@
 # © Alexander Kozlenko. Licensed under the MIT License.
 
+trigger:
+  paths:
+    exclude:
+    - .dep*/
+    - .git*/
+    - .git*
 variables:
 - name: 'Build.ProjectPath'
   value: '$(Build.SourcesDirectory)/global.proj'
