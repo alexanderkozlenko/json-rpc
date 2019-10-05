@@ -3,8 +3,8 @@
 trigger:
   paths:
     exclude:
-    - .dep*/*
-    - .git*/*
+    - .dependabot/*
+    - .github/*
     - .git*
 variables:
 - name: 'Build.ProjectPath'
