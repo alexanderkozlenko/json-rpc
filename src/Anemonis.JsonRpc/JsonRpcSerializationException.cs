@@ -1,6 +1,7 @@
 ﻿// © Alexander Kozlenko. Licensed under the MIT License.
 
 using System;
+using System.Runtime.Serialization;
 
 namespace Anemonis.JsonRpc
 {
@@ -9,6 +10,11 @@ namespace Anemonis.JsonRpc
     {
         private readonly long _errorCode;
         private readonly JsonRpcId _messageId;
+
+        private JsonRpcSerializationException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
 
         internal JsonRpcSerializationException()
             : base()
