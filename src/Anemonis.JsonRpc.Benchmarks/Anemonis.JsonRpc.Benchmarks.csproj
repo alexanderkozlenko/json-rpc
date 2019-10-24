@@ -13,6 +13,6 @@
     <ProjectReference Include="..\Anemonis.JsonRpc\Anemonis.JsonRpc.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.11.5" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.12.0" />
   </ItemGroup>
 </Project>
