@@ -6,6 +6,8 @@ using Anemonis.Resources;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Newtonsoft.Json;
+
 namespace Anemonis.JsonRpc.SystemTests
 {
     [TestClass]
@@ -493,9 +495,10 @@ namespace Anemonis.JsonRpc.SystemTests
         public void DeserializeRequestDataT050()
         {
             var jsont = EmbeddedResourceManager.GetString("Assets.v2_spec_05.0_req.json");
-            var jrs = new JsonRpcSerializer();
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
 
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            Assert.ThrowsException<JsonReaderException>(() =>
                 jrs.DeserializeRequestData(jsont));
         }
 
@@ -602,9 +605,10 @@ namespace Anemonis.JsonRpc.SystemTests
         public void DeserializeRequestDataT070()
         {
             var jsont = EmbeddedResourceManager.GetString("Assets.v2_spec_07.0_req.json");
-            var jrs = new JsonRpcSerializer();
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
 
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            Assert.ThrowsException<JsonReaderException>(() =>
                 jrs.DeserializeRequestData(jsont));
         }
 
@@ -652,10 +656,14 @@ namespace Anemonis.JsonRpc.SystemTests
         public void DeserializeRequestDataT080()
         {
             var jsont = EmbeddedResourceManager.GetString("Assets.v2_spec_08.0_req.json");
-            var jrs = new JsonRpcSerializer();
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
 
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            var exception = Assert.ThrowsException<JsonRpcSerializationException>(() =>
                 jrs.DeserializeRequestData(jsont));
+
+            Assert.AreEqual(default, exception.MessageId);
+            Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, exception.ErrorCode);
         }
 
         [TestMethod]
