@@ -195,6 +195,29 @@ namespace Anemonis.JsonRpc
             return DeserializeRequestData(streamReader);
         }
 
+        /// <summary>Deserializes a UTF-8 encoded JSON string from the specified stream to JSON-RPC request data.</summary>
+        /// <param name="jsonStream">The stream to deserialize from.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// <returns>A JSON-RPC request data deserialization result.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="jsonStream" /> or <paramref name="encoding" /> is <see langword="null" />.</exception>
+        /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
+        public JsonRpcData<JsonRpcRequest> DeserializeRequestData(Stream jsonStream, Encoding encoding)
+        {
+            if (jsonStream == null)
+            {
+                throw new ArgumentNullException(nameof(jsonStream));
+            }
+            if (encoding == null)
+            {
+                throw new ArgumentNullException(nameof(encoding));
+            }
+
+            using var streamReader = new StreamReader(jsonStream, encoding, false, _defaultStreamBufferSize, true);
+
+            return DeserializeRequestData(streamReader);
+        }
+
         /// <summary>Deserializes the specified JSON string to JSON-RPC request data as an asynchronous operation.</summary>
         /// <param name="json">The JSON string to deserialize.</param>
         /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
@@ -239,6 +262,33 @@ namespace Anemonis.JsonRpc
             return DeserializeRequestDataAsync(streamReader, cancellationToken);
         }
 
+        /// <summary>Deserializes a UTF-8 encoded JSON string from the specified stream to JSON-RPC request data as an asynchronous operation.</summary>
+        /// <param name="jsonStream">The stream to deserialize from.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result is a JSON-RPC request data deserialization result.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="jsonStream" /> or <paramref name="encoding" /> is <see langword="null" />.</exception>
+        /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
+        /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
+        public ValueTask<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(Stream jsonStream, Encoding encoding, CancellationToken cancellationToken = default)
+        {
+            if (jsonStream == null)
+            {
+                throw new ArgumentNullException(nameof(jsonStream));
+            }
+            if (encoding == null)
+            {
+                throw new ArgumentNullException(nameof(encoding));
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            using var streamReader = new StreamReader(jsonStream, encoding, false, _defaultStreamBufferSize, true);
+
+            return DeserializeRequestDataAsync(streamReader, cancellationToken);
+        }
+
         /// <summary>Deserializes the specified JSON string to JSON-RPC response data.</summary>
         /// <param name="json">The JSON string to deserialize.</param>
         /// <returns>A JSON-RPC response data deserialization result.</returns>
@@ -273,7 +323,29 @@ namespace Anemonis.JsonRpc
             using var streamReader = new StreamReader(jsonStream, _utf8Encoding, false, _defaultStreamBufferSize, true);
 
             return DeserializeResponseData(streamReader);
+        }
 
+        /// <summary>Deserializes a UTF-8 encoded JSON string from the specified stream to JSON-RPC response data.</summary>
+        /// <param name="jsonStream">The stream to deserialize from.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// <returns>A JSON-RPC response data deserialization result.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="jsonStream" /> or <paramref name="encoding" /> is <see langword="null" />.</exception>
+        /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
+        public JsonRpcData<JsonRpcResponse> DeserializeResponseData(Stream jsonStream, Encoding encoding)
+        {
+            if (jsonStream == null)
+            {
+                throw new ArgumentNullException(nameof(jsonStream));
+            }
+            if (encoding == null)
+            {
+                throw new ArgumentNullException(nameof(encoding));
+            }
+
+            using var streamReader = new StreamReader(jsonStream, encoding, false, _defaultStreamBufferSize, true);
+
+            return DeserializeResponseData(streamReader);
         }
 
         /// <summary>Deserializes the specified JSON string to JSON-RPC response data as an asynchronous operation.</summary>
@@ -320,6 +392,33 @@ namespace Anemonis.JsonRpc
             return DeserializeResponseDataAsync(streamReader, cancellationToken);
         }
 
+        /// <summary>Deserializes a UTF-8 encoded JSON string from the specified stream to JSON-RPC response data as an asynchronous operation.</summary>
+        /// <param name="jsonStream">The stream to deserialize from.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result is a JSON-RPC response data deserialization result.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="jsonStream" /> or <paramref name="encoding" /> is <see langword="null" />.</exception>
+        /// <exception cref="JsonException">An error occurred during JSON deserialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
+        /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
+        public ValueTask<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(Stream jsonStream, Encoding encoding, CancellationToken cancellationToken = default)
+        {
+            if (jsonStream == null)
+            {
+                throw new ArgumentNullException(nameof(jsonStream));
+            }
+            if (encoding == null)
+            {
+                throw new ArgumentNullException(nameof(encoding));
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            using var streamReader = new StreamReader(jsonStream, encoding, false, _defaultStreamBufferSize, true);
+
+            return DeserializeResponseDataAsync(streamReader, cancellationToken);
+        }
+
         /// <summary>Serializes the specified JSON-RPC request to a JSON string.</summary>
         /// <param name="request">The JSON-RPC request to serialize.</param>
         /// <returns>A JSON string representation of the specified request.</returns>
@@ -358,6 +457,33 @@ namespace Anemonis.JsonRpc
             }
 
             using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+
+            SerializeRequest(request, streamWriter);
+        }
+
+        /// <summary>Serializes the specified JSON-RPC request as a UTF-8 encoded JSON string to the specified stream.</summary>
+        /// <param name="request">The JSON-RPC request to serialize.</param>
+        /// <param name="jsonStream">The stream to deserialize to.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="request" />, <paramref name="jsonStream" />, or <paramref name="encoding" /> is <see langword="null" />.</exception>
+        /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
+        public void SerializeRequest(JsonRpcRequest request, Stream jsonStream, Encoding encoding)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+            if (jsonStream == null)
+            {
+                throw new ArgumentNullException(nameof(jsonStream));
+            }
+            if (encoding == null)
+            {
+                throw new ArgumentNullException(nameof(encoding));
+            }
+
+            using var streamWriter = new StreamWriter(jsonStream, encoding, _defaultStreamBufferSize, true);
 
             SerializeRequest(request, streamWriter);
         }
@@ -413,6 +539,38 @@ namespace Anemonis.JsonRpc
             return SerializeRequestAsync(request, streamWriter);
         }
 
+        /// <summary>Serializes the specified JSON-RPC request as a UTF-8 encoded JSON string to the specified stream as an asynchronous operation.</summary>
+        /// <param name="request">The JSON-RPC request to serialize.</param>
+        /// <param name="jsonStream">The stream to deserialize to.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="request" />, <paramref name="jsonStream" />, or <paramref name="encoding" /> is <see langword="null" />.</exception>
+        /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
+        public ValueTask SerializeRequestAsync(JsonRpcRequest request, Stream jsonStream, Encoding encoding, CancellationToken cancellationToken = default)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+            if (jsonStream == null)
+            {
+                throw new ArgumentNullException(nameof(jsonStream));
+            }
+            if (encoding == null)
+            {
+                throw new ArgumentNullException(nameof(encoding));
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            using var streamWriter = new StreamWriter(jsonStream, encoding, _defaultStreamBufferSize, true);
+
+            return SerializeRequestAsync(request, streamWriter);
+        }
+
         /// <summary>Serializes the specified collection of JSON-RPC requests to a JSON string.</summary>
         /// <param name="requests">The collection of JSON-RPC requests to serialize.</param>
         /// <returns>A JSON string representation of the specified collection of JSON-RPC requests.</returns>
@@ -451,6 +609,33 @@ namespace Anemonis.JsonRpc
             }
 
             using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+
+            SerializeRequests(requests, streamWriter);
+        }
+
+        /// <summary>Serializes the specified collection of JSON-RPC requests as a UTF-8 encoded JSON string to the specified stream.</summary>
+        /// <param name="requests">The collection of JSON-RPC requests to serialize.</param>
+        /// <param name="jsonStream">The stream to deserialize to.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="requests" />, <paramref name="jsonStream" />, or <paramref name="encoding" /> is <see langword="null" />.</exception>
+        /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
+        public void SerializeRequests(IReadOnlyList<JsonRpcRequest> requests, Stream jsonStream, Encoding encoding)
+        {
+            if (requests == null)
+            {
+                throw new ArgumentNullException(nameof(requests));
+            }
+            if (jsonStream == null)
+            {
+                throw new ArgumentNullException(nameof(jsonStream));
+            }
+            if (encoding == null)
+            {
+                throw new ArgumentNullException(nameof(encoding));
+            }
+
+            using var streamWriter = new StreamWriter(jsonStream, encoding, _defaultStreamBufferSize, true);
 
             SerializeRequests(requests, streamWriter);
         }
@@ -506,6 +691,38 @@ namespace Anemonis.JsonRpc
             return SerializeRequestsAsync(requests, streamWriter, cancellationToken);
         }
 
+        /// <summary>Serializes the specified collection of JSON-RPC requests as a UTF-8 encoded JSON string to the specified stream as an asynchronous operation.</summary>
+        /// <param name="requests">The collection of JSON-RPC requests to serialize.</param>
+        /// <param name="jsonStream">The stream to deserialize to.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="requests" />, <paramref name="jsonStream" />, or <paramref name="encoding" /> is <see langword="null" />.</exception>
+        /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
+        public ValueTask SerializeRequestsAsync(IReadOnlyList<JsonRpcRequest> requests, Stream jsonStream, Encoding encoding, CancellationToken cancellationToken = default)
+        {
+            if (requests == null)
+            {
+                throw new ArgumentNullException(nameof(requests));
+            }
+            if (jsonStream == null)
+            {
+                throw new ArgumentNullException(nameof(jsonStream));
+            }
+            if (encoding == null)
+            {
+                throw new ArgumentNullException(nameof(encoding));
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            using var streamWriter = new StreamWriter(jsonStream, encoding, _defaultStreamBufferSize, true);
+
+            return SerializeRequestsAsync(requests, streamWriter, cancellationToken);
+        }
+
         /// <summary>Serializes the specified JSON-RPC response to a JSON string.</summary>
         /// <param name="response">The JSON-RPC response to serialize.</param>
         /// <returns>A JSON string representation of the specified response.</returns>
@@ -544,6 +761,33 @@ namespace Anemonis.JsonRpc
             }
 
             using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+
+            SerializeResponse(response, streamWriter);
+        }
+
+        /// <summary>Serializes the specified JSON-RPC response as a UTF-8 encoded JSON string to the specified stream.</summary>
+        /// <param name="response">The JSON-RPC response to serialize.</param>
+        /// <param name="jsonStream">The stream to deserialize to.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="response" />, <paramref name="jsonStream" />, or <paramref name="encoding" /> is <see langword="null" />.</exception>
+        /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
+        public void SerializeResponse(JsonRpcResponse response, Stream jsonStream, Encoding encoding)
+        {
+            if (response == null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+            if (jsonStream == null)
+            {
+                throw new ArgumentNullException(nameof(jsonStream));
+            }
+            if (encoding == null)
+            {
+                throw new ArgumentNullException(nameof(encoding));
+            }
+
+            using var streamWriter = new StreamWriter(jsonStream, encoding, _defaultStreamBufferSize, true);
 
             SerializeResponse(response, streamWriter);
         }
@@ -599,6 +843,38 @@ namespace Anemonis.JsonRpc
             return SerializeResponseAsync(response, streamWriter);
         }
 
+        /// <summary>Serializes the specified JSON-RPC response as a UTF-8 encoded JSON string to the specified stream as an asynchronous operation.</summary>
+        /// <param name="response">The JSON-RPC response to serialize.</param>
+        /// <param name="jsonStream">The stream to deserialize to.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="response" />, <paramref name="jsonStream" />, or <paramref name="encoding" /> is <see langword="null" />.</exception>
+        /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
+        public ValueTask SerializeResponseAsync(JsonRpcResponse response, Stream jsonStream, Encoding encoding, CancellationToken cancellationToken = default)
+        {
+            if (response == null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+            if (jsonStream == null)
+            {
+                throw new ArgumentNullException(nameof(jsonStream));
+            }
+            if (encoding == null)
+            {
+                throw new ArgumentNullException(nameof(encoding));
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            using var streamWriter = new StreamWriter(jsonStream, encoding, _defaultStreamBufferSize, true);
+
+            return SerializeResponseAsync(response, streamWriter);
+        }
+
         /// <summary>Serializes the specified collection of JSON-RPC responses to a JSON string.</summary>
         /// <param name="responses">The collection of JSON-RPC responses to serialize.</param>
         /// <returns>A JSON string representation of the specified collection of JSON-RPC responses.</returns>
@@ -637,6 +913,33 @@ namespace Anemonis.JsonRpc
             }
 
             using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+
+            SerializeResponses(responses, streamWriter);
+        }
+
+        /// <summary>Serializes the specified collection of JSON-RPC responses as a UTF-8 encoded JSON string to the specified stream.</summary>
+        /// <param name="responses">The collection of JSON-RPC responses to serialize.</param>
+        /// <param name="jsonStream">The stream to deserialize to.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="responses" />, <paramref name="jsonStream" />, or <paramref name="encoding" /> is <see langword="null" />.</exception>
+        /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
+        public void SerializeResponses(IReadOnlyList<JsonRpcResponse> responses, Stream jsonStream, Encoding encoding)
+        {
+            if (responses == null)
+            {
+                throw new ArgumentNullException(nameof(responses));
+            }
+            if (jsonStream == null)
+            {
+                throw new ArgumentNullException(nameof(jsonStream));
+            }
+            if (encoding == null)
+            {
+                throw new ArgumentNullException(nameof(encoding));
+            }
+
+            using var streamWriter = new StreamWriter(jsonStream, encoding, _defaultStreamBufferSize, true);
 
             SerializeResponses(responses, streamWriter);
         }
@@ -688,6 +991,38 @@ namespace Anemonis.JsonRpc
             cancellationToken.ThrowIfCancellationRequested();
 
             using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+
+            return SerializeResponsesAsync(responses, streamWriter, cancellationToken);
+        }
+
+        /// <summary>Serializes the specified collection of JSON-RPC responses as a UTF-8 encoded JSON string to the specified stream as an asynchronous operation.</summary>
+        /// <param name="responses">The collection of JSON-RPC responses to serialize.</param>
+        /// <param name="jsonStream">The stream to deserialize to.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// <param name="cancellationToken">The cancellation token for canceling the operation.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="responses" />, <paramref name="jsonStream" />, or <paramref name="encoding" /> is <see langword="null" />.</exception>
+        /// <exception cref="JsonException">An error occurred during JSON serialization.</exception>
+        /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
+        /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
+        public ValueTask SerializeResponsesAsync(IReadOnlyList<JsonRpcResponse> responses, Stream jsonStream, Encoding encoding, CancellationToken cancellationToken = default)
+        {
+            if (responses == null)
+            {
+                throw new ArgumentNullException(nameof(responses));
+            }
+            if (jsonStream == null)
+            {
+                throw new ArgumentNullException(nameof(jsonStream));
+            }
+            if (encoding == null)
+            {
+                throw new ArgumentNullException(nameof(encoding));
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            using var streamWriter = new StreamWriter(jsonStream, encoding, _defaultStreamBufferSize, true);
 
             return SerializeResponsesAsync(responses, streamWriter, cancellationToken);
         }
