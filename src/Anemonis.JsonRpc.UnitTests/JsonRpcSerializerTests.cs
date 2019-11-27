@@ -324,10 +324,14 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void DeserializeRequestDataWithStringWhenStringIsEmpty()
         {
-            var jrs = new JsonRpcSerializer();
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
 
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            var exception = Assert.ThrowsException<JsonRpcSerializationException>(() =>
                 jrs.DeserializeRequestData(string.Empty));
+
+            Assert.AreEqual(default, exception.MessageId);
+            Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, exception.ErrorCode);
         }
 
         [TestMethod]
@@ -403,10 +407,14 @@ namespace Anemonis.JsonRpc.UnitTests
         [TestMethod]
         public void DeserializeResponseDataWithStringWhenStringIsEmpty()
         {
-            var jrs = new JsonRpcSerializer();
+            var jrcr = new JsonRpcContractResolver();
+            var jrs = new JsonRpcSerializer(jrcr);
 
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            var exception = Assert.ThrowsException<JsonRpcSerializationException>(() =>
                 jrs.DeserializeResponseData(string.Empty));
+
+            Assert.AreEqual(default, exception.MessageId);
+            Assert.AreEqual(JsonRpcErrorCode.InvalidMessage, exception.ErrorCode);
         }
 
         [TestMethod]
