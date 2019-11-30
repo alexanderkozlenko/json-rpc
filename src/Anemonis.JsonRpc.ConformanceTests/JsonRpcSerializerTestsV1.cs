@@ -4,7 +4,7 @@ using Anemonis.Resources;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Anemonis.JsonRpc.SystemTests
+namespace Anemonis.JsonRpc.ConformanceTests
 {
     [TestClass]
     public sealed class JsonRpcSerializerTestsV1

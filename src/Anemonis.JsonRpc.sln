@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anemonis.JsonRpc", "Anemoni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anemonis.JsonRpc.UnitTests", "Anemonis.JsonRpc.UnitTests\Anemonis.JsonRpc.UnitTests.csproj", "{CFACA0EB-4B90-4E7F-AD89-E3F2CAD2FA38}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anemonis.JsonRpc.SystemTests", "Anemonis.JsonRpc.SystemTests\Anemonis.JsonRpc.SystemTests.csproj", "{E2A61AD0-559C-488F-9595-9DDBB70DC837}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anemonis.JsonRpc.ConformanceTests", "Anemonis.JsonRpc.ConformanceTests\Anemonis.JsonRpc.ConformanceTests.csproj", "{E2A61AD0-559C-488F-9595-9DDBB70DC837}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anemonis.JsonRpc.Benchmarks", "Anemonis.JsonRpc.Benchmarks\Anemonis.JsonRpc.Benchmarks.csproj", "{72B788B3-FBC3-408B-9067-BD3EAD83235E}"
 EndProject
