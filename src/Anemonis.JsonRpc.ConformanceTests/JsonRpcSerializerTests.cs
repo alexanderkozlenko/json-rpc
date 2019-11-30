@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Newtonsoft.Json.Linq;
 
-namespace Anemonis.JsonRpc.SystemTests
+namespace Anemonis.JsonRpc.ConformanceTests
 {
     internal static class JsonRpcSerializerTests
     {
