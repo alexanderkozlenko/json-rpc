@@ -1,16 +1,12 @@
-﻿<!-- © Alexander Kozlenko. Licensed under the MIT License. -->
-<Project>
+﻿<Project>
   <PropertyGroup>
-    <VersionPrefix>1.24.1</VersionPrefix>
-    <VersionSuffix></VersionSuffix>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <VersionPrefix>1.24.2</VersionPrefix>
+    <VersionSuffix>beta</VersionSuffix>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors><![CDATA[Alexander Kozlenko]]></Authors>
     <Copyright><![CDATA[© $(Authors). All rights reserved.]]></Copyright>
     <Description><![CDATA[Provides support for serializing and deserializing JSON-RPC 2.0 messages]]></Description>
     <PackageTags><![CDATA[json-rpc json rpc protocol]]></PackageTags>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(BuildNumber)' != ''">
-    <VersionSuffix Condition="'$(VersionSuffix)' != ''">$(VersionSuffix)-$(BuildNumber)</VersionSuffix>
   </PropertyGroup>
 </Project>
