@@ -16,9 +16,7 @@ namespace Anemonis.JsonRpc
             _value = value;
         }
 
-        /// <summary>Indicates whether the current <see cref="JsonRpcMessageInfo{T}" /> is equal to the specified object.</summary>
-        /// <param name="obj">The object to compare with the current <see cref="JsonRpcMessageInfo{T}" />.</param>
-        /// <returns><see langword="true" /> if the current <see cref="JsonRpcMessageInfo{T}" /> is equal to the specified object; otherwise, <see langword="false" />.</returns>
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
             return (obj is JsonRpcMessageInfo<T> other) && Equals(other);
@@ -32,8 +30,7 @@ namespace Anemonis.JsonRpc
             return object.ReferenceEquals(_value, other._value);
         }
 
-        /// <summary>Returns the hash code for the current <see cref="JsonRpcMessageInfo{T}" />.</summary>
-        /// <returns>A 32-bit signed integer hash code.</returns>
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             return HashCode.Combine(_value);

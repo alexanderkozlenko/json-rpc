@@ -21,9 +21,7 @@ namespace Anemonis.JsonRpc
         {
         }
 
-        /// <summary>Gets the JSON-RPC request contract.</summary>
-        /// <param name="method">The name of a JSON-RPC method.</param>
-        /// <returns>The corresponding request contract or <see langword="null" />.</returns>
+        /// <inheritdoc />
         /// <exception cref="ArgumentNullException"><paramref name="method" /> is <see langword="null" />.</exception>
         public JsonRpcRequestContract GetRequestContract(string method)
         {
@@ -45,9 +43,7 @@ namespace Anemonis.JsonRpc
             return contract;
         }
 
-        /// <summary>Gets the JSON-RPC response contract.</summary>
-        /// <param name="messageId">The JSON-RPC message identifier.</param>
-        /// <returns>The corresponding response contract or <see langword="null" />.</returns>
+        /// <inheritdoc />
         public JsonRpcResponseContract GetResponseContract(in JsonRpcId messageId)
         {
             var operationLockTaken = false;
