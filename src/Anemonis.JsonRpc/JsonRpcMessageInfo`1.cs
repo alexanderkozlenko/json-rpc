@@ -22,9 +22,7 @@ namespace Anemonis.JsonRpc
             return (obj is JsonRpcMessageInfo<T> other) && Equals(other);
         }
 
-        /// <summary>Indicates whether the current <see cref="JsonRpcMessageInfo{T}" /> is equal to another <see cref="JsonRpcMessageInfo{T}" />.</summary>
-        /// <param name="other">A <see cref="JsonRpcMessageInfo{T}" /> to compare with the current <see cref="JsonRpcMessageInfo{T}" />.</param>
-        /// <returns><see langword="true" /> if the current <see cref="JsonRpcMessageInfo{T}" /> is equal to the other <see cref="JsonRpcMessageInfo{T}" />; otherwise, <see langword="false" />.</returns>
+        /// <inheritdoc />
         public bool Equals(JsonRpcMessageInfo<T> other)
         {
             return object.ReferenceEquals(_value, other._value);
