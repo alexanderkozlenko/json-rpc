@@ -102,16 +102,13 @@ namespace Anemonis.JsonRpc
             }
         }
 
-        /// <summary>Indicates whether the current <see cref="JsonRpcId" /> is equal to another <see cref="JsonRpcId" />.</summary>
-        /// <param name="other">A <see cref="JsonRpcId" /> to compare with the current <see cref="JsonRpcId" />.</param>
-        /// <returns><see langword="true" /> if the current <see cref="JsonRpcId" /> is equal to the other <see cref="JsonRpcId" />; otherwise, <see langword="false" />.</returns>
+        /// <inheritdoc />
         public bool Equals(JsonRpcId other)
         {
             return Equals(in other);
         }
 
-        /// <summary>Returns the hash code for the current <see cref="JsonRpcId" />.</summary>
-        /// <returns>A 32-bit signed integer hash code.</returns>
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             var hashCode = new HashCode();
@@ -135,8 +132,7 @@ namespace Anemonis.JsonRpc
             return hashCode.ToHashCode();
         }
 
-        /// <summary>Converts the current <see cref="JsonRpcId" /> to its equivalent string representation.</summary>
-        /// <returns>The string representation of the current <see cref="JsonRpcId" />.</returns>
+        /// <inheritdoc />
         public override string ToString()
         {
             return ToString(CultureInfo.CurrentCulture);
