@@ -78,9 +78,7 @@ namespace Anemonis.JsonRpc
             return _valueNumber;
         }
 
-        /// <summary>Indicates whether the current <see cref="JsonRpcId" /> is equal to the specified object.</summary>
-        /// <param name="obj">The object to compare with the current <see cref="JsonRpcId" />.</param>
-        /// <returns><see langword="true" /> if the current <see cref="JsonRpcId" /> is equal to the specified object; otherwise, <see langword="false" />.</returns>
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
             switch (obj)
