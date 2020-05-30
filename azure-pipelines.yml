@@ -4,7 +4,7 @@ variables:
 - name: 'Build.ProjectPath'
   value: '$(Build.SourcesDirectory)/global.proj'
 - name: 'JAVA_HOME'
-  value: '$[System.Java.Home]'
+  value: '$[variables.$(System.Java.Home)]]'
 stages:
 - stage: Pack
   dependsOn: []
