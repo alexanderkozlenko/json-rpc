@@ -1,8 +1,7 @@
-﻿<!-- © Alexander Kozlenko. Licensed under the MIT License. -->
-<Project>
+﻿<Project>
   <!-- Project: Properties -->
   <PropertyGroup>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <NoWin32Manifest>true</NoWin32Manifest>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <IsPackable>false</IsPackable>

@@ -1,5 +1,3 @@
-# © Alexander Kozlenko. Licensed under the MIT License.
-
 variables:
 - name: 'Build.ProjectPath'
   value: '$(Build.SourcesDirectory)/global.proj'
@@ -37,11 +35,6 @@ stages:
   jobs:
   - job: Release
     steps:
-    - task: UseDotNet@2
-      displayName: 'dotnet.use.sonar'
-      inputs:
-        packageType: runtime
-        version: 2.x
     - task: UseDotNet@2
       displayName: 'dotnet.use.sdk'
       inputs:
