@@ -15,10 +15,10 @@ namespace Anemonis.JsonRpc
     /// <summary>Serializes and deserializes JSON-RPC messages into and from the JSON format.</summary>
     public sealed partial class JsonRpcSerializer
     {
-        private const int _messageBufferSize = 64;
-        private const int _defaultStreamBufferSize = 1024;
+        private const int MessageBufferSize = 64;
+        private const int DefaultStreamBufferSize = 1024;
 
-        private static readonly Encoding _utf8Encoding = new UTF8Encoding(false, true);
+        private static readonly Encoding s_utf8Encoding = new UTF8Encoding(false, true);
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcSerializer" /> class.</summary>
         /// <param name="contractResolver">The JSON-RPC message contract resolver instance.</param>
@@ -27,7 +27,7 @@ namespace Anemonis.JsonRpc
         public JsonRpcSerializer(IJsonRpcContractResolver contractResolver = null, JsonSerializer jsonSerializer = null, JsonRpcCompatibilityLevel compatibilityLevel = default)
         {
             _contractResolver = contractResolver;
-            _jsonSerializer = jsonSerializer ?? JsonSerializer.CreateDefault(_jsonSerializerSettings);
+            _jsonSerializer = jsonSerializer ?? JsonSerializer.CreateDefault(s_jsonSerializerSettings);
             _compatibilityLevel = compatibilityLevel;
         }
 
@@ -36,7 +36,7 @@ namespace Anemonis.JsonRpc
             using var jsonReader = new JsonTextReader(textReader);
 
             jsonReader.DateParseHandling = _jsonSerializer.DateParseHandling;
-            jsonReader.ArrayPool = _jsonBufferPool;
+            jsonReader.ArrayPool = s_jsonBufferPool;
 
             return DeserializeRequestData(jsonReader, default);
         }
@@ -46,7 +46,7 @@ namespace Anemonis.JsonRpc
             using var jsonReader = new JsonTextReader(textReader);
 
             jsonReader.DateParseHandling = _jsonSerializer.DateParseHandling;
-            jsonReader.ArrayPool = _jsonBufferPool;
+            jsonReader.ArrayPool = s_jsonBufferPool;
 
             return new ValueTask<JsonRpcData<JsonRpcRequest>>(DeserializeRequestData(jsonReader, cancellationToken));
         }
@@ -56,7 +56,7 @@ namespace Anemonis.JsonRpc
             using var jsonReader = new JsonTextReader(textReader);
 
             jsonReader.DateParseHandling = _jsonSerializer.DateParseHandling;
-            jsonReader.ArrayPool = _jsonBufferPool;
+            jsonReader.ArrayPool = s_jsonBufferPool;
 
             return DeserializeResponseData(jsonReader, default);
         }
@@ -66,7 +66,7 @@ namespace Anemonis.JsonRpc
             using var jsonReader = new JsonTextReader(textReader);
 
             jsonReader.DateParseHandling = _jsonSerializer.DateParseHandling;
-            jsonReader.ArrayPool = _jsonBufferPool;
+            jsonReader.ArrayPool = s_jsonBufferPool;
 
             return new ValueTask<JsonRpcData<JsonRpcResponse>>(DeserializeResponseData(jsonReader, cancellationToken));
         }
@@ -76,7 +76,7 @@ namespace Anemonis.JsonRpc
             using var jsonWriter = new JsonTextWriter(textWriter);
 
             jsonWriter.AutoCompleteOnClose = false;
-            jsonWriter.ArrayPool = _jsonBufferPool;
+            jsonWriter.ArrayPool = s_jsonBufferPool;
 
             SerializeRequest(jsonWriter, request);
         }
@@ -86,7 +86,7 @@ namespace Anemonis.JsonRpc
             using var jsonWriter = new JsonTextWriter(textWriter);
 
             jsonWriter.AutoCompleteOnClose = false;
-            jsonWriter.ArrayPool = _jsonBufferPool;
+            jsonWriter.ArrayPool = s_jsonBufferPool;
 
             SerializeRequest(jsonWriter, request);
 
@@ -98,7 +98,7 @@ namespace Anemonis.JsonRpc
             using var jsonWriter = new JsonTextWriter(textWriter);
 
             jsonWriter.AutoCompleteOnClose = false;
-            jsonWriter.ArrayPool = _jsonBufferPool;
+            jsonWriter.ArrayPool = s_jsonBufferPool;
 
             SerializeRequests(jsonWriter, requests, default);
         }
@@ -108,7 +108,7 @@ namespace Anemonis.JsonRpc
             using var jsonWriter = new JsonTextWriter(textWriter);
 
             jsonWriter.AutoCompleteOnClose = false;
-            jsonWriter.ArrayPool = _jsonBufferPool;
+            jsonWriter.ArrayPool = s_jsonBufferPool;
 
             SerializeRequests(jsonWriter, requests, cancellationToken);
 
@@ -120,7 +120,7 @@ namespace Anemonis.JsonRpc
             using var jsonWriter = new JsonTextWriter(textWriter);
 
             jsonWriter.AutoCompleteOnClose = false;
-            jsonWriter.ArrayPool = _jsonBufferPool;
+            jsonWriter.ArrayPool = s_jsonBufferPool;
 
             SerializeResponse(jsonWriter, response);
         }
@@ -130,7 +130,7 @@ namespace Anemonis.JsonRpc
             using var jsonWriter = new JsonTextWriter(textWriter);
 
             jsonWriter.AutoCompleteOnClose = false;
-            jsonWriter.ArrayPool = _jsonBufferPool;
+            jsonWriter.ArrayPool = s_jsonBufferPool;
 
             SerializeResponse(jsonWriter, response);
 
@@ -142,7 +142,7 @@ namespace Anemonis.JsonRpc
             using var jsonWriter = new JsonTextWriter(textWriter);
 
             jsonWriter.AutoCompleteOnClose = false;
-            jsonWriter.ArrayPool = _jsonBufferPool;
+            jsonWriter.ArrayPool = s_jsonBufferPool;
 
             SerializeResponses(jsonWriter, responses, default);
         }
@@ -152,7 +152,7 @@ namespace Anemonis.JsonRpc
             using var jsonWriter = new JsonTextWriter(textWriter);
 
             jsonWriter.AutoCompleteOnClose = false;
-            jsonWriter.ArrayPool = _jsonBufferPool;
+            jsonWriter.ArrayPool = s_jsonBufferPool;
 
             SerializeResponses(jsonWriter, responses, cancellationToken);
 
@@ -167,7 +167,7 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         public JsonRpcData<JsonRpcRequest> DeserializeRequestData(string json)
         {
-            if (json == null)
+            if (json is null)
             {
                 throw new ArgumentNullException(nameof(json));
             }
@@ -185,12 +185,12 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         public JsonRpcData<JsonRpcRequest> DeserializeRequestData(Stream jsonStream)
         {
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
 
-            using var streamReader = new StreamReader(jsonStream, _utf8Encoding, false, _defaultStreamBufferSize, true);
+            using var streamReader = new StreamReader(jsonStream, s_utf8Encoding, false, DefaultStreamBufferSize, true);
 
             return DeserializeRequestData(streamReader);
         }
@@ -204,16 +204,16 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         public JsonRpcData<JsonRpcRequest> DeserializeRequestData(Stream jsonStream, Encoding encoding)
         {
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
-            if (encoding == null)
+            if (encoding is null)
             {
                 throw new ArgumentNullException(nameof(encoding));
             }
 
-            using var streamReader = new StreamReader(jsonStream, encoding, false, _defaultStreamBufferSize, true);
+            using var streamReader = new StreamReader(jsonStream, encoding, false, DefaultStreamBufferSize, true);
 
             return DeserializeRequestData(streamReader);
         }
@@ -228,7 +228,7 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(string json, CancellationToken cancellationToken = default)
         {
-            if (json == null)
+            if (json is null)
             {
                 throw new ArgumentNullException(nameof(json));
             }
@@ -250,14 +250,14 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(Stream jsonStream, CancellationToken cancellationToken = default)
         {
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var streamReader = new StreamReader(jsonStream, _utf8Encoding, false, _defaultStreamBufferSize, true);
+            using var streamReader = new StreamReader(jsonStream, s_utf8Encoding, false, DefaultStreamBufferSize, true);
 
             return DeserializeRequestDataAsync(streamReader, cancellationToken);
         }
@@ -273,18 +273,18 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask<JsonRpcData<JsonRpcRequest>> DeserializeRequestDataAsync(Stream jsonStream, Encoding encoding, CancellationToken cancellationToken = default)
         {
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
-            if (encoding == null)
+            if (encoding is null)
             {
                 throw new ArgumentNullException(nameof(encoding));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var streamReader = new StreamReader(jsonStream, encoding, false, _defaultStreamBufferSize, true);
+            using var streamReader = new StreamReader(jsonStream, encoding, false, DefaultStreamBufferSize, true);
 
             return DeserializeRequestDataAsync(streamReader, cancellationToken);
         }
@@ -297,7 +297,7 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         public JsonRpcData<JsonRpcResponse> DeserializeResponseData(string json)
         {
-            if (json == null)
+            if (json is null)
             {
                 throw new ArgumentNullException(nameof(json));
             }
@@ -315,12 +315,12 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         public JsonRpcData<JsonRpcResponse> DeserializeResponseData(Stream jsonStream)
         {
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
 
-            using var streamReader = new StreamReader(jsonStream, _utf8Encoding, false, _defaultStreamBufferSize, true);
+            using var streamReader = new StreamReader(jsonStream, s_utf8Encoding, false, DefaultStreamBufferSize, true);
 
             return DeserializeResponseData(streamReader);
         }
@@ -334,16 +334,16 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC deserialization.</exception>
         public JsonRpcData<JsonRpcResponse> DeserializeResponseData(Stream jsonStream, Encoding encoding)
         {
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
-            if (encoding == null)
+            if (encoding is null)
             {
                 throw new ArgumentNullException(nameof(encoding));
             }
 
-            using var streamReader = new StreamReader(jsonStream, encoding, false, _defaultStreamBufferSize, true);
+            using var streamReader = new StreamReader(jsonStream, encoding, false, DefaultStreamBufferSize, true);
 
             return DeserializeResponseData(streamReader);
         }
@@ -358,7 +358,7 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(string json, CancellationToken cancellationToken = default)
         {
-            if (json == null)
+            if (json is null)
             {
                 throw new ArgumentNullException(nameof(json));
             }
@@ -380,14 +380,14 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(Stream jsonStream, CancellationToken cancellationToken = default)
         {
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var streamReader = new StreamReader(jsonStream, _utf8Encoding, false, _defaultStreamBufferSize, true);
+            using var streamReader = new StreamReader(jsonStream, s_utf8Encoding, false, DefaultStreamBufferSize, true);
 
             return DeserializeResponseDataAsync(streamReader, cancellationToken);
         }
@@ -403,18 +403,18 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask<JsonRpcData<JsonRpcResponse>> DeserializeResponseDataAsync(Stream jsonStream, Encoding encoding, CancellationToken cancellationToken = default)
         {
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
-            if (encoding == null)
+            if (encoding is null)
             {
                 throw new ArgumentNullException(nameof(encoding));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var streamReader = new StreamReader(jsonStream, encoding, false, _defaultStreamBufferSize, true);
+            using var streamReader = new StreamReader(jsonStream, encoding, false, DefaultStreamBufferSize, true);
 
             return DeserializeResponseDataAsync(streamReader, cancellationToken);
         }
@@ -427,12 +427,12 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public string SerializeRequest(JsonRpcRequest request)
         {
-            if (request == null)
+            if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
 
-            using var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize), CultureInfo.InvariantCulture);
+            using var stringWriter = new StringWriter(new StringBuilder(MessageBufferSize), CultureInfo.InvariantCulture);
 
             SerializeRequest(request, stringWriter);
 
@@ -447,16 +447,16 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public void SerializeRequest(JsonRpcRequest request, Stream jsonStream)
         {
-            if (request == null)
+            if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
 
-            using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+            using var streamWriter = new StreamWriter(jsonStream, s_utf8Encoding, DefaultStreamBufferSize, true);
 
             SerializeRequest(request, streamWriter);
         }
@@ -470,20 +470,20 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public void SerializeRequest(JsonRpcRequest request, Stream jsonStream, Encoding encoding)
         {
-            if (request == null)
+            if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
-            if (encoding == null)
+            if (encoding is null)
             {
                 throw new ArgumentNullException(nameof(encoding));
             }
 
-            using var streamWriter = new StreamWriter(jsonStream, encoding, _defaultStreamBufferSize, true);
+            using var streamWriter = new StreamWriter(jsonStream, encoding, DefaultStreamBufferSize, true);
 
             SerializeRequest(request, streamWriter);
         }
@@ -498,14 +498,14 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public async ValueTask<string> SerializeRequestAsync(JsonRpcRequest request, CancellationToken cancellationToken = default)
         {
-            if (request == null)
+            if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize), CultureInfo.InvariantCulture);
+            using var stringWriter = new StringWriter(new StringBuilder(MessageBufferSize), CultureInfo.InvariantCulture);
 
             await SerializeRequestAsync(request, stringWriter).ConfigureAwait(false);
 
@@ -523,18 +523,18 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask SerializeRequestAsync(JsonRpcRequest request, Stream jsonStream, CancellationToken cancellationToken = default)
         {
-            if (request == null)
+            if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+            using var streamWriter = new StreamWriter(jsonStream, s_utf8Encoding, DefaultStreamBufferSize, true);
 
             return SerializeRequestAsync(request, streamWriter);
         }
@@ -551,22 +551,22 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask SerializeRequestAsync(JsonRpcRequest request, Stream jsonStream, Encoding encoding, CancellationToken cancellationToken = default)
         {
-            if (request == null)
+            if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
-            if (encoding == null)
+            if (encoding is null)
             {
                 throw new ArgumentNullException(nameof(encoding));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var streamWriter = new StreamWriter(jsonStream, encoding, _defaultStreamBufferSize, true);
+            using var streamWriter = new StreamWriter(jsonStream, encoding, DefaultStreamBufferSize, true);
 
             return SerializeRequestAsync(request, streamWriter);
         }
@@ -579,12 +579,12 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public string SerializeRequests(IReadOnlyList<JsonRpcRequest> requests)
         {
-            if (requests == null)
+            if (requests is null)
             {
                 throw new ArgumentNullException(nameof(requests));
             }
 
-            using var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize * requests.Count), CultureInfo.InvariantCulture);
+            using var stringWriter = new StringWriter(new StringBuilder(MessageBufferSize * requests.Count), CultureInfo.InvariantCulture);
 
             SerializeRequests(requests, stringWriter);
 
@@ -599,16 +599,16 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public void SerializeRequests(IReadOnlyList<JsonRpcRequest> requests, Stream jsonStream)
         {
-            if (requests == null)
+            if (requests is null)
             {
                 throw new ArgumentNullException(nameof(requests));
             }
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
 
-            using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+            using var streamWriter = new StreamWriter(jsonStream, s_utf8Encoding, DefaultStreamBufferSize, true);
 
             SerializeRequests(requests, streamWriter);
         }
@@ -622,20 +622,20 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public void SerializeRequests(IReadOnlyList<JsonRpcRequest> requests, Stream jsonStream, Encoding encoding)
         {
-            if (requests == null)
+            if (requests is null)
             {
                 throw new ArgumentNullException(nameof(requests));
             }
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
-            if (encoding == null)
+            if (encoding is null)
             {
                 throw new ArgumentNullException(nameof(encoding));
             }
 
-            using var streamWriter = new StreamWriter(jsonStream, encoding, _defaultStreamBufferSize, true);
+            using var streamWriter = new StreamWriter(jsonStream, encoding, DefaultStreamBufferSize, true);
 
             SerializeRequests(requests, streamWriter);
         }
@@ -650,14 +650,14 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public async ValueTask<string> SerializeRequestsAsync(IReadOnlyList<JsonRpcRequest> requests, CancellationToken cancellationToken = default)
         {
-            if (requests == null)
+            if (requests is null)
             {
                 throw new ArgumentNullException(nameof(requests));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize * requests.Count), CultureInfo.InvariantCulture);
+            using var stringWriter = new StringWriter(new StringBuilder(MessageBufferSize * requests.Count), CultureInfo.InvariantCulture);
 
             await SerializeRequestsAsync(requests, stringWriter, cancellationToken).ConfigureAwait(false);
 
@@ -675,18 +675,18 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask SerializeRequestsAsync(IReadOnlyList<JsonRpcRequest> requests, Stream jsonStream, CancellationToken cancellationToken = default)
         {
-            if (requests == null)
+            if (requests is null)
             {
                 throw new ArgumentNullException(nameof(requests));
             }
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+            using var streamWriter = new StreamWriter(jsonStream, s_utf8Encoding, DefaultStreamBufferSize, true);
 
             return SerializeRequestsAsync(requests, streamWriter, cancellationToken);
         }
@@ -703,22 +703,22 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask SerializeRequestsAsync(IReadOnlyList<JsonRpcRequest> requests, Stream jsonStream, Encoding encoding, CancellationToken cancellationToken = default)
         {
-            if (requests == null)
+            if (requests is null)
             {
                 throw new ArgumentNullException(nameof(requests));
             }
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
-            if (encoding == null)
+            if (encoding is null)
             {
                 throw new ArgumentNullException(nameof(encoding));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var streamWriter = new StreamWriter(jsonStream, encoding, _defaultStreamBufferSize, true);
+            using var streamWriter = new StreamWriter(jsonStream, encoding, DefaultStreamBufferSize, true);
 
             return SerializeRequestsAsync(requests, streamWriter, cancellationToken);
         }
@@ -731,12 +731,12 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public string SerializeResponse(JsonRpcResponse response)
         {
-            if (response == null)
+            if (response is null)
             {
                 throw new ArgumentNullException(nameof(response));
             }
 
-            using var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize), CultureInfo.InvariantCulture);
+            using var stringWriter = new StringWriter(new StringBuilder(MessageBufferSize), CultureInfo.InvariantCulture);
 
             SerializeResponse(response, stringWriter);
 
@@ -751,16 +751,16 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public void SerializeResponse(JsonRpcResponse response, Stream jsonStream)
         {
-            if (response == null)
+            if (response is null)
             {
                 throw new ArgumentNullException(nameof(response));
             }
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
 
-            using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+            using var streamWriter = new StreamWriter(jsonStream, s_utf8Encoding, DefaultStreamBufferSize, true);
 
             SerializeResponse(response, streamWriter);
         }
@@ -774,20 +774,20 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public void SerializeResponse(JsonRpcResponse response, Stream jsonStream, Encoding encoding)
         {
-            if (response == null)
+            if (response is null)
             {
                 throw new ArgumentNullException(nameof(response));
             }
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
-            if (encoding == null)
+            if (encoding is null)
             {
                 throw new ArgumentNullException(nameof(encoding));
             }
 
-            using var streamWriter = new StreamWriter(jsonStream, encoding, _defaultStreamBufferSize, true);
+            using var streamWriter = new StreamWriter(jsonStream, encoding, DefaultStreamBufferSize, true);
 
             SerializeResponse(response, streamWriter);
         }
@@ -802,14 +802,14 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public async ValueTask<string> SerializeResponseAsync(JsonRpcResponse response, CancellationToken cancellationToken = default)
         {
-            if (response == null)
+            if (response is null)
             {
                 throw new ArgumentNullException(nameof(response));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize), CultureInfo.InvariantCulture);
+            using var stringWriter = new StringWriter(new StringBuilder(MessageBufferSize), CultureInfo.InvariantCulture);
 
             await SerializeResponseAsync(response, stringWriter).ConfigureAwait(false);
 
@@ -827,18 +827,18 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask SerializeResponseAsync(JsonRpcResponse response, Stream jsonStream, CancellationToken cancellationToken = default)
         {
-            if (response == null)
+            if (response is null)
             {
                 throw new ArgumentNullException(nameof(response));
             }
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+            using var streamWriter = new StreamWriter(jsonStream, s_utf8Encoding, DefaultStreamBufferSize, true);
 
             return SerializeResponseAsync(response, streamWriter);
         }
@@ -855,22 +855,22 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask SerializeResponseAsync(JsonRpcResponse response, Stream jsonStream, Encoding encoding, CancellationToken cancellationToken = default)
         {
-            if (response == null)
+            if (response is null)
             {
                 throw new ArgumentNullException(nameof(response));
             }
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
-            if (encoding == null)
+            if (encoding is null)
             {
                 throw new ArgumentNullException(nameof(encoding));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var streamWriter = new StreamWriter(jsonStream, encoding, _defaultStreamBufferSize, true);
+            using var streamWriter = new StreamWriter(jsonStream, encoding, DefaultStreamBufferSize, true);
 
             return SerializeResponseAsync(response, streamWriter);
         }
@@ -883,12 +883,12 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public string SerializeResponses(IReadOnlyList<JsonRpcResponse> responses)
         {
-            if (responses == null)
+            if (responses is null)
             {
                 throw new ArgumentNullException(nameof(responses));
             }
 
-            using var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize * responses.Count), CultureInfo.InvariantCulture);
+            using var stringWriter = new StringWriter(new StringBuilder(MessageBufferSize * responses.Count), CultureInfo.InvariantCulture);
 
             SerializeResponses(responses, stringWriter);
 
@@ -903,16 +903,16 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public void SerializeResponses(IReadOnlyList<JsonRpcResponse> responses, Stream jsonStream)
         {
-            if (responses == null)
+            if (responses is null)
             {
                 throw new ArgumentNullException(nameof(responses));
             }
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
 
-            using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+            using var streamWriter = new StreamWriter(jsonStream, s_utf8Encoding, DefaultStreamBufferSize, true);
 
             SerializeResponses(responses, streamWriter);
         }
@@ -926,20 +926,20 @@ namespace Anemonis.JsonRpc
         /// <exception cref="JsonRpcSerializationException">An error occurred during JSON-RPC serialization.</exception>
         public void SerializeResponses(IReadOnlyList<JsonRpcResponse> responses, Stream jsonStream, Encoding encoding)
         {
-            if (responses == null)
+            if (responses is null)
             {
                 throw new ArgumentNullException(nameof(responses));
             }
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
-            if (encoding == null)
+            if (encoding is null)
             {
                 throw new ArgumentNullException(nameof(encoding));
             }
 
-            using var streamWriter = new StreamWriter(jsonStream, encoding, _defaultStreamBufferSize, true);
+            using var streamWriter = new StreamWriter(jsonStream, encoding, DefaultStreamBufferSize, true);
 
             SerializeResponses(responses, streamWriter);
         }
@@ -954,14 +954,14 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public async ValueTask<string> SerializeResponsesAsync(IReadOnlyList<JsonRpcResponse> responses, CancellationToken cancellationToken = default)
         {
-            if (responses == null)
+            if (responses is null)
             {
                 throw new ArgumentNullException(nameof(responses));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var stringWriter = new StringWriter(new StringBuilder(_messageBufferSize * responses.Count), CultureInfo.InvariantCulture);
+            using var stringWriter = new StringWriter(new StringBuilder(MessageBufferSize * responses.Count), CultureInfo.InvariantCulture);
 
             await SerializeResponsesAsync(responses, stringWriter, cancellationToken).ConfigureAwait(false);
 
@@ -979,18 +979,18 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask SerializeResponsesAsync(IReadOnlyList<JsonRpcResponse> responses, Stream jsonStream, CancellationToken cancellationToken = default)
         {
-            if (responses == null)
+            if (responses is null)
             {
                 throw new ArgumentNullException(nameof(responses));
             }
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var streamWriter = new StreamWriter(jsonStream, _utf8Encoding, _defaultStreamBufferSize, true);
+            using var streamWriter = new StreamWriter(jsonStream, s_utf8Encoding, DefaultStreamBufferSize, true);
 
             return SerializeResponsesAsync(responses, streamWriter, cancellationToken);
         }
@@ -1007,22 +1007,22 @@ namespace Anemonis.JsonRpc
         /// <exception cref="OperationCanceledException">The operation was canceled.</exception>
         public ValueTask SerializeResponsesAsync(IReadOnlyList<JsonRpcResponse> responses, Stream jsonStream, Encoding encoding, CancellationToken cancellationToken = default)
         {
-            if (responses == null)
+            if (responses is null)
             {
                 throw new ArgumentNullException(nameof(responses));
             }
-            if (jsonStream == null)
+            if (jsonStream is null)
             {
                 throw new ArgumentNullException(nameof(jsonStream));
             }
-            if (encoding == null)
+            if (encoding is null)
             {
                 throw new ArgumentNullException(nameof(encoding));
             }
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var streamWriter = new StreamWriter(jsonStream, encoding, _defaultStreamBufferSize, true);
+            using var streamWriter = new StreamWriter(jsonStream, encoding, DefaultStreamBufferSize, true);
 
             return SerializeResponsesAsync(responses, streamWriter, cancellationToken);
         }

@@ -13,7 +13,7 @@ namespace Anemonis.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="method" /> is <see langword="null" />.</exception>
         public static bool IsSystemMethod(string method)
         {
-            if (method == null)
+            if (method is null)
             {
                 throw new ArgumentNullException(nameof(method));
             }

@@ -19,7 +19,7 @@ namespace Anemonis.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="value" /> is <see langword="null" />.</exception>
         public JsonRpcId(string value)
         {
-            if (value == null)
+            if (value is null)
             {
                 throw new ArgumentNullException(nameof(value));
             }

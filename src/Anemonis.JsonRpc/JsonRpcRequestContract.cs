@@ -22,7 +22,7 @@ namespace Anemonis.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="parameters" /> is <see langword="null" />.</exception>
         public JsonRpcRequestContract(IReadOnlyList<Type> parameters)
         {
-            if (parameters == null)
+            if (parameters is null)
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
@@ -36,7 +36,7 @@ namespace Anemonis.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="parameters" /> is <see langword="null" />.</exception>
         public JsonRpcRequestContract(IReadOnlyDictionary<string, Type> parameters)
         {
-            if (parameters == null)
+            if (parameters is null)
             {
                 throw new ArgumentNullException(nameof(parameters));
             }

@@ -25,7 +25,7 @@ namespace Anemonis.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="method" /> is <see langword="null" />.</exception>
         public JsonRpcRequestContract GetRequestContract(string method)
         {
-            if (method == null)
+            if (method is null)
             {
                 throw new ArgumentNullException(nameof(method));
             }
@@ -52,7 +52,7 @@ namespace Anemonis.JsonRpc
 
             if (!_dynamicResponseContracts.TryGetValue(messageId, out var contract))
             {
-                if (_staticResponseBindings.TryGetValue(messageId, out var method) && (method != null))
+                if (_staticResponseBindings.TryGetValue(messageId, out var method) && (method is not null))
                 {
                     _staticResponseContracts.TryGetValue(method, out contract);
                 }
@@ -71,11 +71,11 @@ namespace Anemonis.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="method" /> or <paramref name="contract" /> is <see langword="null" />.</exception>
         public void AddRequestContract(string method, JsonRpcRequestContract contract)
         {
-            if (method == null)
+            if (method is null)
             {
                 throw new ArgumentNullException(nameof(method));
             }
-            if (contract == null)
+            if (contract is null)
             {
                 throw new ArgumentNullException(nameof(contract));
             }
@@ -97,11 +97,11 @@ namespace Anemonis.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="method" /> or <paramref name="contract" /> is <see langword="null" />.</exception>
         public void AddResponseContract(string method, JsonRpcResponseContract contract)
         {
-            if (method == null)
+            if (method is null)
             {
                 throw new ArgumentNullException(nameof(method));
             }
-            if (contract == null)
+            if (contract is null)
             {
                 throw new ArgumentNullException(nameof(contract));
             }
@@ -123,7 +123,7 @@ namespace Anemonis.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="contract" /> is <see langword="null" />.</exception>
         public void AddResponseContract(in JsonRpcId messageId, JsonRpcResponseContract contract)
         {
-            if (contract == null)
+            if (contract is null)
             {
                 throw new ArgumentNullException(nameof(contract));
             }
@@ -145,7 +145,7 @@ namespace Anemonis.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="method" /> is <see langword="null" />.</exception>
         public void AddResponseBinding(in JsonRpcId messageId, string method)
         {
-            if (method == null)
+            if (method is null)
             {
                 throw new ArgumentNullException(nameof(method));
             }
@@ -166,7 +166,7 @@ namespace Anemonis.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="method" /> is <see langword="null" />.</exception>
         public void RemoveRequestContract(string method)
         {
-            if (method == null)
+            if (method is null)
             {
                 throw new ArgumentNullException(nameof(method));
             }
@@ -187,7 +187,7 @@ namespace Anemonis.JsonRpc
         /// <exception cref="ArgumentNullException"><paramref name="method" /> is <see langword="null" />.</exception>
         public void RemoveResponseContract(string method)
         {
-            if (method == null)
+            if (method is null)
             {
                 throw new ArgumentNullException(nameof(method));
             }

@@ -25,7 +25,7 @@ namespace Anemonis.JsonRpc
         /// <summary>Gets a value indicating whether the data is a batch.</summary>
         public bool IsBatch
         {
-            get => _messages != null;
+            get => _messages is not null;
         }
 
         /// <summary>Gets a JSON-RPC message deserialization result for non-batch data.</summary>
