@@ -20,7 +20,7 @@ namespace Anemonis.JsonRpc
         public JsonRpcRequest(in JsonRpcId id, string method)
             : base(id)
         {
-            if (method == null)
+            if (method is null)
             {
                 throw new ArgumentNullException(nameof(method));
             }
@@ -36,7 +36,7 @@ namespace Anemonis.JsonRpc
         public JsonRpcRequest(in JsonRpcId id, string method, IReadOnlyList<object> parameters)
             : this(id, method)
         {
-            if (parameters == null)
+            if (parameters is null)
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
@@ -53,7 +53,7 @@ namespace Anemonis.JsonRpc
         public JsonRpcRequest(in JsonRpcId id, string method, IReadOnlyDictionary<string, object> parameters)
             : this(id, method)
         {
-            if (parameters == null)
+            if (parameters is null)
             {
                 throw new ArgumentNullException(nameof(parameters));
             }

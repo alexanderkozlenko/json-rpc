@@ -21,7 +21,7 @@ namespace Anemonis.JsonRpc
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="code" /> is outside the allowable range.</exception>
         public JsonRpcError(long code, string message)
         {
-            if (message == null)
+            if (message is null)
             {
                 throw new ArgumentNullException(nameof(message));
             }

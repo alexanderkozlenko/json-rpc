@@ -34,7 +34,7 @@ namespace Anemonis.JsonRpc
         public JsonRpcResponse(in JsonRpcId id, JsonRpcError error)
             : base(id)
         {
-            if (error == null)
+            if (error is null)
             {
                 throw new ArgumentNullException(nameof(error));
             }
@@ -57,7 +57,7 @@ namespace Anemonis.JsonRpc
         /// <summary>Gets a value indicating whether the request was successful.</summary>
         public bool Success
         {
-            get => _error == null;
+            get => _error is null;
         }
     }
 }
