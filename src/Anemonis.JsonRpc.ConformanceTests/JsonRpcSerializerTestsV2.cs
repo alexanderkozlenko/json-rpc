@@ -20,7 +20,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr);
 
-            jrcr.AddRequestContract("subtract", new JsonRpcRequestContract(new[] { typeof(long), typeof(long) }));
+            jrcr.AddRequestContract("subtract", new(new[] { typeof(long), typeof(long) }));
 
             var jrd = jrs.DeserializeRequestData(jsont);
 
@@ -56,7 +56,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr);
 
-            jrcr.AddResponseContract("subtract", new JsonRpcResponseContract(typeof(long)));
+            jrcr.AddResponseContract("subtract", new(typeof(long)));
             jrcr.AddResponseBinding(1L, "subtract");
 
             var jrd = jrs.DeserializeResponseData(jsont);
@@ -92,7 +92,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr);
 
-            jrcr.AddRequestContract("subtract", new JsonRpcRequestContract(new[] { typeof(long), typeof(long) }));
+            jrcr.AddRequestContract("subtract", new(new[] { typeof(long), typeof(long) }));
 
             var jrd = jrs.DeserializeRequestData(jsont);
 
@@ -128,7 +128,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr);
 
-            jrcr.AddResponseContract("subtract", new JsonRpcResponseContract(typeof(long)));
+            jrcr.AddResponseContract("subtract", new(typeof(long)));
             jrcr.AddResponseBinding(2L, "subtract");
 
             var jrd = jrs.DeserializeResponseData(jsont);
@@ -174,7 +174,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
                 ["minuend"] = typeof(long)
             };
 
-            jrcr.AddRequestContract("subtract", new JsonRpcRequestContract(jrmp));
+            jrcr.AddRequestContract("subtract", new(jrmp));
 
             var jrd = jrs.DeserializeRequestData(jsont);
 
@@ -218,7 +218,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr);
 
-            jrcr.AddResponseContract("subtract", new JsonRpcResponseContract(typeof(long)));
+            jrcr.AddResponseContract("subtract", new(typeof(long)));
             jrcr.AddResponseBinding(3L, "subtract");
 
             var jrd = jrs.DeserializeResponseData(jsont);
@@ -260,7 +260,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
                 ["minuend"] = typeof(long)
             };
 
-            jrcr.AddRequestContract("subtract", new JsonRpcRequestContract(jrmp));
+            jrcr.AddRequestContract("subtract", new(jrmp));
 
             var jrd = jrs.DeserializeRequestData(jsont);
 
@@ -304,7 +304,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr);
 
-            jrcr.AddResponseContract("subtract", new JsonRpcResponseContract(typeof(long)));
+            jrcr.AddResponseContract("subtract", new(typeof(long)));
             jrcr.AddResponseBinding(4L, "subtract");
 
             var jrd = jrs.DeserializeResponseData(jsont);
@@ -345,7 +345,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrs = new JsonRpcSerializer(jrcr);
             var jrrcp = new[] { typeof(long), typeof(long), typeof(long), typeof(long), typeof(long) };
 
-            jrcr.AddRequestContract("update", new JsonRpcRequestContract(jrrcp));
+            jrcr.AddRequestContract("update", new(jrrcp));
 
             var jrd = jrs.DeserializeRequestData(jsont);
 
@@ -381,7 +381,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr);
 
-            jrcr.AddRequestContract("foobar", new JsonRpcRequestContract());
+            jrcr.AddRequestContract("foobar", new());
 
             var jrd = jrs.DeserializeRequestData(jsont);
 
@@ -420,7 +420,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr);
 
-            jrcr.AddRequestContract("foobar", new JsonRpcRequestContract());
+            jrcr.AddRequestContract("foobar", new());
 
             var jrd = jrs.DeserializeRequestData(jsont);
 
@@ -479,7 +479,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
         {
             var jsont = EmbeddedResourceManager.GetString("Assets.v2_spec_04.0_res.json");
             var jrs = new JsonRpcSerializer();
-            var jrm = new JsonRpcResponse("1", new JsonRpcError(JsonRpcErrorCode.InvalidMethod, "Method not found"));
+            var jrm = new JsonRpcResponse("1", new(JsonRpcErrorCode.InvalidMethod, "Method not found"));
             var jsonr = jrs.SerializeResponse(jrm);
 
             JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
@@ -529,7 +529,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
         {
             var jsont = EmbeddedResourceManager.GetString("Assets.v2_spec_05.0_res.json");
             var jrs = new JsonRpcSerializer();
-            var jrm = new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidFormat, "Parse error"));
+            var jrm = new JsonRpcResponse(default, new(JsonRpcErrorCode.InvalidFormat, "Parse error"));
             var jsonr = jrs.SerializeResponse(jrm);
 
             JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
@@ -546,7 +546,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr);
 
-            jrcr.AddRequestContract("subtract", new JsonRpcRequestContract());
+            jrcr.AddRequestContract("subtract", new());
 
             var jrd = jrs.DeserializeRequestData(jsont);
 
@@ -588,7 +588,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
         {
             var jsont = EmbeddedResourceManager.GetString("Assets.v2_spec_06.0_res.json");
             var jrs = new JsonRpcSerializer();
-            var jrm = new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request"));
+            var jrm = new JsonRpcResponse(default, new(JsonRpcErrorCode.InvalidMessage, "Invalid Request"));
             var jsonr = jrs.SerializeResponse(jrm);
 
             JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
@@ -638,7 +638,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
         {
             var jsont = EmbeddedResourceManager.GetString("Assets.v2_spec_07.0_res.json");
             var jrs = new JsonRpcSerializer();
-            var jrm = new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidFormat, "Parse error"));
+            var jrm = new JsonRpcResponse(default, new(JsonRpcErrorCode.InvalidFormat, "Parse error"));
             var jsonr = jrs.SerializeResponse(jrm);
 
             JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
@@ -688,7 +688,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
         {
             var jsont = EmbeddedResourceManager.GetString("Assets.v2_spec_08.0_res.json");
             var jrs = new JsonRpcSerializer();
-            var jrm = new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request"));
+            var jrm = new JsonRpcResponse(default, new(JsonRpcErrorCode.InvalidMessage, "Invalid Request"));
             var jsonr = jrs.SerializeResponse(jrm);
 
             JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
@@ -746,7 +746,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
         {
             var jsont = EmbeddedResourceManager.GetString("Assets.v2_spec_09.0_res.json");
             var jrs = new JsonRpcSerializer();
-            var jrm = new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request"));
+            var jrm = new JsonRpcResponse(default, new(JsonRpcErrorCode.InvalidMessage, "Invalid Request"));
             var jsonr = jrs.SerializeResponses(new[] { jrm });
 
             JsonRpcSerializerTests.CompareJsonStrings(jsont, jsonr);
@@ -808,9 +808,9 @@ namespace Anemonis.JsonRpc.ConformanceTests
 
             var jrms = new[]
             {
-                new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request")),
-                new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request")),
-                new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request"))
+                new JsonRpcResponse(default, new(JsonRpcErrorCode.InvalidMessage, "Invalid Request")),
+                new JsonRpcResponse(default, new(JsonRpcErrorCode.InvalidMessage, "Invalid Request")),
+                new JsonRpcResponse(default, new(JsonRpcErrorCode.InvalidMessage, "Invalid Request"))
             };
 
             var result = jrs.SerializeResponses(jrms);
@@ -829,10 +829,10 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr);
 
-            jrcr.AddRequestContract("sum", new JsonRpcRequestContract(new[] { typeof(long), typeof(long), typeof(long) }));
-            jrcr.AddRequestContract("notify_hello", new JsonRpcRequestContract(new[] { typeof(long) }));
-            jrcr.AddRequestContract("subtract", new JsonRpcRequestContract(new[] { typeof(long), typeof(long) }));
-            jrcr.AddRequestContract("get_data", new JsonRpcRequestContract());
+            jrcr.AddRequestContract("sum", new(new[] { typeof(long), typeof(long), typeof(long) }));
+            jrcr.AddRequestContract("notify_hello", new(new[] { typeof(long) }));
+            jrcr.AddRequestContract("subtract", new(new[] { typeof(long), typeof(long) }));
+            jrcr.AddRequestContract("get_data", new());
 
             var jrd = jrs.DeserializeRequestData(jsont);
 
@@ -898,9 +898,9 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr);
 
-            jrcr.AddResponseContract("sum", new JsonRpcResponseContract(typeof(long)));
-            jrcr.AddResponseContract("subtract", new JsonRpcResponseContract(typeof(long)));
-            jrcr.AddResponseContract("get_data", new JsonRpcResponseContract(typeof(object[])));
+            jrcr.AddResponseContract("sum", new(typeof(long)));
+            jrcr.AddResponseContract("subtract", new(typeof(long)));
+            jrcr.AddResponseContract("get_data", new(typeof(object[])));
             jrcr.AddResponseBinding("1", "sum");
             jrcr.AddResponseBinding("2", "subtract");
             jrcr.AddResponseBinding("5", "foo.get");
@@ -980,8 +980,8 @@ namespace Anemonis.JsonRpc.ConformanceTests
             {
                 new JsonRpcResponse("1", 7L),
                 new JsonRpcResponse("2", 19L),
-                new JsonRpcResponse(default, new JsonRpcError(JsonRpcErrorCode.InvalidMessage, "Invalid Request")),
-                new JsonRpcResponse("5", new JsonRpcError(JsonRpcErrorCode.InvalidMethod, "Method not found")),
+                new JsonRpcResponse(default, new(JsonRpcErrorCode.InvalidMessage, "Invalid Request")),
+                new JsonRpcResponse("5", new(JsonRpcErrorCode.InvalidMethod, "Method not found")),
                 new JsonRpcResponse("9", new object[] { "hello", 5L })
             };
 
@@ -1001,8 +1001,8 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr);
 
-            jrcr.AddRequestContract("notify_sum", new JsonRpcRequestContract(new[] { typeof(long), typeof(long), typeof(long) }));
-            jrcr.AddRequestContract("notify_hello", new JsonRpcRequestContract(new[] { typeof(long) }));
+            jrcr.AddRequestContract("notify_sum", new(new[] { typeof(long), typeof(long), typeof(long) }));
+            jrcr.AddRequestContract("notify_hello", new(new[] { typeof(long) }));
 
             var jrd = jrs.DeserializeRequestData(jsont);
 

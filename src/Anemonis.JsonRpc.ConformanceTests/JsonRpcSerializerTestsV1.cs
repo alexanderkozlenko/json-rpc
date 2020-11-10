@@ -18,7 +18,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            jrcr.AddRequestContract("echo", new JsonRpcRequestContract(new[] { typeof(string) }));
+            jrcr.AddRequestContract("echo", new(new[] { typeof(string) }));
 
             var jrd = jrs.DeserializeRequestData(jsont);
 
@@ -55,7 +55,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            jrcr.AddResponseContract("echo", new JsonRpcResponseContract(typeof(string)));
+            jrcr.AddResponseContract("echo", new(typeof(string)));
             jrcr.AddResponseBinding(1L, "echo");
 
             var jrd = jrs.DeserializeResponseData(jsont);
@@ -95,7 +95,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            jrcr.AddRequestContract("postMessage", new JsonRpcRequestContract(new[] { typeof(string) }));
+            jrcr.AddRequestContract("postMessage", new(new[] { typeof(string) }));
 
             var jrd = jrs.DeserializeRequestData(jsont);
 
@@ -132,7 +132,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            jrcr.AddResponseContract("echo", new JsonRpcResponseContract(typeof(long)));
+            jrcr.AddResponseContract("echo", new(typeof(long)));
             jrcr.AddResponseBinding(99L, "echo");
 
             var jrd = jrs.DeserializeResponseData(jsont);
@@ -168,7 +168,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            jrcr.AddRequestContract("handleMessage", new JsonRpcRequestContract(new[] { typeof(string), typeof(string) }));
+            jrcr.AddRequestContract("handleMessage", new(new[] { typeof(string), typeof(string) }));
 
             var jrd = jrs.DeserializeRequestData(jsont);
 
@@ -205,7 +205,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            jrcr.AddRequestContract("handleMessage", new JsonRpcRequestContract(new[] { typeof(string), typeof(string) }));
+            jrcr.AddRequestContract("handleMessage", new(new[] { typeof(string), typeof(string) }));
 
             var jrd = jrs.DeserializeRequestData(jsont);
 
@@ -242,7 +242,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            jrcr.AddRequestContract("postMessage", new JsonRpcRequestContract(new[] { typeof(string) }));
+            jrcr.AddRequestContract("postMessage", new(new[] { typeof(string) }));
 
             var jrd = jrs.DeserializeRequestData(jsont);
 
@@ -279,7 +279,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            jrcr.AddRequestContract("userLeft", new JsonRpcRequestContract(new[] { typeof(string) }));
+            jrcr.AddRequestContract("userLeft", new(new[] { typeof(string) }));
 
             var jrd = jrs.DeserializeRequestData(jsont);
 
@@ -316,7 +316,7 @@ namespace Anemonis.JsonRpc.ConformanceTests
             var jrcr = new JsonRpcContractResolver();
             var jrs = new JsonRpcSerializer(jrcr, compatibilityLevel: JsonRpcCompatibilityLevel.Level1);
 
-            jrcr.AddResponseContract("postMessage", new JsonRpcResponseContract(typeof(long)));
+            jrcr.AddResponseContract("postMessage", new(typeof(long)));
             jrcr.AddResponseBinding(101L, "postMessage");
 
             var jrd = jrs.DeserializeResponseData(jsont);

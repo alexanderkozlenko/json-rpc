@@ -4,9 +4,9 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
 {
     public class JsonRpcIdBenchmarks
     {
-        private static readonly JsonRpcId _id0 = new JsonRpcId();
-        private static readonly JsonRpcId _id1 = new JsonRpcId("1");
-        private static readonly JsonRpcId _id2 = new JsonRpcId(1L);
+        private readonly JsonRpcId _id0 = new();
+        private readonly JsonRpcId _id1 = new("1");
+        private readonly JsonRpcId _id2 = new(1L);
 
         [Benchmark(Description = "GetHashCode-TYPE=N")]
         public int GetHashCodeNone()

@@ -16,7 +16,7 @@ namespace Anemonis.JsonRpc
     {
         private static readonly JsonSerializerSettings s_jsonSerializerSettings = CreateJsonSerializerSettings();
         private static readonly JsonLoadSettings s_jsonLoadSettings = CreateJsonLoadSettings();
-        private static readonly JsonBufferPool s_jsonBufferPool = new JsonBufferPool();
+        private static readonly JsonBufferPool s_jsonBufferPool = new();
 
         private readonly JsonSerializer _jsonSerializer;
         private readonly IJsonRpcContractResolver _contractResolver;
@@ -24,7 +24,7 @@ namespace Anemonis.JsonRpc
 
         private static JsonLoadSettings CreateJsonLoadSettings()
         {
-            return new JsonLoadSettings
+            return new()
             {
                 LineInfoHandling = LineInfoHandling.Ignore
             };
@@ -32,7 +32,7 @@ namespace Anemonis.JsonRpc
 
         private static JsonSerializerSettings CreateJsonSerializerSettings()
         {
-            return new JsonSerializerSettings
+            return new()
             {
                 DateParseHandling = DateParseHandling.None,
                 MetadataPropertyHandling = MetadataPropertyHandling.Ignore
@@ -54,7 +54,7 @@ namespace Anemonis.JsonRpc
                 {
                     if (messages is null)
                     {
-                        return new JsonRpcData<JsonRpcRequest>(DeserializeRequest(reader));
+                        return new(DeserializeRequest(reader));
                     }
                     else
                     {
@@ -64,7 +64,7 @@ namespace Anemonis.JsonRpc
                 }
                 else if (reader.TokenType == JsonToken.StartArray)
                 {
-                    messages = new List<JsonRpcMessageInfo<JsonRpcRequest>>();
+                    messages = new();
                 }
                 else if (reader.TokenType == JsonToken.EndArray)
                 {
@@ -79,7 +79,7 @@ namespace Anemonis.JsonRpc
                             throw new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.batch.empty"));
                         }
 
-                        return new JsonRpcData<JsonRpcRequest>(messages);
+                        return new(messages);
                     }
                 }
                 else
@@ -95,7 +95,7 @@ namespace Anemonis.JsonRpc
                         var exceptionMessage = string.Format(CultureInfo.CurrentCulture, Strings.GetString("core.batch.invalid_item"), messages.Count);
                         var exception = new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, exceptionMessage);
 
-                        messages.Add(new JsonRpcMessageInfo<JsonRpcRequest>(exception));
+                        messages.Add(new(exception));
                     }
                 }
             }
@@ -164,17 +164,17 @@ namespace Anemonis.JsonRpc
                                             break;
                                         case JsonToken.String:
                                             {
-                                                requestId = new JsonRpcId((string)reader.Value);
+                                                requestId = new((string)reader.Value);
                                             }
                                             break;
                                         case JsonToken.Integer:
                                             {
-                                                requestId = new JsonRpcId((long)reader.Value);
+                                                requestId = new((long)reader.Value);
                                             }
                                             break;
                                         case JsonToken.Float:
                                             {
-                                                requestId = new JsonRpcId((double)reader.Value);
+                                                requestId = new((double)reader.Value);
                                             }
                                             break;
                                         default:
@@ -190,7 +190,7 @@ namespace Anemonis.JsonRpc
                                     {
                                         case JsonToken.StartArray:
                                             {
-                                                requestParamsetersByPosition = new List<JToken>();
+                                                requestParamsetersByPosition = new();
 
                                                 while (reader.Read())
                                                 {
@@ -209,7 +209,7 @@ namespace Anemonis.JsonRpc
                                             break;
                                         case JsonToken.StartObject:
                                             {
-                                                requestParamsetersByName = new Dictionary<string, JToken>(StringComparer.Ordinal);
+                                                requestParamsetersByName = new(StringComparer.Ordinal);
 
                                                 while (reader.Read())
                                                 {
@@ -306,7 +306,7 @@ namespace Anemonis.JsonRpc
                                 throw new JsonRpcSerializationException(requestId, JsonRpcErrorCode.InvalidOperation, Strings.GetString("core.deserialize.json_issue"), e);
                             }
 
-                            request = new JsonRpcRequest(requestId, requestMethod, requestParameters);
+                            request = new(requestId, requestMethod, requestParameters);
                         }
                         break;
                     case JsonRpcParametersType.ByName:
@@ -360,21 +360,21 @@ namespace Anemonis.JsonRpc
                                 throw new JsonRpcSerializationException(requestId, JsonRpcErrorCode.InvalidOperation, Strings.GetString("core.deserialize.json_issue"), e);
                             }
 
-                            request = new JsonRpcRequest(requestId, requestMethod, requestParameters);
+                            request = new(requestId, requestMethod, requestParameters);
                         }
                         break;
                     default:
                         {
-                            request = new JsonRpcRequest(requestId, requestMethod);
+                            request = new(requestId, requestMethod);
                         }
                         break;
                 }
 
-                return new JsonRpcMessageInfo<JsonRpcRequest>(request);
+                return new(request);
             }
             catch (JsonRpcSerializationException e)
             {
-                return new JsonRpcMessageInfo<JsonRpcRequest>(e);
+                return new(e);
             }
         }
 
@@ -393,7 +393,7 @@ namespace Anemonis.JsonRpc
                 {
                     if (messages is null)
                     {
-                        return new JsonRpcData<JsonRpcResponse>(DeserializeResponse(reader));
+                        return new(DeserializeResponse(reader));
                     }
                     else
                     {
@@ -403,7 +403,7 @@ namespace Anemonis.JsonRpc
                 }
                 else if (reader.TokenType == JsonToken.StartArray)
                 {
-                    messages = new List<JsonRpcMessageInfo<JsonRpcResponse>>();
+                    messages = new();
                 }
                 else if (reader.TokenType == JsonToken.EndArray)
                 {
@@ -418,7 +418,7 @@ namespace Anemonis.JsonRpc
                             throw new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, Strings.GetString("core.batch.empty"));
                         }
 
-                        return new JsonRpcData<JsonRpcResponse>(messages);
+                        return new(messages);
                     }
                 }
                 else
@@ -434,7 +434,7 @@ namespace Anemonis.JsonRpc
                         var exceptionMessage = string.Format(CultureInfo.CurrentCulture, Strings.GetString("core.batch.invalid_item"), messages.Count);
                         var exception = new JsonRpcSerializationException(default, JsonRpcErrorCode.InvalidMessage, exceptionMessage);
 
-                        messages.Add(new JsonRpcMessageInfo<JsonRpcResponse>(exception));
+                        messages.Add(new(exception));
                     }
                 }
             }
@@ -497,17 +497,17 @@ namespace Anemonis.JsonRpc
                                             break;
                                         case JsonToken.String:
                                             {
-                                                responseId = new JsonRpcId((string)reader.Value);
+                                                responseId = new((string)reader.Value);
                                             }
                                             break;
                                         case JsonToken.Integer:
                                             {
-                                                responseId = new JsonRpcId((long)reader.Value);
+                                                responseId = new((long)reader.Value);
                                             }
                                             break;
                                         case JsonToken.Float:
                                             {
-                                                responseId = new JsonRpcId((double)reader.Value);
+                                                responseId = new((double)reader.Value);
                                             }
                                             break;
                                         default:
@@ -681,7 +681,7 @@ namespace Anemonis.JsonRpc
                         }
                     }
 
-                    response = new JsonRpcResponse(responseId, responseResult);
+                    response = new(responseId, responseResult);
                 }
                 else
                 {
@@ -744,7 +744,7 @@ namespace Anemonis.JsonRpc
 
                                 try
                                 {
-                                    responseError = new JsonRpcError(responseErrorCode.Value, responseErrorMessage, responseErrorData);
+                                    responseError = new(responseErrorCode.Value, responseErrorMessage, responseErrorData);
                                 }
                                 catch (ArgumentOutOfRangeException e)
                                 {
@@ -755,7 +755,7 @@ namespace Anemonis.JsonRpc
                             {
                                 try
                                 {
-                                    responseError = new JsonRpcError(responseErrorCode.Value, responseErrorMessage);
+                                    responseError = new(responseErrorCode.Value, responseErrorMessage);
                                 }
                                 catch (ArgumentOutOfRangeException e)
                                 {
@@ -767,7 +767,7 @@ namespace Anemonis.JsonRpc
                         {
                             try
                             {
-                                responseError = new JsonRpcError(responseErrorCode.Value, responseErrorMessage);
+                                responseError = new(responseErrorCode.Value, responseErrorMessage);
                             }
                             catch (ArgumentOutOfRangeException e)
                             {
@@ -783,18 +783,18 @@ namespace Anemonis.JsonRpc
                         }
                         else
                         {
-                            responseError = new JsonRpcError(default, string.Empty);
+                            responseError = new(default, string.Empty);
                         }
                     }
 
-                    response = new JsonRpcResponse(responseId, responseError);
+                    response = new(responseId, responseError);
                 }
 
-                return new JsonRpcMessageInfo<JsonRpcResponse>(response);
+                return new(response);
             }
             catch (JsonRpcSerializationException e)
             {
-                return new JsonRpcMessageInfo<JsonRpcResponse>(e);
+                return new(e);
             }
         }
 

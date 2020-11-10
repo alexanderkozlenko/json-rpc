@@ -165,7 +165,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A new instance of the <see cref="JsonRpcId" /> structure.</returns>
         public static JsonRpcId FromString(string value)
         {
-            return new JsonRpcId(value);
+            return new(value);
         }
 
         /// <summary>Performs an implicit conversion from <see cref="double" /> to <see cref="JsonRpcId" />.</summary>
@@ -173,7 +173,7 @@ namespace Anemonis.JsonRpc
         /// <returns>A new instance of the <see cref="JsonRpcId" /> structure.</returns>
         public static JsonRpcId FromDouble(double value)
         {
-            return new JsonRpcId(value);
+            return new(value);
         }
 
         /// <summary>Performs an implicit conversion from <see cref="JsonRpcId" /> to <see cref="string" />.</summary>
@@ -214,14 +214,14 @@ namespace Anemonis.JsonRpc
         /// <param name="value">The value to create a <see cref="JsonRpcId" /> from.</param>
         public static implicit operator JsonRpcId(string value)
         {
-            return new JsonRpcId(value);
+            return new(value);
         }
 
         /// <summary>Performs an implicit conversion from <see cref="double" /> to <see cref="JsonRpcId" />.</summary>
         /// <param name="value">The value to create a <see cref="JsonRpcId" /> from.</param>
         public static implicit operator JsonRpcId(double value)
         {
-            return new JsonRpcId(value);
+            return new(value);
         }
 
         /// <summary>Performs an implicit conversion from <see cref="JsonRpcId" /> to <see cref="string" />.</summary>

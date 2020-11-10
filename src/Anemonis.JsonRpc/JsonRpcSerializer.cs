@@ -48,7 +48,7 @@ namespace Anemonis.JsonRpc
             jsonReader.DateParseHandling = _jsonSerializer.DateParseHandling;
             jsonReader.ArrayPool = s_jsonBufferPool;
 
-            return new ValueTask<JsonRpcData<JsonRpcRequest>>(DeserializeRequestData(jsonReader, cancellationToken));
+            return new(DeserializeRequestData(jsonReader, cancellationToken));
         }
 
         private JsonRpcData<JsonRpcResponse> DeserializeResponseData(TextReader textReader)
@@ -68,7 +68,7 @@ namespace Anemonis.JsonRpc
             jsonReader.DateParseHandling = _jsonSerializer.DateParseHandling;
             jsonReader.ArrayPool = s_jsonBufferPool;
 
-            return new ValueTask<JsonRpcData<JsonRpcResponse>>(DeserializeResponseData(jsonReader, cancellationToken));
+            return new(DeserializeResponseData(jsonReader, cancellationToken));
         }
 
         private void SerializeRequest(JsonRpcRequest request, TextWriter textWriter)

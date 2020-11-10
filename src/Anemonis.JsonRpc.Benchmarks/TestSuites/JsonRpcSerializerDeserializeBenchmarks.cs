@@ -9,10 +9,11 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
 {
     public class JsonRpcSerializerDeserializeBenchmarks
     {
-        private static readonly IReadOnlyDictionary<string, string> _resources = CreateResourceDictionary();
-        private static readonly IReadOnlyDictionary<string, JsonRpcSerializer> _serializers = CreatSerializers();
+        private static readonly Dictionary<string, string> s_resources = CreateResourceDictionary();
 
-        private static IReadOnlyDictionary<string, string> CreateResourceDictionary()
+        private readonly Dictionary<string, JsonRpcSerializer> _serializers = CreatSerializers();
+
+        private static Dictionary<string, string> CreateResourceDictionary()
         {
             var resources = new Dictionary<string, string>(StringComparer.Ordinal);
 
@@ -29,7 +30,7 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
             var resolver = new JsonRpcContractResolver();
             var serializer = new JsonRpcSerializer(resolver);
 
-            resolver.AddRequestContract("m", new JsonRpcRequestContract());
+            resolver.AddRequestContract("m", new());
 
             return serializer;
         }
@@ -44,7 +45,7 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
                 ["p"] = typeof(long)
             };
 
-            resolver.AddRequestContract("m", new JsonRpcRequestContract(parameters));
+            resolver.AddRequestContract("m", new(parameters));
 
             return serializer;
         }
@@ -59,7 +60,7 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
                 typeof(long)
             };
 
-            resolver.AddRequestContract("m", new JsonRpcRequestContract(parameters));
+            resolver.AddRequestContract("m", new(parameters));
 
             return serializer;
         }
@@ -69,14 +70,14 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
             var resolver = new JsonRpcContractResolver();
             var serializer = new JsonRpcSerializer(resolver);
 
-            resolver.AddResponseContract(0L, new JsonRpcResponseContract(typeof(long), typeof(long)));
+            resolver.AddResponseContract(0L, new(typeof(long), typeof(long)));
 
             return serializer;
         }
 
-        private static IReadOnlyDictionary<string, JsonRpcSerializer> CreatSerializers()
+        private static Dictionary<string, JsonRpcSerializer> CreatSerializers()
         {
-            return new Dictionary<string, JsonRpcSerializer>
+            return new()
             {
                 ["s0"] = CreateSerializerRequestParams0(),
                 ["s1"] = CreateSerializerRequestParams1(),
@@ -107,73 +108,73 @@ namespace Anemonis.JsonRpc.Benchmarks.TestSuites
         [Benchmark(Description = "DeserializeRequestData-PARAMS=U-BATCH=N")]
         public object DeserializeRequestDataB0I1P0()
         {
-            return _serializers["s0"].DeserializeRequestData(_resources["req_b0i1p0"]);
+            return _serializers["s0"].DeserializeRequestData(s_resources["req_b0i1p0"]);
         }
 
         [Benchmark(Description = "DeserializeRequestData-PARAMS=U-BATCH=Y")]
         public object DeserializeRequestDataB1I1P0()
         {
-            return _serializers["s0"].DeserializeRequestData(_resources["req_b1i1p0"]);
+            return _serializers["s0"].DeserializeRequestData(s_resources["req_b1i1p0"]);
         }
 
         [Benchmark(Description = "DeserializeRequestData-PARAMS=P-BATCH=N")]
         public object DeserializeRequestDataB0I1P1()
         {
-            return _serializers["s1"].DeserializeRequestData(_resources["req_b0i1p1"]);
+            return _serializers["s1"].DeserializeRequestData(s_resources["req_b0i1p1"]);
         }
 
         [Benchmark(Description = "DeserializeRequestData-PARAMS=P-BATCH=Y")]
         public object DeserializeRequestDataB1I1P1()
         {
-            return _serializers["s1"].DeserializeRequestData(_resources["req_b1i1p1"]);
+            return _serializers["s1"].DeserializeRequestData(s_resources["req_b1i1p1"]);
         }
 
         [Benchmark(Description = "DeserializeRequestData-PARAMS=N-BATCH=N")]
         public object DeserializeRequestDataB0I1P2()
         {
-            return _serializers["s2"].DeserializeRequestData(_resources["req_b0i1p2"]);
+            return _serializers["s2"].DeserializeRequestData(s_resources["req_b0i1p2"]);
         }
 
         [Benchmark(Description = "DeserializeRequestData-PARAMS=N-BATCH=Y")]
         public object DeserializeRequestDataB1I1P2()
         {
-            return _serializers["s2"].DeserializeRequestData(_resources["req_b1i1p2"]);
+            return _serializers["s2"].DeserializeRequestData(s_resources["req_b1i1p2"]);
         }
 
         [Benchmark(Description = "DeserializeResponseData-ERROR=N-DATA=Y-BATCH=N")]
         public object DeserializeResponseDataB0I1E0D0()
         {
-            return _serializers["s3"].DeserializeResponseData(_resources["res_b0i1e0d0"]);
+            return _serializers["s3"].DeserializeResponseData(s_resources["res_b0i1e0d0"]);
         }
 
         [Benchmark(Description = "DeserializeResponseData-ERROR=N-DATA=Y-BATCH=Y")]
         public object DeserializeResponseDataB1I1E0D0()
         {
-            return _serializers["s3"].DeserializeResponseData(_resources["res_b1i1e0d0"]);
+            return _serializers["s3"].DeserializeResponseData(s_resources["res_b1i1e0d0"]);
         }
 
         [Benchmark(Description = "DeserializeResponseData-ERROR=Y-DATA=N-BATCH=N")]
         public object DeserializeResponseDataB0I1E1D0()
         {
-            return _serializers["s3"].DeserializeResponseData(_resources["res_b0i1e1d0"]);
+            return _serializers["s3"].DeserializeResponseData(s_resources["res_b0i1e1d0"]);
         }
 
         [Benchmark(Description = "DeserializeResponseData-ERROR=Y-DATA=N-BATCH=Y")]
         public object DeserializeResponseDataB1I1E1D0()
         {
-            return _serializers["s3"].DeserializeResponseData(_resources["res_b1i1e1d0"]);
+            return _serializers["s3"].DeserializeResponseData(s_resources["res_b1i1e1d0"]);
         }
 
         [Benchmark(Description = "DeserializeResponseData-ERROR=Y-DATA=Y-BATCH=N")]
         public object DeserializeResponseDataB0I1E1D1()
         {
-            return _serializers["s3"].DeserializeResponseData(_resources["res_b0i1e1d1"]);
+            return _serializers["s3"].DeserializeResponseData(s_resources["res_b0i1e1d1"]);
         }
 
         [Benchmark(Description = "DeserializeResponseData-ERROR=Y-DATA=Y-BATCH=Y")]
         public object DeserializeResponseDataB1I1E1D1()
         {
-            return _serializers["s3"].DeserializeResponseData(_resources["res_b1i1e1d1"]);
+            return _serializers["s3"].DeserializeResponseData(s_resources["res_b1i1e1d1"]);
         }
     }
 }

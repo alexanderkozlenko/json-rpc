@@ -7,8 +7,7 @@ namespace Anemonis.JsonRpc.Resources
 {
     internal static class Strings
     {
-        private static readonly ResourceManager s_resourceManager =
-            new ResourceManager(typeof(Strings).Namespace + "." + nameof(Strings), typeof(Strings).Assembly);
+        private static readonly ResourceManager s_resourceManager = new(typeof(Strings).Namespace + "." + nameof(Strings), typeof(Strings).Assembly);
 
         public static string GetString(string name)
         {
