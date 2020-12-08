@@ -2,7 +2,7 @@
 
 Provides support for serializing and deserializing [JSON-RPC 2.0](http://www.jsonrpc.org/specification) messages.
 
-| [![](https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square)](https://gitter.im/anemonis/json-rpc) | Release | Current |
+| | Release | Current |
 |---|---|---|
 | Artifacts | [![](https://img.shields.io/nuget/vpre/Anemonis.JsonRpc.svg?style=flat-square)](https://www.nuget.org/packages/Anemonis.JsonRpc) | [![](https://img.shields.io/myget/alexanderkozlenko/vpre/Anemonis.JsonRpc.svg?label=myget&style=flat-square)](https://www.myget.org/feed/alexanderkozlenko/package/nuget/Anemonis.JsonRpc) |
 | Code Health | | [![](https://img.shields.io/sonar/coverage/json-rpc?format=long&server=https%3A%2F%2Fsonarcloud.io&style=flat-square)](https://sonarcloud.io/component_measures?id=json-rpc&metric=coverage&view=list) [![](https://img.shields.io/sonar/violations/json-rpc?format=long&server=https%3A%2F%2Fsonarcloud.io&style=flat-square)](https://sonarcloud.io/project/issues?id=json-rpc&resolved=false) |
