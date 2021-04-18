@@ -9,7 +9,7 @@ namespace Anemonis.JsonRpc
     /// <summary>Represents a JSON-RPC message contract resolver.</summary>
     public sealed class JsonRpcContractResolver : IJsonRpcContractResolver
     {
-        private readonly SpinLock _operationLock = new(false);
+        private SpinLock _operationLock = new(false);
 
         private readonly Dictionary<string, JsonRpcRequestContract> _staticRequestContracts = new(StringComparer.Ordinal);
         private readonly Dictionary<string, JsonRpcResponseContract> _staticResponseContracts = new(StringComparer.Ordinal);
