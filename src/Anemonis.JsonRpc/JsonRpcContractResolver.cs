@@ -1,7 +1,6 @@
 ﻿// © Alexander Kozlenko. Licensed under the MIT License.
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -10,12 +9,12 @@ namespace Anemonis.JsonRpc
     /// <summary>Represents a JSON-RPC message contract resolver.</summary>
     public sealed class JsonRpcContractResolver : IJsonRpcContractResolver
     {
-        private readonly SpinLock _operationLock = new(false);
+        private SpinLock _operationLock = new(false);
 
-        private readonly ConcurrentDictionary<string, JsonRpcRequestContract> _staticRequestContracts = new(StringComparer.Ordinal);
-        private readonly ConcurrentDictionary<string, JsonRpcResponseContract> _staticResponseContracts = new(StringComparer.Ordinal);
-        private readonly ConcurrentDictionary<JsonRpcId, JsonRpcResponseContract> _dynamicResponseContracts = new();
-        private readonly ConcurrentDictionary<JsonRpcId, string> _staticResponseBindings = new();
+        private readonly Dictionary<string, JsonRpcRequestContract> _staticRequestContracts = new(StringComparer.Ordinal);
+        private readonly Dictionary<string, JsonRpcResponseContract> _staticResponseContracts = new(StringComparer.Ordinal);
+        private readonly Dictionary<JsonRpcId, JsonRpcResponseContract> _dynamicResponseContracts = new();
+        private readonly Dictionary<JsonRpcId, string> _staticResponseBindings = new();
 
         /// <summary>Initializes a new instance of the <see cref="JsonRpcContractResolver" /> class.</summary>
         public JsonRpcContractResolver()
@@ -175,7 +174,7 @@ namespace Anemonis.JsonRpc
             var operationLockTaken = false;
 
             _operationLock.Enter(ref operationLockTaken);
-            _staticRequestContracts.Remove(method, out var value);
+            _staticRequestContracts.Remove(method);
 
             if (operationLockTaken)
             {
@@ -196,7 +195,7 @@ namespace Anemonis.JsonRpc
             var operationLockTaken = false;
 
             _operationLock.Enter(ref operationLockTaken);
-            _staticResponseContracts.Remove(method, out var value);
+            _staticResponseContracts.Remove(method);
 
             if (operationLockTaken)
             {
@@ -211,7 +210,7 @@ namespace Anemonis.JsonRpc
             var operationLockTaken = false;
 
             _operationLock.Enter(ref operationLockTaken);
-            _dynamicResponseContracts.Remove(messageId, out var value);
+            _dynamicResponseContracts.Remove(messageId);
 
             if (operationLockTaken)
             {
@@ -226,7 +225,7 @@ namespace Anemonis.JsonRpc
             var operationLockTaken = false;
 
             _operationLock.Enter(ref operationLockTaken);
-            _staticResponseBindings.Remove(messageId, out var value);
+            _staticResponseBindings.Remove(messageId);
 
             if (operationLockTaken)
             {
